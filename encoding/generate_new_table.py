@@ -9,7 +9,7 @@ with open(json_file_path, "r", encoding="utf-8") as json_file:
     data = json.load(json_file, object_pairs_hook=OrderedDict)
 
 # Input string and character counting
-test_str = "我能吞下玻璃而不伤身体我。"
+test_str = "我能吞下玻璃而不伤身体。"
 char_count = Counter(test_str)
 sorted_char_count = sorted(char_count.items(), key=lambda x: x[1], reverse=True)
 
