@@ -5,3 +5,5 @@
 unpacked
 unpacked.unmodified
 unpacked.staging
+.vscode
+.venv
