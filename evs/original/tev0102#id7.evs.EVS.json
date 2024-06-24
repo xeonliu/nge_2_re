@@ -1,0 +1,297 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0102.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0102t2.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0102t1.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                128
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f018_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                36,
+                4096,
+                26104
+            ],
+            "content": "使徒再来か。\nあまりに唐突だな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                37,
+                4096,
+                26106
+            ],
+            "content": "１５年前と同じだよ。\n災いは何の前触れもなく\n訪れるものだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                38,
+                4096,
+                26114
+            ],
+            "content": "幸いとも言える。\n我々の先行投資が\n無駄にならなかった点においてはな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                39,
+                4096,
+                26118
+            ],
+            "content": "そいつはまだわからんよ。\n役に立たなければ無駄と同じだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                37,
+                4096,
+                26107
+            ],
+            "content": "左様。\n今や周知の事実となってしまった\n使徒の処置、情報操作…、▽\nネルフの運用は全て、適切かつ\n迅速に処理してもらわんと困るよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                26099
+            ],
+            "content": "その件に関しては\n既に対処済みです。\nご安心を。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                36,
+                4096,
+                26105
+            ],
+            "content": "しかし碇君。\nネルフとエヴァ、\nもう少しうまく使えんのかね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                37,
+                4096,
+                26109
+            ],
+            "content": "零号機に引き続き、\n君らが初陣で壊した初号機の修理代。\n国が１つ傾くよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                38,
+                4096,
+                26115
+            ],
+            "content": "聞けば、あのおもちゃは\n君の息子に与えたそうではないか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                39,
+                4096,
+                26119
+            ],
+            "content": "人、時間、そして金。\n親子そろっていくら使ったら\n気が済むのかね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                38,
+                4096,
+                26116
+            ],
+            "content": "それに君の仕事は\nこれだけではあるまい。▽\n人類補完計画、\nこれこそが君の急務だ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                37,
+                4096,
+                26110
+            ],
+            "content": "左様。▽\nその計画こそが、\nこの絶望的状況下における、\n唯一の希望なのだ。▽\n我々のね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                20,
+                4096,
+                26101
+            ],
+            "content": "いずれにせよ、使徒再来における\n計画スケジュールの遅延は\n認められん。▽\n予算については、一考しよう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                39,
+                4096,
+                26120
+            ],
+            "content": "では、あとは委員会の仕事だ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                37,
+                4096,
+                26113
+            ],
+            "content": "碇君、ご苦労だったな。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32768
+            ],
+            "content": "f018_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                20,
+                4096,
+                26103
+            ],
+            "content": "碇、後戻りはできんぞ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                128
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                3,
+                26100
+            ],
+            "content": "わかっている。\n人間には時間がないのだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

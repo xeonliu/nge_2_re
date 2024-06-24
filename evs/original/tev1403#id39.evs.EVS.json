@@ -1,0 +1,1329 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1403.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1012
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "c101304.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                34,
+                4096,
+                27790
+            ],
+            "content": "ただいま、東海地方を中心に\n非常事態宣言が発令されました。▽\n住民の皆様は、速やかに\n指定のシェルターへ\n避難してください。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27746
+            ],
+            "content": "…！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27747
+            ],
+            "content": "…使徒だ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1012
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2400
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tnum$x.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s005_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                5,
+                27772
+            ],
+            "content": "目標は！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "a000_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4096,
+                27777
+            ],
+            "content": "すぐ上です。\n防衛線を展開する間もなく、\n侵攻されました。\n"
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tangel14.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "a002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t140302.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                200
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                74
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27748
+            ],
+            "content": "あれか？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a005_04$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4101,
+                31476
+            ],
+            "content": "ああっ…！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a005_02$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a005_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4101,
+                27775
+            ],
+            "content": "第１から１８番装甲まで損壊。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_10a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                27764
+            ],
+            "content": "地上迎撃は間に合わないわ。\n弐号機をジオフロント内に配置！\n本部施設の直援にまわして！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "c101304.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                27749
+            ],
+            "content": "僕は…、\nもう乗らないって決めたんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                27780
+            ],
+            "content": "よォ。\n他は避難したみたいだぞ。\n君はいいのかい？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27750
+            ],
+            "content": "加持さん！？\nな、何でここに？\n僕は戻りませんよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                2,
+                27781
+            ],
+            "content": "そんな事より、外は危険だ。\nシェルターに行こう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27751
+            ],
+            "content": "加持さんこそ、\nこんなところにいて\nいいんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                27782
+            ],
+            "content": "いや、俺の戦闘配置はないんだ。\nアルバイトが公になってね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                200
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                73
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "t140301.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27752
+            ],
+            "content": "…アスカ。\n"
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f054_01b.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                3,
+                27783
+            ],
+            "content": "これまで…か。▽\nまあいい、どうやら死ぬ前に\n人類の運命とやらを見れそうだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27753
+            ],
+            "content": "死ぬ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                5,
+                27785
+            ],
+            "content": "そうだ。▽\n使徒がネルフ本部地下に眠る\nアダムと接触すれば、\n人は全て滅びるといわれる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                9,
+                27787
+            ],
+            "content": "サードインパクトでね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                27754
+            ],
+            "content": "……………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                5,
+                27788
+            ],
+            "content": "それを阻止出来るのは、\n使徒と同じ力を持つ\nエヴァンゲリオンだけだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27755
+            ],
+            "content": "僕は…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                27789
+            ],
+            "content": "君がどう行動しようと\nとがめはしない。\nただ、後悔の無いようにな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27756
+            ],
+            "content": "………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2,
+                27757
+            ],
+            "content": "………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                76
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_10a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                5,
+                27778
+            ],
+            "content": "零号機、沈黙！\n使徒、移動を開始しました。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                75
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "b006_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4096,
+                27776
+            ],
+            "content": "最終装甲板、融解！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27765
+            ],
+            "content": "まずい、\nメインシャフトが丸見えだわ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27773
+            ],
+            "content": "初号機はまだなの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                27774
+            ],
+            "content": "駄目です。\nダミープラグを拒否しています。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4096,
+                27779
+            ],
+            "content": "万策尽きたか…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                75
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                76
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s001_11a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2,
+                27758
+            ],
+            "content": "乗せてください！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27766
+            ],
+            "content": "…！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2,
+                27759
+            ],
+            "content": "僕を初号機に乗せてください！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27767
+            ],
+            "content": "シンジ君…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2,
+                27760
+            ],
+            "content": "僕は、\n僕はエヴァンゲリオン初号機の\nパイロット、碇シンジです！▽\n僕をエヴァに乗せてください！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s001_09a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27762
+            ],
+            "content": "お願いです！\n僕をエヴァに乗せてください！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27769
+            ],
+            "content": "…………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27770
+            ],
+            "content": "パイロットをエヴァに搭乗させる。\nエントリー準備、急げ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27768
+            ],
+            "content": "ハイッ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27771
+            ],
+            "content": "乗れ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                5,
+                27763
+            ],
+            "content": "父さん…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

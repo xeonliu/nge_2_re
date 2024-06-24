@@ -1,0 +1,372 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1105.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "e001_15a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                9,
+                24633
+            ],
+            "content": "プログラムが出来たわ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f080_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4105,
+                24634
+            ],
+            "content": "今度こそッ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                47
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f077_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4101,
+                24615
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 135,
+            "parameters": [
+                616
+            ],
+            "content": null
+        },
+        {
+            "function": 166,
+            "parameters": [
+                1,
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 157,
+            "parameters": [
+                1109
+            ],
+            "content": null
+        },
+        {
+            "function": 166,
+            "parameters": [
+                21,
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f080_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1036
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32768
+            ],
+            "content": "f080_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "e001_15a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                9,
+                24637
+            ],
+            "content": "くっ、相手もなかなかのものね。\n計算速度を減速させるので\n精一杯だわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                24617
+            ],
+            "content": "ま、また失敗…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 121,
+            "parameters": [
+                32
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 126,
+            "parameters": [
+                26
+            ],
+            "content": null
+        }
+    ]
+}

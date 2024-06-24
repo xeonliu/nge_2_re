@@ -1,0 +1,331 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "c010603.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                27081
+            ],
+            "content": "いやー、\nとうとう明日は修学旅行や。▽\nシンジ、お前の分まで楽しんで\nきたるさかいな！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                27084
+            ],
+            "content": "残念だよなぁ。▽\nまあ、人類の平和を担う\nエヴァのパイロットだもん。\nしょうがないよな！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                4,
+                27080
+            ],
+            "content": "お土産、買ってくるから。\n楽しみにしててね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                27083
+            ],
+            "content": "ほな、おやつ買いにいこ。\nお先するで、お二人さん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                3,
+                27066
+            ],
+            "content": "いいなぁ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27058
+            ],
+            "content": "しょうがないよ。\n待機命令が出てるんだもの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27067
+            ],
+            "content": "まーぁ、いい子ちゃんだこと。\nヘドが出そう。▽\nところでアンタ、何やってるの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27059
+            ],
+            "content": "理科の勉強だよ。\n遅れた分、取り戻さなきゃ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                1,
+                27069
+            ],
+            "content": "ふーん、\nこんな数式に戸惑ってるの？\nちょっと貸して。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "アスカが、鉛筆を取り上げ\nいとも簡単に数式を解いていく。▽\n迷いなく進む筆を、\nシンジは呆気に取られながら\n見ていた。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27060
+            ],
+            "content": "これ、かなり難しい問題だよ。\nこんなの出来て、どうして\nテストが出来ないの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                7,
+                27070
+            ],
+            "content": "漢字、上手く読めないし。\n設問がわからないんだもん。▽\n大学で日本語なんて\n教わらなかったし。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27061
+            ],
+            "content": "大学？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27072
+            ],
+            "content": "そ、去年卒業したのよね。\nあ、コレ何て読むの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27062
+            ],
+            "content": "え、あ…コレは、\n熱膨張に関する問題で…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                8,
+                27073
+            ],
+            "content": "熱膨張？\n幼稚な事やってるのね。▽\n単純じゃない。\n物ってのは、温めれば膨らんで\n大きくなるし、▽\n冷やせば縮んで小さくなるって\n事じゃない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27063
+            ],
+            "content": "まあ、そう…だね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27076
+            ],
+            "content": "もっとシンプルに考えりゃ、\n物事ってそんなに複雑じゃ\nないわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                27064
+            ],
+            "content": "…簡単に言うね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                5,
+                27077
+            ],
+            "content": "ほーらー。\nそうやっていつも、\n考えなくていい事ばかり考える。▽\n自分の事だけ、\n考えられるようになれば、\n少しはオツムもよくなるかもよ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27065
+            ],
+            "content": "アスカはそうなの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27079
+            ],
+            "content": "アンタみたいに、\n人に気を遣うヒマがあったらって、\nその程度よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                622
+            ],
+            "content": null
+        },
+        {
+            "function": 120,
+            "parameters": [
+                2,
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                24
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

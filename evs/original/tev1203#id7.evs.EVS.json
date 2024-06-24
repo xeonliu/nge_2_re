@@ -1,0 +1,490 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1203.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "c010603.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                27315
+            ],
+            "content": "さーて、\n終わった終わった。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                27313
+            ],
+            "content": "なあ、ヤキソバ食いに行かへん？\nシンジ、お前もどや？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27290
+            ],
+            "content": "あ、僕は…行くところがあるんだ。\nまた今度誘ってよ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                27316
+            ],
+            "content": "あ、じゃあなシンジ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                27314
+            ],
+            "content": "おう、お疲れさん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27291
+            ],
+            "content": "じゃあ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                7
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27292
+            ],
+            "content": "あの日の思い出は…、\n僕が逃げ出した事…。▽\n母さんが眠ってる墓に\n伯父さんと叔母さんが\n連れて行ってくれた…。▽\nそれから…父さんがいた。▽\n父さんが怖かった。\n何で怖かったのか、\nそれは覚えていないけれど。▽\n顔もわからない母さん。▽\nもう会えない母さん。▽\nあそこに行っても、\n母さんは何も満たしては\nくれなかった。▽\nだから、逃げ出した。\n怖かった。▽\n僕と父さんは、あの時会っても…、▽\n結局、何も始まらなかった…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "f040_03a.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                56
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f040_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                27302
+            ],
+            "content": "そうだ、ここだ…。\nやっぱり、寂しいところだな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "どこまでも続く、膨大な数の墓標。\nセカンドインパクトで\n亡くなった人達の墓である。▽\n遠くに人影が見える。\nシンジの母、碇ユイの墓前に…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27303
+            ],
+            "content": "父…さん？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                1,
+                27309
+            ],
+            "content": "シンジか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27304
+            ],
+            "content": "………来ていたんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f040_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                22484
+            ],
+            "content": "僕は…、\nあの時逃げ出して…、\nその後は来ていない。▽\nここに母さんが眠ってるなんて\nピンと来ないんだ。\n顔も覚えてないのに。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                22496
+            ],
+            "content": "人は思い出を忘れる事で\n生きて行ける。▽\nだが、\n決して忘れてはならない事もある。▽\nユイは、\nそのかけがえのないものを\n教えてくれた。▽\n私は、その確認をする為に\nここに来ている。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                22486
+            ],
+            "content": "写真とかないの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                22500
+            ],
+            "content": "残ってはいない。\nこの墓もただの飾りだ。\n遺体はない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27305
+            ],
+            "content": "全部…捨てたって。\nそう伯父さんから聞いてたけど。\n本当だったんだ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                22501
+            ],
+            "content": "全ては心の中だ。\n今はそれでいい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27306
+            ],
+            "content": "………………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                1,
+                27310
+            ],
+            "content": "時間だ。\n先に帰る。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27307
+            ],
+            "content": "あの、父さん…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                1,
+                27311
+            ],
+            "content": "…何だ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27308
+            ],
+            "content": "今日は、嬉しかった。\n父さんと話せて。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                7,
+                27312
+            ],
+            "content": "そうか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                56
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 95,
+            "parameters": [
+                4
+            ],
+            "content": null
+        },
+        {
+            "function": 121,
+            "parameters": [
+                31
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

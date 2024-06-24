@@ -1,0 +1,426 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1108.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                16
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                52
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f081_01a.zpt"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                24793
+            ],
+            "content": "チィ！！▽\nカスパー、\n１８秒後に乗っ取られます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4098,
+                24770
+            ],
+            "content": "わかってるわよ！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4098,
+                24771
+            ],
+            "content": "さあ、マギを返しなさい！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                49
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f077_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "s005_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f050_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f051_01c.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f014_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "s001_11a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f013_10a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4101,
+                24756
+            ],
+            "content": "………！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 135,
+            "parameters": [
+                616
+            ],
+            "content": null
+        },
+        {
+            "function": 166,
+            "parameters": [
+                1,
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 157,
+            "parameters": [
+                1109
+            ],
+            "content": null
+        },
+        {
+            "function": 166,
+            "parameters": [
+                19,
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                52
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f081_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                24799
+            ],
+            "content": "駄目です、あと３、２、１！▽\nカスパーがやられました！！\n人工知能により\n自律爆破が決議されました！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f081_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4099,
+                24774
+            ],
+            "content": "負けた。\n…完敗だわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4098,
+                24783
+            ],
+            "content": "マギ、自律自爆を実行します！\n自爆装置、稼動しました！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                502
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                53
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                7000
+            ],
+            "content": null
+        },
+        {
+            "function": 134,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

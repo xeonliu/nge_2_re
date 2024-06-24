@@ -1,0 +1,83 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f015_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                28096
+            ],
+            "content": "出来そこないの群体として既に行き\n詰まった人類を完全な単体としての\n生物へと人工進化させる補完計画。▽\nまさに理想の世界ね。\nその為にまだ、\n委員会は使うつもりなんだわ。▽\nアダムやネルフではなく、\nあのエヴァを。\n加持君の予想通りにね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

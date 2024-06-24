@@ -1,0 +1,32 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                26482
+            ],
+            "content": "次に縦軸、好意についてよ。\n好意は相手への好き嫌いよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

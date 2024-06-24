@@ -1,0 +1,591 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet07.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 148,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "f007_10a.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20559
+            ],
+            "content": "本日未明、紀伊半島沖に\n使徒を確認。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20560
+            ],
+            "content": "同時刻、エヴァでこれを\n上陸地点にて阻止する作戦を立案、\n実行。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20562
+            ],
+            "content": "予定時刻、目標と戦闘開始。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20563
+            ],
+            "content": "しかし、目標の分離攻撃により\nエヴァ二体の連携は崩れ、\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20564
+            ],
+            "content": "エヴァ初号機、敗退…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20565
+            ],
+            "content": "エヴァ弐号機、同じく敗退…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f003_07a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                20566
+            ],
+            "content": "現在目標は、\n国連軍のΝ地雷によって\n組織の２０％を損失。▽\nしかし活動再開まで、そう時間は\nかからないと考えられます。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "fm033a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                9,
+                20557
+            ],
+            "content": "情けない…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                20558
+            ],
+            "content": "ブザマね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                2,
+                20549
+            ],
+            "content": "私のせいじゃないわ！！\nバカシンジさえ、私の足を\n引っ張らなければ勝ててたのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2,
+                20547
+            ],
+            "content": "なっ…、アスカだって作戦を\n無視して僕のせいにするなんて\nずるいじゃないか！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                20550
+            ],
+            "content": "結局、アンタ邪魔なんだもん。\n私は悪くないわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                9,
+                20548
+            ],
+            "content": "そんな事言ったって、\n一人で出ても負けてたよ。\nきっと。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                2,
+                20551
+            ],
+            "content": "うるさいわねっっ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                20552
+            ],
+            "content": "黙らっしゃーーーい！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27019
+            ],
+            "content": "…ハァ。\n…とは言ってもねェ。\nどうすりゃいいのかしら…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                27031
+            ],
+            "content": "方法がない…わけじゃないわよ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                27020
+            ],
+            "content": "さっすが赤木リツコ博士。\n持つべきものは心優しき旧友ね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                27032
+            ],
+            "content": "残念ながら、\n旧友のピンチを救うのは\n私じゃないわ。▽\nこのアイディアは加持君よ。\nほら、ここに作戦要項があるわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                27021
+            ],
+            "content": "加持が？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                6,
+                27022
+            ],
+            "content": "アイツ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27023
+            ],
+            "content": "…アンタ達、いいわね、\nよく聞いて。▽\nこの使徒の弱点は一つ。\n分離中の核に対する二点同時の\n荷重攻撃、これしかないわ。▽\nつまり、エヴァ二体のタイミングを\n合わせた攻撃手段しかないのよ。▽\n二人の協調、完璧なユニゾンが\n必要なの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27018
+            ],
+            "content": "でェ、\n私達にどうしろってェ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27027
+            ],
+            "content": "あなた達パイロットは、\n次の出撃までに\nユニゾンを上げておくこと。▽\nいいわね、常に二人一緒に\n行動するよう、心がけて。▽\nユニゾンが高いパイロット二人による\n同時荷重攻撃により、\n目標を殲滅します。▽\n以上解散！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 104,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 124,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

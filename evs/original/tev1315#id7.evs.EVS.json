@@ -1,0 +1,161 @@
+{
+    "entries": [
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27682
+            ],
+            "content": "シンジ君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27676
+            ],
+            "content": "ミサトさん！\nよかった、無事だったんですね！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27683
+            ],
+            "content": "私は…、ね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27684
+            ],
+            "content": "シンジ君。\nごめんなさい。▽\n私、あなたに大事な事を\n伝えなくっちゃいけなかったのに。\nこんな事に。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27677
+            ],
+            "content": "ミサトさん。\n僕は、僕は人を…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27686
+            ],
+            "content": "あの、シンジ君。\nごめん、ごめんね。▽\nあなたがやった事は正しいわ。\nでも、私は…あなたに…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                0,
+                27690
+            ],
+            "content": "エントリープラグの\n回収班より、連絡。\n生存者を確認。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27678
+            ],
+            "content": "生きてた？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27688
+            ],
+            "content": "あの、参号機のパイロットは、\nフォース・チルドレンは…。\n"
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "b017_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27679
+            ],
+            "content": "…トウジ？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27680
+            ],
+            "content": "…トウジ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                27689
+            ],
+            "content": "シンジ君。\n…シンジ君！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                27681
+            ],
+            "content": "うわぁあああああああああ！！\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

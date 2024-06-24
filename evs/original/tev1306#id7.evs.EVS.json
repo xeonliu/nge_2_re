@@ -1,0 +1,201 @@
+{
+    "entries": [
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0505t1.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f050_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                27514
+            ],
+            "content": "４人目？\nフォース・チルドレンが\n見つかったの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27520
+            ],
+            "content": "そう。▽\n松代での参号機の起動試験。\nテストパイロットには、\n４人目を使うわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                27515
+            ],
+            "content": "マルドゥック機関からの報告は\n受けてないわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27522
+            ],
+            "content": "正式な書類は明日、届くわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27516
+            ],
+            "content": "リツコ、私に隠し事してない？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27523
+            ],
+            "content": "…別に。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27517
+            ],
+            "content": "ま、いいわ。\nで、その選ばれた子ってのは誰？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27524
+            ],
+            "content": "これが資料よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27518
+            ],
+            "content": "……………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27519
+            ],
+            "content": "よりにもよって、この子なの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

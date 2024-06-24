@@ -1,0 +1,124 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "pspeb04$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                9,
+                27884
+            ],
+            "content": "シンジ君、\nミサトさんと連絡がつかないんだ。\n家にいるのかな？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27877
+            ],
+            "content": "いえ、本部じゃないんですか？\n家にもいなかったんですけど。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                9,
+                27885
+            ],
+            "content": "…まさか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                27886
+            ],
+            "content": "あ、ゴメン。\n何でもない。\nきっと、そのうち戻ってくるよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

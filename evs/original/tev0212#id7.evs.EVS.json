@@ -1,0 +1,223 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f088_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26272
+            ],
+            "content": "おはよう、シンジ君。\nよく眠れた？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26270
+            ],
+            "content": "まあ、何とか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26273
+            ],
+            "content": "そうそう、シンジ君。\n時間について教えておくわ。▽\nあなたが活動出来るのは、\n朝の７時から、夜の１時までよ。▽\n夜の１時になったら、\n強制的に一日が終了するの。▽\nそして、次の日の始まりの\n朝７時まで時間が進むわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                631
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26277
+            ],
+            "content": "もう気づいてるでしょうけど、\n時刻はここに表示されているわ。▽\nここでの生活は\n常に時間が流れているから、\n時間を有効に使いなさいね。▽\nあと、特定時刻にならないと\n選択肢に出ない行動もあるわよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26280
+            ],
+            "content": "さてと、\nそろそろ出かけましょうか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26271
+            ],
+            "content": "どこへですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26281
+            ],
+            "content": "ネルフ本部よ。▽\nさ、行きましょ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 162,
+            "parameters": [
+                19
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                20
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

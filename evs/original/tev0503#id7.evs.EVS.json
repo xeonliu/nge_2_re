@@ -1,0 +1,315 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f014_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                1,
+                26854
+            ],
+            "content": "あら、シンジ君。\n今、レイのハーモニクステストを\nやってるの。▽\nよかったら、見学していかない？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26831
+            ],
+            "content": "ハーモニクステスト？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                1,
+                26856
+            ],
+            "content": "そうよ。\nあなたも定期的に行う事に\nなるんだから。▽\n案内するわ。\nついて来てね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "ev033102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                1,
+                26858
+            ],
+            "content": "センパイ、シンジ君です。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26839
+            ],
+            "content": "もうすぐ、\nレイのテストが終わるわ。▽\nシンジ君も、近々テストを\n行う予定よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26832
+            ],
+            "content": "その、テストって何ですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26841
+            ],
+            "content": "ここであなた達は\nテストと訓練が行えるわ。▽\n一つは、ハーモニクステスト。▽\nエヴァとパイロットの\n神経接続における調和を調整し、\nΑΤを高めるテストよ。▽\nもう一つはシンクロ技能訓練。▽\nパイロットとエヴァの\n神経交流を高め、エヴァの\n運動性能を引き出すための訓練よ。▽\nここネルフに来た時に、テストを\nして欲しい時は、私かマヤに\n話し掛けてくれたらいいわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26833
+            ],
+            "content": "あ、はい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                1,
+                26859
+            ],
+            "content": "学校のテストなんかよりは簡単よ。\nそういえば、学校はどう？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26834
+            ],
+            "content": "まあ、それなりに。▽\n授業では、セカンドインパクトの\n話ばっかりですけど。\nみんな知ってる話なのに…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                7,
+                26860
+            ],
+            "content": "あ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26847
+            ],
+            "content": "確かに、公式での話は\nみんな知っているわね。▽\n巨大隕石の落下による大惨事が\nセカンドインパクトだと\n言う事を。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26836
+            ],
+            "content": "えっ…、公式でって…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                5,
+                26861
+            ],
+            "content": "本当のセカンドインパクトは\nそんな事が原因ではないのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26849
+            ],
+            "content": "１５年前、\n人類は最初の「使徒」と呼称する\n人型の物体を南極で発見したの。▽\nでも、その調査中に原因不明の\n大爆発を起こしたのよ。▽\nそれが、セカンドインパクトの正体。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26837
+            ],
+            "content": "じゃあ…、\n僕達がエヴァで戦うってのは。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26852
+            ],
+            "content": "予想されるサードインパクトを\n未然に防ぐ事が目的よ。▽\nそのためのネルフと\nエヴァンゲリオンなのだから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26838
+            ],
+            "content": "……………。\nそうなん…ですか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 95,
+            "parameters": [
+                5
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

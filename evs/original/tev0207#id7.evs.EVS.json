@@ -1,0 +1,117 @@
+{
+    "entries": [
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "fm017a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26216
+            ],
+            "content": "ここは大浴場。\nまあ、職員専用のお風呂ね。\nココも自由に使っていいのよ。▽\nお風呂に入ることも体調管理の\n一環だから覚えておいてね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26218
+            ],
+            "content": "えーっと大体見てまわったから\nリツコに会いに行きましょうか。▽\n多分、研究室にいるはずだわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26215
+            ],
+            "content": "…まだあるんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26220
+            ],
+            "content": "ホンの一部よ、一部。▽\nでも、シンジ君が立ち入りを\n制限されている場所もあるから\n気をつけてね。▽\nじゃ、行くわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 162,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                18
+            ],
+            "content": null
+        },
+        {
+            "function": 121,
+            "parameters": [
+                32
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

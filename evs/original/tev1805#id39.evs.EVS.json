@@ -1,0 +1,648 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                15,
+                4097,
+                31538
+            ],
+            "content": "さあ、行くよ。\nおいで、アダムの分身、\nそしてリリンのしもべ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                15,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2400
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                23
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4101,
+                28080
+            ],
+            "content": "エヴァ弐号機、起動！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4101,
+                28071
+            ],
+            "content": "そんな、バカな！！\n…アスカは！？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a000_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4096,
+                28082
+            ],
+            "content": "３０３病室です！\n確認済みです！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                28072
+            ],
+            "content": "じゃあ、一体誰が。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4101,
+                28079
+            ],
+            "content": "無人です！\n弐号機にはエントリープラグは\n挿入されていません！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f011_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                28073
+            ],
+            "content": "誰もいない！？\nフィフスの少年ではないの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                31536
+            ],
+            "content": "セントラルドグマに、\nΑΤフィールドの発生を確認！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                31521
+            ],
+            "content": "弐号機？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1036
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4101,
+                28081
+            ],
+            "content": "いえ、パターン青。\n間違いありません。\n使徒です。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4104,
+                31522
+            ],
+            "content": "何ですって？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tnum$x.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tangel17.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "a002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_07a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4101,
+                31523
+            ],
+            "content": "使徒？\nあの少年が？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a007_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4101,
+                28075
+            ],
+            "content": "エヴァ初号機に追撃させる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                28074
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4101,
+                28076
+            ],
+            "content": "いかなる方法を以ってしても、\n目標のターミナルドグマへの侵入を\n阻止しろ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4101,
+                31533
+            ],
+            "content": "まさか、ゼーレが\n直接送り込んでくるとはな。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a002_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4101,
+                31526
+            ],
+            "content": "やはり老人は\n予定を一つ繰り上げるつもりだ。\n我々の手で。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                28078
+            ],
+            "content": "もしや、弐号機との融合を\n果たすつもりなのか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                28077
+            ],
+            "content": "または、破滅を導くためかだ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                29
+            ],
+            "content": null
+        }
+    ]
+}

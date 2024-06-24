@@ -1,0 +1,32 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26515
+            ],
+            "content": "「テーブルに着く」をして\n「食事をする」を行う事で\n食事が出来るわ。▽\nお腹が空いたら、\nここで腹ごしらえしてちょうだい。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

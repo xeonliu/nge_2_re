@@ -1,0 +1,203 @@
+{
+    "entries": [
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_02a.zpt"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "さ、ここが私のマンション。\nそして、今日からあなたの家よ。\n"
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "ev060502.zpt"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "ただいま〜っと。\nさ、上がって！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                0
+            ],
+            "content": "お邪魔します。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "ただいま、でしょ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                0
+            ],
+            "content": "はい…。\nただ…いま…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "じゃあ、\n軽く家の中を案内するわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "まずはキッチンから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "ここは冷蔵庫。\n私はビール♪\nシンジ君はジュースね。▽\n水分を回復したい時は、\nここでジュースを飲んでネ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "「テーブルに着く」をして\n「食事をする」を行う事で\n食事が出来るわ。▽\nお腹が空いたら、\nここで腹ごしらえしてちょうだい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "テレビは自由にどうぞ。\n好きな時間に観ていいのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "で、トイレがココよ。\nここやネルフ以外にも、あちこちに\nトイレはあるから利用してね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "ここが、お風呂よ。\n他人が入っていなければ\nいつ使っても構わないわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "チョッチ、散らかってるけど。\n私の部屋よ。▽\nまあ、ほとんど寝る為だけの\n部屋だけどね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "ここがあなたの部屋よ。\n荷物もソッコーでこっちに\n回してもらったから。▽\nシンジ君が寝る時は、こっちの\n部屋を使って。▽\nまあ、これらの行動は\nこういった特定の場に行って\n%1iボタンを押せば実行出来るわ。▽\n色んな所で試してごらんなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                16,
+                0,
+                12883
+            ],
+            "content": "グワァ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                0
+            ],
+            "content": "わっ！\nペ、ペンギン！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "あぁ、彼はペンペン。\n新種の温泉ペンギンよ。▽\n私の同居人なの。\n仲良くしてね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                0
+            ],
+            "content": "え、えーっと…。▽\nよろしく…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                16,
+                0,
+                12884
+            ],
+            "content": "ギャ♪\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                0
+            ],
+            "content": "じゃあ、寝るにはまだ早いから、\nΑΤを高く保つ練習をしましょう。▽\n私やペンペンに話し掛けたり、\n色んなアクションを試してみて。\n体調も自己管理でね。▽\nコミュニケーションを取りたいなら、\n話し掛けたい相手に近づいて、\n%1iボタンを押すのよ。\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

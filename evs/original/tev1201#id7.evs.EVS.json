@@ -1,0 +1,338 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1201.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f051_01c.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                3,
+                27258
+            ],
+            "content": "あーぁ、つまんない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27254
+            ],
+            "content": "どうしたの、アスカ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                3,
+                27259
+            ],
+            "content": "一緒に食事でもしようと\n思ってたのに。\n加持さん、出張なんだって。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27255
+            ],
+            "content": "そりゃ、\n出張くらいあるだろうね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27260
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27256
+            ],
+            "content": "何で怒ってるの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                2,
+                27261
+            ],
+            "content": "アンタのその態度によっ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27257
+            ],
+            "content": "…えぇぇ！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet12.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "一方、その頃。\n京都。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                55
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t120102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4096,
+                27262
+            ],
+            "content": "１６年前…、\nここで何が始まったんだ？▽\nマルドゥック機関。▽\nエヴァンゲリオン操縦者選出の\nために設けられた、\n人類補完委員会直属の諮問機関。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4096,
+                27265
+            ],
+            "content": "だが、活動は非公開で、\n組織の実態は未だ不透明。▽\nこのマルドゥック機関に繋がる\n１０８の会社のうち、\n１０６がダミー…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4096,
+                27267
+            ],
+            "content": "ここ、京都の外資系のケミカル会社\nシャノン・バイオも例外に漏れず…。\n１０７個目のダミーと言うわけか。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t120101.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4096,
+                27268
+            ],
+            "content": "しかし、\nこの会社の登記簿に並ぶ名は…。▽\n碇ゲンドウ、冬月コウゾウ…、\nそしてキール・ローレンツ。▽\nやはり、この組織の実態は…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                55
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 95,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 160,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

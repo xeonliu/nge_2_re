@@ -1,0 +1,336 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                11
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f014_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26668
+            ],
+            "content": "あの…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26678
+            ],
+            "content": "何かしら…、シンジ君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26669
+            ],
+            "content": "父さんの…、手の火傷の事\nなんですけど…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26679
+            ],
+            "content": "ああ、あれね…。\n気になるの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                26670
+            ],
+            "content": "あの、僕はただ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26680
+            ],
+            "content": "あなたがここに来る前に、\n零号機の起動実験があってね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26671
+            ],
+            "content": "零号機…。\nあの、綾波の…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26681
+            ],
+            "content": "ところがね、実験中に\n零号機が暴走してね…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26682
+            ],
+            "content": "パイロットが入っている\nエントリープラグを強制射出\nしたんだけれどハッチが開かなくて。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t040302.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                26683
+            ],
+            "content": "碇司令が、過熱したハッチを\n無理矢理素手でこじ開けたの。\n彼女を助けるために。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26672
+            ],
+            "content": "火傷は…、\nその時に出来た…。▽\n彼女って、やっぱり…、\n綾波ですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26684
+            ],
+            "content": "…………………。\nそうよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26674
+            ],
+            "content": "……………………。\nそうですか、\nありがとうございました。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26685
+            ],
+            "content": "あ、シンジ君。\nこれをレイに渡してくれる？▽\nレイのＩＤカードよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                26675
+            ],
+            "content": "僕が、渡すんですか？\n僕、彼女の事何も知らなくて…。▽\n同じエヴァのパイロットという\n事しか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26687
+            ],
+            "content": "レイは、いい子よ。\nあなたのお父さんに似て、\nとても不器用だけど。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26677
+            ],
+            "content": "不器用って…何がですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                7,
+                26688
+            ],
+            "content": "生きる事が、よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "レイのＩＤカードを受け取った。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 164,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 169,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 95,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

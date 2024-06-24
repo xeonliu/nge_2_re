@@ -1,0 +1,63 @@
+{
+    "entries": [
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26766
+            ],
+            "content": "ひょっとしたら、\n死んじゃったりするのかな…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26769
+            ],
+            "content": "どうしてそんな事を言うの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26767
+            ],
+            "content": "…………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26770
+            ],
+            "content": "あなたは死なないわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26768
+            ],
+            "content": "え…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26771
+            ],
+            "content": "私が守るもの。\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

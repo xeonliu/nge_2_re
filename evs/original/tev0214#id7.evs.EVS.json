@@ -1,0 +1,101 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0214.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26311
+            ],
+            "content": "ハイ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26313
+            ],
+            "content": "もしもし、シンジ君？\n戦闘シミュレーションの\n準備がそろそろ終わるわ。▽\nブリーフィングルームで\n待ってるからね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26312
+            ],
+            "content": "わかりました。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                4
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                7
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                5
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                6
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

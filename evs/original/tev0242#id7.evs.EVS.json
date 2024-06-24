@@ -1,0 +1,87 @@
+{
+    "entries": [
+        {
+            "function": 135,
+            "parameters": [
+                632
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                2097153,
+                26440
+            ],
+            "content": "同じマップにいる他人の情報が\n画面に表示されているのがわかる？▽\n相手と接する時に\n今どういう状態なのか、\n参考にするといいわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                2097153,
+                26442
+            ],
+            "content": "他人に関して、\nより詳しい状態を知るには、▽\nシステムメニューの\nステータスで確認出来るわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

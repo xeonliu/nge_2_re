@@ -1,0 +1,73 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26449
+            ],
+            "content": "ふうー、すっきり…。\n気持ちに余裕が出たわ。▽\nあら、マヤちゃん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                2097153,
+                26452
+            ],
+            "content": "ふふ、ちょっと挨拶をしてました。\n私は、これで失礼します。\nじゃあね、シンジ君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26451
+            ],
+            "content": "ハイ、お疲れさん。\nじゃあ、次。\n射撃場へ行きましょう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 162,
+            "parameters": [
+                15
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                16
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

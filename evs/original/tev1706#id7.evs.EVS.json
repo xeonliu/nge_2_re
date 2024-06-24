@@ -1,0 +1,98 @@
+{
+    "entries": [
+        {
+            "function": 135,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                28026
+            ],
+            "content": "…！！▽\nこれは、私の心？\n碇君と一緒になりたい？▽\n…………………。\nだめ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                0,
+                28043
+            ],
+            "content": "ΑΤフィールド反転！\n一気に侵食されます！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                0,
+                28039
+            ],
+            "content": "使徒を押さえ込むつもり？\n"
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "b020_01a.zpt"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28035
+            ],
+            "content": "レイ、機体は捨てて逃げて！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                28029
+            ],
+            "content": "だめ。\n私がいなくなったら\nΑΤフィールドが消えてしまう。▽\nだから、だめ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28036
+            ],
+            "content": "レイ、死ぬ気？\n"
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 135,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 169,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

@@ -1,0 +1,320 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                6
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f075_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27503
+            ],
+            "content": "試作された、ダミープラグです。\nレイの人格が移植されています。▽\nただ、人の心…魂はデジタル化\n出来ません。▽\nあくまでフェイク。\n擬似的なものに過ぎません。▽\nパイロットの思考のマネをする\nただの機械です。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27493
+            ],
+            "content": "信号パターンをエヴァに送り込む。\nエヴァがそこにパイロットがいると\n思い込み、シンクロさえすればいい。▽\n初号機と弐号機には、\nデータを入れておけ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27507
+            ],
+            "content": "まだ問題が残っていますが。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27495
+            ],
+            "content": "構わん。\nエヴァが動けばいい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27508
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t130502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27496
+            ],
+            "content": "参号機の搬送はＵＮに一任してある。\nじき届くだろう。\nあとは君の方でやってくれ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27509
+            ],
+            "content": "はい。\n調整ならびに起動試験は、\n松代で行います。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27497
+            ],
+            "content": "テストパイロットはどうする。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27510
+            ],
+            "content": "ダミープラグは、まだ危険です。\n今の候補者の中から…、\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27498
+            ],
+            "content": "４人目を選ぶか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27511
+            ],
+            "content": "はい。\n一人速やかに「コア」の準備が\n可能な子供がいます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27499
+            ],
+            "content": "任せる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27512
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27500
+            ],
+            "content": "レイ…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t130501.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                27491
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27501
+            ],
+            "content": "上がっていいぞ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                27492
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27502
+            ],
+            "content": "食事にしよう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27513
+            ],
+            "content": "………………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

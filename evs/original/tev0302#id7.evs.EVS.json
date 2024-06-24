@@ -1,0 +1,187 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t030201.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "t030202.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                8,
+                26578
+            ],
+            "content": "何ぃ！？\nシェルターの上のドンパチ\n見に行くて…。▽\nお前、正気か？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                5,
+                26585
+            ],
+            "content": "あそこに緊急用のハッチがある。\nなあ、頼むよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                9,
+                26580
+            ],
+            "content": "ケンスケ、お前な…。\n大概にせーよ。\n外に出たら、死ぬかもわからん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                5,
+                26586
+            ],
+            "content": "見たいんだよ、あのロボットを！\nどうせここにいたって、\n死ぬ事だってありうるんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                9,
+                26581
+            ],
+            "content": "ネルフが守ってくれるはずや。\nここにおったがええって。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                5,
+                26587
+            ],
+            "content": "その、守ってくれるネルフは\nあのロボット…転校生なんだぜ。\nお前が殴った、転校生。▽\nアイツ、乗りたくて\n乗ってるわけじゃないって\n言ってたよな…。▽\nお前のせいで、アイツが\n戦わなかったら…みんな死ぬよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                8,
+                26582
+            ],
+            "content": "うっ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                5,
+                26590
+            ],
+            "content": "トウジの妹は、あの時運悪く\n怪我を負ったけど…。▽\n俺達は…、守ってもらったんだ。\nあの、転校生にね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                7,
+                26583
+            ],
+            "content": "…ほな、ちょっとだけやぞ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26592
+            ],
+            "content": "そうこなくっちゃ！\nトウジには、アイツの\n戦いを見る義務がある。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                7,
+                26584
+            ],
+            "content": "調子のええやっちゃ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

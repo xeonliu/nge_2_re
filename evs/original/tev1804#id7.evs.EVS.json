@@ -1,0 +1,241 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1804.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t180401.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28058
+            ],
+            "content": "私、何故ここにいるの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28059
+            ],
+            "content": "私、何故また生きているの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28060
+            ],
+            "content": "何のために？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28061
+            ],
+            "content": "誰のために？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "t180402.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28062
+            ],
+            "content": "フィフス・チルドレン。\nあのヒト、私と同じ感じがする。\n…どうして。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f024_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                28063
+            ],
+            "content": "どう？\n彼のデータ、入手出来た？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                9,
+                28069
+            ],
+            "content": "これです。\n伊吹二尉から、\n無断で借用したものです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                28064
+            ],
+            "content": "すまないわね。\nドロボーみたいな事ばかり\nやらせて。▽\nで…。\n何、これ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                7,
+                28070
+            ],
+            "content": "マヤちゃんが公表出来ない\nわけですよ。\n理論上はありえない事なんですから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                28066
+            ],
+            "content": "そうね、謎は深まるばかりだわ。▽\nエヴァとのシンクロ率を\n自由に設定出来るとはね。\nそれも自分の意志で。▽\nまたも、\nなりふりかまってらんないか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

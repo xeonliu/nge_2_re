@@ -1,0 +1,248 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1901.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet19.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                140
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                100
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s010_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                20,
+                4096,
+                28089
+            ],
+            "content": "約束の時が来た。\nロンギヌスの槍を失った今、\nリリスによる補完は出来ぬ。▽\n唯一、リリスの分身たる、\nエヴァ初号機による遂行を願うぞ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32768
+            ],
+            "content": "f020_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                28083
+            ],
+            "content": "ゼーレのシナリオとは違いますが。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                28086
+            ],
+            "content": "人は、エヴァを生み出す為に\nその存在があったのです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                28084
+            ],
+            "content": "人は、新たな世界へと\n進むべきなのです。\nその為のエヴァシリーズです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                44,
+                4096,
+                28093
+            ],
+            "content": "我らはヒトの形を捨ててまで、\nエヴァという名の箱舟に\n乗る事はない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                43,
+                4096,
+                28092
+            ],
+            "content": "これは通過儀礼なのだ。\n閉塞した人類が再生するための。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                45,
+                4096,
+                28095
+            ],
+            "content": "滅びの宿命は、新生の喜びでもある。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                44,
+                4096,
+                28094
+            ],
+            "content": "神もヒトも全ての生命が\n「死」を以って\nやがて一つになる為に。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                28085
+            ],
+            "content": "死は何も生みませんよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                20,
+                4096,
+                28091
+            ],
+            "content": "死は、君達に与えよう。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                140
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                100
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                28087
+            ],
+            "content": "人は、生きていこうとするところに\nその存在がある。▽\nそれが、自らエヴァに残った\n彼女の願いだからな。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

@@ -1,0 +1,212 @@
+{
+    "entries": [
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27665
+            ],
+            "content": "シンジ君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                32,
+                27658
+            ],
+            "content": "ミサトさん！\nよかった、無事だったんですね！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27666
+            ],
+            "content": "私は…、ね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27667
+            ],
+            "content": "シンジ君。\nごめんなさい。▽\n私、あなたに大事な事を\n伝えなくっちゃいけなかったのに。\nこんな事に。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                34,
+                27659
+            ],
+            "content": "ミサトさん。\n僕は、僕は人を…。▽\nエヴァが人を…父さんが。\n止めてって頼んだのに…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27669
+            ],
+            "content": "あの、シンジ君。\nごめん、ごめんね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                27672
+            ],
+            "content": "エントリープラグの\n回収班より、連絡。\n生存者を確認。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                39,
+                27661
+            ],
+            "content": "生きてた？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27670
+            ],
+            "content": "あの、参号機のパイロットは、\nフォース・チルドレンは…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "b017_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27662
+            ],
+            "content": "…トウジ？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27663
+            ],
+            "content": "…トウジ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27671
+            ],
+            "content": "シンジ君。\n…シンジ君！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27664
+            ],
+            "content": "うわぁあああああああああ！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        }
+    ]
+}

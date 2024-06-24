@@ -1,0 +1,292 @@
+{
+    "entries": [
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                4
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "map73a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                26198
+            ],
+            "content": "お疲れ様です、葛城一尉。\nあぁ、彼は…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26181
+            ],
+            "content": "はじめまして…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4,
+                26199
+            ],
+            "content": "よろしく。\n僕は、日向マコト。▽\n僕の所属は、まあ平たく言えば\n作戦部所属のオペレーターさ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26183
+            ],
+            "content": "じゃあ、日向君。\nここの説明をざっとお願いね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                26201
+            ],
+            "content": "あ、はい。\nここはネルフ職員が、白兵技能を\n訓練する為の場所なんだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26182
+            ],
+            "content": "白兵技能？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                26202
+            ],
+            "content": "そう、戦闘行動に関わる技能さ。▽\n単純に言えば、白兵技能が\n高ければ高いほど、\n戦闘では有利になる。▽\nシンジ君もパイロットなんだし、\nここで訓練するといい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26184
+            ],
+            "content": "そうね、強制はしないけど\n技能を上げる事は勧めるわ。▽\nシンジ君が鍛えられる技能は４つ。\n事務技能、情報技能、\nココで訓練出来る白兵技能。▽\nもう一つはシンクロ技能よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4,
+                26205
+            ],
+            "content": "事務技能は、ネルフの事務業務…、\n意見書の作成や、書類の作成の\n成否を判定する為の技能なんだ。▽\nこういった事務全般や、\nシンジ君なら学校の\n授業態度に影響を与える。▽\n事務技能は、事務の仕事や勉強、\n授業で上昇させる事が出来る。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                26187
+            ],
+            "content": "情報技能は、あまり大きな声じゃ\n言えないけど…ハッキングの\n成否に影響を与える技能よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26188
+            ],
+            "content": "情報技能は、パソコンのある場所で\n情報技能を訓練する事で上昇するわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                26208
+            ],
+            "content": "白兵技能は、パイロットの場合、\n一部の戦闘コマンドに影響を与える。▽\n「姿勢を構える」「狙いをつける」\nといった戦闘コマンドの有効時間が\n白兵技能の高さに比例して長くなる。▽\n白兵技能の訓練はココ、\n射撃場にて行える。▽\n僕らは、パイロットじゃなくても\n自己防衛の為に訓練が必要なんだ。▽\nどんな危険な目に遭うか\nわからないからね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26189
+            ],
+            "content": "シンジ君に最も重要なのは\nシンクロ技能。▽\nこれは、エヴァをよりスムーズに\n扱う為の技能よ。▽\nこの技能を上げていけば、\nエヴァの移動速度が速くなったり、\n使用可能な戦闘行動が増えるわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26193
+            ],
+            "content": "他にも、参謀技能、開発技能、\nオペレート技能、諜報技能\nなんてのもあるけど。▽\nこれらは、シンジ君には扱えない\n技能になっちゃうわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                26213
+            ],
+            "content": "技能レベルの数値は、\n０から９９まで。\nステータス画面で確認出来るよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26195
+            ],
+            "content": "説明アリガト、日向君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                6,
+                26214
+            ],
+            "content": "いやぁ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26196
+            ],
+            "content": "それじゃ、次に行くわね。▽\n今度は、\n大浴場へ行きましょう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 162,
+            "parameters": [
+                16
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 169,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 165,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 121,
+            "parameters": [
+                32
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

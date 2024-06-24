@@ -1,0 +1,471 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0506.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26940
+            ],
+            "content": "ミサトさん、急いで！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "ミサトがΘΑのハッチを開け、\n緊急手動制御室のコンソールに\n手を伸ばした。▽\nパスワードを入力する。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                31
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "b094_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                32
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "t050601.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26944
+            ],
+            "content": "エラー？\nそんな、ばかな！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "再度パスワードを入力する。\nしかし、答えは同じだった。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26945
+            ],
+            "content": "間違いない。\nプログラムを変えてあるんだわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26946
+            ],
+            "content": "でも、時間がない。\nこうなったら、イチかバチか！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f013_08a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "ミサトが、\n小型原子炉の制御棒を押し始めた。\nしかし、びくともしない。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                81,
+                4096,
+                26954
+            ],
+            "content": "リアクター、\n限界点に達しました！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "ΘΑから、冷却水と蒸気が\n噴出した。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26941
+            ],
+            "content": "ミサトさん、逃げて！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_08a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26947
+            ],
+            "content": "動けっ…動けぇぇぇぇぇ！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                30
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "t050602.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "制御棒が、軽々と動き始めた。▽\nΘΑが機能を停止させ、沈黙する。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f013_09a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26942
+            ],
+            "content": "ミサトさん…！！\n大丈夫ですか、ミサトさん！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26948
+            ],
+            "content": "ええ、何とかね…。\nビールが恋しいくらいかしら？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26943
+            ],
+            "content": "すごいや、ミサトさん！\n僕、見直しちゃいました。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26949
+            ],
+            "content": "（ΘΑが止まったのは、\n　私の手ではない…。）▽\n（何者かの手により、\n　仕組まれた可能性が高いと\n　見るべきね…。）\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "騒ぎの顛末を横に、リツコが\nあの男に連絡を取っている。▽\n何もかも事を見通していた、\n落ち着きのある声で…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": "f007_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                26951
+            ],
+            "content": "どうだ…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                26953
+            ],
+            "content": "葛城一尉の行動以外は、\nすべてシナリオ通りです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                26952
+            ],
+            "content": "そうか、ご苦労。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

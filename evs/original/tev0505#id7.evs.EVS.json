@@ -1,0 +1,975 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0505.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f088_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26876
+            ],
+            "content": "シンちゃん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26871
+            ],
+            "content": "はい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26877
+            ],
+            "content": "仕事で旧東京まで\n行ってくるわ。\n多分、帰りは遅いから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26872
+            ],
+            "content": "ああ、出張ですね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26878
+            ],
+            "content": "食事は一人で\n適当に済ませておいてね。\nじゃ、行ってくるわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0505t2.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0505t3.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26915
+            ],
+            "content": "本日はお忙しいところ、\n我が日本重化学工業共同体が誇る\n新製品の実演会にお越しいただき、▽\n誠にありがとうございました。▽\n後程実機をご覧いただきますが、\nご質問のある方は、この場にて\nどうぞ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26902
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26918
+            ],
+            "content": "これは、赤木リツコ博士。\nお越しいただけて光栄の至りです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26903
+            ],
+            "content": "配布されたこの資料によると、\n内燃機関を内蔵とありますが。▽\n格闘戦を前提とした陸戦兵器に\nリアクターを内蔵する事。▽\nこれは、安全面においてリスクが\n大きすぎると思われます。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32768
+            ],
+            "content": "f013_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26919
+            ],
+            "content": "ま、これが本機の大きな特徴でして、\n連続１５０日間の作戦行動が保証\nされております。▽\n５分も動けない決戦兵器よりは\n役に立つと思いますが…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26906
+            ],
+            "content": "遠隔操縦では、\n緊急対処に問題を残します。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26921
+            ],
+            "content": "パイロットに負担をかけ、\n精神汚染を起こすよりは\nより人道的だと思います。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26907
+            ],
+            "content": "コントロール、人的制御の問題は？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26922
+            ],
+            "content": "制御不能に陥り、暴走を許す危険\n極まりない決戦兵器よりは、\nより安全だと思いますよ。▽\n制御出来ない兵器など、\nヒステリーを起こした女性と\n同じですよ、手に負えません。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26908
+            ],
+            "content": "その為のパイロットと\nテクノロジーです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26924
+            ],
+            "content": "まさか、科学と人の心が\nあの化け物を押さえるとでも？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26909
+            ],
+            "content": "ええ、もちろんですわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26925
+            ],
+            "content": "人の心などという、曖昧な\nものに頼っているからネルフは\n先のような暴走を許すのですよ。▽\nその結果、国連は莫大な\n追加予算を迫られ、某国では２万の\n餓死者を出そうとしているのです。▽\nよかったですね、\nネルフが超法規にて保護されていて。▽\nあなた方は、その責任を取らずに\n済みますから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26910
+            ],
+            "content": "ネルフの主力兵器以外、\nあの敵性体は倒せません。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26929
+            ],
+            "content": "ΑΤフィールドですか？\nそれも今では時間の問題に\n過ぎません。▽\nいつまでもネルフの時代では\nありませんよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                129
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "会場が、嘲笑で沸いた。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32768
+            ],
+            "content": "f013_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4101,
+                26879
+            ],
+            "content": "何よ、トッチャンボーヤみたいな\n顔しちゃってさぁ！\nムッカツクぅぅぅ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26911
+            ],
+            "content": "自分を自慢し、\nほめてもらいたがっている。\nたいした男じゃないわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4101,
+                26880
+            ],
+            "content": "にしても、極秘のはずの\nエヴァの暴走、ΑΤフィールド。\n何であいつが知ってるのよ。▽\n情報、ダダ漏れじゃない。\n諜報部は何やってんのかしら？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                20
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26931
+            ],
+            "content": "お待たせしました。\n皆さん御覧下さい、これがΘΑ\nジェットアローンです。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "格納庫のハッチが開き、\n人型の巨大ロボットが姿を現した。▽\nやがてその巨人は、\n会場が固唾を飲む中、\n前進を開始した。\n"
+        },
+        {
+            "function": 146,
+            "parameters": [
+                28
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "会場に、\nどよめきと拍手が沸き上がる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26882
+            ],
+            "content": "あら、なかなかのハンサムさんね。\n時田には、お似合いだわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4101,
+                26912
+            ],
+            "content": "…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1007
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26932
+            ],
+            "content": "何だ…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26883
+            ],
+            "content": "あらら…、\n早くもトラブル発生。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                200
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                29
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f013_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26933
+            ],
+            "content": "た、大変だ…。\nΘΑの制御が利かない…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26884
+            ],
+            "content": "ふーん、そりゃヒステリーを\n起こした女性より大変ね。▽\n…っと、こうしちゃいられないわ。\n本部へ連絡しなきゃ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                26913
+            ],
+            "content": "葛城一尉、無駄よ！\n第一、どうやって止める\nつもりなの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26886
+            ],
+            "content": "決まってんでしょ。\n人間の手で直接よ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                81,
+                4096,
+                26937
+            ],
+            "content": "制御棒の作動不能、\n炉心融解の危険あり！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26887
+            ],
+            "content": "停止手段は？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                81,
+                4096,
+                26938
+            ],
+            "content": "方法は全て試しました！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26888
+            ],
+            "content": "いいえ。\n全てを白紙に戻す、\n最後の手段が残ってるはずよ。▽\nそのパスワードを教えなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26934
+            ],
+            "content": "全プログラムのデリートは\n最高機密、私の管轄外だ。\n口外の権限はない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                81,
+                4096,
+                26939
+            ],
+            "content": "ΘΑ、厚木方面に向かい、\n進行中。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26890
+            ],
+            "content": "時間がないわ、これより先は\n私の独断で行動します。\nあしからず。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26891
+            ],
+            "content": "……………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26892
+            ],
+            "content": "もしもし、日向君？\nこちら、葛城。▽\n日本重化学工業共同体が開発した\n使徒迎撃用ロボットが、\n披露会場にて暴走。▽\nすぐに初号機をまわして！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1007
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s005_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                26914
+            ],
+            "content": "了解。\n初号機の許可を申請し、\nすぐに駆けつけます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26895
+            ],
+            "content": "初号機が到着したわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4106,
+                26873
+            ],
+            "content": "何だ、アレ？\nアレがロボットなのか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4106,
+                26874
+            ],
+            "content": "あれを、どうすればいいんだろ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4101,
+                26896
+            ],
+            "content": "シンジ君、私よ！！\nあれが目標のΘΑ。\n炉心融解の可能性があります。▽\nだから、目標をこれ以上\n人口密集地に近づけるわけには\nいかないの。▽\n目標と併走し、\n私を背後部に取り付けて。▽\n以後は目標の移動を可能な限り\n塞ぎ止めてね！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4106,
+                26875
+            ],
+            "content": "ミサトさんが乗るんですか？\nそんな無茶な！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26900
+            ],
+            "content": "他にベターな方法がないの。\n後悔しないようにしたいじゃない？\nさ、行くわよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                21,
+                4096,
+                26935
+            ],
+            "content": "待ってくれ！\nプログラムの消去パスワードだ。▽\n「希望」\nパスワードは「希望」だ。\n…頼みます、ネルフの方々。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26901
+            ],
+            "content": "…ありがとう。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                30
+            ],
+            "content": null
+        }
+    ]
+}

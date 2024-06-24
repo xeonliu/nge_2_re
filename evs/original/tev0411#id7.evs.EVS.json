@@ -1,0 +1,198 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26784
+            ],
+            "content": "綾波、綾波！\n大丈夫か！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                26788
+            ],
+            "content": "………………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26785
+            ],
+            "content": "自分には…、\n自分には、他に何もないなんて\nそんな事言うなよ…。▽\nさよならなんて、\nそんな悲しい事言うなよっ！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t041101.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                26789
+            ],
+            "content": "何、泣いているの…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                26790
+            ],
+            "content": "ごめんなさい。▽\nこう言う時、\nどんな顔をすればいいのか\nわからないの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26787
+            ],
+            "content": "…笑えば…いいと思うよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "t041103.zpt"
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                26792
+            ],
+            "content": "………！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "t041102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

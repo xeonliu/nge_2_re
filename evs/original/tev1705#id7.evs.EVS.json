@@ -1,0 +1,142 @@
+{
+    "entries": [
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                0,
+                28044
+            ],
+            "content": "目標、零号機と物理的接触！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28031
+            ],
+            "content": "零号機のΑΤフィールドは！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                0,
+                28040
+            ],
+            "content": "展開中！\nしかし、使徒に侵食されています！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                0,
+                28038
+            ],
+            "content": "使徒が積極的に１次的な接触を\n試みているの？\n零号機と…。\n"
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "b087_03$y.zpt"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                0,
+                28041
+            ],
+            "content": "危険です！\n零号機の生体部品が\n侵されています。\n"
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28032
+            ],
+            "content": "エヴァ弐号機！\nアスカ、レイの救出と援護を！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                0,
+                28023
+            ],
+            "content": "…………ない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28033
+            ],
+            "content": "アスカッ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                0,
+                28024
+            ],
+            "content": "動かない…。\n動かないのよ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                0,
+                28042
+            ],
+            "content": "駄目です！\nシンクロ率が二桁を切っています。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                0,
+                28034
+            ],
+            "content": "アスカッ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                0,
+                28037
+            ],
+            "content": "初号機の凍結を現時刻を持って解除。\n直ちに出撃させろ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                0,
+                28025
+            ],
+            "content": "…何よ。\n私の時は出さなかったくせに。\n"
+        }
+    ]
+}

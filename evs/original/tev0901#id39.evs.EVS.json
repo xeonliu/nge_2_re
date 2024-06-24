@@ -1,0 +1,400 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2400
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tnum$x.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "a000_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                31457
+            ],
+            "content": "第$d使徒、第３新東京市\n$fエリア付近に出現。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tangel09.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a004_01$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "a002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f013_10a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a004_01$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                4101,
+                31456
+            ],
+            "content": "かなりの巨体ですね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                31443
+            ],
+            "content": "サイケデリックなクモね。\n虫酸が走るわ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "a004_02$w.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4101,
+                31453
+            ],
+            "content": "あの、目のようなところから、\n何か液体らしきものが流れています。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                31451
+            ],
+            "content": "液体が落ちた箇所が腐食しているわ。▽\nどうやら使徒の武器は、\nあの強力な溶解液のようね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                31444
+            ],
+            "content": "タラタラおツユ流しちゃって\n下品な攻撃だこと。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                5,
+                31458
+            ],
+            "content": "直上を目指しているという事は…。\nあの液を使って、ジオフロントに\n侵入するつもりか…！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                31446
+            ],
+            "content": "ずいぶん地味な方法ね。\nでも、そうはさせないわ。▽\nエヴァ、発進準備！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                10
+            ],
+            "content": null
+        }
+    ]
+}

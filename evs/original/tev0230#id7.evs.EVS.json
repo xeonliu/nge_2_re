@@ -1,0 +1,41 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26381
+            ],
+            "content": "ほら、シンジ君もテーブルへ\nいらっしゃい。▽\nさっき教えたように、\nここで「着席して食事」を\n選択してごらんなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

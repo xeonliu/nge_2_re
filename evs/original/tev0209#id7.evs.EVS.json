@@ -1,0 +1,41 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26258
+            ],
+            "content": "ここ、ネルフ施設マップでも\nセーブすることができるのよ。\n帰る前にセーブしなくていい？▽\n%4iボタンでシステムメニューを\n表示して「データセーブ」を\n選ぶといいわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

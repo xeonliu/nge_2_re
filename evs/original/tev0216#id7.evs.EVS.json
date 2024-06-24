@@ -1,0 +1,50 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26321
+            ],
+            "content": "さて、今からネルフ施設を案内する\n前に、快適に生活していく秘訣を\nあなたに教えるわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26322
+            ],
+            "content": "まずは「行動」から。\nあなたが取れる行動は、\n数多くあるわ。▽\n人と話す。\n食事をとる。\n技能を訓練する…などね。▽\n行動の基本は、%1iボタン。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

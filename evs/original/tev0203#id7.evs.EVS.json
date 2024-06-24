@@ -1,0 +1,322 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26139
+            ],
+            "content": "これ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26140
+            ],
+            "content": "そう、あなたが搭乗した、\nそしてこれからも搭乗する事に\nなるエヴァ初号機よ。▽\nあ、コッチ来て。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "この場所で、エヴァに関する情報を\n確認する事が出来るの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "さっき教えてもらった様に、\nこういった場所で%1iボタンを\n押せばいいんですね？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "そ！\nまだまだこういう場所は\nいっぱいあるわ。\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                26142
+            ],
+            "content": "お疲れ様です、葛城一尉。\nあぁ、彼は初号機の…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "あら、青葉君。▽\nほら、紹介するわ。\n初号機のパイロット、\n碇シンジ君よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                26143
+            ],
+            "content": "よろしく、シンジ君。\n俺は、青葉シゲル。▽\n本部では情報分析担当の\nオペレーターなんだ。▽\nまだまだ、心は若いつもりだから\n仲良くやろうな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "あ、よろしく…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "青葉君、\nなーんか浮かない顔してるわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                26146
+            ],
+            "content": "副司令に説教食らって、\nまあ…。\nΑΤ下がりまくりですよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "まぁまぁ、副司令はいつも\nあぁだから。\n青葉君は良くやってくれてるわ。▽\n仕事を頑張って、また\n挽回していけばいいじゃない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                26147
+            ],
+            "content": "そうスね、少し気が晴れました。\nΑΤ持ち直しましたよ。\nそれじゃ…。\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "部下のΑΤを上げるのも\n上司の仕事！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "…ΑΤって、何ですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "あらら…、大変。\n肝心な事を教えてなかったわね。\n一番重要なパラメーターよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "ΑΤとは、テンションの様なもの、\n…と思ってちょうだい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "テンションですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "ΑΤが低い程テンションは沈みこみ、\nΑΤが高い程テンションは高揚して\nいる状態を表すの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "じゃあ、さっきの青葉さんは、\n沈み込んでΑΤが低かった事に\nなるんですね？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "そういう事になるわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "あなたの現在のΑΤ値は、\n画面のここに表示されているわ。▽\nΑΤは普段の生活や戦闘での\n行動で増減し、\n０から１００の値で表現されるの。▽\nΑΤの変動には、\n常に気をつけていてね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "そんなに重要な事ですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "何言ってるの！？▽\nΑΤが低かったら、\nエヴァは動かせないどころか\n行動の選択に規制がかかるのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "そ、そうなんですか…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "ΑΤが低い時こそ\n出来る行動ってのもあるけど…。▽\n普段から目安として、５０くらい。\n普通の状態を保っておいて\n欲しいわねー。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                0
+            ],
+            "content": "あの、ミサトさん。\nΑΤの横に表示してある\nインパルスって…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "そう、これはインパルス。\n衝動力、もしくは動機とでも\n言えばいいかしら。▽\n特殊な行動を実行する為の\n「後押し・きっかけ」を表すの。▽\nインパルスは何かしらの行動により\n蓄積されていくパラメータよ。▽\nインパルスの特徴として、\nΑΤが低い程、辛い体験を行う程\nインパルスは上がりやすくなるの。▽\nインパルスを消費する事で、\n特定の行動や戦闘行動が出来るわ。▽\nまぁ…、溜まったうっぷんを\nここぞという時吐き出して、\n上手く有効利用しなさいって事よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                0
+            ],
+            "content": "次は、チョッチ小腹も空いたし\n食堂に行きましょっか。\n"
+        },
+        {
+            "function": 162,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

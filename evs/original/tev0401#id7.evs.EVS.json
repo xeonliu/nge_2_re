@@ -1,0 +1,806 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0401.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f007_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26614
+            ],
+            "content": "はーい。\nどちら様ですかー？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                22
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "ev060502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                8,
+                26639
+            ],
+            "content": "あ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                8,
+                26626
+            ],
+            "content": "ごっつ、ベッピンさんや…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                26615
+            ],
+            "content": "あ…。\nシンジ君のクラスメイト？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                8,
+                26640
+            ],
+            "content": "あ、はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                5,
+                26627
+            ],
+            "content": "そそそ、そうです！\n碇君のクラスメイトの\n鈴原トウジ言います！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                26641
+            ],
+            "content": "相田ケンスケです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26616
+            ],
+            "content": "よかった、\nちゃんとお友達が出来たのね。▽\nわざわざ、誘いにきてくれて\nアリガト。\n呼んでくるから、チョッチまってね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                7,
+                26642
+            ],
+            "content": "トウジ、今更隠れるなよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                7,
+                26628
+            ],
+            "content": "…逃げも隠れもせえへんわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "f088_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26618
+            ],
+            "content": "シンジ君、お友達。\n迎えに来てるわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26601
+            ],
+            "content": "え、僕、友達なんか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "ev060502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                26602
+            ],
+            "content": "あ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26643
+            ],
+            "content": "よう。\n俺、相田ケンスケ。\nで、こっちは…。▽\nトウジ、隠れてないで出て来いよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                6,
+                26629
+            ],
+            "content": "……………………。\nよぉ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26645
+            ],
+            "content": "コイツ、鈴原トウジ。\nお前に言いたい事があるって。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                3,
+                26630
+            ],
+            "content": "………………………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                3,
+                26631
+            ],
+            "content": "…すまん、転校生。\nお前の事、何も知らんと\n殴ったりして…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26646
+            ],
+            "content": "こいつ、妹に説教されたんだ。\nみんなが助かったのは、\nあのロボットのお陰なんだって。▽\n小学生低学年に説教されてさ。\nトウジ、反省してるんだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                9,
+                26632
+            ],
+            "content": "せやから、ワシを殴れ！\nワシはここで、筋通さなアカン。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26603
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                26604
+            ],
+            "content": "（殴られなきゃいけないのは僕だ。\n　僕は卑怯で、臆病で、ずるくて、\n　弱虫で…。）▽\n（僕にはエヴァに乗る資格なんて\n　ないんだ。）▽\n（最初にエヴァに乗ったのも、\n　この町を救おうとか、\n　人類のために戦おうとか…。）▽\n（そんなカッコイイ理由じゃ\n　なくて…。）\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "ev060502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26619
+            ],
+            "content": "ちょっと…！\n殴ったの、殴れっての、\n一体どういう事？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                5,
+                26633
+            ],
+            "content": "男と男の筋って奴ですわ。▽\n早ぅ、殴らんかい！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26608
+            ],
+            "content": "でも…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                5,
+                26635
+            ],
+            "content": "ワシの気持ちの問題でもあるんや。\n頼む…！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26609
+            ],
+            "content": "…………………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                5,
+                26610
+            ],
+            "content": "…！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                200
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                23
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                26620
+            ],
+            "content": "シンジ君…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                26636
+            ],
+            "content": "おっほー、イテテテテ…。\n自分、やるやん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26648
+            ],
+            "content": "じゃ、学校行こうか。\n俺は、相田ケンスケ。\nよろしく。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                4,
+                26637
+            ],
+            "content": "イテテ…。\nワシは、鈴原トウジ。\nよろしくな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26611
+            ],
+            "content": "あ…、僕は…。\n碇シンジ。\nよろしく…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                26621
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26622
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26623
+            ],
+            "content": "…さあ、３人とも遅刻するわよ。\n学校、行ってらっしゃい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                26649
+            ],
+            "content": "行ってきます！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                1,
+                26638
+            ],
+            "content": "行ってきます！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26612
+            ],
+            "content": "…あの、▽\n行ってきます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26624
+            ],
+            "content": "はい♪\n行ってらっしゃい。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                22
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26625
+            ],
+            "content": "まあ、何かあったんだろうけど。\n友達はちゃんと出来たみたいね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet04.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 105,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 159,
+            "parameters": [
+                12,
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 159,
+            "parameters": [
+                14,
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 159,
+            "parameters": [
+                13,
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 160,
+            "parameters": [
+                21
+            ],
+            "content": null
+        },
+        {
+            "function": 165,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 165,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                7
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

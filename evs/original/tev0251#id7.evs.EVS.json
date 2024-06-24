@@ -1,0 +1,34 @@
+{
+    "entries": [
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26473
+            ],
+            "content": "ためしに、シンジ君とミサトの\n人間関係で説明しましょう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

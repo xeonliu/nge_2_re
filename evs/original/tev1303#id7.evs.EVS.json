@@ -1,0 +1,436 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "c010603.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                1,
+                27467
+            ],
+            "content": "ほな、お先！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                27468
+            ],
+            "content": "うん。\nじゃあな、トウジ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27438
+            ],
+            "content": "…お待たせ。\nあ、トウジ帰っちゃったの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                27469
+            ],
+            "content": "うん。\nあーやって、早く帰る時は\n妹の見舞いに行く時なんだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27439
+            ],
+            "content": "やっぱり、重症なの？\nそんなすぐに退院出来るものじゃ\nないんだ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                5,
+                27470
+            ],
+            "content": "まあ、ちょっと症状が\nややこしいらしいけど…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                27471
+            ],
+            "content": "でも、シンジが気にする\n必要はないよ。▽\nだからトウジだって、\n何も言わないんだからさ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                27440
+            ],
+            "content": "でも、僕のせいであんな…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                4,
+                27473
+            ],
+            "content": "気にするなよ。\nお互い、気を遣う仲じゃないだろ。\nな？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27441
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 170,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t050102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                7,
+                27442
+            ],
+            "content": "ねえ、相談ってさ…。▽\nひょっとして鈴原のコト？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                6,
+                27457
+            ],
+            "content": "うん…。\nわかってたんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                7,
+                27444
+            ],
+            "content": "一途な視線っての？\n鈴原の事、よく見てるから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                7,
+                27458
+            ],
+            "content": "あ、や…、私…。\nみんなにも、バレてるのかな？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                1,
+                27445
+            ],
+            "content": "まー、鈴原本人と相田とシンジの\n３バカトリオは気付いてないわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                3,
+                27459
+            ],
+            "content": "そう…かな？\n碇君、繊細な感じするし、\nそういうのには敏感なんじゃない？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27446
+            ],
+            "content": "逆、逆！！\nアイツが一番鈍感なんだから。\n人との付き合い方、知らないし。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                3,
+                27460
+            ],
+            "content": "そう…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27447
+            ],
+            "content": "でもさ…、あの万年ジャージの\nどこがいいの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                6,
+                27461
+            ],
+            "content": "優しいところ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                8,
+                27448
+            ],
+            "content": "へー………。\n（恋は盲目ってこの事ね…。）\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27449
+            ],
+            "content": "ま、いいわ。\nまずは、この現状から\nステップを踏み出さなきゃね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                8,
+                27462
+            ],
+            "content": "…えぇっ！？\nわ、私…そんな事は…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27450
+            ],
+            "content": "何よ、行動しないと\n私に相談した意味ないじゃない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                1,
+                27451
+            ],
+            "content": "ま、私に任せてよ。\n男がコロリとなる責め方…。\nうーん、やっぱり色気？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                8,
+                27463
+            ],
+            "content": "な、何言ってんのよ！！\n駄目、無理よ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                7,
+                27464
+            ],
+            "content": "私、ソバカスもあるし…、\nアスカみたいに綺麗な髪も\n素敵なプロポーションも持ってない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                7,
+                27452
+            ],
+            "content": "そんな悲観的にならなくても。\nうーん、じゃあ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                1,
+                27453
+            ],
+            "content": "ヒカリが、\n人より自慢出来るものって？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                4,
+                27465
+            ],
+            "content": "料理…かな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27454
+            ],
+            "content": "そう、それよそれ！▽\nアイツ、いつもコンビニ弁当\nばっかだし、ここで手作り弁当でも\n渡してノックアウトさせんのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                7,
+                27466
+            ],
+            "content": "食べて…くれるかな？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27456
+            ],
+            "content": "大丈夫！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 169,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

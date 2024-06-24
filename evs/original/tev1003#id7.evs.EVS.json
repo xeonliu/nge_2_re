@@ -1,0 +1,199 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1003.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0505t1.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t1003t1.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                42
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                32
+            ],
+            "content": "t100301.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "かつては氷に覆われていた\n南極大陸。▽\n海水は赤く染まり、\n無数の塩の柱が突き出ている。▽\nまさに死の海といえるそのただ中を、\n大型巡洋艦と数隻の艦隊が\n進んでいく。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27158
+            ],
+            "content": "いかなる生命の存在も許さない\n死の世界、南極。\nいや、地獄というべきかな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27155
+            ],
+            "content": "だが、我々人類は\nこうしてここに立っている。\n生物として、生きたままだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27159
+            ],
+            "content": "科学の力で守られているからな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27156
+            ],
+            "content": "科学は人の力だよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27160
+            ],
+            "content": "その傲慢が１５年前の悲劇、\nセカンドインパクトを\n引き起こしたのだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27161
+            ],
+            "content": "結果、この有様だ。▽\n与えられた罰にしては、\nあまりにも大きすぎる。\nまさに死海そのものだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27157
+            ],
+            "content": "だが、原罪の汚れなき、\n浄化された世界だ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27163
+            ],
+            "content": "俺は罪にまみれていても、\n人が生きている世界を望むよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                82,
+                4096,
+                27170
+            ],
+            "content": "報告します。\nネルフ本部より入電。▽\nインド洋上空衛星軌道上に\n使徒、発見！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                42
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                25
+            ],
+            "content": null
+        }
+    ]
+}

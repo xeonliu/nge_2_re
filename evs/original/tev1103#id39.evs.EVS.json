@@ -1,0 +1,779 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1103.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f011_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                21104
+            ],
+            "content": "おや、\n第８７タンパク壁に変質部分が…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                5,
+                21105
+            ],
+            "content": "…えっ、これは。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                21062
+            ],
+            "content": "何？\n一体どうしたの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f011_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4101,
+                21071
+            ],
+            "content": "第８７タンパク壁が\n劣化発熱しています！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4105,
+                21063
+            ],
+            "content": "何ですって…。\nすぐに、原因を探って！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": "f011_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32832
+            ],
+            "content": "f011_02b.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32832
+            ],
+            "content": "f011_02c.zpt"
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                21107
+            ],
+            "content": "侵食部が爆発的なスピードで、\n増殖していきます！▽\nこれは…、▽\n何てこった、分析パターン青。\n使徒です！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tnum$x.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f011_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                2,
+                21057
+            ],
+            "content": "使徒…、\n使徒の侵入を許したのか！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                21053
+            ],
+            "content": "申し訳ありません。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                2,
+                21058
+            ],
+            "content": "言い訳はいい。▽\nセントラルドグマを物理閉鎖！\nシグマユニットを隔離しろ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tangel11.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "a002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1036
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f011_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                21110
+            ],
+            "content": "汚染域、さらに拡大。▽\n待って下さい、\nサブ・コンピュータが\nハックされています！▽\nくそ、こんな時に誰が…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4098,
+                21113
+            ],
+            "content": "………まさか！？▽\n使徒です、このままマギに\n侵入しようとしています！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f011_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                21064
+            ],
+            "content": "彼らはマイクロマシーン、\n細菌サイズの使徒と考えられるわ。▽\nその個体が集まって群れを作り、\nこの短時間で知能回路の形成に\n至るまで、▽\n爆発的な進化を遂げているのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                45
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "f011_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                21115
+            ],
+            "content": "ウワッ！？\n人工知能メルキオールにより\n自律自爆が提訴されました！！▽\nバルタザールにより、否決。\nカスパーにより、否決。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4098,
+                30691
+            ],
+            "content": "しかし、このままでは６時間後には\nマギの機能が乗っ取られます！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                21055
+            ],
+            "content": "マギが敵にまわるとはな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27226
+            ],
+            "content": "マギシステムの物理的消去を\n提案します。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27231
+            ],
+            "content": "無理よ。\nマギを切り捨てる事は、\n本部の破棄と同義なのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                27227
+            ],
+            "content": "では、作戦部から正式に要請するわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27232
+            ],
+            "content": "拒否します。\n技術部が解決すべき問題です。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                27228
+            ],
+            "content": "あなた昔っからそう。\n一人で全部抱え込んで。\n他人を当てにしないのね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27233
+            ],
+            "content": "勝算はあるわ。▽\n目標がコンピュータそのものなら、\n逆ハックをしかけて自滅促進\nプログラムを送り込む事が出来ます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27229
+            ],
+            "content": "そのプログラム、\n間に合うんでしょうね？▽\nカスパーまで侵されたら、\n終わりなのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27235
+            ],
+            "content": "約束は守るわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                21056
+            ],
+            "content": "君が早いか、使徒が早いか、\n勝負だな…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1006
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 143,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f014_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                21050
+            ],
+            "content": "どうしよう…。\n何かとんでもない事になってる…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 143,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "使徒、イロウルとの戦闘中のため、\nデータセーブは行えません。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 110,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 109,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 111,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 108,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                26
+            ],
+            "content": null
+        }
+    ]
+}

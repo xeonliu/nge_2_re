@@ -1,0 +1,32 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                26477
+            ],
+            "content": "横軸が関心の高さを表すの。\n相手方向に近いほど関心が高い。\n無視出来ない相手というわけね。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

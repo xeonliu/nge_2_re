@@ -1,0 +1,1146 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0301.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f088_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26546
+            ],
+            "content": "シンジ君、準備はいい？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26534
+            ],
+            "content": "準備？\nああ、またシミュレーション\nですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26547
+            ],
+            "content": "何言ってんのよ。\n今日から学校よ。▽\nあなたはエヴァのパイロットでも\nあるけど、中学生なんだし\n勉強が本分でしょ？▽\nじゃ、さっそく登校よ。\n忘れ物ないわね、シンジ君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet03.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                15
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f037_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26550
+            ],
+            "content": "あ、えーっと、クラスはね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26535
+            ],
+            "content": "２−Ａですよね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26551
+            ],
+            "content": "そう。\nじゃ、オトモダチ\nいっぱい作ってね〜。▽\nオトモダチ、家に連れてきても\nいいわよ。\nおネエさん、歓迎してあげるから♪\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                3,
+                26536
+            ],
+            "content": "は、はい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26553
+            ],
+            "content": "これからは自分で学校に行くのよ。\nんじゃ、私はこれから仕事だから。\n勉強頑張ってね！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                15
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f030_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1025
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "授業開始のチャイムが鳴った。\n今朝は自習らしい。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "c010603.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t030101.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4103,
+                26537
+            ],
+            "content": "あ………………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f092_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26538
+            ],
+            "content": "彼女だ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                19
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                26539
+            ],
+            "content": "…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f030_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "突然、パソコンのディスプレイに\nクラスメイトからのメールが表示\nされた。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "「あなたはパイロットですか？\n　Ｙ／Ｎ」\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26540
+            ],
+            "content": "…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "二列前の女子がこちらを伺っている。\nこのメールは彼女が送信したの\nだろうか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26541
+            ],
+            "content": "…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "返事をタイプした。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                20
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "「ＹＥＳ」\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "送信…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                15
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "その途端、教室がどよめいた。\n全員にモニターされていたのか…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                2,
+                26554
+            ],
+            "content": "静かに！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                26571
+            ],
+            "content": "いいんじゃねーの、委員長。\nどーせ、自習なんだしサ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                2,
+                26555
+            ],
+            "content": "だから、静かにしておかなくちゃ\nいけないんじゃない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                15
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                127
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                1,
+                26558
+            ],
+            "content": "おはようさん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                2,
+                26556
+            ],
+            "content": "鈴原ってば、遅刻よ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                7,
+                26559
+            ],
+            "content": "妹の見舞いや。\n朝からそんな、やいやい言いなや。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                26572
+            ],
+            "content": "トウジ、見てアイツ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                7,
+                26560
+            ],
+            "content": "何や、転校生かいな？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                1,
+                26573
+            ],
+            "content": "こないだの、あのロボット。\nアイツがパイロットなんだって。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                9,
+                26561
+            ],
+            "content": "何やて…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                9,
+                26562
+            ],
+            "content": "ほな、アイツのせいで…。\nアイツが暴れよったから、\n妹は瓦礫の下敷きに…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26563
+            ],
+            "content": "……………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                8,
+                26574
+            ],
+            "content": "おい、トウジ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "トウジが、シンジの元へ歩き、\n襟首を掴む。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26564
+            ],
+            "content": "おい、転校生。\n顔、貸せや！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                12,
+                2,
+                26557
+            ],
+            "content": "鈴原！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26565
+            ],
+            "content": "すぐ戻るわ、委員長。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                200
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                16
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f037_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26566
+            ],
+            "content": "すまんな、転校生。\nワシはお前を殴らないかん。\n殴っとかな、気が済まへんのや。▽\nお前のせいで妹は…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                9,
+                26542
+            ],
+            "content": "僕だって、\n乗りたくて乗ってるわけじゃ\nないのに…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26568
+            ],
+            "content": "ン、のォ…！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                8,
+                26575
+            ],
+            "content": "おい、トウジ！\nやり過ぎだろ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26569
+            ],
+            "content": "黙っとれ、ケンスケ。\nワシの妹は、こんな奴のせいで…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "トウジが再びシンジに\n殴りかかろうとしたその時、\n非常召集のサイレンが鳴り響いた。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                7,
+                26576
+            ],
+            "content": "何だ…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                0,
+                0,
+                0
+            ],
+            "content": "突然のサイレンに周囲を見渡すと、\nあの少女が立っていた。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26543
+            ],
+            "content": "…あ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                1,
+                26545
+            ],
+            "content": "非常召集。\n先に行くから…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                26544
+            ],
+            "content": "ま、待って…！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                18
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                13,
+                2,
+                26570
+            ],
+            "content": "おんどれ！\n話は終わってへんど、転校生！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                9,
+                26577
+            ],
+            "content": "トウジ、シェルターへ行こう。\nきっと、こないだのアレだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                14,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                17
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                14
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                7
+            ],
+            "content": null
+        }
+    ]
+}

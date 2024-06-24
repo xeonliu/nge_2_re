@@ -1,0 +1,50 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26385
+            ],
+            "content": "ごちそうさま。▽\nこうやって、食事をとったり\n水分をとったり、眠ったり…。▽\nきちんと自分の体調を管理するのも\nパイロットの大事な仕事よ。▽\nどう、食事をしたら\n元気になってきたでしょう？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26384
+            ],
+            "content": "あ、はい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

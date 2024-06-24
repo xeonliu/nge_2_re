@@ -1,55 +1,51 @@
-# Neon Genesis Evangelion 2: Another Cases (PSP)
-# Reverse Engineering & Translation
+# 《新世纪福音战士 2 ：被创造的世界》汉化计划
 
-## Foreword
-The translation is still a work in progress, and the tools are aimed at developers/translators,
-and are not the tools the final patch user will ever need to use or install.
-In its final form, the patch will be one or two files and a one-step apply process.
+本仓库由 [rezual/nge_2_re](https://github.com/rezual/nge_2_re/) Fork 而来，原项目的工作见原仓库 README 以及 CONTRIBUTING
 
-![](https://i.imgur.com/jtsF9UV.gif)
+> [原项目在`forum.evageeks.org`上的帖子](https://forum.evageeks.org/thread/1393/Game-Neon-Genesis-Evangelion-2-Another-Cases/700/)
 
-## Contribution
-WIP: Currently ironing out processes before opening up the contribution flood-gates.
+本仓库在原项目基础上添加了一些目录，它们是：
 
-## Quick Summary
-I've deprecated all the patches in the ./patches/ folder and instead replaced them with the 
-./translation/ folder that is a mix of human translation and machine translation. 
-More on this later.
+- `encoding`：用于提取 EBOOT.BIN 内嵌的码表，依据词频生成新的码表，并对码表实施替换
+- `crowdin`：用于处理从 Crowdin 平台上传和下载的文本。
+- `evs`：用于处理事件脚本
 
-`./apply.sh` is a script that applies the WIP in translations to unpacked iso contents in the ./unpacked/ folder.
+本仓库**中文翻译文本**按照[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)开源协议共享。
 
-## Image Translation Status
-- Images with text:
-	- [x] Pick all the images with text that need to be translated
-	- [ ] Write up the text translations of the contents in the images
-	- [ ] Modify images, removing text, replacing it with the background
-	- [ ] Modify images, injecting text with proper font
+本仓库日文原文与英文翻译文本版权由原作者所有。
 
-## Debug Mode:
-![](https://i.imgur.com/YgnCVvG.png)
+# 贡献
+阅读[翻译贡献指南](./CROWDIN_CONTRIBUTING.md)
 
-[Go to DEBUG_MODE.md for debug mode related discoveries](DEBUG_MODE.md)
+# 项目进度
 
-## Cheats:
-These are the cheats made in the course of this project:
+## 二进制文件
 
-```
-_C0 Pulse autowin
-This disables player input in the Pulse mini-game
-which is needed to prevent a crash from player input
-interferring and then changes the Miss check to go
-to a Win check
-_L 0x2005B478 0x00000000
-_L 0x2005B5FC 0x00000000
-_L 0x2005B5CC 0x0A216D82
-_L 0x2005B5C4 0x00000000
-```
+| 名称      | 状态                                                      | 项目地址                                    |
+| --------- | --------------------------------------------------------- | ------------------------------------------- |
+| EBOOT.BIN | ![Crowdin](https://badges.crowdin.net/nge2/localized.svg) | [Crowdin](https://crowdin.com/project/nge2) |
 
-```
-_C0 Frame-skip mode
-Press start to toggle frame-skip mode
-Press digital up to progress normally
-Tap digital right or L trigger to progress ahead one frame
-Press R to fast forward time
-_L 0x202FB8DC 0x00000001
-```
+## 资源文件
+
+### 场景 EVS
+
+| 章节 | 名称                       | 角色     | 状态 |
+| ---- | -------------------------- | -------- | ---- |
+| 1    | 使徒、襲来                 | 碇真嗣   |      |
+| 2    | でも、この世界が好き       | 碇真嗣   |      |
+| 3    | レイ、心のむこうに         | 绫波丽   |      |
+| 4    | 脆いところにくちづけを     | 明日香   |      |
+| 5    | 女の戦い                   | 葛城美里 |      |
+| 6    | 人類補完計画               | 碇源堂   |      |
+| 7    | 見果てぬ白昼夢             | 冬月耕造 |      |
+| 8    | 女は炎                     | 赤木律子 |      |
+| 9    | 若草の頃                   | 伊吹摩耶 |      |
+| 10   | 曖昧な空                   | 日向诚   |      |
+| 11   | コバルトスカイ             | 青叶茂   |      |
+| 12   | VS.ゼーレ                  | 加持良治 |      |
+| 13   | 心のありったけを           | 铃原冬二 |      |
+| 14   | 夢から覚めれば             | 相田剑介 |      |
+| 15   | 春を見たヒト               | 洞木光   |      |
+| 16   | 折れた翼                   | 渚薰     |      |
+| 17   | ニンゲンの手がまだ触れない | Pen Pen  |      |
+| 16   | シバムラティックバランス   | 碇真嗣   |      |

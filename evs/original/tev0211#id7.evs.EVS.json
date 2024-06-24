@@ -1,0 +1,267 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 32,
+            "parameters": [
+                1,
+                7,
+                1,
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26261
+            ],
+            "content": "あら、すごいじゃない。\nもうΑΤがこんなに上がったの？▽\nそうね、もうこんな時間だし、\nそろそろ寝た方がいいわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 32,
+            "parameters": [
+                1,
+                7,
+                1,
+                50
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26263
+            ],
+            "content": "あら、ちゃんとΑΤは\n高く保たれているわね。\nいいわよ、その調子。▽\nさ、今日はもう寝ましょう。\nあなたも疲れたでしょ？▽\nそれじゃ、お休みなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 32,
+            "parameters": [
+                1,
+                9,
+                1,
+                40
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                26266
+            ],
+            "content": "あら、大丈夫？\nΑΤがあまり高くなっていないわよ？▽\nΑΤは、せめて５０くらいには\n保っておいて欲しいわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26264
+            ],
+            "content": "さ、今日はもう寝ましょう。\nあなたも疲れたでしょ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26265
+            ],
+            "content": "それじゃ、お休みなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                26268
+            ],
+            "content": "あら、大丈夫？\nΑΤ、だいぶ低くなっているわ…。▽\nんー、普段からΑΤは\n５０以上は欲しいものね。\n明日から頑張ってちょうだい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26264
+            ],
+            "content": "さ、今日はもう寝ましょう。\nあなたも疲れたでしょ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26265
+            ],
+            "content": "それじゃ、お休みなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

@@ -1,0 +1,142 @@
+{
+    "entries": [
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26772
+            ],
+            "content": "綾波は、何故コレに乗るの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26778
+            ],
+            "content": "…………………。\n絆だから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26773
+            ],
+            "content": "絆？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26779
+            ],
+            "content": "そう、絆。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26774
+            ],
+            "content": "父さんとの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26780
+            ],
+            "content": "…みんなとの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26775
+            ],
+            "content": "強いんだな…綾波は。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26781
+            ],
+            "content": "私には、他に何もないもの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26776
+            ],
+            "content": "他に何もないって？\n"
+        },
+        {
+            "function": 5,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                4101,
+                31905
+            ],
+            "content": "目標はエヴァ初号機の\n迎撃開始ラインを通過しました！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                17,
+                4097,
+                31917
+            ],
+            "content": "目標はエヴァ初号機の\n迎撃開始ラインを通過しました！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26782
+            ],
+            "content": "時間よ。\n行きましょ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                0,
+                26777
+            ],
+            "content": "綾波…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                0,
+                26783
+            ],
+            "content": "さよなら。\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

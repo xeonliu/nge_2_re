@@ -1,0 +1,78 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t020201.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26315
+            ],
+            "content": "改めて、ようこそ第３新東京市へ。\nこの画面は第３新東京市マップ。▽\n第３新東京市の中から、\n移動先を選択出来るの。\nとは言っても、今はネルフだけ。▽\nそのうち、学校も行けるから。\n転入手続きが終わるまで\nもちっと待ってね！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26318
+            ],
+            "content": "それから、この画面の時に\nセーブが出来るわ。▽\n%4iボタンでシステムメニューを\n表示して、「データセーブ」を\n選ぶといいわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4097,
+                26320
+            ],
+            "content": "今セーブをしておいてもいいし、\nこのままネルフへ移動しても\nいいわよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

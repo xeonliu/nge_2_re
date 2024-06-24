@@ -1,0 +1,437 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t0102t2.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f050_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4,
+                26993
+            ],
+            "content": "あら、ご苦労さん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26986
+            ],
+            "content": "荷物、無事に貰ってきたわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26994
+            ],
+            "content": "意外な荷物にも会ったわ。\n相変わらずね、加持君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                26987
+            ],
+            "content": "弐号機の引渡しが終わったんなら、\nさっさと帰りゃいいのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                1,
+                26995
+            ],
+            "content": "ところがね、出向の辞令が出て\nしばらくこっちにいるそうよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                26988
+            ],
+            "content": "ぬわんですってぇ！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                7,
+                26996
+            ],
+            "content": "元彼に動揺するなんて、\n大人気ないわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                26989
+            ],
+            "content": "それを言わないでよぅ…。\n人生最大の汚点なんだから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "fm008a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                1,
+                26990
+            ],
+            "content": "ご苦労だったな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                26997
+            ],
+            "content": "お久しぶりです。\nいやはや、波乱に満ちた\n船旅でしたよ。▽\nあんなところで使徒襲来とは、\nちょっと話が違いましたね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                1,
+                26991
+            ],
+            "content": "そのための弐号機だ。\n予備のパイロットも追加してな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                26999
+            ],
+            "content": "ま、やはり\nコレのせいだったんでしょうが。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                300
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "f014_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                800
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4096,
+                27000
+            ],
+            "content": "既にここまで復元されています。▽\n硬化ベークライトで\n固めてありますが。▽\n生きています。\n間違いなく。▽\n人類補完計画の要ですね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                26992
+            ],
+            "content": "そうだ。\n最初の人間、アダムだよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f002_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27011
+            ],
+            "content": "ハーイ、シンジ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27008
+            ],
+            "content": "なっ、\n…何でここにいるんだよ！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                1,
+                27012
+            ],
+            "content": "私、ここに住む事になったの。▽\nホントは加持さんと一緒が\nいいんだけど、\n世間ってものがあるしね。▽\nじゃ、改めて自己紹介したげる。\n惣流・アスカ・ラングレーよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27009
+            ],
+            "content": "えっと、よろしく…。\n僕はシンジ。\n碇…、シンジ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                2,
+                27015
+            ],
+            "content": "何、湿っぽい声出してるのよ。▽\nこんな美人と一緒に住めるんだから、\nもっと嬉しそうにしなさいよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                27010
+            ],
+            "content": "…え、えぇぇぇえ！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                5,
+                27017
+            ],
+            "content": "はン…。\nつまんない男…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

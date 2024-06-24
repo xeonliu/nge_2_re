@@ -1,0 +1,256 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f002_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                27055
+            ],
+            "content": "ほーぉ、修学旅行か。\n行き先は？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4,
+                27037
+            ],
+            "content": "オキナワよ♪\nスクーバダイビングも\n出来るんだって。▽\nでも、折角なら加持さんと\n二人きりで行きたいわ。▽\nところで、加持さんって\n修学旅行はどこへ行ったの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                7,
+                27056
+            ],
+            "content": "ああ…。\n俺達、そんなのなかったんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                8,
+                27040
+            ],
+            "content": "どうして？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                27057
+            ],
+            "content": "セカンドインパクトが\nあったからさ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                27048
+            ],
+            "content": "あっ、言うの忘れてた。\nゴメン！▽\nあなた達、\n修学旅行は行っちゃ駄目よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                9,
+                27041
+            ],
+            "content": "えー、どうしてなのよ！？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27050
+            ],
+            "content": "戦闘待機だもの。\nしょうがないでしょ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                2,
+                27042
+            ],
+            "content": "何よ、シンジ。\nアンタ、居たの？▽\nほらぁ、アンタも何か\n言ってやってよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                27036
+            ],
+            "content": "えっと…、\n大方予想はついてたから。\n別に言う事なんか…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                5,
+                27044
+            ],
+            "content": "いっつも、\n待機、待機、待機って、\nそればっか！！▽\nたまには敵の居場所を\n突き止めて、攻めに\n行ったらどうなのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                27051
+            ],
+            "content": "それが出来たら、\nやってるわよ。▽\nま、これを機会に少しは\n勉強出来るでしょ？▽\nあなた達が\n学校のテストで何点とったかなんて\n筒抜けなんだから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                5,
+                27046
+            ],
+            "content": "バッカみたい、\n学校の成績が何よ。▽\n旧態依然とした減点式の\nテストなんか、\n何の興味もないわ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                27054
+            ],
+            "content": "郷に入っては郷に従え。\n日本の学校にも\nなれてちょうだい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet08.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

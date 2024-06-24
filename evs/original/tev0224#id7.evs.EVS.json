@@ -1,0 +1,82 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26338
+            ],
+            "content": "そういった、行動に関わる\n場所や物に近づくと、\nそこで出来る行動が表示されるの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26339
+            ],
+            "content": "こういう場所は、\nマップのあちこちにあるから、\n%1iボタンを押して試してみてね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2097155,
+                26337
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26340
+            ],
+            "content": "じゃあ、次は\n初号機ケイジへ行きましょうか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 162,
+            "parameters": [
+                12
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

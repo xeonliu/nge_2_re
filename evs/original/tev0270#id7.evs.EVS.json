@@ -1,0 +1,200 @@
+{
+    "entries": [
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26507
+            ],
+            "content": "さ、ここが私のマンション。\nそして、今日からあなたの家よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "ev060502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26508
+            ],
+            "content": "ただいま〜っと。\nさ、上がって！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26505
+            ],
+            "content": "お邪魔します。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26509
+            ],
+            "content": "ただいま、でしょ？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                6,
+                26506
+            ],
+            "content": "はい…。\nただ…いま…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26510
+            ],
+            "content": "お帰りなさい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                619
+            ],
+            "content": null
+        },
+        {
+            "function": 161,
+            "parameters": [
+                25
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

@@ -1,0 +1,365 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s004_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                1,
+                27208
+            ],
+            "content": "電波システム回復。\n南極の碇司令から\n通信が入っています。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27180
+            ],
+            "content": "おつなぎして。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1005
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "t100402.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27202
+            ],
+            "content": "ご苦労だったな。\n葛城三佐。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                4096,
+                27206
+            ],
+            "content": "ああ、よくやってくれた。\n使徒殲滅が我々の役目だ。▽\n多少の被害はいたしかたない。\n大目に見よう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27203
+            ],
+            "content": "ところで、\n初号機のパイロットはいるか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27172
+            ],
+            "content": "はい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27204
+            ],
+            "content": "話は聞いた。\nよくやったな、シンジ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                27173
+            ],
+            "content": "え？\n…あ、は、はい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4096,
+                27205
+            ],
+            "content": "では、葛城三佐。\n後の処理は任せる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27181
+            ],
+            "content": "はい。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "t100401.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27182
+            ],
+            "content": "シンジ君。\nこの間、聞いたわよね。▽\n私がどうしてネルフに\n入ったのかを…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27184
+            ],
+            "content": "私の父はね、自分の研究、\n夢に生きる人だったわ。▽\nそんな父を許せなかった。\n憎んでさえいたわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27174
+            ],
+            "content": "……………。\n（僕の父さんと同じだ。）\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27186
+            ],
+            "content": "母や私、家族の事など\n全く構ってくれなかった。▽\n周りの人達は繊細な人だと\n言っていたわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27188
+            ],
+            "content": "でも、ホントは心の弱い、\n現実から、私達家族という現実から\n逃げてばかりいた人だったのよ。▽\n子供みたいな人だったわ。▽\n母が父と別れた時も、\nすぐに賛成したわ。▽\n母はいつも泣いてばかりだったもの。▽\n父はショックだったみたいだけど、\nその時は自業自得だと笑ったわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27193
+            ],
+            "content": "けど、最後は私の身代わりになって\n死んだの。\nセカンドインパクトの時にね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                7,
+                27194
+            ],
+            "content": "私にはわからなくなったわ。\n父を憎んでいたのか、\n好きだったのか。▽\nただ一つ、はっきりとしているのは\nセカンドインパクトを引き起こした\n使徒を倒す。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                27196
+            ],
+            "content": "そのためにネルフに入ったわ。▽\n結局、私はただ父への復讐を\nしたいだけなのかもしれないわ。\n父の呪縛から逃れるために。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                5,
+                27175
+            ],
+            "content": "ミサトさん…、僕…。▽\nいつも何でエヴァに\n乗っているんだろうって。\nそう思っていたんだ。▽\nさっき、父さんの言葉を聞いて\n褒められる事が嬉しいって\n初めてわかったような気がする。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                5,
+                27178
+            ],
+            "content": "僕は、父さんのさっきの言葉を\n聞きたくて、エヴァに\n乗ってるのかもしれないって。▽\nそれがわかったんだ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                27198
+            ],
+            "content": "シンジ君、理由はどうあれ\nあなたは立派にやってるわ。\n人類を救うためではなくとも。▽\nそれは、あなたのお父さんだって\nわかっているわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                27200
+            ],
+            "content": "胸を張って生きなさい。\nシンジ君。▽\n見て、あなたが守った都市は\n今日も綺麗よ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                5000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

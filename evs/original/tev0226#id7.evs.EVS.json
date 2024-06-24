@@ -1,0 +1,111 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                2097153,
+                26350
+            ],
+            "content": "お疲れ様です、葛城一尉。\nあぁ、彼は初号機の…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097153,
+                26345
+            ],
+            "content": "あら、青葉君。▽\nほら、紹介するわ。\n初号機のパイロット、\n碇シンジ君よ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                2097156,
+                26351
+            ],
+            "content": "よろしく、シンジ君。\n俺は、青葉シゲル。▽\n本部では情報分析担当の\nオペレーターなんだ。▽\nまだまだ、心は若いつもりだから\n仲良くやろうな。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                2097159,
+                26344
+            ],
+            "content": "あ、よろしく…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097159,
+                26347
+            ],
+            "content": "青葉君、\nなーんか浮かない顔してるわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                2097159,
+                26354
+            ],
+            "content": "副司令に説教食らって、\nまあ…。\nΑΤ下がりまくりですよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2097156,
+                26348
+            ],
+            "content": "まぁまぁ、副司令はいつも\nあぁだから。\n青葉君は良くやってくれてるわ。▽\n仕事を頑張って、また\n挽回していけばいいじゃない。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                2097158,
+                26355
+            ],
+            "content": "そうスね、少し気が晴れました。\nΑΤ持ち直しましたよ。\nそれじゃ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                10,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 165,
+            "parameters": [
+                10
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

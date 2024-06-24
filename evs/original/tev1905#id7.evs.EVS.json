@@ -1,0 +1,798 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1905.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f008_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                5,
+                25873
+            ],
+            "content": "エヴァシリーズ、沈黙…！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                5,
+                25865
+            ],
+            "content": "…勝ったか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                1,
+                25875
+            ],
+            "content": "早く、機体とパイロットの\n回収を急ぎましょう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 145,
+            "parameters": [
+                1024
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                28
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                123
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": "e001_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "e002_19a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                4101,
+                25844
+            ],
+            "content": "アダムとリリスの、\n禁じられた融合。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                122
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f042_08a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                25846
+            ],
+            "content": "欠けた心の補完。\n不要な身体を捨て、\n全ての魂を今、ひとつに。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                25847
+            ],
+            "content": "そして、ユイのもとへ行こう。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                12,
+                25824
+            ],
+            "content": "………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                5,
+                25848
+            ],
+            "content": "始めよう、レイ。\nΑΤフィールドを、\n心の壁を解き放つのだ…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                8,
+                28266
+            ],
+            "content": "どうした、レイ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                12,
+                28252
+            ],
+            "content": "私はあなたの人形じゃない。▽\n私はあなたじゃないもの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                8,
+                28267
+            ],
+            "content": "頼む！\n待ってくれレイ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                12,
+                28254
+            ],
+            "content": "だめ。\n碇君が呼んでる。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                3,
+                28268
+            ],
+            "content": "レイ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                122
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                121
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28255
+            ],
+            "content": "…碇君？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t190502.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                28238
+            ],
+            "content": "何の為にここに来て、\n何の為にここに居るのか…。▽\nそれはまだ、はっきりと\nわからないけれど…。▽\nでも、知っていたんだ。\n暖かさを、手を伸ばせば、\n触れられるという事を。▽\nただ、目を逸らしていただけなんだ。▽\n僕は、エヴァに乗らなければ\nずっと目を逸らし続けていたと思う。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28256
+            ],
+            "content": "…碇君。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                28243
+            ],
+            "content": "ありがとう。\n綾波にまた会えて、嬉しい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28257
+            ],
+            "content": "…聞こえたの、碇君の声。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                28244
+            ],
+            "content": "呼んだんだ。\n綾波を、みんなを。▽\n会いたかったから。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28258
+            ],
+            "content": "そう…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f042_08a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                1,
+                28271
+            ],
+            "content": "彼女に会う事は、叶わなかったか。▽\n彼女が一人で初号機に残ったのは、\n我々の生きる強さを、\n信じていたからこそではなかったか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                3,
+                28269
+            ],
+            "content": "…………………。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                1,
+                28273
+            ],
+            "content": "いずれ、会える時が来る。\n我々は、彼女の意志をついで\n生きていかなければならないが。▽\nたとえ、一人になったとしても…。▽\nいや、生きていこうとする\n我々の中に既に彼女はいるのだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                5,
+                3,
+                28270
+            ],
+            "content": "…それを、見失っていたのか。\n今まで…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                1,
+                28276
+            ],
+            "content": "碇…。\nお前にはまだ、\n違う生き方がある。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                6,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                18
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t190501.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                28246
+            ],
+            "content": "これから何が起こるか\nわからない。▽\nまだ、僕らの考えも及ばない事が\n起こるかもしれない。▽\nだから、会いに行かないと\nいけないって思ったんだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28259
+            ],
+            "content": "自分が何なのか、わからなかった。▽\n私…必要とされていたから\nいただけなの。\n碇司令に。▽\nそれだけだったの。\nそれでよかったの。\nあの人の為に生きていてもよかった。▽\nでも、会いたかった。\n碇君に。▽\n私、ただ…、▽\n会いたかったの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                28249
+            ],
+            "content": "行こう…。\nみんなの所へ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                3,
+                4096,
+                28265
+            ],
+            "content": "うん…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 154,
+            "parameters": [
+                32768,
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                59,
+                12288,
+                25343
+            ],
+            "content": "あら、生きて行こうと思えば、\nどこだって天国になるわよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                59,
+                12288,
+                25344
+            ],
+            "content": "だって、生きているんですもの。\n幸せになるチャンスは\nどこにでもあるわ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                53,
+                12288,
+                25333
+            ],
+            "content": "そうか、そうだったな。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t1905t1.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                12288,
+                28250
+            ],
+            "content": "ありがとう、母さん…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "t1905t2.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                12288,
+                28251
+            ],
+            "content": "ありがとう、父さん…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                651
+            ],
+            "content": null
+        },
+        {
+            "function": 134,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

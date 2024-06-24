@@ -1,0 +1,174 @@
+{
+    "entries": [
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                3
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f051_01b.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                26870
+            ],
+            "content": "アレの資料よ。\n簡単に目を通しておいて。\n予定通りに近々やるそうよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                5,
+                26867
+            ],
+            "content": "わかったわ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26862
+            ],
+            "content": "あの…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26868
+            ],
+            "content": "あ、あぁ…シンジ君ね。\nどうしたの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26863
+            ],
+            "content": "いえ、\n特に用はないんですけど。▽\n何か…あったんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26869
+            ],
+            "content": "んー、仕事の話。\nチョッチ、出張が入る予定なの。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26865
+            ],
+            "content": "へえ、大変…なんですね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                26866
+            ],
+            "content": "（仕事をしてるミサトさん…。\n　家とは…違う顔だ。）\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 95,
+            "parameters": [
+                1
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

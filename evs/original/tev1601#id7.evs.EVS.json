@@ -1,0 +1,454 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_1601.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                88
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "ev033102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27951
+            ],
+            "content": "聞こえる、アスカ？\nシンクロ率が低下してるわよ。\nいつも通り、余計な事を考えずに。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "ev033112.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4096,
+                27943
+            ],
+            "content": "やってるわよ！！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                4096,
+                27954
+            ],
+            "content": "最近のアスカのシンクロ率、\n下がる一方ですね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                4096,
+                27952
+            ],
+            "content": "困ったわね、\nこの余裕のない時に。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                27949
+            ],
+            "content": "無理ないわよ。\nあんな負け方しちゃ。▽\n…というより、\nシンジ君に負けたと\n思い込んでる方が大きいわね。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4096,
+                27944
+            ],
+            "content": "人類を守る、エリートパイロット。▽\nなのに…。▽\n使徒を倒してきたのは、\nほとんどがあのバカシンジ。▽\n私…、……………。▽\nママ………。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "ev033102.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                8,
+                2,
+                27955
+            ],
+            "content": "シンクログラフ、\n起動指数ギリギリです。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                5,
+                27953
+            ],
+            "content": "そう…。\n弐号機のコア、\n変更もやむなしかしらね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                7,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                88
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet16.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s001_11a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27956
+            ],
+            "content": "あのアダムより生まれしモノ、\nエヴァシリーズ。▽\nセカンドインパクトを引き起こした\n原因たるものを流用しなければ、\n私達は使徒に勝てない。▽\n逆に生きるためには、\n自分達を滅ぼそうとしたものをも\n利用する。▽\nそれが人間なのね。\nやはり、私はエヴァを\n憎んでいるのかもしれない。▽\n父の仇か。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                1,
+                27968
+            ],
+            "content": "葛城さん。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f024_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                27961
+            ],
+            "content": "エヴァ拾参号機までの建造を開始？\n世界７箇所で？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                27969
+            ],
+            "content": "上海経由の情報です。\nソースに信頼はおけます。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                27962
+            ],
+            "content": "何故この時期に、\n量産を急ぐの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                27970
+            ],
+            "content": "エヴァを過去に２機も失い、\n現在は２機も大破ですから。▽\n第２次整備に向けて、予備戦力の\n増強を急いでいるのでは？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                9,
+                27963
+            ],
+            "content": "どうかしら。▽\nここにしても、\nドイツで建造中の伍、六号機の\nパーツを回してもらってるのよ。▽\n最近、随分と金が動いているわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                5,
+                27972
+            ],
+            "content": "ここに来て予算倍増ですからね。\nそれだけ上も切羽詰っているって\n事でしょうか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27966
+            ],
+            "content": "委員会の焦りらしきものを\n感じるわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                9,
+                7,
+                27973
+            ],
+            "content": "では、委員会が今までのように\n単独ではなく、複数同時展開の\nケースを設定したものでしょうか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                3,
+                27967
+            ],
+            "content": "そうね。\nでも、非公式に行う理由がないわ。\n何か別の目的があるのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}

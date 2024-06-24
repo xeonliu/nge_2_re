@@ -1,0 +1,1360 @@
+{
+    "entries": [
+        {
+            "function": 163,
+            "parameters": [
+                0
+            ],
+            "content": "tev_0601.bin"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                8
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26957
+            ],
+            "content": "シンジ君、明日はお出かけよ♪\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26955
+            ],
+            "content": "どこか、行くんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                26958
+            ],
+            "content": "横須賀沖の太平洋上、国連艦隊\nオーバー・ザ・レインボウよ。▽\n明日は早いから、今日は\n早めに休んでね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26956
+            ],
+            "content": "…？\nはい…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f001_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                3000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                32800
+            ],
+            "content": "f007_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "f088_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                1,
+                27006
+            ],
+            "content": "シンちゃん、\nちょっと早いけど出かけるわよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27004
+            ],
+            "content": "太平洋上の国連艦隊なんて、\nどうやって行くんですか。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                27007
+            ],
+            "content": "国連軍のヘリを用意してあるわ。\nさ、行きましょ。\n彼女と仲良く出来るといいわね。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                27005
+            ],
+            "content": "えっ…。\n何の事なんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "s002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                35
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_01a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26960
+            ],
+            "content": "わぁ…、すごい。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26973
+            ],
+            "content": "あれが、国連所属の太平洋艦隊。\n今日はあの船で、太平洋を\nクルージングよ♪\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "s002_52.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                36
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_02a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "s002_53.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                37
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_03a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 148,
+            "parameters": [
+                9
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "titlet06.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s002_04a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                13,
+                25477
+            ],
+            "content": "ヘロォ〜、ミサト！！\nひっさしぶりじゃない。\n元気してた？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                25496
+            ],
+            "content": "モチ元気よ。\nあなたも元気そうね！\nようこそ、日本へ。▽\n彼女がエヴァ弐号機パイロット、\n惣流・アスカ・ラングレーよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                6,
+                25466
+            ],
+            "content": "よ、よろしく…。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                14,
+                25479
+            ],
+            "content": "あン？\nあんた、何なのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                25467
+            ],
+            "content": "あんた？\n僕は…、碇…シンジ。▽\n初号機パイロットなんだ。\n…一応。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                14,
+                25480
+            ],
+            "content": "ハーァ？\nアンタが初号機パイロット？\nウワサのサード・チルドレン？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                7,
+                25469
+            ],
+            "content": "…そう、だけど。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                14,
+                25481
+            ],
+            "content": "何かつまんない子ね〜。\nこんなのがサード・チルドレン\nだなんてガッカリよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                26980
+            ],
+            "content": "しかし、いきなりの実戦で\n彼のシンクロ率は、\n軽く４０は超えたそうだ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                13,
+                26965
+            ],
+            "content": "加持さん♪\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                8,
+                26974
+            ],
+            "content": "げっ…！？\nなっ…なんでアンタが\nこんなところにいるのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                26981
+            ],
+            "content": "よう、相変わらずだな。\n俺は彼女の随伴でね、\nドイツからの出張さ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                26975
+            ],
+            "content": "うかつだったわ…。\n十分考えられる事態だったのに。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                26982
+            ],
+            "content": "初めまして、碇シンジ君。▽\n俺は、加持リョウジ。\n特務機関ネルフ、特殊監査部に\n所属している。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                1,
+                26961
+            ],
+            "content": "ミサトさんとは、\nお知り合いなんですか？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                1,
+                26984
+            ],
+            "content": "あぁ、彼女の事はよく知ってるよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                26976
+            ],
+            "content": "仕事上の付き合いよッ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                12,
+                26966
+            ],
+            "content": "何、ムキになってるのよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                11,
+                4,
+                26985
+            ],
+            "content": "あれ、それ以外は…？\nシンジ君、彼女の寝相の悪さとか\n知ってる？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                2,
+                26977
+            ],
+            "content": "〜〜〜〜〜〜〜〜〜ッく、\n子供の前でしょーが、アンタねぇ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                14,
+                26967
+            ],
+            "content": "ちょーっとぉ、ミサトってば！\n私の弐号機、\n見に来たんじゃないの？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4,
+                26978
+            ],
+            "content": "そ…そうそう、弐号機。\nそうだったわ。▽\nえっと、見せてもらえるかしら？\n案内してチョーダイ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                13,
+                26968
+            ],
+            "content": "私の弐号機は、\n実戦用に造られた、世界初の、\n本物のエヴァンゲリオンなのよ。▽\nアンタの初号機や零号機とは\n格が違うのよ！▽\nほら、サード。\nとっとと、来なさいよ。\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                8,
+                26962
+            ],
+            "content": "えぇぇ…？\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                60
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 145,
+            "parameters": [
+                37
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                38
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_05a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 148,
+            "parameters": [
+                13
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tnum$x.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "tangel06.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 146,
+            "parameters": [
+                39
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": "a002_51.zpt"
+        },
+        {
+            "function": 142,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                40
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_09a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4103,
+                25500
+            ],
+            "content": "あ〜、いった〜…。\n何なのよ…って、\nあれ、使徒じゃないの！！▽\n本部じゃなくって\nこの船を狙って…？\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_12a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4096,
+                26971
+            ],
+            "content": "チャ〜ンス！\n早速、私の戦いを見せてあげる。\nほら、サード、来るのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4096,
+                26963
+            ],
+            "content": "そっ、そんな…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_08a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4112,
+                25470
+            ],
+            "content": "ちょっ、ちょっ、ちょっとお…。\n僕までプラグスーツに着替えて\nどうするんだよ〜。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": "s002_07a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                10,
+                25487
+            ],
+            "content": "あんた、バカァ？\n決まってんじゃない！\n弐号機でアイツをやっつけるのよ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                28672,
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 140,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_12a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_10a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4112,
+                25471
+            ],
+            "content": "来るよ！！\nあっ、でも武器が…。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                41
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": "s002_13a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4106,
+                25489
+            ],
+            "content": "はっ！\nこんなのプログナイフがあれば\n十分よ！\n"
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4106,
+                25490
+            ],
+            "content": "さぁ、かかってらっしゃい！\n三枚におろしてやるわよっ！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                1,
+                4106,
+                26964
+            ],
+            "content": "わぁぁっ！！\n前、前！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                33
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "s002_06a.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                136
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                0
+            ],
+            "content": "t060201.zpt"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                2000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                2,
+                4096,
+                26972
+            ],
+            "content": "ちょっ、ちょっと！！\nウッソ〜〜〜〜〜〜〜〜！！\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                510
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                100
+            ],
+            "content": null
+        },
+        {
+            "function": 147,
+            "parameters": [
+                0
+            ],
+            "content": null
+        },
+        {
+            "function": 146,
+            "parameters": [
+                34
+            ],
+            "content": null
+        },
+        {
+            "function": 141,
+            "parameters": [
+                2
+            ],
+            "content": ""
+        },
+        {
+            "function": 144,
+            "parameters": [
+                4000
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 97,
+            "parameters": [
+                11
+            ],
+            "content": null
+        },
+        {
+            "function": 164,
+            "parameters": [
+                2
+            ],
+            "content": null
+        },
+        {
+            "function": 164,
+            "parameters": [
+                11
+            ],
+            "content": null
+        },
+        {
+            "function": 125,
+            "parameters": [
+                23
+            ],
+            "content": null
+        }
+    ]
+}

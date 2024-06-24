@@ -1,0 +1,226 @@
+{
+    "entries": [
+        {
+            "function": 135,
+            "parameters": [
+                626
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26396
+            ],
+            "content": "例えば、この空腹。\nお腹が空いていくと、\nここのメーターが減ります。▽\nコレを回復するには、\nさっきの様に食事をとればいいわ。▽\n食堂での食事以外でも、アイテムで\n回復させる事も出来るのよ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26399
+            ],
+            "content": "他も大体同じ。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                627
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26400
+            ],
+            "content": "水分を回復するには、\n飲み物を飲む。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                628
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26401
+            ],
+            "content": "眠気を回復するには、\n部屋で眠る。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                629
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26402
+            ],
+            "content": "ＷＣを回復するには、\nトイレで用を足す。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                630
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                1000
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26403
+            ],
+            "content": "風呂を回復するには、\nお風呂に入る。\n"
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 135,
+            "parameters": [
+                623
+            ],
+            "content": null
+        },
+        {
+            "function": 144,
+            "parameters": [
+                500
+            ],
+            "content": null
+        },
+        {
+            "function": 1,
+            "parameters": [
+                4,
+                4096,
+                26404
+            ],
+            "content": "そうすれば、\n体調管理はバッチリよ！\n"
+        },
+        {
+            "function": 123,
+            "parameters": [],
+            "content": null
+        }
+    ]
+}
