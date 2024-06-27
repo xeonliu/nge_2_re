@@ -20,7 +20,6 @@
     - [特殊字符](#特殊字符)
     - [格式说明符 Format Specifiers](#格式说明符-format-specifiers)
 
-
 ## 参考资料
 
 ### 中文互联网
@@ -29,7 +28,7 @@
 不能照抄，考虑如何避免侵犯他人著作权（联系？）
 
 - [游戏攻略](https://tieba.baidu.com/p/8273551416)(沢田纲吉)
-- [主线剧情](<(https://space.bilibili.com/523663/channel/collectiondetail?sid=1165421)>)(Langley_D)
+- [主线剧情](https://space.bilibili.com/523663/channel/collectiondetail?sid=1165421)(Langley_D)
 - [日常剧情](https://space.bilibili.com/4272978/channel/collectiondetail?sid=26092&ctype=0)(幸好我 CP 没事)
 - [机密情报](https://tieba.baidu.com/p/1879040823)(洗手见天使)
 

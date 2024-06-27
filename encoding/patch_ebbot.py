@@ -1,36 +1,9 @@
-"""
-Patch the table using key-value pairs.
-"""
-
 import json
 from collections import Counter, OrderedDict
 import binascii
 
-json_file_path = "./new.json"
-output_file_path = "./output.txt"
-
-# Read in Table
-with open(json_file_path, "r", encoding="utf-8") as json_file:
-    data = json.load(json_file, object_pairs_hook=OrderedDict)
-
-# Convert the table to a hex string
-tbl_bstream_arr = [v.encode("utf-16-le") for k, v in data.items()]
-# ['0x89e4', '0x945c' ... ]
-tbl_hex_arr = [binascii.hexlify(bs).decode("utf-8") for bs in tbl_bstream_arr]
-# '89e4945c...'
-tbl_hex_str = "".join(s for s in tbl_hex_arr)
-
-# Write the table to a file
-with open(output_file_path, "w", encoding="utf-8") as output_file:
-    output_file.write(tbl_hex_str)
-
-# with open(output_file_path, "wb") as output_file:
-#     for k, v in data.items():
-#         b = v.encode('utf-16-le')
-#         output_file.write(b)
-
 """
-Patch ELF with the new table.
+Patch ELF using the new table.
 """
 
 str = "我能吞下玻璃\n而不伤身体。"
