@@ -9,3 +9,7 @@ unpacked.staging
 .venv
 EBOOT.BIN
 game
+chunk_*.json
+target
+Cargo.lock
+crowdin

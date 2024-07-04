@@ -26,12 +26,12 @@ class CharTable:
         print(sorted_char_count)
         char_iter = iter(char for char, _ in sorted_char_count)
         for key in self.data.keys():
-            if int(key, 16) >= 0x829F:
-                # if int(key, 16) >= 0x8140:
+            # if int(key, 16) >= 0x829F:
+            if int(key, 16) >= 0x8140:
                 try:
                     curr_char = next(char_iter)
-                    if curr_char not in self.data.values():
-                        self.data[key] = curr_char
+                    # if curr_char not in self.data.values():
+                    self.data[key] = curr_char
                 except StopIteration:
                     print("All chacaters are replaced")
                     break  # No more characters to replace with
@@ -46,6 +46,22 @@ class CharTable:
         tbl_hex_str = "".join(s for s in tbl_hex_arr)
         with open(output_file_path, "w", encoding="utf-8") as output_file:
             output_file.write(tbl_hex_str)
+
+    def convert_str_to_hex(self, test_str: str):
+        reversed_data = {v: k for k, v in self.data.items()}
+
+        # ['0x89e4', '0x945c', '0x82a1', '0x89ba', '0xe0de', '0x979e', '0x8ea7', '0x9573', '0x82a7', '0x9067', '0x91cc', '0x82aa']
+        encoded_s = [
+            (
+                reversed_data[char]
+                if char in reversed_data
+                else "0x" + binascii.hexlify(char.encode("ascii")).decode("ascii")
+            )
+            for char in test_str
+        ]
+        hex_str = "".join(s[2:] for s in encoded_s)
+        hex_str += "0000"  # Add a null terminator
+        return hex_str
 
 
 # Specify the path to your JSON file

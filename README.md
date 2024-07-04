@@ -6,9 +6,11 @@
 
 本仓库在原项目基础上添加了一些目录，它们是：
 
-- `encoding`：用于提取 EBOOT.BIN 内嵌的码表，依据词频生成新的码表，并对码表实施替换
-- `crowdin`：用于处理从 Crowdin 平台上传和下载的文本。
-- `evs`：用于处理事件脚本
+- `zh_cn`
+  - `crowdin`：用于处理从 Crowdin 平台上传和下载的文本。
+  - `elf_patch`：用于将码表和翻译覆盖到 EBOOT.BIN中
+  - `encoding`：用于提取 EBOOT.BIN 内嵌的码表，依据词频生成新的码表，并对码表实施替换
+- `parser`：\[WIP\]使用`Rust`重构的文件解析器
 
 本仓库**中文翻译文本**按照[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)开源协议共享。
 
