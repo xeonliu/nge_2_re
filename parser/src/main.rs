@@ -74,6 +74,10 @@ pub fn file_header(input: &[u8]) -> IResult<&[u8], FileHeader> {
 }
 
 pub fn main() {
+}
+
+#[test]
+fn hgar_header_test(){
     const HGAR: &[u8] = include_bytes!("../../game/PSP_GAME/USRDIR/btdemo/angel.har");
     // "HGAR", u16, u16
     let (remain, header) = header(&HGAR).unwrap();
@@ -83,7 +87,7 @@ pub fn main() {
 }
 
 #[test]
-fn header_test() {
+fn file_header_test() {
     let data = include_bytes!("../../game/PSP_GAME/USRDIR/btdemo/angel.har");
     let (remain, file_header) = file_header(&data[9524..]).unwrap();
     println!("{file_header:?}")
