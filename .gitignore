@@ -13,3 +13,7 @@ chunk_*.json
 target
 Cargo.lock
 crowdin
+.idea
+evs
+new_pic
+specs

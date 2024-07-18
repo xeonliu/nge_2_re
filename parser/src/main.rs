@@ -11,6 +11,24 @@ use nom::number::streaming::{le_u16, le_u32};
 use nom::sequence::{pair, terminated, tuple};
 use nom::{Err, IResult, Needed};
 
+pub struct Hgar {
+    header_: Header,
+    offset_table_: Vec<u32>,
+    unknowns_: Option<Vec<u64>>,
+    long_name_table_: Option<LongNameTable>,
+    files_: Vec<FileContent>,
+}
+
+pub struct LongNameTable {
+    num_name_pair: Vec<(u32, Vec<u8>)>,
+}
+
+pub struct FileContent {
+    short_name_: String,
+    encoded_identifier_: u32,
+    content_: Vec<u8>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum Version {
     V1,
@@ -73,11 +91,10 @@ pub fn file_header(input: &[u8]) -> IResult<&[u8], FileHeader> {
     ))
 }
 
-pub fn main() {
-}
+pub fn main() {}
 
 #[test]
-fn hgar_header_test(){
+fn hgar_header_test() {
     const HGAR: &[u8] = include_bytes!("../../game/PSP_GAME/USRDIR/btdemo/angel.har");
     // "HGAR", u16, u16
     let (remain, header) = header(&HGAR).unwrap();
