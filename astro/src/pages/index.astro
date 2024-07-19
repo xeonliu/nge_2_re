@@ -1,0 +1,23 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Layout from "../layouts/Layout.astro";
+const allPosts = await Astro.glob("./posts/*.md");
+---
+
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <Layout title="1">
+      <Navigation />
+      <h1>Astro</h1>
+      <a href="/about/">6</a>
+	  {allPosts.map((post)=><li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+    </Layout>
+  </body>
+</html>

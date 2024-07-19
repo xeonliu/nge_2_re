@@ -1,0 +1,18 @@
+---
+const pageTitle = "关于本网站";
+const happy =true;
+---
+
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <h1>{pageTitle}</h1>
+    {happy && <p>Fuck</p>}<h2>协议</h2>
+  </body>
+</html>
