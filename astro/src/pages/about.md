@@ -44,9 +44,12 @@ layout: ../layouts/MarkdownPostLayout.astro
 - 思源宋体（[SIL Open Font License 1.1]()）
 - 鹭霞文楷（[SIL Open Font License 1.1]()）
 
+## 网站
+- Ubuntu Font（[Ubuntu font licence Version 1.0](https://ubuntu.com/legal/font-licence)）
+
 # 使用到的开源项目
 
-- 本网站使用`astro`构建
+- 本网站使用`astro`构建，使用`vanilla`主题
 - 本项目基于`rezual/nge_2_re`的研究成果
 - PSP 字体生成与替换使用`tpunix/pgftool`和`xeonliu/FontHack_PSP`
 

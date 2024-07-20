@@ -4,10 +4,6 @@ layout: ../layouts/MarkdownPostLayout.astro
 ---
 # EVA 翻译贡献指南（V0.3）
 
-| 内容      | 翻译进度                                                                                      | 审核进度 |
-| --------- | --------------------------------------------------------------------------------------------- | -------- |
-| EBOOT.BIN | [![Crowdin](https://badges.crowdin.net/nge2/localized.svg)](https://crowdin.com/project/nge2) | 未完成   |
-
 - [EVA 翻译贡献指南（V0.3）](#eva-翻译贡献指南v03)
   - [参考资料](#参考资料)
     - [中文互联网](#中文互联网)
