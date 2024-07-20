@@ -1,12 +1,24 @@
 ---
-import Layout from "./Layout.astro"
-const {frontmatter} = Astro.props;
+import Layout from "./Layout.astro";
+const { frontmatter } = Astro.props;
 ---
+
 <Layout title={frontmatter.title}>
-    <h1>{frontmatter.title}</h1>
-    <p>{frontmatter.pubDate.toString().slice(0,10)}</p>
-    <p><em>{frontmatter.description}</em></p>
-    <p>Written by: {frontmatter.author}</p>
-    <img src={frontmatter.image.url} width="300" alt={frontmatter.image.alt} />
-    <slot />
-  </Layout>
+  <div class="l-docs">
+    <div class="l-docs__title">
+      <div class="p-strip is-shallow u-no-padding--bottom">
+        <div class="u-fixed-width">
+          <h1>{frontmatter.title}</h1>
+          <hr />
+        </div>
+      </div>
+    </div>
+    <div class="l-docs__main">
+      <div class="p-section">
+        <main class="u-fixed-width">
+          <slot />
+        </main>
+      </div>
+    </div>
+  </div>
+</Layout>

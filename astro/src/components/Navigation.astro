@@ -1,10 +1,55 @@
 ---
 const links = [
-{name: "首页",url: "/"},
-{name: "关于",url:"/"},
-]
+  { name: "首页", url: "/" },
+  { name: "项目状态", url: "/" },
+  { name: "贡献翻译", url: "/contribute" },
+  { name: "关于", url: "/about" },
+];
 ---
-<a href="/">首页</a>
-<a href="/about/">关于</a>
 
-<a href="/archive">官网存档</a>
+<header id="navigation" class="p-navigation is-dark">
+  <div class="p-navigation__row--25-75">
+    <div class="p-navigation__banner">
+      <div class="p-navigation__tagged-logo">
+        <a class="p-navigation__link" href="/">
+          <div class="p-navigation__logo-tag">
+            <img
+              class="p-navigation__logo-icon"
+              src="https://assets.ubuntu.com/v1/82818827-CoF_white.svg"
+              alt=""
+            />
+          </div>
+          <span class="p-navigation__logo-title">EVA2汉化</span>
+        </a>
+      </div>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item">
+          <button class="js-search-button p-navigation__link--search-toggle">
+            <span class="p-navigation__search-label">Search</span>
+          </button>
+        </li>
+        <li class="p-navigation__item">
+          <button class="js-menu-button p-navigation__link">Menu</button>
+        </li>
+      </ul>
+    </div>
+    <nav class="p-navigation__nav" aria-label="Example main">
+      <ul class="p-navigation__items">
+        {
+          links.map(({ name, url }) => (
+            <li class="p-navigation__item">
+              <a class="p-navigation__link" href={url}>
+                {name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="p-navigation__items">
+        <li class="p-navigation__item"></li><li class="p-navigation__item">
+          <a class="p-navigation__link" href="#">官网存档</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

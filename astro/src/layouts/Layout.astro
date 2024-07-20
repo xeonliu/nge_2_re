@@ -2,7 +2,7 @@
 import Navigation from '../components/Navigation.astro';
 import Nav from '../components/react/Nav';
 import {Button} from "antd"
-
+import "../style.scss"
 interface Props {
 	title: string;
 }
@@ -11,7 +11,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-cn">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
@@ -21,10 +21,27 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<Button type='primary' client:load>666</Button>
-		<Nav client:load></Nav>
-		<!-- <Navigation></Navigation> -->
+		<!-- <Nav client:load></Nav> -->
+		<Navigation></Navigation>
 		<slot />
+		<div class="l-site">
+			<footer class="l-footer--sticky p-strip--highlighted">
+			  <nav class="row" aria-label="Footer">
+				<div class="has-cookie">
+				  <p>© 2024 EVA 汉化计划 <a href="#">Ubuntu</a> and <a href="#">Canonical</a> are registered trademarks of Canonical Ltd.</p>
+				  <ul class="p-inline-list--middot">
+					<li class="p-inline-list__item">
+					  <a href="#"><small>Legal information</small></a>
+					</li>
+					<li class="p-inline-list__item">
+					  <a href="#"><small>Report a bug on this site</small></a>
+					</li>
+				  </ul>
+				  <span class="u-off-screen"><a href="#">Go to the top of the page</a></span>
+				</div>
+			  </nav>
+			</footer>
+		  </div>
 	</body>
 </html>
 <!-- <style is:global>

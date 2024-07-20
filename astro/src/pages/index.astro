@@ -14,10 +14,40 @@ const allPosts = await Astro.glob("./posts/*.md");
   </head>
   <body>
     <Layout title="1">
-      <Navigation />
-      <h1>Astro</h1>
-      <a href="/about/">6</a>
-	  {allPosts.map((post)=><li><a href={post.url}>{post.frontmatter.title}</a></li>)}
+      <div id="main-content" class="p-section--hero">
+        <div class="row--25-75">
+          <div class="col">
+            <div class="p-section--shallow">
+              <h1>欢迎来到</h1>
+              <h2>EVA2 汉化计划</h2>
+              <h1>的官网</h1>
+            </div>
+
+            <div class="p-section--shallow">
+              <ul class="p-inline-list u-no-margin--bottom">
+                <li class="p-inline-list__item">
+                  <a href="/" class="p-button--positive u-no-margin--bottom"
+                    >下载补丁</a
+                  >
+                </li>
+                <li class="p-inline-list__item">
+                  <a
+                    href="https://github.com/canonical/vanilla-framework/releases/latest"
+                    class="p-button u-no-margin--bottom">贡献翻译</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {
+        allPosts.map((post) => (
+          <li>
+            <a href={post.url}>{post.frontmatter.title}</a>
+          </li>
+        ))
+      }
     </Layout>
   </body>
 </html>
