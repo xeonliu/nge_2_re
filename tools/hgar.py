@@ -184,6 +184,30 @@ class HGArchive(object):
             print('\tEncoded Identifier: 0x%s' % format(file.encoded_identifier, '08X'))
             print('\tDecoded Identifier: 0x%s' % format(file.identifier, '08X'))
             print('')
+            
+    def generate_info(self, path):
+        ''' Returns the information on each file.
+        {
+            filename: ".har"
+            version: 1/3,
+            contents:
+                [
+                    {
+                        long_name: // Can be None
+                        short_name:
+                        encoded_identifier:
+                        unknown1: // Can be None
+                        unknown2: // Can be None
+                        content: // exported_path, decompressed version.
+                    }
+                ]
+        }
+        '''
+        
+        
+    def read_info(self):
+        ''' Read the info file and constructs HGAR.
+        '''
         
     def replace(self, file_to_replace, file_content, is_compressed=False):
         for file in self.files:
@@ -201,6 +225,9 @@ class HGArchive(object):
 
     def open(self, file_path):
         with open(file_path, 'rb') as f:
+            # Store the filename.
+            self.filename = os.path.basename(file_path);
+            
             magic_number = f.read(4).decode('ascii', 'ignore')
             if magic_number != 'HGAR':
                 raise Exception('Not an HGAR file!')

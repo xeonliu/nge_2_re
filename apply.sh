@@ -7,7 +7,7 @@ export PYTHONIOENCODING=utf-8
 GAME_UNPACKED_ISO_PATH="./unpacked"
 GAME_USRDIR_PATH="$GAME_UNPACKED_ISO_PATH/PSP_GAME/USRDIR"
 
-GAME_GLOBAL_TRANSLATION_PHRASES="./translations/global_translation.json"
+GAME_GLOBAL_TRANSLATION_PHRASES="C:\Users\SJTU\Documents\nge_2_re\translations\global_translations.json"
 
 function patch_bind() {
 	BIND_PATH="$1"
@@ -83,12 +83,12 @@ function patch_text() {
 }
 
 # Patch the BIND files
-patch_bind "game/imtext.bin"
-patch_bind "btl/btimtext.bin"
+# patch_bind "game/imtext.bin"
+# patch_bind "btl/btimtext.bin"
 
 # Patch independent TEXT files
-patch_text "free/f2info.bin"
-patch_text "free/f2tuto.bin"
+# patch_text "free/f2info.bin"
+# patch_text "free/f2tuto.bin"
 
 # Patch the EVS files
 # Extract all the *.har files
