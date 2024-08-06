@@ -39,7 +39,7 @@ class Patcher:
         success = 0
         with rzpipe.open(eboot_filepath, flags=["-w"]) as rz:
             for elem in self.data:
-                elf_vmaddr, _, size = self.extract_technical(elem["identifier"])
+                elf_vmaddr, _, size = self.extract_technical(elem["key"])
                 print(elem["translation"])
                 hex_str = self.table.convert_str_to_hex(elem["translation"])
                 if len(hex_str) > size * 2:
