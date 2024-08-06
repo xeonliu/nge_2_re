@@ -4,6 +4,9 @@ import os
 import struct
 import json
 import re
+import sys
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common
 
 """

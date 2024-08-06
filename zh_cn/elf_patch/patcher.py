@@ -70,15 +70,22 @@ class Patcher:
 
 if __name__ == "__main__":
     import sys
+    import argparse
 
-    if len(sys.argv) < 4:
-        print("Usage: python patch.py <eboot_filepath> <translation_json> <table_path>")
-        sys.exit(1)
-    eboot_filepath = sys.argv[1]
-    translation_json = sys.argv[2]
-    table_path = sys.argv[3]
+    parser = argparse.ArgumentParser(
+        prog="ELF Patcher", description="Patch ELF Encoding Table and SJIS Strings"
+    )
 
+    parser.add_argument("eboot_filepath")
+    parser.add_argument("-t", "--translation_path")
+    parser.add_argument("-e", "--table_path", required=True)
+
+    args = parser.parse_args()
+    print(args)
+    
     patcher = Patcher()
-    patcher.load_table(table_path)
-    patcher.load_translation(translation_json)
-    patcher.patch(eboot_filepath)
+    patcher.load_table(args.table_path)
+    patcher.patch_table(args.eboot_filepath)
+    if args.table_path != None:
+        patcher.load_translation(args.translation_path)
+        patcher.patch_translation(args.eboot_filepath)

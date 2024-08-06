@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 from collections import OrderedDict
 
 # Load evs_say_params.json
@@ -59,6 +60,45 @@ def process_entry(entry):
 #         }
 # )
 
+"""
+Copy src to dst and returns dst paths
+"""
+
+
+def copy_evs_files(src_dir, dst_dir) -> list[str]:
+    evs_paths = []
+    for root, dirs, files in os.walk(src_dir):
+        for file in files:
+            if file.endswith(".EVS.json"):
+                # 构建源文件路径
+                src_file_path = os.path.join(root, file)
+
+                # 构建目标文件路径
+                relative_path = os.path.relpath(root, src_dir)
+                dst_file_dir = os.path.join(dst_dir, relative_path)
+                dst_file_path = os.path.join(dst_file_dir, file)
+
+                # 创建目标目录（如果不存在）
+                os.makedirs(dst_file_dir, exist_ok=True)
+
+                # 复制文件
+                shutil.copy2(src_file_path, dst_file_path)
+                print(f"Copied {src_file_path} to {dst_file_path}")
+                evs_paths.append(dst_file_path)
+    return evs_paths
+
+
+def get_evs_paths(src_dir):
+    evs_paths = []
+    for root, dirs, files in os.walk(src_dir):
+        for file in files:
+            if file.endswith(".EVS.json"):
+                # 构建源文件路径
+                src_file_path = os.path.join(root, file)
+                print(f"Found {src_file_path}")
+                evs_paths.append(src_file_path)
+    return evs_paths
+
 
 if __name__ == "__main__":
     import sys
@@ -66,9 +106,8 @@ if __name__ == "__main__":
 
     module_dir = os.path.dirname(os.path.abspath(__file__))
     print(module_dir)
-    print(os.path.join(module_dir, "original\\*.json"))
 
-    json_files = glob.glob(os.path.join(module_dir, "original\\*.json"))
+    json_files = get_evs_paths(os.path.join(module_dir, "test"))
     print(json_files)
     for json_file in json_files:
         evs_json_name = os.path.basename(json_file)
@@ -81,7 +120,7 @@ if __name__ == "__main__":
                 content, context = process_entry(elem)
                 extracted_evs.append(
                     {
-                        "key": evs_json_name+str(hash(content + context)),
+                        "key": evs_json_name + str(hash(content + context)),
                         "original": content,
                         "translation": None,
                         "context": context,
@@ -94,5 +133,5 @@ if __name__ == "__main__":
         import pandas as pd
 
         df = pd.DataFrame(extracted_evs)
-        df.to_csv("./filtered/"+evs_json_name+".csv", header=False, index=False);
-        df.to_excel("./filtered/" + evs_json_name + ".xlsx", index=False)
+        df.to_csv("./filtered/" + evs_json_name + ".csv", header=False, index=False)
+        # df.to_excel("./filtered/test" + evs_json_name + ".xlsx", index=False)
