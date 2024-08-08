@@ -1,6 +1,17 @@
 ---
 import Table from "../components/react/Table";
 import Layout from "../layouts/Layout.astro";
+import data from "../data/files.json";
+import MyProject from "../ts/parse_data";
+import MultiTable from "../components/react/MultiTable";
+
+const proj = new MyProject();
+
+for (const file of data) {
+  proj.addRawFile(file);
+}
+
+const result = proj.root.getContent();
 ---
 
 <Layout title="Status">
@@ -8,7 +19,8 @@ import Layout from "../layouts/Layout.astro";
     <div class="l-docs__main">
       <div class="p-section">
         <main class="u-fixed-width">
-          <Table />
+          <!-- <Table /> -->
+          <MultiTable data={result} client:load />
         </main>
       </div>
     </div>
