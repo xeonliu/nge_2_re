@@ -10,20 +10,32 @@ image:
 tags: ["astro", "blogging", "learning in public"]
 ---
 
+## 官网
+
+- [Bandai](http://www.bandaigames.channel.or.jp/list/psp_eva2/)（已失效）（[GitHub 存档](https://xeonliu.github.io/eva2_archive/)）
+- [Alfa System](http://www.alfasystem.net/game/evapsp/)
+
 ## 版本
 
-参考资料：[PSP DatCenter](https://psxdatacenter.com/psp/ntsc-j_list.html)
+参考资料：[PSP DataCenter](https://psxdatacenter.com/psp/ntsc-j_list.html)
 
 ### ULJS-00064 单碟装
-![Inner Box](./assets/64-inner.webp)
 
-发售时间：2006/04/27
-价格：5,040 JPN
+![Inner Box](./assets/64-inner.webp)
+![Back](./assets/64-back.webp)
+
+- 条形码：4582224491025
+- 发售时间：2006/04/27
+- 价格：5,040 JPN
 
 ### ULJS-00061 十周年纪念装（游戏+旧剧场版）
+
 ![Cover](./assets/00061-cover.jpg)
-+ 发售时间：2006/04/27
-+ 价格：10,500 JPN
+![Back](./assets/00061-back.webp)
+
+- 条形码：4582224491018
+- 发售时间：2006/04/27
+- 价格：10,500 JPN
 
 ```
 【基本情報】
@@ -52,6 +64,7 @@ tags: ["astro", "blogging", "learning in public"]
 
 ■権利表記:©GAINAX/Project Eva.・テレビ東京 © 1997 GAINAX/EVA製作委員会 © BANDAI 2006
 ```
+
 ```
 ULJS-00061
 Neon Genesis Evangelion – Decade Memorial Box
@@ -72,9 +85,11 @@ Notes: Collector’s box w/ “Shin Seiki Evangelion 2: Tsukurareshi Sekai - Ano
 ```
 
 ### ULJS-19017 PSP the Best
+
 ![](./assets/19017-full.png)
-+ 发售时间：2007/08/30
-+ 价格：2,800 JPN
+
+- 发售时间：2007/08/30（恰好为《新剧场版：序》上映前一天）
+- 价格：2,800 JPN
 
 ```
 【基本情報】
