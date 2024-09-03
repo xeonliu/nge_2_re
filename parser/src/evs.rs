@@ -1,12 +1,12 @@
-use std::{error::Error};
-
 use encoding_rs::SHIFT_JIS;
+use std::error::Error;
 
-use nom::bytes::streaming::tag;
-use nom::error::ErrorKind;
-use nom::IResult;
+use nom::bytes::streaming::{tag, take};
+use nom::error::{ErrorKind, ParseError};
 use nom::multi::count;
-use nom::number::streaming::le_u32;
+use nom::number::streaming::{le_u16, le_u32};
+use nom::sequence::tuple;
+use nom::{IResult, Parser};
 
 #[derive(Debug)]
 struct Header {
@@ -15,7 +15,7 @@ struct Header {
 }
 
 enum ErrorType {
-    Error
+    Error,
 }
 
 impl Header {
@@ -24,31 +24,29 @@ impl Header {
         Ok(header)
     }
 
-    fn parse_header(input :&[u8]) -> IResult<&[u8], Header>{
+    fn parse_header(input: &[u8]) -> IResult<&[u8], Header> {
         let (remain, number) = le_u32(input)?;
         let (remain, offsets) = count(le_u32, number as usize)(remain)?;
-        Ok(
-            (input,
-             Header{
-                 number,
-                 offsets,
-             }
-            )
-        )
+        Ok((input, Header { number, offsets }))
     }
 
     fn to_hex(&self) -> Vec<u8> {
         let number_hex = Vec::from(self.number.to_le_bytes());
-        // Takes the ownership, bad.
-        let mut index_offsets: Vec<Vec<u8>> = self.offsets.iter().map(|x|Vec::from(x.to_le_bytes())).collect();
+        let mut index_offsets: Vec<Vec<u8>> = self
+            .offsets
+            .iter()
+            .map(|x| Vec::from(x.to_le_bytes()))
+            .collect();
         let mut index_offsets: Vec<u8> = index_offsets.into_iter().flatten().collect();
-        number_hex.into_iter().chain(index_offsets.into_iter()).collect()
+        number_hex
+            .into_iter()
+            .chain(index_offsets.into_iter())
+            .collect()
     }
 }
 
-
 #[test]
-fn test_header() -> Result<(), Box<dyn Error>>{
+fn test_header() -> Result<(), Box<dyn Error>> {
     const EVS_FILE: &[u8] =
         include_bytes!("../../game/PSP_GAME/USRDIR/event/tev0101.har.HGARPACK/tev0101#id39.evs");
     // Error Type Needs Type Linting.
@@ -58,25 +56,92 @@ fn test_header() -> Result<(), Box<dyn Error>>{
     let hex = header.to_hex();
     println!("{header:?}");
     println!("{hex:?}");
-    return Ok(())
+    return Ok(());
 }
 
 #[derive(Debug)]
 struct Entry {
     entry_type: u16,
     size: u16,
-    params: Vec<u32>,
+    params: Option<Vec<u32>>,
     content: Option<String>,
 }
-//
-// impl Entry {
-//     fn new(input: &[u8]) -> IResult<&[u8], Self> {
-//         let (remain, (entry_type, entry_size)) = tuple((le_u16,le_u16))(input)?;
-//         let param_num = get_number_of_parameters(entry_type).expect("Unknown number of parameters");
-//
-//
-//     }
-// }
+
+#[derive(Debug)]
+enum EVSError {
+    NomError(ErrorKind),
+    ParamSizeUnknown,
+}
+
+impl ParseError<&[u8]> for EVSError {
+    fn from_error_kind(input: &[u8], kind: ErrorKind) -> Self {
+        EVSError::NomError(kind)
+    }
+
+    fn append(input: &[u8], kind: ErrorKind, other: Self) -> Self {
+        other
+    }
+}
+
+impl Entry {
+    fn get_number_of_parameters(entry_type: u16) -> IResult<(), u16, EVSError> {
+        let param_size_json_content = include_str!("./evs/param_size.json");
+        let data: Vec<Option<u16>> =
+            serde_json::from_str(param_size_json_content).expect("Format Err");
+        return match entry_type {
+            0..=0xff => {
+                if let Some(size) = data[entry_type as usize] {
+                    Ok(((), size))
+                } else {
+                    Err(nom::Err::Error(EVSError::ParamSizeUnknown))
+                }
+            }
+            _ => Err(nom::Err::Error(EVSError::ParamSizeUnknown)),
+        };
+    }
+
+    // Third Param: Self-defined Error Type
+    fn new(input: &[u8]) -> IResult<&[u8], Entry, EVSError> {
+        // Get Entry Type and Size
+        let (remain, (entry_type, entry_size)) = tuple((le_u16, le_u16))(input)?;
+
+        // How to turn Result type into IResult? Using map_res!
+        // However, I didn't use it here anyway.
+        let (_, param_num) = Entry::get_number_of_parameters(entry_type)?;
+
+        let (remain, params) = match param_num {
+            0 => (remain, None),
+            _ => {
+                let (remain, params): (&[u8], Vec<u32>) = count(le_u32, param_num as usize)(remain)?;
+                (remain, Some(params))
+            }
+        };
+
+        // Contents are the remaining bytes;
+        let remaining_bytes = (entry_size - param_num * 4) as usize;
+
+        let content: Option<String> = match remaining_bytes {
+            0 => None,
+            _ =>  {
+                // Turn the remaining bytes into UTF-8 Str.
+                let (remain, content_bin) = take(remaining_bytes)(remain)?;
+                let (decoded_str, _, _) = SHIFT_JIS.decode(content_bin);
+                Some(String::from(decoded_str.strip_suffix('\0').unwrap()))
+            }
+        };
+
+        Ok((
+            remain,
+            Entry {
+                entry_type,
+                size: entry_size,
+                params,
+                content,
+            },
+        ))
+    }
+}
+
 //
 //
 // #[derive(Debug)]
@@ -169,19 +234,7 @@ struct Entry {
 //     println!("{ent:?}");
 // }
 //
-// fn get_number_of_parameters(entry_type: u16) -> Option<u16> {
-//     let param_size_json_content = include_str!("./evs/param_size.json");
-//     let data: Vec<Option<u16>> =
-//         serde_json::from_str(&param_size_json_content).expect("Format Err");
-//     return match entry_type {
-//         0..=0xff => {
-//             data[entry_type as usize]
-//         }
-//         _ => {
-//             None
-//         }
-//     }
-// }
+
 //
 // // Role must have a map between number and Facial Expressions.
 // enum FunctionSayCharacter {
