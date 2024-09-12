@@ -343,6 +343,7 @@ class HGArchive(object):
 
                 # Write encoded identifier
                 # Do not generate a new identifier unless it's None
+                # Why Would it be None ????
                 if file.encoded_identifier is None:
                     file.encode_identifier(self.identifier_limit)
                 common.write_uint32(f, file.encoded_identifier)
