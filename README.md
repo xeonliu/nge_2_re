@@ -20,13 +20,7 @@
 阅读[翻译贡献指南](./CROWDIN_CONTRIBUTING.md)
 
 # 项目进度
-
-## 二进制文件
-
-| 名称      | 状态                                                      | 项目地址                                    |
-| --------- | --------------------------------------------------------- | ------------------------------------------- |
-| EBOOT.BIN | ![Crowdin](https://badges.crowdin.net/nge2/localized.svg) | [Crowdin](https://crowdin.com/project/nge2) |
-
+见 [Paratranz](https://paratranz.cn/projects/10882)
 ## 资源文件
 
 ### 场景 EVS
@@ -60,6 +54,9 @@
 仍在随缘翻译中
 
 ## TODO
++ [ ] RRIR
++ [ ] 对所有文本使用DeepL进行翻译
 + [ ] 建立完整项目结构，能够一键Patch。
 + [ ] 引入CI/CD，能够自动生成Patch应用
++ [ ] 搭建翻译计划网站
 + [x] 对宣发网站存档。

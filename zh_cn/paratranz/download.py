@@ -30,22 +30,30 @@ def unzip_file(zip_path, dest_folder):
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(dest_folder)
 
+def replace_newlines(obj):
+    if isinstance(obj, str):
+        return obj.replace('\\n', '\n')
+    elif isinstance(obj, list):
+        return [replace_newlines(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: replace_newlines(value) for key, value in obj.items()}
+    return obj
 
 if __name__ == "__main__":
     project_id = 10882  # 替换为你的项目ID
     url = f"https://paratranz.cn/api/projects/{project_id}/artifacts/download"
     dest_folder = "downloads"
 
-    auth_key = os.getenv("AUTH_KEY")
-    if not auth_key:
-        raise ValueError("AUTH_KEY环境变量未设置")
+    # auth_key = os.getenv("AUTH_KEY")
+    # if not auth_key:
+    #     raise ValueError("AUTH_KEY环境变量未设置")
 
-    # Download files from paratranz.
-    zip_path = download_file(url, dest_folder, auth_key)
-    if zip_path:
-        # Unzip them
-        unzip_file(zip_path, dest_folder)
-        print(f"Files have been downloaded and extracted to {dest_folder}")
+    # # Download files from paratranz.
+    # zip_path = download_file(url, dest_folder, auth_key)
+    # if zip_path:
+    #     # Unzip them
+    #     unzip_file(zip_path, dest_folder)
+    #     print(f"Files have been downloaded and extracted to {dest_folder}")
 
     # Combine all the EBOOT Translations.
     eboot_path = os.path.join(dest_folder, "utf8", "eboot")
@@ -55,6 +63,7 @@ if __name__ == "__main__":
             file_path = os.path.join(root, file)
             with open(file_path, "r", encoding="utf-8") as f:
                 data.extend(json.load(f))
+    data = replace_newlines(data)
     eboot_trans = os.path.join(dest_folder, "eboot_trans.json")
     with open(eboot_trans, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)

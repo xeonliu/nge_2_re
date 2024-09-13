@@ -4,7 +4,7 @@ Patch the ELF with the modified UTF-16 table.
 
 import rzpipe
 
-eboot_file = "../eboot/EBOOT.BIN"
+eboot_file = "../../eboot/EBOOT.BIN"
 tbl_hex_file = "./new_table_bin.txt"
 # Start address of Table
 table_vm_addr = "0x22bb60"

@@ -45,7 +45,7 @@ class Patcher:
                 if len(hex_str) > size * 2:
                     print("hex_str is too long")
                     fail += 1
-                    print(f"Failed: {elem['source_string']}")
+                    print(f"Failed: {elem['original']}")
                     continue
                 print(rz.cmd(f"wx {hex_str} @ {elf_vmaddr}"))
                 print(rz.cmd(f"px {size} @ {elf_vmaddr}"))

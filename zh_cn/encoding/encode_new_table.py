@@ -41,8 +41,8 @@ class CharTable:
         print(sorted_char_count)
         char_iter = iter(char for char, _ in sorted_char_count)
         for key in self.data.keys():
-            # if int(key, 16) >= 0x829F:
-            if int(key, 16) >= 0x8140:
+            if int(key, 16) >= 0x829F and int(key, 16) <= 0xEAA4:
+                # if int(key, 16) >= 0x8140:
                 try:
                     curr_char = next(char_iter)
                     # if curr_char not in self.data.values():
@@ -82,9 +82,9 @@ class CharTable:
         for char in test_str:
             # First try in ASCII
             try:
-                encoded_char = encoded_char = "0x" + binascii.hexlify(char.encode("ascii")).decode(
-                        "ascii"
-                    )
+                encoded_char = encoded_char = "0x" + binascii.hexlify(
+                    char.encode("ascii")
+                ).decode("ascii")
                 encoded_s.append(encoded_char)
             except:
                 # Try in Table
@@ -93,9 +93,9 @@ class CharTable:
                 else:
                     # Try in S-JIS
                     try:
-                        encoded_char = "0x" + binascii.hexlify(char.encode("sjis")).decode(
-                            "ascii"
-                        )
+                        encoded_char = "0x" + binascii.hexlify(
+                            char.encode("sjis")
+                        ).decode("ascii")
                     except UnicodeEncodeError:
                         # TODO: Deal with Symbols that doesn't exist in table.
                         print("Error on char", char)

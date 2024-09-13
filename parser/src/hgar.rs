@@ -13,18 +13,18 @@
 // use nom::sequence::{pair, terminated, tuple};
 // use nom::{Err, IResult, Needed};
 
-// pub struct Hgar {
-//     header_: Header,
-//     offset_table_: Vec<u32>,
-//     unknowns_: Option<Vec<u64>>,
-//     long_name_table_: Option<LongNameTable>,
-//     files_: Vec<FileContent>,
-// }
+pub struct Hgar {
+    header_: Header,
+    offset_table_: Vec<u32>,
+    unknowns_: Option<Vec<u64>>,
+    long_name_table_: Option<LongNameTable>,
+    files_: Vec<FileContent>,
+}
 
-// pub struct Header {
-//     version: u16,
-//     number: u16,
-// }
+pub struct Header {
+    version: u16,
+    number: u16,
+}
 
 // pub struct LongNameTable {
 //     num_name_pair: Vec<(u32, Vec<u8>)>,
