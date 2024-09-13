@@ -26,7 +26,7 @@ impl Header {
 
     fn parse_header(input: &[u8]) -> IResult<&[u8], Header> {
         let (remain, number) = le_u32(input)?;
-        let (remain, offsets) = count(le_u32, number as usize)(remain)?;
+        let (_, offsets) = count(le_u32, number as usize)(remain)?;
         Ok((input, Header { number, offsets }))
     }
 
@@ -112,7 +112,8 @@ impl Entry {
         let (remain, params) = match param_num {
             0 => (remain, None),
             _ => {
-                let (remain, params): (&[u8], Vec<u32>) = count(le_u32, param_num as usize)(remain)?;
+                let (remain, params): (&[u8], Vec<u32>) =
+                    count(le_u32, param_num as usize)(remain)?;
                 (remain, Some(params))
             }
         };
@@ -122,7 +123,7 @@ impl Entry {
 
         let content: Option<String> = match remaining_bytes {
             0 => None,
-            _ =>  {
+            _ => {
                 // Turn the remaining bytes into UTF-8 Str.
                 let (remain, content_bin) = take(remaining_bytes)(remain)?;
                 let (decoded_str, _, _) = SHIFT_JIS.decode(content_bin);
@@ -142,13 +143,12 @@ impl Entry {
     }
 }
 
-//
-//
-// #[derive(Debug)]
-// struct EVS {
-//     header: Header,
-//     entries: Vec<Entry>,
-// }
+#[derive(Debug)]
+struct EVS {
+    header: Header,
+    entries: Vec<Entry>,
+}
+
 //
 // impl EVS {
 //     fn new(input: &[u8]) -> Self {

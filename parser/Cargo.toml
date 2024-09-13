@@ -1,7 +1,8 @@
 [package]
-name = "hgar_parser"
+name = "eva2_parser"
 edition = "2021"
 [dependencies]
 nom = "7"
 encoding_rs = "0.8.34"
 serde_json = "1.0.120"
+flate2 = "1.0"
