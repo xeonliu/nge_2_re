@@ -1,9 +1,9 @@
 // use core::num;
 // use std::str::from_utf8;
 
-use flate2::{Decompress, FlushDecompress};
+use flate2::{Compress, Compression, Decompress, FlushCompress, FlushDecompress};
 use nom::number::streaming::le_u16;
-use std::{error::Error, fs::File, os::linux::raw, vec};
+use std::{error::Error, fs::File, vec};
 // use nom::bytes::complete::take_while1;
 // use nom::bytes::streaming::tag;
 // use nom::bytes::streaming::take;
@@ -64,18 +64,40 @@ struct FileContent {
 // 2. align to 4 byte
 fn decompress(compressed_bin: &[u8]) -> Result<Vec<u8>, Box<dyn Error + '_>> {
     // get decompressed content size
-    let (remain, size) = le_u16::<&[u8], ()>(compressed_bin)?;
+    let (remain, _size) = le_u16::<&[u8], ()>(compressed_bin)?;
     let mut raw_bin: Vec<u8> = Vec::new();
     let _ = Decompress::new(false) // Do not contain a zlib header
         .decompress(remain, &mut raw_bin, FlushDecompress::Finish);
+    // TODO: why resize only when decompressing ???
+    // align to 4 byte with tailing zeros
+    let aligned_len = 4 * (raw_bin.len() + 3) / 4;
+    raw_bin.resize(aligned_len, 0);
     return Ok(raw_bin);
 }
-
 
 // How to compress?
 // 1. Calculate the decompressed size
 // 2. zlib.compress()[2:-4]
-// Skip 2 byte header and four byte checksum at end
+// Skip 2 byte header and four byte checksum at end (Can be set using other params.)
+fn compress(uncompressed_bin: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error + '_>> {
+    // Type Conversion? try_into();
+    let size: u16 = uncompressed_bin
+        .len()
+        .try_into()
+        .expect("Size out of range");
+
+    let mut compressed_bin: Vec<u8> = Vec::new();
+
+    Compress::new(Compression::default(), false).compress(
+        &uncompressed_bin,
+        &mut compressed_bin,
+        FlushCompress::Finish,
+    )?;
+
+    Ok(compressed_bin)
+}
+
+// Test here. Whether Compressed content is the same with the original one?
 
 impl FileContent {
     fn parse(input: &[u8]) -> Self {

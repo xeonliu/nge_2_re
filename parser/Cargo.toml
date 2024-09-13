@@ -1,5 +1,5 @@
 [package]
-name = "hgar_parser"
+name = "eva2_parser"
 edition = "2021"
 [dependencies]
 nom = "7"
