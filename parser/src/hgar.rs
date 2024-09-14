@@ -2,8 +2,8 @@
 // use std::str::from_utf8;
 
 use flate2::{Compress, Compression, Decompress, FlushCompress, FlushDecompress};
-use nom::number::streaming::le_u16;
-use std::{error::Error, fs::File, vec};
+use nom::number::streaming::le_u32;
+use std::{error::Error, fs::File, os::raw, vec};
 // use nom::bytes::complete::take_while1;
 // use nom::bytes::streaming::tag;
 // use nom::bytes::streaming::take;
@@ -15,20 +15,6 @@ use std::{error::Error, fs::File, vec};
 // use nom::number::streaming::{le_u16, le_u32};
 // use nom::sequence::{pair, terminated, tuple};
 // use nom::{Err, IResult, Needed};
-enum Version {
-    V1,
-    V3,
-}
-
-impl From<u16> for Version {
-    fn from(value: u16) -> Self {
-        match value {
-            1 => Self::V1,
-            3 => Self::V3,
-            _ => Self::V1,
-        }
-    }
-}
 
 struct Header {
     version: u16,
@@ -64,13 +50,18 @@ struct FileContent {
 // 2. align to 4 byte
 fn decompress(compressed_bin: &[u8]) -> Result<Vec<u8>, Box<dyn Error + '_>> {
     // get decompressed content size
-    let (remain, _size) = le_u16::<&[u8], ()>(compressed_bin)?;
-    let mut raw_bin: Vec<u8> = Vec::new();
-    let _ = Decompress::new(false) // Do not contain a zlib header
-        .decompress(remain, &mut raw_bin, FlushDecompress::Finish);
-    // TODO: why resize only when decompressing ???
+    let (remain, size) = le_u32::<&[u8], ()>(compressed_bin)?;
+    println!("{:?}", size);
+    let mut raw_bin: Vec<u8> = vec![0; size as usize];
+    let status = Decompress::new(false) // Do not contain a zlib header
+        .decompress(remain, &mut raw_bin, FlushDecompress::Finish)?;
+    println!("{:?}", status);
+
     // align to 4 byte with tailing zeros
-    let aligned_len = 4 * (raw_bin.len() + 3) / 4;
+    let aligned_len = 4 * ((raw_bin.len() + 3) / 4);
+
+    // TODO: why resize only when decompressing ???
+    assert_eq!(aligned_len, size as usize);
     raw_bin.resize(aligned_len, 0);
     return Ok(raw_bin);
 }
@@ -79,25 +70,70 @@ fn decompress(compressed_bin: &[u8]) -> Result<Vec<u8>, Box<dyn Error + '_>> {
 // 1. Calculate the decompressed size
 // 2. zlib.compress()[2:-4]
 // Skip 2 byte header and four byte checksum at end (Can be set using other params.)
-fn compress(uncompressed_bin: &Vec<u8>) -> Result<Vec<u8>, Box<dyn Error + '_>> {
+fn compress(uncompressed_bin: &[u8]) -> Result<Vec<u8>, Box<dyn Error + '_>> {
     // Type Conversion? try_into();
-    let size: u16 = uncompressed_bin
+    let size: u32 = uncompressed_bin
         .len()
         .try_into()
         .expect("Size out of range");
 
-    let mut compressed_bin: Vec<u8> = Vec::new();
-
-    Compress::new(Compression::default(), false).compress(
+    let mut compressed_bin: Vec<u8> = vec![0; size as usize];
+    let mut compressor = Compress::new(Compression::best(), false);
+    println!("total input: {}", compressor.total_in());
+    let result = compressor.compress(
         &uncompressed_bin,
         &mut compressed_bin,
         FlushCompress::Finish,
     )?;
+    println!(
+        "total output: {}, result {:?}",
+        compressor.total_out(),
+        result
+    );
+    compressed_bin.resize(compressor.total_out() as usize, 0);
 
-    Ok(compressed_bin)
+    let mut result = Vec::with_capacity(4 + compressed_bin.len());
+    result.extend_from_slice(&(size as u32).to_le_bytes());
+    result.extend_from_slice(&compressed_bin);
+
+    Ok(result)
+
+    // Compressed Size doesn't match?
 }
 
 // Test here. Whether Compressed content is the same with the original one?
+mod compression_test {
+    use super::decompress;
+
+    use super::compress;
+
+    const compressed_file: &[u8] =
+        include_bytes!("../../game/PSP_GAME/USRDIR/btdemo/angel.har.HGARPACK/01_eva3#id6876.hpt");
+    const decompressed_file: &[u8] = include_bytes!(
+        "../../game/PSP_GAME/USRDIR/btdemo/angel.har.HGARPACK/01_eva3#id6876.hpt.DECOMPRESSED"
+    );
+
+    #[test]
+    fn test_decompress() {
+        let result = decompress(compressed_file).unwrap();
+
+        println!("{:?}", result.len());
+        println!("{:?}", decompressed_file.len());
+        assert_eq!(decompressed_file, result);
+    }
+
+    #[test]
+    fn test_compress() {
+        let result = compress(decompressed_file).unwrap();
+
+        let de_res = decompress(&result).unwrap();
+
+        assert_eq!(de_res.len(), decompressed_file.len());
+
+        // Size Do not Match.
+        // assert_eq!(compressed_file.len(), result.len());
+    }
+}
 
 impl FileContent {
     fn parse(input: &[u8]) -> Self {
@@ -177,30 +213,6 @@ fn test_replace() -> Result<(), Box<dyn Error>> {
 
     return Ok(());
 }
-
-pub struct Hgar {
-    header_: Header,
-    offset_table_: Vec<u32>,
-    unknowns_: Option<Vec<u64>>,
-    long_name_table_: Option<LongNameTable>,
-    files_: Vec<FileContent>,
-}
-
-pub struct Header {
-    version: u16,
-    number: u16,
-}
-
-// pub struct LongNameTable {
-//     num_name_pair: Vec<(u32, Vec<u8>)>,
-// }
-
-// pub struct FileContent {
-//     short_name_: String,
-//     encoded_identifier_: u32,
-//     content_: Vec<u8>,
-//     // Logically, Decoded Content.
-// }
 
 // pub fn parse_header(input: &[u8]) -> IResult<&[u8], Header> {
 //     map(
