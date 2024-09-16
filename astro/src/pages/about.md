@@ -31,6 +31,8 @@ layout: ../layouts/MarkdownPostLayout.astro
 
 7 月 18 日，`mel` 加入项目。对游戏官网历史版本进行存档并部署在 GitHub Pages 上，并将当时的游戏 PV 转载到 Bilibili。本站开始构建。
 
+9 月 16 日，开始使用 `Meta-Llama-3-8B-Instruct` 模型进行辅助翻译。
+
 # 字体版权声明
 
 该项目使用字体如下
