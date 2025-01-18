@@ -13,12 +13,19 @@ layout: ../layouts/MarkdownPostLayout.astro
     - [人名](#人名)
     - [使徒名](#使徒名)
     - [关卡名](#关卡名)
+    - [状态](#状态)
+    - [人际关系](#人际关系)
+    - [技能](#技能)
+    - [情感](#情感)
+    - [物品](#物品)
     - [字符串长度限制（重要）](#字符串长度限制重要)
     - [标点符号](#标点符号)
     - [中英混合](#中英混合)
     - [多行文本](#多行文本)
     - [特殊字符](#特殊字符)
     - [格式说明符 Format Specifiers](#格式说明符-format-specifiers)
+- [EBOOT文件说明](#eboot文件说明)
+- [改进](#改进)
 
 ## 参考资料
 
@@ -90,6 +97,36 @@ layout: ../layouts/MarkdownPostLayout.astro
 
 关于“芝村平衡”：https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1230875672
 
+### 状态
+
++ 空腹：饥饿
++ 水分：口渴
++ 眠気：睡意
++ ＷＣ：ＷＣ
++ 風呂：清洁
+
+### 人际关系
+
++ 関心：关心
++ 好意：好意
+
+### 技能
+
++ 白兵：白刃（肉搏？近战？）
++ 事務：办公
++ 情報：信息
++ シンクロ：同步
++ 家事
++ 戦闘：战斗
++ 参謀：参谋
++ 開発：开发
++ オペレート（ＯＰ）：操作
++ 諜報：情报
+
+### 情感
+
+### 物品
+
 ### 字符串长度限制（重要）
 
 - 在 SHIFT-JIS 编码中，ASCII 字符 1 字节，其他字符（如日文和特殊符号） 2 字节。
@@ -154,3 +191,20 @@ layout: ../layouts/MarkdownPostLayout.astro
 - `$n` seems to denote a super-line-break that triggers the start of a new page while `\n` triggers the start of a new line.
 - `$o` seems to be an item/object in subject's possession
 - `$p` seems to be an item/object in passive participant's possession
+- `$m`？
+
+# EBOOT文件说明
+
++ chunk_9：显示在对话框中的人物名称
++ chunk_105：成分残缺的字符串。用于生成人物对话提到过去发生某事时的文本。游戏在运行时进行拼接。
++ chunk_40：对话用的选项
++ chunk_39：对话用的选项
++ chunk_11：物品
+
+# 改进
+
+考虑本地数据库使用sqlite
+
+分词器：Simple，ICU？
+
+需要能够将ISO中有用部分全部放入数据库中。便于文字的查找替换。
