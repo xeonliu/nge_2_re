@@ -18,3 +18,5 @@ evs
 new_pic
 specs
 poetry.lock
+*.db
+__pycache__
