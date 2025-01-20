@@ -1,0 +1,13 @@
+[project]
+name = "nge-2-re"
+version = "0.1.0"
+description = "Repository for NGE2 Localization"
+authors = [
+    {name = "xeonliu", email = "you@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "sqlalchemy (>=2.0.37,<3.0.0)"
+]
+package_mode = false
