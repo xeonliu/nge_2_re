@@ -5,7 +5,8 @@
 #define CODE_JAL 0x0C000000
 
 #define COND_INST_OPERAND_ADDR 0x08874260
-#define JAL_INST_ADDR 0x08874180
+// 088691b8 a0 11 22 0e     jal FUN_08884680
+#define JAL_INST_ADDR 0x088691b8
 
 #define LOG_FILE "ms0:/PSP/load_log.txt"
 #define LOG(_id, value) { \
@@ -37,6 +38,8 @@ void patch_function()
         Change Bytes at 0x8874260 to a600a62c
     */
     *(uint8_t *)(COND_INST_OPERAND_ADDR) = 0xa6;
+    sceKernelDcacheWritebackInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
+	sceKernelIcacheInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
 
     /* Hook The Funtion Calls */
 
@@ -44,18 +47,29 @@ void patch_function()
     uint32_t target_addr = (uint32_t)&translate_code;
     LOG(3, "Target Address");
     LOG(4, target_addr);
+    // jal 0x80680
+    // 0x0C000000 | (0x80680 >> 2)
+    // 0x0C000000 | 0x0201A0
+    // 指令：0x0C0201A0
+    // 以小端储存
     uint32_t jal_inst = CODE_JAL | (target_addr >> 2);
     // Patch The JAL Instruction
     // The Original Code is for converting Non-ASCII SJIS Characters to UTF16
     // Now we extend the range to include More Chinese Characters
     *(uint32_t *)JAL_INST_ADDR = jal_inst;
+    sceKernelDcacheWritebackInvalidateRange((void*)JAL_INST_ADDR, 4);
+    sceKernelIcacheInvalidateRange((void*)JAL_INST_ADDR, 4);
+    LOG(5, "Patched JAL INST");
+    LOG(6, jal_inst);
+    LOG(7, *(uint32_t *)JAL_INST_ADDR);
 }
 
 void patch_sentence() {
     void* address = (void*)(0x089B5880);
-    uint16_t* shinji = (uint16_t*)address;
-    shinji[0] = 0x8901;
-    shinji[1] = 0x8902;
+    // SJIS Sentece中字符均是大端
+    uint8_t* shinji = (uint8_t*)address;
+    shinji[0] = 0x89;
+    shinji[1] = 0x01;
     LOG(1, shinji[0]);
     LOG(2, "Write back and Invalidate");
     sceKernelDcacheWritebackInvalidateRange(address, 4);
