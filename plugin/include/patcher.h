@@ -1,13 +1,6 @@
 #pragma once
-#include "logger.h"
+#include <pspkernel.h>
 
-class Patcher
-{
-public:
-    Patcher();
-    void patch();
-    void patch_function();
-    void patch_sentence();
-    static Patcher *get_instance();
-    Logger *logger_;
-};
+void patch(SceUID eboot_mid);
+void patch_function();
+void patch_sentence();

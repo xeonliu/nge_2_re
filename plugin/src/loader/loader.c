@@ -29,6 +29,7 @@ static int main_thread(SceSize args, void *argp) {
     SceUID mid_prx = sceKernelLoadModule(PATCH_PRX_PATH, 0, NULL);
     int stat_za;
     if (mid_prx >= 0) {
+		// mid_eboot is the Module ID of EBOOT File
         sceKernelStartModule(mid_prx, sizeof(mid_eboot), &mid_eboot, &stat_za, NULL);
         LOG(1, "Start PRX Module");
     }

@@ -30,9 +30,6 @@ const uint32_t *DAT_08a3325c = (uint32_t*)0x08a3325c;
 // mapped_code = 0xA600 + index;
 extern unsigned char GB_2312[16356]; // GB2312 Encoding
 
-#ifdef __cplusplus
-extern "C"
-#endif
 uint16_t translate_code(uint16_t code) {
     if(code>=0xA600 && code<=0xDDFF) {
         return modified_to_utf16(code);
@@ -43,9 +40,6 @@ uint16_t translate_code(uint16_t code) {
 /** 
 Use 0xA6-0xDD to store GB2312 Chinese Characters
 */
-#ifdef __cplusplus
-extern "C"
-#endif
 uint16_t modified_to_utf16(uint16_t code) {
     if(code>=0xc5f1) {
         // ERROR: Out of Range
@@ -54,9 +48,6 @@ uint16_t modified_to_utf16(uint16_t code) {
 }
 
 // FUN_08884680
-#ifdef __cplusplus
-extern "C"
-#endif
 uint16_t sjis_to_utf16(uint16_t sjis) {
     int low = 0;
     int high = 0x5a;
@@ -85,9 +76,6 @@ uint16_t sjis_to_utf16(uint16_t sjis) {
 
 // FUN_08884724
 // binary_search function
-#ifdef __cplusplus
-extern "C"
-#endif
 int binary_search(uint16_t target, int low, int high) {
     low = low & 0xFFFF;
     high = high & 0xFFFF;
