@@ -8,8 +8,8 @@
 #endif
 PSP_MODULE_INFO(EbootLoader, PSP_MODULE_USER, 1, 0);
 
-#define PathOldBoot  "disc0:/PSP_GAME/SYSDIR/BOOT.BIN"
-#define PathPrx "ms0:/PSP/patch.prx"
+#define OLD_EBOOT_PATH  "disc0:/PSP_GAME/SYSDIR/BOOT.BIN"
+#define PATCH_PRX_PATH "ms0:/PSP/patch.prx"
 
 #include <pspiofilemgr.h>
 #define LOG_FILE "ms0:/PSP/loader_log.txt"
@@ -21,15 +21,12 @@ sceIoClose(f);\
 }
 
 static int main_thread(SceSize args, void *argp) {
-	SceCtrlData pad;
-	sceCtrlPeekBufferPositive(&pad, 1);
-
-	char str_eboot[] = PathOldBoot;
+	char str_eboot[] = OLD_EBOOT_PATH;
 	SceUID mid_eboot = sceKernelLoadModule(str_eboot, 0, NULL);
 	LOG(0, mid_eboot);
 	int stat_eboot;
 	
-    SceUID mid_prx = sceKernelLoadModule(PathPrx, 0, NULL);
+    SceUID mid_prx = sceKernelLoadModule(PATCH_PRX_PATH, 0, NULL);
     int stat_za;
     if (mid_prx >= 0) {
         sceKernelStartModule(mid_prx, sizeof(mid_eboot), &mid_eboot, &stat_za, NULL);

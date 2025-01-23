@@ -1,11 +1,13 @@
 TARGET = patcher
-OBJS = src/patcher.o src/gb2312.o src/transform.o src/main.o 
-
+OBJS = src/patcher/gb2312.o src/patcher/patcher.o\
+ src/patcher/main.o src/patcher/transform.o\
+ src/utils/logger.o
 INCDIR = include
 CFLAGS = -O2 -Wall
-CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti -nostdlib
 ASFLAGS = $(CFLAGS)
 
+LIBS = -lstdc++
 PRX_EXPORTS = exports.exp
 BUILD_PRX = 1
 

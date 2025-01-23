@@ -1,6 +1,17 @@
 #include <pspkernel.h>
+
 #include "patcher.h"
+extern "C"
+{
 #include "transform.h"
+
+    void _exit(int status)
+    {
+        sceKernelExitThread(status);
+    }
+
+    void *__dso_handle = 0;
+}
 
 #define CODE_JAL 0x0C000000
 
@@ -8,20 +19,24 @@
 // 088691b8 a0 11 22 0e     jal FUN_08884680
 #define JAL_INST_ADDR 0x088691b8
 
-#define LOG_FILE "ms0:/PSP/load_log.txt"
-#define LOG(_id, value) { \
-unsigned id = _id;\
-SceUID f = sceIoOpen(LOG_FILE, PSP_O_WRONLY | PSP_O_CREAT | PSP_O_APPEND, 0777);\
-if(f >= 0) { sceIoWrite(f, &id, sizeof(id)); sceIoWrite(f, &value, sizeof(value)); }\
-sceIoClose(f);\
+Patcher *Patcher::get_instance()
+{
+    static Patcher instance;
+    return &instance;
 }
 
-void patch() {
+Patcher::Patcher() : logger_(Logger::get_instance())
+{
+    logger_->log("Patcher Constructor");
+}
+
+void Patcher::patch()
+{
     patch_function();
     patch_sentence();
 };
 
-void patch_function()
+void Patcher::patch_function()
 {
     // Patch Code in FUN_08874180
     /**
@@ -38,15 +53,13 @@ void patch_function()
         Change Bytes at 0x8874260 to a600a62c
     */
     *(uint8_t *)(COND_INST_OPERAND_ADDR) = 0xa6;
-    sceKernelDcacheWritebackInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
-	sceKernelIcacheInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
+    sceKernelDcacheWritebackInvalidateRange((void *)COND_INST_OPERAND_ADDR, 1);
+    sceKernelIcacheInvalidateRange((void *)COND_INST_OPERAND_ADDR, 1);
 
     /* Hook The Funtion Calls */
 
     // Generate the JAL Instruction
     uint32_t target_addr = (uint32_t)&translate_code;
-    LOG(3, "Target Address");
-    LOG(4, target_addr);
     // jal 0x80680
     // 0x0C000000 | (0x80680 >> 2)
     // 0x0C000000 | 0x0201A0
@@ -57,21 +70,20 @@ void patch_function()
     // The Original Code is for converting Non-ASCII SJIS Characters to UTF16
     // Now we extend the range to include More Chinese Characters
     *(uint32_t *)JAL_INST_ADDR = jal_inst;
-    sceKernelDcacheWritebackInvalidateRange((void*)JAL_INST_ADDR, 4);
-    sceKernelIcacheInvalidateRange((void*)JAL_INST_ADDR, 4);
-    LOG(5, "Patched JAL INST");
-    LOG(6, jal_inst);
-    LOG(7, *(uint32_t *)JAL_INST_ADDR);
+    sceKernelDcacheWritebackInvalidateRange((void *)JAL_INST_ADDR, 4);
+    sceKernelIcacheInvalidateRange((void *)JAL_INST_ADDR, 4);
+
+    logger_->log("Patched JAL INST");
 }
 
-void patch_sentence() {
-    void* address = (void*)(0x089B5880);
+void Patcher::patch_sentence()
+{
+    void *address = (void *)(0x089B5880);
     // SJIS Sentece中字符均是大端
-    uint8_t* shinji = (uint8_t*)address;
+    uint8_t *shinji = (uint8_t *)address;
     shinji[0] = 0x89;
     shinji[1] = 0x01;
-    LOG(1, shinji[0]);
-    LOG(2, "Write back and Invalidate");
+
     sceKernelDcacheWritebackInvalidateRange(address, 4);
-	sceKernelIcacheInvalidateRange(address, 4);
+    sceKernelIcacheInvalidateRange(address, 4);
 };

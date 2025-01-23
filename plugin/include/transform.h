@@ -1,3 +1,4 @@
+#pragma once
 #include <stdint.h>
 
 uint16_t translate_code(uint16_t code);
