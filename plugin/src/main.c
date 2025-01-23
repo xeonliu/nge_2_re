@@ -18,8 +18,7 @@ static int main_thread(SceSize args, void *argp) {
     // Patch The Function
     LOG(0, "Call Patch");
     patch();
-    sceKernelExitDeleteThread(0);
-    return 0;
+    return sceKernelExitDeleteThread(0);
 }
 
 int module_start(SceSize args, void *argp) {

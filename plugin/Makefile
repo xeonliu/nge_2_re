@@ -6,7 +6,7 @@ CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
-PSP_EXPORTS = exports.exp
+PRX_EXPORTS = exports.exp
 BUILD_PRX = 1
 
 LDFLAGS = -nostartfiles
