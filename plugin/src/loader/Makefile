@@ -7,8 +7,7 @@ CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
 
-#USE_KERNEL_LIBS = 1
-#LIBS = -lpspctrl -lpspkernel
+# USE_KERNEL_LIBS=1
 
 BUILD_PRX = 1
 PRX_EXPORTS=exports_loader.exp
