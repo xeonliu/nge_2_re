@@ -1,22 +1,31 @@
+#include <pspsdk.h>
 #include <pspkernel.h>
 #include "patcher.h"
 #include "transform.h"
+#include "log.h"
 
-#define CODE_JAL 0x0C000000
+#define MIPS_J_ADDRESS(x) (((u32)((x)) & 0x3fffffff) >> 2)
 
+#define NOP 0x000C0000
+#define JAL_TO(x) (0x0E000000 | MIPS_J_ADDRESS(x))
+#define J_TO(x) (0x08000000 | MIPS_J_ADDRESS(x))
+#define LUI(x, y) (0x3C000000 | ((x & 0x1f) << 0x10) | (y & 0xffff))
+
+// Codes to Patch
 #define COND_INST_OPERAND_ADDR 0x08874260
 // 088691b8 a0 11 22 0e     jal FUN_08884680
 #define JAL_INST_ADDR 0x088691b8
 
-#define LOG_FILE "ms0:/PSP/load_log.txt"
-#define LOG(_id, value) { \
-unsigned id = _id;\
-SceUID f = sceIoOpen(LOG_FILE, PSP_O_WRONLY | PSP_O_CREAT | PSP_O_APPEND, 0777);\
-if(f >= 0) { sceIoWrite(f, &id, sizeof(id)); sceIoWrite(f, &value, sizeof(value)); }\
-sceIoClose(f);\
-}
+// The Default Load Position for USER_MAIN Module.
+// The Addresses above is based on this address.
+#define STD_BASE 0x08804000
 
-void patch() {
+u32 offset_;
+
+void patch(u32 mod_base)
+{
+    offset_ = mod_base - 0x08804000;
+    init_transform();
     patch_function();
     patch_sentence();
 };
@@ -37,41 +46,68 @@ void patch_function()
         Extend The Range uVar2 >= 0xa6 so that First Byte Range in [a6,de) Will Also Be Considered as two byte characters.
         Change Bytes at 0x8874260 to a600a62c
     */
-    *(uint8_t *)(COND_INST_OPERAND_ADDR) = 0xa6;
-    sceKernelDcacheWritebackInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
-	sceKernelIcacheInvalidateRange((void*)COND_INST_OPERAND_ADDR, 1);
+    {
+        // Dump the Original Code
+        u32 code_pos = COND_INST_OPERAND_ADDR + offset_;
+        dbg_log("Original Code at %x\n", code_pos);
+        dbg_log("Original Code: %x\n", *(uint32_t *)code_pos);
+
+        // Patch The Code
+        u32 state = pspSdkDisableInterrupts();
+        { // SJIS Sentece中字符均是大端
+            _sb(0xa6, (u32)code_pos);
+            sceKernelDcacheWritebackAll();
+            sceKernelIcacheInvalidateAll();
+        }
+        pspSdkEnableInterrupts(state);
+
+        // Dump the Patched Code
+        dbg_log("Patched Code at %x\n", code_pos);
+        dbg_log("Patched Code: %x\n", *(uint32_t *)code_pos);
+    }
 
     /* Hook The Funtion Calls */
-
     // Generate the JAL Instruction
-    uint32_t target_addr = (uint32_t)&translate_code;
-    LOG(3, "Target Address");
-    LOG(4, target_addr);
-    // jal 0x80680
-    // 0x0C000000 | (0x80680 >> 2)
-    // 0x0C000000 | 0x0201A0
-    // 指令：0x0C0201A0
-    // 以小端储存
-    uint32_t jal_inst = CODE_JAL | (target_addr >> 2);
-    // Patch The JAL Instruction
-    // The Original Code is for converting Non-ASCII SJIS Characters to UTF16
-    // Now we extend the range to include More Chinese Characters
-    *(uint32_t *)JAL_INST_ADDR = jal_inst;
-    sceKernelDcacheWritebackInvalidateRange((void*)JAL_INST_ADDR, 4);
-    sceKernelIcacheInvalidateRange((void*)JAL_INST_ADDR, 4);
-    LOG(5, "Patched JAL INST");
-    LOG(6, jal_inst);
-    LOG(7, *(uint32_t *)JAL_INST_ADDR);
+    {
+        // Dump the Original Code
+        u32 code_pos = JAL_INST_ADDR + offset_;
+
+        dbg_log("Original Code at %x\n", code_pos);
+        dbg_log("Original Code: %x\n", *(uint32_t *)code_pos);
+
+        // Patch The JAL Instruction
+        // The Original Code is for converting Non-ASCII SJIS Characters to UTF16
+        // Now we extend the range to include More Chinese Characters
+        uint32_t jal_inst = JAL_TO(translate_code);
+        u32 state = pspSdkDisableInterrupts();
+        {
+            _sw(jal_inst, (u32)code_pos);
+            sceKernelDcacheWritebackAll();
+            sceKernelIcacheInvalidateAll();
+        }
+        pspSdkEnableInterrupts(state);
+
+        // Dump the Patched Code
+        dbg_log("Patched Code at %x\n", code_pos);
+        dbg_log("Patched Code: %x\n", *(uint32_t *)code_pos);
+    }
 }
 
-void patch_sentence() {
-    void* address = (void*)(0x089B5880);
+void patch_sentence()
+{
     // SJIS Sentece中字符均是大端
-    uint8_t* shinji = (uint8_t*)address;
-    shinji[0] = 0x89;
-    shinji[1] = 0x01;
-    LOG(1, shinji[0]);
-    LOG(2, "Write back and Invalidate");
-    sceKernelDcacheWritebackInvalidateRange(address, 4);
-	sceKernelIcacheInvalidateRange(address, 4);
+    void *address = (void *)(0x089B5880) + offset_;
+    dbg_log("Address: %x\n", address);
+    dbg_log("Content: %x\n", *(u32 *)address);
+
+    u32 state = pspSdkDisableInterrupts();
+    { // SJIS Sentece中字符均是大端
+        // 0x8940 0x8941
+        _sw(0x41894089, (u32)address);
+        sceKernelDcacheWritebackAll();
+        sceKernelIcacheInvalidateAll();
+    }
+    pspSdkEnableInterrupts(state);
+
+    dbg_log("Content: %x\n", *(u32 *)address);
 };

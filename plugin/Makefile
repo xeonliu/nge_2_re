@@ -1,5 +1,5 @@
 TARGET = patcher
-OBJS = src/patcher.o src/gb2312.o src/transform.o src/main.o 
+OBJS = src/patcher.o src/gb2312.o src/transform.o src/main.o src/utils/log.o
 
 INCDIR = include
 CFLAGS = -O2 -Wall

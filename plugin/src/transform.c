@@ -11,56 +11,83 @@ First Byte
 Use 0xA6-0xDD to store more Chinese Characters
 0xA600-0xDDFF.
 */
-#include <stdint.h>
+#include <pspkernel.h>
 
 #include "transform.h"
+#include "log.h"
 
 // UTF16 Encoding
-const uint16_t* UTF16_TABLE = (uint16_t*)0x08a2fb60;
+#define UTF16_TABLE_ADDRESS 0x08a2fb60
 
 // lower bound of SJIS Encoding (u16) + Offset (u16)
-const uint32_t *DAT_08a3325c = (uint32_t*)0x08a3325c;
+#define DAT_08a3325c_ADDRESS 0x08a3325c
 
 // Input Space
 // First Byte: 0xA1-0xF7
 // Second Byte: 0xA1-0xFE
-// 
+//
 // Output Space: 0xA600-0xDDFF
 // index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
 // mapped_code = 0xA600 + index;
 extern unsigned char GB_2312[16356]; // GB2312 Encoding
+// Imported From Patcher.c
+extern u32 offset_;
 
-uint16_t translate_code(uint16_t code) {
-    if(code>=0xA600 && code<=0xDDFF) {
+static u32 *DAT_08a3325c = NULL;
+static u16 *UTF16_TABLE = NULL;
+
+void init_transform()
+{
+    DAT_08a3325c = (u32 *)(DAT_08a3325c_ADDRESS + offset_);
+    UTF16_TABLE = (u16 *)(UTF16_TABLE_ADDRESS + offset_);
+
+    dbg_log("Print DAT_08a3325c: %x\n", *DAT_08a3325c);
+    dbg_log("Print UTF16_TABLE: %x\n", *UTF16_TABLE);
+}
+
+uint16_t translate_code(u16 code)
+{
+    dbg_log("Translating Code: %x\n", code);
+    if (code >= 0xA600 && code <= 0xDDFF)
+    {
         return modified_to_utf16(code);
     }
     return sjis_to_utf16(code);
 }
 
-/** 
+/**
 Use 0xA6-0xDD to store GB2312 Chinese Characters
 */
-uint16_t modified_to_utf16(uint16_t code) {
-    if(code>=0xc5f1) {
-        // ERROR: Out of Range
+uint16_t modified_to_utf16(u16 code)
+{
+    if (code >= 0xc5f1)
+    {
+        dbg_log("Out of Range: %x\n", code);
     }
-    return ((uint16_t*)GB_2312)[code-0xA600];
+    return ((u16 *)GB_2312)[code - 0xA600];
 }
 
 // FUN_08884680
-uint16_t sjis_to_utf16(uint16_t sjis) {
+uint16_t sjis_to_utf16(u16 sjis)
+{
     int low = 0;
     int high = 0x5a;
-    int mid = low+high/2; // 0x2d
+    int mid = low + high / 2; // 0x2d
 
     int index;
 
-    if(sjis==0x9480) {
+    if (sjis == 0x9480)
+    {
         index = mid;
-    } else {
-        if(sjis<0x9480) {
+    }
+    else
+    {
+        if (sjis < 0x9480)
+        {
             high = mid;
-        } else {
+        }
+        else
+        {
             low = mid + 1;
         }
         index = binary_search(sjis, low, high);
@@ -70,25 +97,32 @@ uint16_t sjis_to_utf16(uint16_t sjis) {
     uint16_t prefix = (DAT_08a3325c[index] >> 16) & 0xFFFF;
     uint16_t offset = DAT_08a3325c[index] & 0xFFFF;
 
-    int table_offset = sjis-prefix+offset;
+    int table_offset = sjis - prefix + offset;
     return UTF16_TABLE[table_offset];
 }
 
 // FUN_08884724
 // binary_search function
-int binary_search(uint16_t target, int low, int high) {
+int binary_search(uint16_t target, int low, int high)
+{
     low = low & 0xFFFF;
     high = high & 0xFFFF;
 
-    while (low <= high) {
+    while (low <= high)
+    {
         int mid = (low + high) >> 1;
-        uint16_t mid_val = (DAT_08a3325c[mid]>>16) & 0xFFFF;
+        uint16_t mid_val = (DAT_08a3325c[mid] >> 16) & 0xFFFF;
 
-        if (mid_val == target) {
+        if (mid_val == target)
+        {
             return mid;
-        } else if (mid_val < target) {
+        }
+        else if (mid_val < target)
+        {
             low = (mid + 1) & 0xFFFF;
-        } else {
+        }
+        else
+        {
             high = (mid - 1) & 0xFFFF;
         }
     }
