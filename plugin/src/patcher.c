@@ -45,6 +45,7 @@ void patch_function()
 
         Extend The Range uVar2 >= 0xa6 so that First Byte Range in [a6,de) Will Also Be Considered as two byte characters.
         Change Bytes at 0x8874260 to a600a62c
+        // 2ca600a6
     */
     {
         // Dump the Original Code
@@ -55,7 +56,7 @@ void patch_function()
         // Patch The Code
         u32 state = pspSdkDisableInterrupts();
         { // SJIS Sentece中字符均是大端
-            _sb(0xa6, (u32)code_pos);
+            _sw(0x2ca600a6, (u32)code_pos);
             sceKernelDcacheWritebackAll();
             sceKernelIcacheInvalidateAll();
         }

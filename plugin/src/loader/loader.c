@@ -8,6 +8,8 @@
 #include <pspmodulemgr.h>
 #include <pspiofilemgr.h>
 
+#include "patcher.h"
+
 PSP_MODULE_INFO("EBOOT_LOADER", PSP_MODULE_USER, 1, 0);
 PSP_NO_CREATE_MAIN_THREAD();
 
@@ -125,15 +127,8 @@ static int main_thread(SceSize args, void *argp)
 	sceKernelQueryModuleInfo(eboot_mid, &info);
 	u32 base_addr = info.segmentaddr[0];
 	dbg_log("EBOOT.BIN Base Address: %x\n", base_addr);
-	SceModule *prx_module = pspModuleLoadStartInKernelPart(PathPrx, (void *)base_addr);
-	if (prx_module)
-	{
-		dbg_log("patch.prx loaded\n");
-	}
-	else
-	{
-		dbg_log("patch.prx failed to load\n");
-	}
+
+	patch(base_addr);
 
 	pspForEachLoadedModule(print_module);
 

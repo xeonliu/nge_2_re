@@ -1,11 +1,13 @@
 TARGET = EBOOT
 ATTR = BIN
 
-OBJS = loader.o
+OBJS = loader.o ../patcher.o ../gb2312.o ../transform.o
 
 CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
+
+INCDIR = ../../include
 
 # USE_KERNEL_LIBS=1
 
