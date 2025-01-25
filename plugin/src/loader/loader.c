@@ -34,7 +34,7 @@ void dbg_log(const char *format, ...)
 	}
 }
 
-SceModule *pspModuleLoadStartInKernelPart(const char *modpath)
+SceModule *pspModuleLoadStartInKernelPart(const char *modpath, void *argp)
 {
 	SceKernelLMOption option = {
 		.size = sizeof(SceKernelLMOption),
@@ -52,7 +52,7 @@ SceModule *pspModuleLoadStartInKernelPart(const char *modpath)
 	}
 
 	int status = 0;
-	int res = sceKernelStartModule(modid, 0, NULL, &status, NULL);
+	int res = sceKernelStartModule(modid, 0, argp, &status, NULL);
 	(void)status;
 
 	if (res < 0)
@@ -113,7 +113,19 @@ static int main_thread(SceSize args, void *argp)
 	pspSdkInstallNoPlainModuleCheckPatch();
 	pspSdkInstallKernelLoadModulePatch();
 
-	SceModule *prx_module = pspModuleLoadStartInKernelPart(PathPrx);
+	SceUID eboot_mid = sceKernelLoadModule(PathOldBoot, 0, NULL);
+	if (eboot_mid >= 0)
+	{
+		sceKernelStartModule(eboot_mid, 0, NULL, NULL, NULL);
+		dbg_log("EBOOT.BIN loaded\n");
+	}
+
+	// USER_MAIN Thread Will Only Last for a fraction of second.
+	SceKernelModuleInfo info;
+	sceKernelQueryModuleInfo(eboot_mid, &info);
+	u32 base_addr = info.segmentaddr[0];
+	dbg_log("EBOOT.BIN Base Address: %x\n", base_addr);
+	SceModule *prx_module = pspModuleLoadStartInKernelPart(PathPrx, (void *)base_addr);
 	if (prx_module)
 	{
 		dbg_log("patch.prx loaded\n");
@@ -121,13 +133,6 @@ static int main_thread(SceSize args, void *argp)
 	else
 	{
 		dbg_log("patch.prx failed to load\n");
-	}
-
-	SceUID eboot_mid = sceKernelLoadModule(PathOldBoot, 0, NULL);
-	if (eboot_mid >= 0)
-	{
-		sceKernelStartModule(eboot_mid, 0, NULL, NULL, NULL);
-		dbg_log("EBOOT.BIN loaded\n");
 	}
 
 	pspForEachLoadedModule(print_module);

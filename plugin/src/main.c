@@ -11,34 +11,21 @@ static SceModule *findUserMainModule();
 
 static int main_thread(SceSize args, void *argp)
 {
-    // Wait for USER_MAIN to load
-    sceKernelDelayThread(10000);
-
-    SceModule *main_module = findUserMainModule();
-    if (main_module == NULL)
-    {
-        dbg_log("Failed to find USER_MAIN module\n");
-    }
-
-    SceKernelModuleInfo info;
-    if (sceKernelQueryModuleInfo(main_module->modid, &info))
-    {
-        dbg_log("Failed to query module info\n");
-    }
-    // This Seems to be the real Base Address in PPSSPP
-    u32 base_addr = info.segmentaddr[0];
-    dbg_log("BaseAddr of USER_MAIN In SceKernelModuleInfo: %x\n", base_addr);
+    u32 base_addr = (u32)argp;
     dbg_log("Patcher Thread Started, mod_base: %x\n", base_addr);
     patch(base_addr);
     return sceKernelExitDeleteThread(0);
 }
 
+/* Base Address is Passed Through argp */
 int module_start(SceSize args, void *argp)
 {
+    dbg_log("Patcher Module Started\n");
+    dbg_log("Base Address: %x\n", (u32)argp);
     SceUID thid = sceKernelCreateThread("patch_thread", main_thread, 0x30, 0x10000, 0, NULL);
     if (thid >= 0)
     {
-        sceKernelStartThread(thid, 0, NULL);
+        sceKernelStartThread(thid, 0, argp);
     }
     return 0;
 }
