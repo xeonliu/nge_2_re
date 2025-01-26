@@ -87,26 +87,9 @@ uint16_t sjis_to_utf16(u16 sjis)
     dbg_log("SJIS to UTF16: %x\n", sjis);
     int low = 0;
     int high = 0x5a;
-    int mid = (low + high) >> 1; // 0x2d
-
     int index;
 
-    if (sjis == 0x9480)
-    {
-        index = mid;
-    }
-    else
-    {
-        if (sjis < 0x9480)
-        {
-            high = mid;
-        }
-        else
-        {
-            low = mid + 1;
-        }
-        index = binary_search(sjis, low, high);
-    }
+    index = binary_search(sjis, low, high);
 
     // lower bound of SJIS Encoding (u16) + Offset to UTF16 Table (u16)
     uint16_t prefix = DAT_08a3325c[index << 1] & 0xFFFF;
