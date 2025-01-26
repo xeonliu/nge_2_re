@@ -54,9 +54,6 @@ void transfrom_debug()
 
 uint16_t translate_code(u16 code)
 {
-
-    u16 *DAT_08a3325c = (u16 *)(SJIS_bin);
-    u16 *UTF16_TABLE = (u16 *)(UTF16_bin);
     if (code >= 0xA600 && code <= 0xDDFF)
     {
         return modified_to_utf16(code);

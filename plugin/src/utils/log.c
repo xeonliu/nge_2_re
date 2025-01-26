@@ -3,6 +3,7 @@
 #include <pspiofilemgr.h>
 
 #include "log.h"
+#ifdef PSPDEBUG
 #define LOG_FILE "ms0:/PSP/load_log.txt"
 
 size_t strlen(const char *str)
@@ -31,3 +32,12 @@ void dbg_log(const char *format, ...)
         sceIoClose(f);
     }
 }
+#else
+void dbg_log(const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    // vprintf(format, args);
+    va_end(args);
+}
+#endif
