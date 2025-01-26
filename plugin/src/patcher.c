@@ -103,8 +103,8 @@ void patch_sentence()
 
     u32 state = pspSdkDisableInterrupts();
     { // SJIS Sentece中字符均是大端
-        // 0x8940 0x8941
-        _sw(0x41894089, (u32)address);
+        // 0xb6b7 0x8941
+        _sw(0x4189b7b6, (u32)address);
         sceKernelDcacheWritebackAll();
         sceKernelIcacheInvalidateAll();
     }

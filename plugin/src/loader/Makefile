@@ -1,7 +1,7 @@
 TARGET = EBOOT
 ATTR = BIN
 
-OBJS = loader.o ../patcher.o ../gb2312.o ../transform.o
+OBJS = loader.o ../patcher.o ../gb2312.o ../transform.o ../sjis.o ../utf16.o
 
 CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
