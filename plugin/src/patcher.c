@@ -4,6 +4,14 @@
 #include "transform.h"
 #include "log.h"
 
+/**
+ * The full 32-bit jump address is formed by concatenating
+ * the high order 4 bits of the program counter,
+ * 26 bits of the target
+ * and two 0 bits
+ * 
+ * The coded address is formed from the bits at positions 27 to 2
+ */
 #define MIPS_J_ADDRESS(x) (((u32)((x)) & 0x3fffffff) >> 2)
 
 #define NOP 0x000C0000
@@ -25,7 +33,6 @@ u32 offset_;
 void patch(u32 mod_base)
 {
     offset_ = mod_base - 0x08804000;
-    init_transform();
     patch_function();
     patch_sentence();
 };
@@ -94,6 +101,7 @@ void patch_function()
     }
 }
 
+// TODO: Patch Using External JSON File
 void patch_sentence()
 {
     // SJIS Sentece中字符均是大端
