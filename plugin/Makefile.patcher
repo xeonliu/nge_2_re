@@ -1,0 +1,15 @@
+TARGET = patcher
+OBJS = src/patcher.o src/gb2312.o src/transform.o src/main.o src/utils/log.o
+
+INCDIR = include
+CFLAGS = -O2 -Wall
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS = $(CFLAGS)
+
+PRX_EXPORTS = exports.exp
+BUILD_PRX = 1
+
+LDFLAGS = -nostartfiles
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak
