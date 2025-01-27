@@ -6,12 +6,10 @@
 
 import os
 import struct
-import common
+import tools.common as common
 
 class HGArchiveFile(object):
     def __init__(self, long_name, short_name, size):
-        self.number = None
-
         self.long_name = long_name
         self.short_name = short_name
         self.size = size
@@ -130,7 +128,7 @@ class HGArchiveFile(object):
 class HGArchive(object):
     def __init__(self):
         self.version = None
-        self.files = []
+        self.files: list[HGArchiveFile] = []
         self.calculate_identifier_limit()
 
     def add_file(self, long_name, short_name, size):
@@ -162,7 +160,8 @@ class HGArchive(object):
         number = 0
         for file in self.files:
             file.decode_identifier(self.identifier_limit)
-            file.number = number
+            # FIXME: When to USE???
+            # file.number = number
             number += 1
 
     def info(self):
@@ -177,6 +176,8 @@ class HGArchive(object):
             print('\tLong Name: %s' % file.long_name)
             print('\tShort Name: %s' % file.short_name)
             print('\tCompressed: %s' % file.is_compressed)
+            print('\tSize: %s' % file.size)
+            # print('\tContent: %s' % file.content)
             if file.unknown_first:
                 print('\tUnknown first: 0x%s' % format(file.unknown_first, '08X'))
             if file.unknown_last:

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, ARRAY
+from sqlalchemy import Column, ForeignKey, Integer, String, ARRAY, JSON
 from ..db import Base
 
 class Entry(Base):
@@ -7,7 +7,7 @@ class Entry(Base):
     id = Column(Integer, primary_key=True, index=True)
     type = Column(Integer)
     size = Column(Integer)
-    param = Column(ARRAY(Integer))
+    param = Column(JSON)
     sentence_key = Column(Integer, ForeignKey('sentences.key'), nullable=True)
     
     evs_id = Column(Integer, ForeignKey('evs.id'), index=True)
