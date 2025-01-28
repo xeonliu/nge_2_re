@@ -20,7 +20,7 @@ class HGArchiveFile(object):
         self.unknown_first = None
         self.unknown_last = None
 
-        self.content = ''
+        self.content :bytes = b''
 
     def get_viable_name(self):
 

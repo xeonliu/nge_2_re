@@ -5,6 +5,7 @@ import struct
 import json
 import re
 import sys
+import io
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import common
@@ -485,10 +486,18 @@ def get_number_of_parameters(entry_type):
 class EvsWrapper(object):
     def __init__(self):
         self.entries = []
+    
+    def open(self, path: str):
+        with open(path, "rb") as f:
+            self.open_handler(f)
 
-    def open(self, file_path):
-        with open(file_path, 'rb') as f:
-            file_size = common.get_file_size(f)
+    def open_bytes(self, content: bytes):
+        with io.BytesIO(content) as f:
+            self.open_handler(f)
+
+    def open_handler(self, file_handler):
+        with file_handler as f:    
+            # file_size = common.get_file_size(f)
 
             # Read magic header
             magic_number = f.read(4).decode('ascii', 'ignore')
