@@ -6,8 +6,8 @@ from app.dao.hgar import HGARDao
 from app.db import Base, engine
 class App:
     def __init__(self):
-        from .entity.sentence import Sentence
-        from .entity.entry import Entry
+        # from .entity.sentence import Sentence
+        # from .entity.evs_entry import EVSEntry
         Base.metadata.drop_all(bind=engine)
         Base.metadata.create_all(bind=engine)
         pass

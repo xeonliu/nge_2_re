@@ -6,10 +6,9 @@ from ..db import engine, Base, get_db
 from tools.hgar import HGArchive, HGArchiveFile
 
 # Entities
-from ..entity.entry import Entry
+from ..entity.evs_entry import EVSEntry
 from ..entity.hgar import Hgar
 from ..entity.hgar_file import HgarFile
-from ..entity.evs import EVS
 
 from .hgar_file import HGARFileDao
 
@@ -25,6 +24,4 @@ class HGARDao:
     
 def get_evs_list_by_key(key: int):
     with next(get_db()) as db:
-        hgar = db.query(Hgar).filter(Hgar.key == key).first()
-        return db.query(Evs).filter(Evs.hgar_id == hgar.id).all()
-        
+        pass
