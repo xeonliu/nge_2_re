@@ -11,7 +11,7 @@ class EVSEntry(Base):
     param = Column(JSON)
     sentence_key = Column(String, ForeignKey('sentences.key'), nullable=True)
     
-    hgar_file_id = Column(Integer, ForeignKey('hgar_files.id'), index=True)
+    hgar_file_id = Column(Integer, ForeignKey('hgar_files.id'), index=True, nullable=False)
     
     def __repr__(self):
-        pass
+        return f"<EVSEntry(type='{self.type}'),param='{self.param}'>"

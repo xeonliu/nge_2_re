@@ -10,4 +10,4 @@ class Sentence(Base):
     content = Column(String)
 
     def __repr__(self):
-        return f"<EVS(name='{self.name}', hgar_id='{self.hgar_id}')>"
+        return f"<Sentence(content='{self.content}'), key='{self.key}'>"

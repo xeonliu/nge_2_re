@@ -16,4 +16,4 @@ class HgarFile(Base):
     hgar_id = Column(Integer, ForeignKey('hgars.id'), index=True)
     
     def __repr__(self):
-        return f"<HGAR(name='{self.name}')>"
+        return f"<HgarFile(short_name='{self.short_name}')>"

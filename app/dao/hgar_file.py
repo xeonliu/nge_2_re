@@ -23,6 +23,7 @@ class HGARFileDao:
                 short_name:str = file.short_name.decode('ascii').rstrip(' \t\r\n\0')
                 hgar_file = HgarFile(hgar_id=hgar_id, short_name=short_name, long_name=file.long_name, encoded_identifier=file.encoded_identifier, unknown_fist=file.unknown_first, unknown_last=file.unknown_last)
                 db.add(hgar_file)
+                db.commit()
             
                 content = file.content
                 # TODO: Compression Check
@@ -39,6 +40,6 @@ class HGARFileDao:
                 else:
                     raw = Raw(hgar_file_id=hgar_file.id, content=content)
                     db.add(raw)
-                db.commit()
+                    db.commit()
         return hgar_files
             
