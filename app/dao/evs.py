@@ -24,7 +24,7 @@ class EVSDao:
                 elif len(content) == 0:
                     continue
                 
-                # TODO: Hash the content.
+                # Hash the content.
                 hash_object = hashlib.md5(content.encode())
                 hashed_str = hash_object.hexdigest()
 
@@ -40,5 +40,5 @@ class EVSDao:
             db.commit()
     
     def get_content(hgar_file_id: int):
-        # Concat Entries and buid EVS Entry.
+        # TODO: Concat Entries and buid EVS Entry.   
         pass

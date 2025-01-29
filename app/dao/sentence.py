@@ -19,26 +19,8 @@ class SentenceDao:
             db.commit()
             db.refresh(sentence)
             return sentence
-        
-    # def get_sentence_by_key(key: int):
-    #     with next(get_db()) as db:
-    #         return db.query(Sentence).filter(Sentence.key == key).first()
-
-    # def get_source_and_translation_by_key(key: int):
-    #     with next(get_db()) as db:
-    #         return db.query(Sentence, Translation).filter(Sentence.key == key).join(Translation).first()
-        
-    def export_sentence_json(prefix: str):
-        # with next(get_db()) as db:
-        #     results = db.query(Sentence)\
-        #         .join(EVSEntry, Sentence.key == EVSEntry.sentence_key)\
-        #             .join(HgarFile, EVSEntry.hgar_file_id == HgarFile.id)\
-        #                 .join(Hgar, HgarFile.hgar_id == Hgar.id)\
-        #                     .filter(Hgar.name.like(f"{prefix}%"))\
-        #                         .filter(EVSEntry.type==1).distinct(Sentence.id).all()
-        #     for result in results:
-        #         print(result,"\n")
-        # return results
+                
+    def export_sentence_entry(prefix: str):
         with next(get_db()) as db:
             subquery = db.query(
                 EVSEntry.sentence_key,
