@@ -22,6 +22,19 @@ class HGArchiveFile(object):
 
         self.content :bytes = b''
 
+    def __init__(self, long_name, short_name, size, encoded_identifier, unknown_first, unknown_last, content):
+        self.long_name = long_name
+        self.short_name = short_name
+        self.size = size
+
+        self.encoded_identifier = encoded_identifier
+        # self.identifier = 0
+
+        self.unknown_first = unknown_first
+        self.unknown_last = unknown_last
+
+        self.content = content
+
     def get_viable_name(self):
 
         # Returns a file name for use when exporting content outside the container
@@ -129,6 +142,11 @@ class HGArchive(object):
     def __init__(self):
         self.version = None
         self.files: list[HGArchiveFile] = []
+        self.calculate_identifier_limit()
+    
+    def __init__(self, version, files):
+        self.version = version
+        self.files = files
         self.calculate_identifier_limit()
 
     def add_file(self, long_name, short_name, size):
@@ -338,7 +356,8 @@ class HGArchive(object):
 
             for file in self.files:
                 # Write short name
-                short_name_name, short_name_extension = (file.short_name + b'.   ').split(b'.', 1)
+                # FIXME: Need Binary
+                short_name_name, short_name_extension = (file.short_name.encode('ascii') + b'.   ').split(b'.', 1)
                 formatted_short_name = (short_name_name + b' ' * 8)[0:8] + b'.' + (short_name_extension + b' ' * 3)[0:3] 
                 f.write(formatted_short_name)
 

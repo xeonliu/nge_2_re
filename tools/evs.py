@@ -562,7 +562,15 @@ class EvsWrapper(object):
 
     def save(self, file_path):
         with open(file_path, 'wb') as f:
-            file_size = common.get_file_size(f)
+            self.save_handle(f)
+
+    def save_bytes(self):
+        with io.BytesIO() as f:
+            self.save_handle(f)
+            return f.getvalue()
+
+    def save_handle(self, f):
+            # file_size = common.get_file_size(f)
 
             # Write magic header
             f.write(b'.EVS')
@@ -690,6 +698,9 @@ class EvsWrapper(object):
 
             # Add this string to the array
             self.entries.append((entry_type, entry_parameters, entry_content))
+    
+    def add_entry(self, entry_type, entry_parameters, entry_content):
+        self.entries.append((entry_type, entry_parameters, entry_content))
 
 if __name__ == '__main__':
     import sys
