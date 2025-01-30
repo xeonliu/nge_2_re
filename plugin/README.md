@@ -64,6 +64,7 @@ void FUN_08874180(undefined4 param_1,byte *param_2)
       }
       else {
         // 去除了半角片假名
+        // 多字节字符的首个字节：0x80-0x9F 0xE0-0xFC
         // NOTE: Patch HERE!
         // ((0x7f < uVar2) && ((uVar2 < 0xa0 || (0xa6 <= uVar2))))
         if ((0x7f < uVar2) && ((uVar2 < 0xa0 || (0xdf < uVar2)))) {
@@ -171,4 +172,184 @@ LAB_088846d0:
           ((param_1 - *(ushort *)(&DAT_08a3325c + uVar3 * 4)) +
           (uint)*(ushort *)(&DAT_08a3325e + uVar3 * 4)) * 2);
 }
+```
+
+## EVS Read
+```C
+void FUN_0882eed4(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4,
+                 char *param_5,int param_6)
+
+{
+  char *pcVar1;
+  int iVar2;
+  undefined4 uVar3;
+  char cVar4;
+  char *pcVar5;
+  char *pcVar6;
+  undefined4 uVar7;
+  char local_230 [512];
+  
+  pcVar5 = local_230;
+  if (DAT_08b01dfc != -1) {
+    cVar4 = *param_5;
+    uVar7 = param_1;
+    while (cVar4 != '\0') {
+      if (cVar4 == '$') {
+        cVar4 = param_5[1];
+        uVar3 = param_2;
+        if (((cVar4 == 'a') || (uVar3 = param_3, cVar4 == 'b')) || (uVar3 = param_4, cVar4 == 'c'))
+        {
+          uVar3 = FUN_08839434(uVar7,uVar3);
+          iVar2 = FUN_089a6090(pcVar5,uVar3);
+          param_5 = param_5 + 2;
+          pcVar5 = pcVar5 + iVar2;
+        }
+        else if (cVar4 == 'n') {
+          *pcVar5 = '\0';
+          // TODO!!!
+          FUN_08830b98(local_230,param_6,1);
+          iVar2 = FUN_088579ac(1);
+          if ((iVar2 == 0) || (-1 < DAT_08b57e10)) {
+            cVar4 = param_5[2];
+          }
+          else {
+            do {
+              // TODO!!!
+              FUN_08830b98(local_230,param_6,1);
+            } while (DAT_08b57e10 < 0);
+            cVar4 = param_5[2];
+          }
+          pcVar5 = param_5 + 2;
+          param_5 = param_5 + 3;
+          if (cVar4 != '\n') {
+            param_5 = pcVar5;
+          }
+          param_6 = param_6 + (uint)(0 < param_6);
+          pcVar5 = local_230;
+          uVar7 = param_1;
+        }
+        else {
+          if (cVar4 != 'm') {
+            cVar4 = *param_5;
+            goto LAB_0882ef50;
+          }
+          *pcVar5 = '\0';
+          FUN_08830b98(local_230,param_6,1);
+          iVar2 = FUN_088579ac(1);
+          if (iVar2 != 0) {
+            while (DAT_08b57e10 < 0) {
+              FUN_08830b98(local_230,param_6,1);
+            }
+          }
+          param_6 = 0;
+          if (DAT_08b01df4 != 0) {
+            FUN_088148dc(DAT_08b01e00);
+            FUN_08820d78(DAT_08b01e28);
+            DAT_08b01e28 = 0xffffffff;
+          }
+          pcVar1 = param_5 + 2;
+          pcVar6 = param_5 + 2;
+          param_5 = param_5 + 3;
+          pcVar5 = local_230;
+          uVar7 = 0;
+          if (*pcVar1 != '\n') {
+            param_5 = pcVar6;
+            pcVar5 = local_230;
+          }
+        }
+      }
+      else {
+        cVar4 = *param_5;
+LAB_0882ef50:
+        *pcVar5 = cVar4;
+        param_5 = param_5 + 1;
+        pcVar5 = pcVar5 + 1;
+      }
+      cVar4 = *param_5;
+    }
+    *pcVar5 = '\0';
+    FUN_08830b98(local_230,param_6,1);
+    iVar2 = FUN_088579ac(1);
+    if (iVar2 != 0) {
+      while (DAT_08b57e10 < 0) {
+        FUN_08830b98(local_230,param_6,1);
+      }
+    }
+  }
+  return;
+}
+```
+
+这段代码是一个C语言函数的反汇编或反编译后的伪代码。函数名为`FUN_0882eed4`，接受六个参数。以下是对这段代码的解释：
+
+### 函数签名
+```c
+void FUN_0882eed4(undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, char *param_5, int param_6)
+```
+- `param_1` 到 `param_4` 是四个未定义类型的参数（通常是32位整数）。
+- `param_5` 是一个指向字符数组（字符串）的指针。
+- `param_6` 是一个整数。
+
+### 局部变量
+- `local_230` 是一个512字节的字符数组，用于存储临时字符串。
+- `pcVar5` 是一个指向字符的指针，用于遍历和操作 `local_230`。
+- 其他变量如 `pcVar1`, `pcVar6`, `iVar2`, `uVar3`, `uVar7`, `cVar4` 用于临时存储和逻辑控制。
+
+### 主要逻辑
+1. **初始化**：
+   - `pcVar5` 指向 `local_230` 的起始位置。
+   - 检查全局变量 `DAT_08b01dfc` 是否不等于 -1。
+
+2. **遍历 `param_5` 字符串**：
+   - 使用 `cVar4` 逐个读取 `param_5` 中的字符。
+   - 如果字符是 `$`，则根据下一个字符执行不同的操作：
+     - 如果下一个字符是 `a`, `b`, 或 `c`，调用 `FUN_08839434` 和 `FUN_089a6090` 函数处理。
+     - 如果下一个字符是 `n`，调用 `FUN_08830b98` 和 `FUN_088579ac` 函数处理，并根据条件调整 `param_5` 和 `param_6`。
+     - 如果下一个字符是 `m`，调用 `FUN_08830b98`, `FUN_088579ac`, `FUN_088148dc`, 和 `FUN_08820d78` 函数处理，并重置 `param_6`。
+   - 如果字符不是 `$`，则直接复制到 `local_230`。
+
+3. **处理结束**：
+   - 在字符串末尾添加 `\0` 终止符。
+   - 调用 `FUN_08830b98` 和 `FUN_088579ac` 函数处理 `local_230`。
+
+### 总结
+这个函数的主要作用是解析和处理包含特殊标记（如 `$a`, `$b`, `$c`, `$n`, `$m`）的字符串，并根据这些标记执行相应的操作。具体的操作逻辑依赖于调用的其他函数（如 `FUN_08839434`, `FUN_089a6090`, `FUN_08830b98`, `FUN_088579ac`, `FUN_088148dc`, `FUN_08820d78`）的实现。
+
+## SJIS Check
+
+0x8830b98调用0x8819d58判断几个字节，最后回到0x8814c14调用`FUN_08873f14`
+
+```C
+bool FUN_08819d58(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = false;
+  if (0x80 < param_1) {
+    bVar1 = true;
+    // PATCH HERE:
+    // ((0x9f < param_1) && (bVar1 = false, 0xa6 <= param_1))
+    if ((0x9f < param_1) && (bVar1 = false, 0xdf < param_1)) {
+      bVar1 = param_1 < 0xfd;
+    }
+  }
+  return bVar1;
+}
+```
+
+```
+undefined FUN_08819d58()
+        08819d58 81 00 86 28     slti       a2,a0,0x81
+        08819d5c a0 00 85 28     slti       a1,a0,0xa0
+        08819d60 07 00 c0 14     bne        a2,zero,LAB_08819d80
+        08819d64 21 18 00 00     _li        v1,0
+        // Patch Here: 
+        //       a6 00 82 28
+        08819d68 e0 00 82 28     slti       v0,a0,0xe0
+        08819d6c 01 00 03 24     li         v1,0x1
+        08819d70 03 00 a0 14     bne        a1,zero,LAB_08819d80
+        08819d74 fd 00 84 28     _slti      a0,a0,0xfd
+        08819d78 21 18 00 00     li         v1,0
+        08819d7c 0a 18 82 00     movz       v1,a0,v0
 ```
