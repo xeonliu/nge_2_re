@@ -22,6 +22,10 @@ class HGARDao:
         HGARFileDao.save(hgar.id, hg_archive.files)
         return hgar
     
-def get_evs_list_by_key(key: int):
-    with next(get_db()) as db:
-        pass
+    def get_hgar_by_name(name: str) -> HGArchive:
+        with next(get_db()) as db:
+            hgar = db.query(Hgar).filter(Hgar.name == name).first()
+            # Form a list of HGArchiveFile
+            hgar_files = HGARFileDao.form(hgar.id)
+            # Form HGArcive
+            return HGArchive(hgar.version, hgar_files)

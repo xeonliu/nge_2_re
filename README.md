@@ -34,6 +34,13 @@
 3. 重新进入游戏
 4. 提示框会显示解密`EBOOT.bin`保存的地址
 
+# 汉化原理
+1. **修改码表，扩展字库**
+2. **修改可执行文件**（Rizin直接修改 & Loader加载修改）
+3. 修改数据文件（主要继承原仓库代码）
+
++ `plugin` 文件夹下的`Loader`加载原可执行文件并在运行时对内存进行修改，实现字库扩展和查字逻辑修改
+
 # Ghidra
 + [ghidra-allegrex](https://github.com/kotcrab/ghidra-allegrex)
 
