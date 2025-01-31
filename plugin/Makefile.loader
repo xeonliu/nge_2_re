@@ -1,0 +1,23 @@
+TARGET = EBOOT
+ATTR = BIN
+
+OBJS = src/loader/loader.o\
+ src/patcher.o src/transform.o\
+ src/bin/gb2312.o src/bin/sjis.o src/bin/utf16.o src/utils/log.o
+
+CFLAGS = -O2 -Wall
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+LDFLAGS = -nostartfiles
+
+INCDIR = include
+
+BUILD_PRX = 1
+PRX_EXPORTS = src/loader/exports_loader.exp
+
+# Check if DEBUG is set
+ifdef DEBUG
+CFLAGS += -DPSPDEBUG
+endif
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+include $(PSPSDK)/lib/build.mak

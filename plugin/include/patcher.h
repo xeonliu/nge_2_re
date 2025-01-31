@@ -1,6 +1,6 @@
 #pragma once
-#include <pspkernel.h>
+#include <stdint.h>
 
-void patch(SceUID eboot_mid);
+void patch();
 void patch_function();
 void patch_sentence();
