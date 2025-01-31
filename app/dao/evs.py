@@ -22,9 +22,14 @@ class EVSDao:
                 # Entry Parameters
 
                 # Entry Content
-                if content == None:
-                    continue
-                elif len(content) == 0:
+                if content == None or len(content) == 0:
+                    evs = EVSEntry(
+                        type=type,
+                        param=params,
+                        sentence_key=None,
+                        hgar_file_id=hgar_file_id,
+                    )
+                    db.add(evs)
                     continue
 
                 # Hash the content.
@@ -53,18 +58,30 @@ class EVSDao:
     def form_evs_wrapper(hgar_file_id: int) -> EvsWrapper:
         with next(get_db()) as db:
             evs_entries = (
-                db.query(EVSEntry).filter(EVSEntry.hgar_file_id == hgar_file_id).all()
+                db.query(EVSEntry)
+                .filter(EVSEntry.hgar_file_id == hgar_file_id)
+                .order_by(EVSEntry.id.asc())
+                .all()
             )
+            print(evs_entries)
             evs = EvsWrapper()
             for entry in evs_entries:
+                if(entry.sentence_key == None):
+                    evs.add_entry(entry.type, entry.param, b'')
+                    continue
                 translation = (
                     db.query(Translation)
                     .filter(Translation.key == entry.sentence_key)
                     .first()
                 )
-                original = db.query(Sentence).filter(Sentence.key == entry.sentence_key).first()
+                original = (
+                    db.query(Sentence)
+                    .filter(Sentence.key == entry.sentence_key)
+                    .first()
+                )
                 content = original.content
                 if translation:
                     content = translation.content
+                print(content)
                 evs.add_entry(entry.type, entry.param, content)
             return evs

@@ -9,31 +9,22 @@ import struct
 import tools.common as common
 
 class HGArchiveFile(object):
-    def __init__(self, long_name, short_name, size):
-        self.long_name = long_name
-        self.short_name = short_name
-        self.size = size
-
-        self.encoded_identifier = None
-        self.identifier = 0
-
-        self.unknown_first = None
-        self.unknown_last = None
-
-        self.content :bytes = b''
-
-    def __init__(self, long_name, short_name, size, encoded_identifier, unknown_first, unknown_last, content):
+    def __init__(self, long_name, short_name, size, 
+                            encoded_identifier=None,
+                            unknown_first=None,
+                            unknown_last=None,
+                            content=b''):
         self.long_name = long_name
         self.short_name = short_name
         self.size = size
 
         self.encoded_identifier = encoded_identifier
-        # self.identifier = 0
+        self.identifier = 0
 
         self.unknown_first = unknown_first
         self.unknown_last = unknown_last
 
-        self.content = content
+        self.content :bytes = content
 
     def get_viable_name(self):
 

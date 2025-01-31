@@ -54,7 +54,12 @@ class HGARFileDao:
     def form(hgar_id: int) -> list[HGArchiveFile]:
         with next(get_db()) as db:
             print(f"Form HGAR Files for {hgar_id}")
-            hgar_files = db.query(HgarFile).filter(HgarFile.hgar_id == hgar_id).order_by(HgarFile.id.asc()).all()
+            hgar_files = (
+                db.query(HgarFile)
+                .filter(HgarFile.hgar_id == hgar_id)
+                .order_by(HgarFile.id.asc())
+                .all()
+            )
             hg_archive_files = []
             for hgar_file in hgar_files:
                 print(f"Short Name: {hgar_file.short_name}")
@@ -62,7 +67,7 @@ class HGARFileDao:
                     evs_wrapper: EvsWrapper = EVSDao.form_evs_wrapper(hgar_file.id)
                     content = evs_wrapper.save_bytes()
                     size = len(content)
-                    print(f"Size: {size}")
+                    # print(f"Size: {size}")
                     hg_archive_files.append(
                         HGArchiveFile(
                             long_name=hgar_file.long_name,
@@ -82,16 +87,17 @@ class HGARFileDao:
                     # TODO: 计算Size
                     raw = db.query(Raw).filter(Raw.hgar_file_id == hgar_file.id).first()
                     size = len(raw.content)
-                    print(f"Size: {size}")
+                    # print(f"Size: {size}")
                     hg_archive_files.append(
                         HGArchiveFile(
-                            hgar_file.long_name,
-                            hgar_file.short_name,
-                            size,
-                            hgar_file.encoded_identifier,
-                            hgar_file.unknown_fist,
-                            hgar_file.unknown_last,
-                            raw.content,
+                            long_name=hgar_file.long_name,
+                            short_name=hgar_file.short_name,
+                            size=size,
+                            encoded_identifier=hgar_file.encoded_identifier,
+                            unknown_first=hgar_file.unknown_fist,
+                            unknown_last=hgar_file.unknown_last,
+                            content=raw.content,
                         )
                     )
+            # print(f"Formed {(hg_archive_files)}")
             return hg_archive_files

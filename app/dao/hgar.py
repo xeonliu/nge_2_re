@@ -29,3 +29,18 @@ class HGARDao:
             hgar_files = HGARFileDao.form(hgar.id)
             # Form HGArcive
             return HGArchive(hgar.version, hgar_files)
+    
+    def get_hgar_by_prefix(prefix: str):
+        with next(get_db()) as db:
+            hgars = db.query(Hgar).filter(Hgar.name.like(f"{prefix}%")).all()
+            hgar_names = []
+            hgar_archives = []
+            for hgar in hgars:
+                try:
+                    hgar_files = HGARFileDao.form(hgar.id)
+                except:
+                    print(f"Error in {hgar.name}")
+                    continue
+                hgar_archives.append(HGArchive(hgar.version, hgar_files))
+                hgar_names.append(hgar.name)
+            return hgar_names, hgar_archives

@@ -14,4 +14,4 @@ class EVSEntry(Base):
     hgar_file_id = Column(Integer, ForeignKey('hgar_files.id'), index=True, nullable=False)
     
     def __repr__(self):
-        return f"<EVSEntry(type='{self.type}'),param='{self.param}'>"
+        return f"<EVSEntry(id = {self.id} type='{self.type}'),param='{self.param}'>\n"
