@@ -44,19 +44,19 @@ if __name__ == "__main__":
     url = f"https://paratranz.cn/api/projects/{project_id}/artifacts/download"
     dest_folder = "downloads"
 
-    # auth_key = os.getenv("AUTH_KEY")
-    # if not auth_key:
-    #     raise ValueError("AUTH_KEY环境变量未设置")
+    auth_key = os.getenv("AUTH_KEY")
+    if not auth_key:
+        raise ValueError("AUTH_KEY环境变量未设置")
 
-    # # Download files from paratranz.
-    # zip_path = download_file(url, dest_folder, auth_key)
-    # if zip_path:
-    #     # Unzip them
-    #     unzip_file(zip_path, dest_folder)
-    #     print(f"Files have been downloaded and extracted to {dest_folder}")
+    # Download files from paratranz.
+    zip_path = download_file(url, dest_folder, auth_key)
+    if zip_path:
+        # Unzip them
+        unzip_file(zip_path, dest_folder)
+        print(f"Files have been downloaded and extracted to {dest_folder}")
 
     # Combine all the EBOOT Translations.
-    eboot_path = os.path.join(dest_folder, "utf8", "eboot")
+    eboot_path = os.path.join(dest_folder, "raw", "EBOOT")
     data = []
     for root, dir, files in os.walk(eboot_path):
         for file in files:
@@ -69,4 +69,14 @@ if __name__ == "__main__":
         json.dump(data, f, ensure_ascii=False, indent=4)
 
     # Combine the EVS translations
-    # TODO
+    evs_path = os.path.join(dest_folder, "raw", "EVS")
+    data = []
+    for root, dir, files in os.walk(evs_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            with open(file_path, "r", encoding="utf-8") as f:
+                data.extend(json.load(f))
+    data = replace_newlines(data)
+    evs_trans = os.path.join(dest_folder, "evs_trans.json")
+    with open(evs_trans, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)

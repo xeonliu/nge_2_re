@@ -71,14 +71,33 @@ def to_eva_sjis(content):
     # We let most remain as regular ASCII
     #content = content.replace('N²', 'Ν')
     #content = content.replace('S²', 'Σ')
-
+    # NOTE: 我们采用一种新型编码
+    # 能SJIS就SJIS，不能就GB2312,然后GB2312是特殊的GB2312
+    # // index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
+    # // mapped_code = 0xA600 + index;
     # Convert unicode to nge2 SJIS
-    try:
-        content = content.encode('shift_jis')
-    except UnicodeEncodeError:
-        raise Exception('There seems to be an character that cannot be converted to Shift_JIS. Check the text:' + content)
-    
-    return content
+    result = bytearray()
+    for char in content:
+        try:
+            encoded_char = char.encode('shift_jis')
+            # print("ENCODED: ", char, encoded_char.hex())
+        except UnicodeEncodeError:
+            try:
+                encoded_char = char.encode('gb2312')
+                # 将GB2312编码转换为特殊的GB2312编码
+                if len(encoded_char) == 2:
+                    first_byte = encoded_char[0]
+                    second_byte = encoded_char[1]
+                    index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1)
+                    mapped_code = 0xA600 + index
+                    encoded_char = bytearray(2)
+                    encoded_char[0] = (mapped_code >> 8) & 0xFF
+                    encoded_char[1] = mapped_code & 0xFF
+                    # print("ENCODED: ", char, encoded_char.hex())
+            except UnicodeEncodeError:
+                raise Exception(f'There seems to be a character that cannot be converted to Shift_JIS or GB2312. Check the text: {char}')
+        result.extend(encoded_char)
+    return bytes(result)
 
 def unique_color(index, total):
     if index == -1:

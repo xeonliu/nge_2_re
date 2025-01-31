@@ -6,10 +6,9 @@ from ..db import engine, Base, get_db
 from tools.hgar import HGArchive, HGArchiveFile
 
 # Entities
-from ..entity.entry import Entry
+from ..entity.evs_entry import EVSEntry
 from ..entity.hgar import Hgar
 from ..entity.hgar_file import HgarFile
-from ..entity.evs import EVS
 
 from .hgar_file import HGARFileDao
 
@@ -23,8 +22,25 @@ class HGARDao:
         HGARFileDao.save(hgar.id, hg_archive.files)
         return hgar
     
-def get_evs_list_by_key(key: int):
-    with next(get_db()) as db:
-        hgar = db.query(Hgar).filter(Hgar.key == key).first()
-        return db.query(Evs).filter(Evs.hgar_id == hgar.id).all()
-        
+    def get_hgar_by_name(name: str) -> HGArchive:
+        with next(get_db()) as db:
+            hgar = db.query(Hgar).filter(Hgar.name == name).first()
+            # Form a list of HGArchiveFile
+            hgar_files = HGARFileDao.form(hgar.id)
+            # Form HGArcive
+            return HGArchive(hgar.version, hgar_files)
+    
+    def get_hgar_by_prefix(prefix: str):
+        with next(get_db()) as db:
+            hgars = db.query(Hgar).filter(Hgar.name.like(f"{prefix}%")).all()
+            hgar_names = []
+            hgar_archives = []
+            for hgar in hgars:
+                try:
+                    hgar_files = HGARFileDao.form(hgar.id)
+                except:
+                    print(f"Error in {hgar.name}")
+                    continue
+                hgar_archives.append(HGArchive(hgar.version, hgar_files))
+                hgar_names.append(hgar.name)
+            return hgar_names, hgar_archives
