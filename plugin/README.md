@@ -1,16 +1,21 @@
 # EBOOT Loader
+
 Load the game and patch it.
-+ Replace the orginal `EBOOT.BIN` with this one.
+
+> TODO: Tried to sideload a plugin but failed somehow
+
+## Usage
+
++ Replace the orginal `EBOOT.BIN` with the generated one.
 + Decrypt `EBOOT.BIN` and rename it to `BOOT.BIN`
 
 > You can decrypt `EBOOT.BIN` using `PPSSPP`
-
 > 1. 打开PPSSPP
 > 2. `设置`->`工具`->`开发者工具`->`载入游戏时保存已解密的EBOOT.bin`
 > 3. 进入游戏
 > 4. 提示框会显示解密`EBOOT.bin`保存的地址
 
-# Build Instruction
+## Build Instruction
 
 + Generate EBOOT.BIN
 ```sh
@@ -22,6 +27,8 @@ make release
 make debug
 ```
 
+> Debug Version will log under the `ms0:/PSP` directory, may not work on real mahine.
+
 # Contributing
 
 ```
@@ -30,18 +37,55 @@ make debug
 └── src
     ├── bin # Binarires in `scripts` converted to C array
     ├── loader # EBOOT Loader
-    ├── plugin # Unused
     └── utils # Log Util
 ```
 
-+ `patcher.c` Patches a condition check and a jal call
++ `patcher.c` Patches two condition checks and a `jal` call
 + `transform.c` Contains the patched function
 
-## Condition Patch
+## Basic Idea
+
+在Shift-JIS（SJIS）编码中，多字节字符的首个字节范围如下：
+
+1. **单字节字符**：
+   - ASCII字符：0x00 - 0x7F
+   - 半角片假名：0xA1 - 0xDF
+
+2. **多字节字符的首个字节**：
+   - 0x81 - 0x9F
+   - 0xE0 - 0xFC
+
+```
+0x00------0x7f 0x81------0x9f 0xa1------0xdf 0xe0------0xfc
+修改前：        |   双字节    |               |  双字节     |
+修改后：        |   双字节    |       |  双字节             |
+```
+
+将游戏中不使用的半角片假名对应的区域用于编码GB2312中的汉字字符。
+
+在 GB2312 编码中，多字节字符的首个字节范围如下：
+
++ **First Byte**: 0xA1-0xF7
++ **Second Byte**: 0xA1-0xFE
+
+使用公式
+```C
+index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
+mapped_code = 0xA600 + index;
+```
+
+映射到`0xA600-0xDDFF`区域。
+
+
+## SJIS Check for Binary
 
 Decompiled Using [ghidra-allegrex](https://github.com/kotcrab/ghidra-allegrex).
 
 ```C
+/** 
+ * This function reads in bytes of encoded characters from char *param2
+ * and call FUN_08873f14 for futher processing (Converting to UTF16, etc.)
+ */
 void FUN_08874180(undefined4 param_1,byte *param_2)
 {
   byte bVar1;
@@ -164,6 +208,7 @@ undefined2 FUN_08884680(uint param_1)
       goto LAB_088846d0;
     }
   }
+  // Binary Search
   uVar3 = FUN_08884724(param_1,uVar1,uVar2);
   uVar3 = uVar3 & 0xffff;
 LAB_088846d0:
@@ -173,6 +218,46 @@ LAB_088846d0:
           (uint)*(ushort *)(&DAT_08a3325e + uVar3 * 4)) * 2);
 }
 ```
+## SJIS Check for EVS
+
+0x8830b98调用0x8819d58判断几个字节，最后回到0x8814c14调用`FUN_08873f14`
+
+```C
+bool FUN_08819d58(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = false;
+  if (0x80 < param_1) {
+    bVar1 = true;
+    // PATCH HERE:
+    // ((0x9f < param_1) && (bVar1 = false, 0xa6 <= param_1))
+    if ((0x9f < param_1) && (bVar1 = false, 0xdf < param_1)) {
+      bVar1 = param_1 < 0xfd;
+    }
+  }
+  return bVar1;
+}
+```
+
+```C
+undefined FUN_08819d58()
+        08819d58 81 00 86 28     slti       a2,a0,0x81
+        08819d5c a0 00 85 28     slti       a1,a0,0xa0
+        08819d60 07 00 c0 14     bne        a2,zero,LAB_08819d80
+        08819d64 21 18 00 00     _li        v1,0
+        // Patch Here: 
+        //       a6 00 82 28
+        08819d68 e0 00 82 28     slti       v0,a0,0xe0
+        08819d6c 01 00 03 24     li         v1,0x1
+        08819d70 03 00 a0 14     bne        a1,zero,LAB_08819d80
+        08819d74 fd 00 84 28     _slti      a0,a0,0xfd
+        08819d78 21 18 00 00     li         v1,0
+        08819d7c 0a 18 82 00     movz       v1,a0,v0
+```
+
+# 其他发现
 
 ## EVS Read
 ```C
@@ -314,42 +399,3 @@ void FUN_0882eed4(undefined4 param_1, undefined4 param_2, undefined4 param_3, un
 
 ### 总结
 这个函数的主要作用是解析和处理包含特殊标记（如 `$a`, `$b`, `$c`, `$n`, `$m`）的字符串，并根据这些标记执行相应的操作。具体的操作逻辑依赖于调用的其他函数（如 `FUN_08839434`, `FUN_089a6090`, `FUN_08830b98`, `FUN_088579ac`, `FUN_088148dc`, `FUN_08820d78`）的实现。
-
-## SJIS Check
-
-0x8830b98调用0x8819d58判断几个字节，最后回到0x8814c14调用`FUN_08873f14`
-
-```C
-bool FUN_08819d58(int param_1)
-
-{
-  bool bVar1;
-  
-  bVar1 = false;
-  if (0x80 < param_1) {
-    bVar1 = true;
-    // PATCH HERE:
-    // ((0x9f < param_1) && (bVar1 = false, 0xa6 <= param_1))
-    if ((0x9f < param_1) && (bVar1 = false, 0xdf < param_1)) {
-      bVar1 = param_1 < 0xfd;
-    }
-  }
-  return bVar1;
-}
-```
-
-```
-undefined FUN_08819d58()
-        08819d58 81 00 86 28     slti       a2,a0,0x81
-        08819d5c a0 00 85 28     slti       a1,a0,0xa0
-        08819d60 07 00 c0 14     bne        a2,zero,LAB_08819d80
-        08819d64 21 18 00 00     _li        v1,0
-        // Patch Here: 
-        //       a6 00 82 28
-        08819d68 e0 00 82 28     slti       v0,a0,0xe0
-        08819d6c 01 00 03 24     li         v1,0x1
-        08819d70 03 00 a0 14     bne        a1,zero,LAB_08819d80
-        08819d74 fd 00 84 28     _slti      a0,a0,0xfd
-        08819d78 21 18 00 00     li         v1,0
-        08819d7c 0a 18 82 00     movz       v1,a0,v0
-```

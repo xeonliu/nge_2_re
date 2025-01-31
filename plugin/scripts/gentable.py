@@ -1,4 +1,4 @@
-"""
+""" Generate GB2312 Binary Table and Mapping File
 // Input Space
 // First Byte: 0xA1-0xF7
 // Second Byte: 0xA1-0xFE
