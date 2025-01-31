@@ -1,5 +1,7 @@
 #include <pspsdk.h>
 #include <pspkernel.h>
+
+#include "log.h"
 #include "patcher.h"
 #include "transform.h"
 #include "log.h"
