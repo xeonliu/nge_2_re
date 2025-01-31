@@ -1,14 +1,15 @@
 TARGET = EBOOT
 ATTR = BIN
 
-OBJS = loader.o
+OBJS = loader.o ../patcher.o ../gb2312.o ../transform.o ../sjis.o ../utf16.o ../utils/log.o
 
 CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
 
-#USE_KERNEL_LIBS = 1
-#LIBS = -lpspctrl -lpspkernel
+INCDIR = ../../include
+
+# USE_KERNEL_LIBS=1
 
 BUILD_PRX = 1
 PRX_EXPORTS=exports_loader.exp
