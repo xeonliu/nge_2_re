@@ -5,10 +5,9 @@ class Raw(Base):
     __tablename__ = 'raws'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    raw = Column(LargeBinary, nullable=False)
+    content = Column(LargeBinary, nullable=False)
 
-    hgar_id = Column(Integer, ForeignKey('hgar.id'), index=True)
+    hgar_file_id = Column(Integer, ForeignKey('hgar_files.id'), index=True)
 
     def __repr__(self):
-        return f"<Raw(name='{self.name}', hgar_id='{self.hgar_id}')>"
+        return f"<Raw(hgar_file_id='{self.hgar_file_id}')>"
