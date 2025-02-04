@@ -154,20 +154,7 @@ char *strcpy(char *dest, const char *src)
 // TODO: Patch Using External JSON File
 void patch_sentence()
 {
-    // SJIS Sentece中字符均是大端
-    void *address = (void *)(0x089B5880) + offset_;
-    dbg_log("Address: %x\n", address);
-    dbg_log("Content: %x\n", *(u32 *)address);
-
-    u32 state = pspSdkDisableInterrupts();
-    { // SJIS Sentece中字符均是大端
-        // 0xb6b7 0x8941
-        _sw(0x4189b7b6, (u32)address);
-        sceKernelDcacheWritebackAll();
-        sceKernelIcacheInvalidateAll();
-    }
-    pspSdkEnableInterrupts(state);
-
+    // Patch UTF-8 Sentences
     strcpy((char *)NEW_ADDR(0x089b4a94), "碇真嗣");
     strcpy((char *)NEW_ADDR(0x089b4aa4), "惣流・明日香・兰格雷");
     strcpy((char *)NEW_ADDR(0x089b4acc), "绫波丽");
@@ -229,6 +216,4 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089ea084), "新世纪福音战士２　被创造的世界");
     strcpy((char *)NEW_ADDR(0x089ea0c4), "空闲存档槽");
     strcpy((char *)NEW_ADDR(0x089ea0d8), "Memory Stick™尚未完成加载。\n\n是否停止加载，继续游戏？");
-
-    dbg_log("Content: %x\n", *(u32 *)address);
 };
