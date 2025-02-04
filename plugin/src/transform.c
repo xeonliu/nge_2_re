@@ -86,6 +86,12 @@ uint16_t sjis_to_utf16(u16 sjis)
 
     int index = binary_search(sjis, low, high);
 
+    if (index == -1)
+    {
+        // Return '?' if not found
+        return 0x003f;
+    }
+
     // lower bound of SJIS Encoding (u16) + Offset to UTF16 Table (u16)
     uint16_t prefix = DAT_08a3325c[index << 1] & 0xFFFF;
     uint16_t offset = DAT_08a3325c[(index << 1) + 1] & 0xFFFF;
@@ -96,7 +102,7 @@ uint16_t sjis_to_utf16(u16 sjis)
 
 // FUN_08884724
 // binary_search function
-int binary_search(uint16_t target, uint16_t low, uint16_t high)
+int binary_search(uint16_t target, int low, int high)
 {
 
     u16 *DAT_08a3325c = (u16 *)(SJIS_bin);
@@ -106,7 +112,7 @@ int binary_search(uint16_t target, uint16_t low, uint16_t high)
 
     while (low <= high)
     {
-        uint16_t mid = ((low + high) >> 1) & 0xFFFF;
+        int mid = ((low + high) >> 1);
 
         // 0x44 0x29 0x8b 0x8f
         uint16_t mid_val = DAT_08a3325c[mid << 1] & 0xFFFF;
@@ -119,13 +125,15 @@ int binary_search(uint16_t target, uint16_t low, uint16_t high)
         }
         else if (mid_val < target)
         {
-            low = (mid + 1) & 0xFFFF;
+            low = (mid + 1);
         }
         else
         {
-            high = (mid - 1) & 0xFFFF;
+            high = (mid - 1);
         }
     }
+
+    dbg_log("Not Found: %x\n", target);
 
     return -1; // 如果未找到目标值，则返回 -1
 }
