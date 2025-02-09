@@ -78,11 +78,11 @@ void patch_function()
     }
 
     // Patch Code in FUN_08819d58
-    /** 
+    /**
         bool FUN_08819d58(int param_1)
         {
         bool bVar1;
-        
+
         bVar1 = false;
         if (0x80 < param_1) {
             bVar1 = true;
@@ -93,7 +93,7 @@ void patch_function()
         return bVar1;
         }
     */
-    // Patch Here: 
+    // Patch Here:
     //          a6 00 82 28
     // 08819d68 e0 00 82 28     slti       v0,a0,0xe0
     {
@@ -182,7 +182,7 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4c70), "火树银花");
     strcpy((char *)NEW_ADDR(0x089b4c80), "模糊的天空");
     strcpy((char *)NEW_ADDR(0x089b4c90), "Cobalt Sky");
-    strcpy((char *)NEW_ADDR(0x089b4ca8), "VS．Seele");
+    strcpy((char *)NEW_ADDR(0x089b4ca8), "VS．SEELE");
     strcpy((char *)NEW_ADDR(0x089b4cbc), "心中的一切");
     strcpy((char *)NEW_ADDR(0x089b4cd8), "从梦中醒来");
     strcpy((char *)NEW_ADDR(0x089b4cf0), "看见春天的人");
@@ -194,6 +194,23 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4db0), "剧情通关文件");
     strcpy((char *)NEW_ADDR(0x089b4dd4), "开放剧情数");
     strcpy((char *)NEW_ADDR(0x089b4df0), "完成剧情数");
+    strcpy((char *)NEW_ADDR(0x089b4d64), "零");
+    strcpy((char *)NEW_ADDR(0x089b4d68), "一");
+    strcpy((char *)NEW_ADDR(0x089b4d6c), "二");
+    strcpy((char *)NEW_ADDR(0x089b4d70), "三");
+    strcpy((char *)NEW_ADDR(0x089b4d74), "四");
+    strcpy((char *)NEW_ADDR(0x089b4d78), "五");
+    strcpy((char *)NEW_ADDR(0x089b4d7c), "六");
+    strcpy((char *)NEW_ADDR(0x089b4d80), "七");
+    strcpy((char *)NEW_ADDR(0x089b4d84), "八");
+    strcpy((char *)NEW_ADDR(0x089b4d88), "九");
+    strcpy((char *)NEW_ADDR(0x089b4d8c), "十");
+    strcpy((char *)NEW_ADDR(0x089b4d90), "第");
+    strcpy((char *)NEW_ADDR(0x089b4d94), "话");
+    strcpy((char *)NEW_ADDR(0x089b4d98), "「");
+    strcpy((char *)NEW_ADDR(0x089b4d9c), "」");
+    strcpy((char *)NEW_ADDR(0x089b51c4), "AM");
+    strcpy((char *)NEW_ADDR(0x089b51c8), "PM");
     strcpy((char *)NEW_ADDR(0x089b4e14), "加载完成。");
     strcpy((char *)NEW_ADDR(0x089b4e38), "保存完成。");
     strcpy((char *)NEW_ADDR(0x089b4e5c), "Memory Stick™空闲容量不足。\n\n");
