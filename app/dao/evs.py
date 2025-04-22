@@ -66,8 +66,8 @@ class EVSDao:
             print(evs_entries)
             evs = EvsWrapper()
             for entry in evs_entries:
-                if(entry.sentence_key == None):
-                    evs.add_entry(entry.type, entry.param, b'')
+                if entry.sentence_key == None:
+                    evs.add_entry(entry.type, entry.param, b"")
                     continue
                 translation = (
                     db.query(Translation)

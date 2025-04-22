@@ -4,9 +4,7 @@ from typing import Any, Dict, Optional
 
 
 class TranslationModel:
-    def __init__(
-        self, version: str, api_base: str, model: str = "gpt-3.5-turbo"
-    ):
+    def __init__(self, version: str, api_base: str, model: str = "gpt-3.5-turbo"):
         self.version = version
         self.model = model
         openai.api_base = api_base
@@ -77,9 +75,7 @@ if __name__ == "__main__":
     async def main():
         api_base = "http://localhost:9999/v1"
         model = ""
-        model = TranslationModel(
-            version="1.0", api_base=api_base, model=model
-        )
+        model = TranslationModel(version="1.0", api_base=api_base, model=model)
 
         text = "これはテストです。"
         glossary = {"テスト": "测试"}

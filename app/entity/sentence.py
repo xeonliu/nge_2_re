@@ -1,8 +1,9 @@
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, Integer, String
 from ..db import Base
 
+
 class Sentence(Base):
-    __tablename__ = 'sentences'
+    __tablename__ = "sentences"
 
     id = Column(Integer, primary_key=True, index=True)
     # Sentence Text Hash

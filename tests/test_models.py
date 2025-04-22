@@ -2,14 +2,17 @@ import unittest
 from app.entity.sentence import Sentence
 from app.db import Base, engine, get_db
 
+
 class TestSentenceModel(unittest.TestCase):
     def setUp(self):
         Base.metadata.create_all(bind=engine)
         self.db = next(get_db())
+
     def tearDown(self):
         # Drop all tables
         Base.metadata.drop_all(bind=engine)
         self.db.close()
+
     def test_save_sentence(self):
         sentence = Sentence(key=1, content="Hello, world!")
         self.db.add(sentence)
@@ -18,5 +21,6 @@ class TestSentenceModel(unittest.TestCase):
         self.assertEqual(sentence.key, 1)
         self.assertEqual(sentence.content, "Hello, world!")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

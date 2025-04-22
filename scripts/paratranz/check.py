@@ -110,7 +110,7 @@ if __name__ == "__main__":
         encoding_error = rm_orig(encoding_error)
         paging_error = rm_orig(paging_error)
         escape_error = rm_orig(escape_error)
-        
+
         with open(
             os.path.join(dest_folder, "evs_encoding_error.json"), "w", encoding="utf-8"
         ) as f:

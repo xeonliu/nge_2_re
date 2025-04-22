@@ -1,6 +1,7 @@
-import os, json
+import os
+import json
 import asyncio
-from .sakura.sakura import TranslationModel
+from sakura.sakura import TranslationModel
 from paratranz.download import dest_folder
 
 
@@ -23,7 +24,9 @@ async def main():
 
     print(glossary)
 
-    with open(os.path.join(dest_folder, "eboot_trans.json"), "r", encoding="utf-8") as f:
+    with open(
+        os.path.join(dest_folder, "eboot_trans.json"), "r", encoding="utf-8"
+    ) as f:
         data = json.load(f)
         prev_text = ""
         # Save

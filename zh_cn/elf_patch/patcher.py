@@ -1,6 +1,8 @@
 import json
 import rzpipe
 from tools.common import to_eva_sjis
+
+
 class Patcher:
     def __init__(self):
         self.data = None
@@ -16,7 +18,7 @@ class Patcher:
         parts = technical.split(",")
         elf_data = parts[0].split(":")[2]  # 0x0025089C
         ram_data = parts[1].split(":")[1]  # 0x08A5489C
-        size = int(parts[2].split(":")[1].split('\n')[0])  # 24
+        size = int(parts[2].split(":")[1].split("\n")[0])  # 24
 
         # print("elf_data:", elf_data)
         # print("ram_data:", ram_data)
@@ -57,7 +59,6 @@ class Patcher:
 
 
 if __name__ == "__main__":
-    import sys
     import argparse
 
     parser = argparse.ArgumentParser(
@@ -69,7 +70,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     print(args)
-    
+
     patcher = Patcher()
     patcher.load_translation(args.translation_path)
     fails = patcher.patch_translation(args.eboot_filepath)

@@ -10,6 +10,7 @@ requires-python = ">=3.9"
 dependencies = [
     "sqlalchemy (>=2.0.37,<3.0.0)",
     "requests (>=2.32.3,<3.0.0)",
-    "rzpipe (>=0.6.2,<0.7.0)"
+    "rzpipe (>=0.6.2,<0.7.0)",
+    "openai>=1.75.0",
 ]
 package_mode = false

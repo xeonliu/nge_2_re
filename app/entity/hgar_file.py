@@ -1,8 +1,9 @@
-from sqlalchemy import Column, Integer, String,ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from app.db import Base
 
+
 class HgarFile(Base):
-    __tablename__ = 'hgar_files'
+    __tablename__ = "hgar_files"
 
     id = Column(Integer, primary_key=True, index=True)
     short_name = Column(String, index=True)
@@ -12,8 +13,8 @@ class HgarFile(Base):
     unknown_fist = Column(Integer, nullable=True)
     unknown_last = Column(Integer, nullable=True)
     # Content
-    
-    hgar_id = Column(Integer, ForeignKey('hgars.id'), index=True)
-    
+
+    hgar_id = Column(Integer, ForeignKey("hgars.id"), index=True)
+
     def __repr__(self):
         return f"<HgarFile(short_name='{self.short_name}')>"

@@ -1,5 +1,8 @@
-import requests, csv
-import argparse, json, os
+import requests
+import csv
+import argparse
+import json
+import os
 from glob import glob
 
 
@@ -31,6 +34,7 @@ def read_csv(csv_path):
             kv_pairs.append(kv_pair)
     return kv_pairs
 
+
 def filter_unique_kv_pairs(kv_pairs):
     seen = set()
     unique_kv_pairs = []
@@ -41,6 +45,7 @@ def filter_unique_kv_pairs(kv_pairs):
             print(pair)
     return unique_kv_pairs
 
+
 def read_all_csvs_in_directory(directory_path):
     all_kv_pairs = []
     csv_files = glob(os.path.join(directory_path, "*.csv"))
@@ -48,6 +53,7 @@ def read_all_csvs_in_directory(directory_path):
         kv_pairs = read_csv(csv_file)
         all_kv_pairs.extend(kv_pairs)
     return all_kv_pairs
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="Translation")
@@ -59,11 +65,10 @@ if __name__ == "__main__":
         raise ValueError("DEEPL_API_KEY环境变量未设置")
     target_language = "ZH"  # 目标语言代码，例如 "ZH" 表示中文
 
-    
     csv_files = glob(os.path.join(os.path.dirname(args.csv), "*.csv"))
     for csv_file in csv_files:
         kv_pairs = filter_unique_kv_pairs(read_csv(csv_file))
-        
+
         for pair in kv_pairs:
             translated_text = translate_text(pair["original"], target_language, api_key)
             if translated_text:

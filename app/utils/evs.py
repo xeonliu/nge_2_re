@@ -1,8 +1,9 @@
 from tools.evs import FUNCTION_SAY_PARAMS
+
+
 def get_avatar_and_exp(avatar_param: int, exp_param: int):
-    
-    avatar = avatar_param & 0x0fff
-    expression = exp_param & 0x0fff
+    avatar = avatar_param & 0x0FFF
+    expression = exp_param & 0x0FFF
 
     avatar_name = None
     expression_name = None
@@ -15,5 +16,5 @@ def get_avatar_and_exp(avatar_param: int, exp_param: int):
                     expression_name = expr_name
                     break
             break
-    
+
     return avatar_name, expression_name

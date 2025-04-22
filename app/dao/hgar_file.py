@@ -2,15 +2,12 @@
 Obtain a sentence with or without translation from the database.
 """
 
-from ..db import engine, Base, get_db
-from tools.hgar import HGArchive, HGArchiveFile
+from ..db import get_db
+from tools.hgar import HGArchiveFile
 from tools.evs import EvsWrapper
 
 # Entities
-from ..entity.evs_entry import EVSEntry
-from ..entity.hgar import Hgar
 from ..entity.hgar_file import HgarFile
-from ..entity.evs_entry import EVSEntry
 from ..entity.raw import Raw
 
 from .evs import EVSDao

@@ -1,25 +1,27 @@
 import requests
 import zipfile
 import os
+import argparse
 import json
 
 project_id = 10882  # 替换为你的项目ID
-dest_folder = "downloads"
 
 
 def update_string(key: str, content: str, auth, stage=2):
     # sleep for 1 second to avoid rate limit
     import time
+
     time.sleep(0.5)
     items = search_by_key(key, auth)
     for item in items:
-        if(item["stage"] == stage):
+        if item["stage"] == stage:
             print(f"Already in stage {stage}")
             continue
         id = item["id"]
-        if content!="":
+        if content != "":
             add_comment(id, content, auth)
         print(update_status(id, stage, auth))
+
 
 # 查找到字符串ID
 def search_by_key(key, auth):
@@ -49,7 +51,6 @@ def update_status(string_id, stage, auth):
 
 
 def download_file(url, dest_folder, auth: str):
-
     if not os.path.exists(dest_folder):
         os.makedirs(dest_folder)
 
@@ -86,6 +87,18 @@ def replace_newlines(obj):
 
 
 if __name__ == "__main__":
+    # Add Arguments
+    parser = argparse.ArgumentParser(
+        description="Download and process Paratranz files."
+    )
+    parser.add_argument(
+        "--dest_folder",
+        type=str,
+        default="downloads",
+        help="Destination folder for downloaded files.",
+    )
+    args = parser.parse_args()
+    dest_folder = args.dest_folder
 
     auth_key = os.getenv("AUTH_KEY")
     if not auth_key:

@@ -1,12 +1,6 @@
-from sqlalchemy import distinct, func
-from ..db import engine, Base, get_db
+from ..db import get_db
 
 # Entities
-from ..entity.evs_entry import EVSEntry
-from ..entity.sentence import Sentence
-from ..entity.translation import Translation
-from ..entity.hgar import Hgar
-from ..entity.hgar_file import HgarFile
 from ..entity.translation import Translation
 
 
@@ -15,7 +9,7 @@ class TranslationDao:
         with next(get_db()) as db:
             db.query(Translation).delete()
             db.commit()
-            
+
     def save(translation: Translation):
         with next(get_db()) as db:
             db.add(translation)
