@@ -11,6 +11,11 @@ from ..entity.translation import Translation
 
 
 class TranslationDao:
+    def delete_all():
+        with next(get_db()) as db:
+            db.query(Translation).delete()
+            db.commit()
+            
     def save(translation: Translation):
         with next(get_db()) as db:
             db.add(translation)

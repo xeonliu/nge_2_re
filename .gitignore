@@ -20,3 +20,12 @@ specs
 poetry.lock
 *.db
 __pycache__
+translations
+*.elf
+*.BIN
+*.o
+*.txt
+*.bin
+downloads
+*.7z
+*.json

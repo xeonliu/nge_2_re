@@ -27,14 +27,14 @@ extern unsigned char UTF16_bin[14436]; // UTF16 Table
 // 0x40 0x81 0x9e 0x00
 extern unsigned char SJIS_bin[360]; // SJIS Table
 
-// Input Space
+// GB2312 Input Space
 // First Byte: 0xA1-0xF7
 // Second Byte: 0xA1-0xFE
 //
 // Output Space: 0xA600-0xDDFF
-// index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
+// index: See gb2312_to_custom_map
 // mapped_code = 0xA600 + index;
-extern unsigned char GB_2312[16356]; // GB2312 Encoding
+extern unsigned char GB_2312[]; // UTF-16 Table for Custom Encoding
 
 void transfrom_debug()
 {
@@ -67,7 +67,7 @@ Use 0xA6-0xDD to store GB2312 Chinese Characters
 uint16_t modified_to_utf16(u16 code)
 {
     dbg_log("Modified to UTF16: %x\n", code);
-    if (code >= 0xc5f1)
+    if (code > 0xc332)
     {
         dbg_log("Out of Range: %x\n", code);
     }

@@ -80,10 +80,11 @@ def to_eva_sjis(content):
     for char in content:
         try:
             encoded_char = char.encode('shift_jis')
-            # print("ENCODED: ", char, encoded_char.hex())
         except UnicodeEncodeError:
             try:
-                encoded_char = char.encode('gb2312')
+                # TODO：这里逻辑应该抽取出来
+                # 需要读取映射表
+                encoded_char = char.encode('gb2312', 'ignore')
                 # 将GB2312编码转换为特殊的GB2312编码
                 if len(encoded_char) == 2:
                     first_byte = encoded_char[0]

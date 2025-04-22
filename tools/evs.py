@@ -596,14 +596,34 @@ class EvsWrapper(object):
                 if has_content_section:
                     # Convert UTF8 to Shift-JIS
                     raw_entry_content = common.to_eva_sjis(entry_content)
-
-                    # Add crash protection
-                    # Exclude whitespace from the count
-                    multipage_content_mark = common.to_eva_sjis('▽')
-                    for raw_split_content in raw_entry_content.split(multipage_content_mark):
-                        raw_split_length = len(raw_split_content.replace(b' ', b'').replace(b'\n', b'') + multipage_content_mark)
-                        if raw_split_length >= CONTENT_BYTE_LIMIT: 
-                            raise Exception("Content too long, it will crash! Expected: < %s bytes, Actual (ignoring whitespace): %s bytes\nContent: %s" % (CONTENT_BYTE_LIMIT, raw_split_length, raw_split_content))
+                    # FIXME: Deal with entry content
+                    if entry_content == b'':
+                        raw_entry_content = b''
+                    elif len(raw_entry_content) > CONTENT_BYTE_LIMIT:
+                        # Do The Checks
+                        # Add crash protection
+                        # Exclude whitespace from the count
+                        multipage_content_mark = common.to_eva_sjis('▽')
+                        for raw_split_content in raw_entry_content.split(multipage_content_mark):
+                            raw_split_length = len(raw_split_content.replace(b' ', b'').replace(b'\n', b'') + multipage_content_mark)
+                            if raw_split_length >= CONTENT_BYTE_LIMIT: 
+                                # Split the entry content into multiple pages
+                                # and add a multipage content mark
+                                segments = entry_content.split('▽')
+                                new_segments = []
+                                # for segment > LIMIT, split it into multiple pages
+                                # and add a multipage content mark
+                                for segment in segments:
+                                    if len(segment) > 50:
+                                        while len(segment) > 50:
+                                            new_segments.append(segment[:50])
+                                            segment = segment[50:]
+                                        new_segments.append(segment)
+                                    else:
+                                        new_segments.append(segment)
+                                entry_content = '▽'.join(new_segments)
+                                raw_entry_content = common.to_eva_sjis(entry_content)
+                                # raise Exception("Content too long, it will crash! Expected: < %s bytes, Actual (ignoring whitespace): %s bytes\nContent: %s" % (CONTENT_BYTE_LIMIT, raw_split_length, raw_split_content))
 
                     # We add a single null terminator and only count the single null terminator,
                     # but later we include the extra alignment padding in the size calculation

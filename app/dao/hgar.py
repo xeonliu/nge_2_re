@@ -36,11 +36,11 @@ class HGARDao:
             hgar_names = []
             hgar_archives = []
             for hgar in hgars:
-                try:
-                    hgar_files = HGARFileDao.form(hgar.id)
-                except:
-                    print(f"Error in {hgar.name}")
-                    continue
+                # try:
+                hgar_files = HGARFileDao.form(hgar.id)
+                # except:
+                #     print(f"Error in {hgar.name}")
+                #     continue
                 hgar_archives.append(HGArchive(hgar.version, hgar_files))
                 hgar_names.append(hgar.name)
             return hgar_names, hgar_archives

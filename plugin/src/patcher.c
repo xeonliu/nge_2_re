@@ -58,22 +58,9 @@ void debug_menu()
         // Daily Special Debug
         // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x088984C0);
         
-        // 8841610 EVS
-        // AT暴走
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x08976784);
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x0882AC34);
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x0880ec30);
-        
         // Battle Debug
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x089102e0);
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x089102c8);
         *(u32 *)NEW_ADDR(0x08b57e04) = NEW_ADDR(0x01);
         
-
-        // 关心图
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x088e2d9c);
-        // 机密信息
-        // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x088d6b10);
         sceKernelDcacheWritebackAll();
         sceKernelIcacheInvalidateAll();
     }

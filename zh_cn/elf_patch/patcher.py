@@ -41,7 +41,7 @@ class Patcher:
                 print(elem["translation"])
                 original_bytes = to_eva_sjis(elem["original"])
                 translation_bytes = to_eva_sjis(elem["translation"])
-                hex = translation_bytes.hex()
+                hex = translation_bytes.hex() + b"\x00".hex()
                 if len(translation_bytes) > len(original_bytes):
                     fails.append(elem)
                     print(f"Failed: {elem['original']}")

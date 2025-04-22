@@ -3,6 +3,50 @@ import zipfile
 import os
 import json
 
+project_id = 10882  # 替换为你的项目ID
+dest_folder = "downloads"
+
+
+def update_string(key: str, content: str, auth, stage=2):
+    # sleep for 1 second to avoid rate limit
+    import time
+    time.sleep(0.5)
+    items = search_by_key(key, auth)
+    for item in items:
+        if(item["stage"] == stage):
+            print(f"Already in stage {stage}")
+            continue
+        id = item["id"]
+        if content!="":
+            add_comment(id, content, auth)
+        print(update_status(id, stage, auth))
+
+# 查找到字符串ID
+def search_by_key(key, auth):
+    url = f"https://paratranz.cn/api/projects/{project_id}/strings?text={key}"
+    headers = {"Authorization": auth}
+    response = requests.get(url, headers=headers).json()
+    items = [item for item in response["results"]]
+    return items
+
+
+# 添加评论
+def add_comment(string_id, content: str, auth):
+    url = "https://paratranz.cn/api/comments"
+    headers = {"Authorization": auth}
+    data = {"type": "text", "tid": string_id, "content": content}
+    response = requests.post(url, headers=headers, json=data)
+    return response.json()
+
+
+# 更新有疑问状态
+def update_status(string_id, stage, auth):
+    url = f"https://paratranz.cn/api/projects/{project_id}/strings/{string_id}"
+    headers = {"Authorization": auth}
+    data = {"stage": stage}
+    response = requests.put(url, headers=headers, json=data)
+    return response.json()
+
 
 def download_file(url, dest_folder, auth: str):
 
@@ -30,26 +74,27 @@ def unzip_file(zip_path, dest_folder):
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         zip_ref.extractall(dest_folder)
 
+
 def replace_newlines(obj):
     if isinstance(obj, str):
-        return obj.replace('\\n', '\n')
+        return obj.replace("\\n", "\n")
     elif isinstance(obj, list):
         return [replace_newlines(item) for item in obj]
     elif isinstance(obj, dict):
         return {key: replace_newlines(value) for key, value in obj.items()}
     return obj
 
+
 if __name__ == "__main__":
-    project_id = 10882  # 替换为你的项目ID
-    url = f"https://paratranz.cn/api/projects/{project_id}/artifacts/download"
-    dest_folder = "downloads"
 
     auth_key = os.getenv("AUTH_KEY")
     if not auth_key:
         raise ValueError("AUTH_KEY环境变量未设置")
 
+    url = f"https://paratranz.cn/api/projects/{project_id}/artifacts/download"
     # Download files from paratranz.
     zip_path = download_file(url, dest_folder, auth_key)
+    print("Files have been downloaded.")
     if zip_path:
         # Unzip them
         unzip_file(zip_path, dest_folder)

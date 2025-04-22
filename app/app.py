@@ -81,6 +81,8 @@ class App:
                 f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
     def import_translation(filepath: str):
+        # Drop all translations
+        TranslationDao.delete_all()
         with open(filepath, "r") as f:
             import json
 
