@@ -2,13 +2,36 @@ import os
 import json
 import asyncio
 from sakura.sakura import TranslationModel
-from paratranz.download import dest_folder
+import argparse
 
 
 async def main():
+    # Add arguments
+    parser = argparse.ArgumentParser(description="Translation Model")
+    parser.add_argument(
+        "--term_file",
+        type=str,
+        default="term.json",
+        help="Term file for translation.",
+    )
+    parser.add_argument(
+        "--source_file",
+        type=str,
+        help="Source file for translation.",
+    )
+    parser.add_argument(
+        "--dest_file",
+        type=str,
+        help="Destination file for translation.",
+    )
+    args = parser.parse_args()
+    term_file = args.term_file
+    source_file = args.source_file
+    dest_file = args.dest_file
+
+    # TODO: Use Paru
     api_base = "http://localhost:6006/v1"
-    model = ""
-    model = TranslationModel(version="1.0", api_base=api_base, model=model)
+    model = TranslationModel(version="1.0", api_base=api_base, model="")
 
     text = "これはテストです。"
     glossary = {"テスト": "测试"}
@@ -16,7 +39,7 @@ async def main():
     result = await model.create_chat_completions(text, glossary, prev_text)
     print(result)
 
-    with open(os.path.join(dest_folder, "term.json"), "r", encoding="utf-8") as f:
+    with open(os.path.join(term_file), "r", encoding="utf-8") as f:
         glossary: dict = {}
         data = json.load(f)
         for elem in data:
@@ -24,21 +47,13 @@ async def main():
 
     print(glossary)
 
-    with open(
-        os.path.join(dest_folder, "eboot_trans.json"), "r", encoding="utf-8"
-    ) as f:
+    with open(os.path.join(source_file), "r", encoding="utf-8") as f:
         data = json.load(f)
-        prev_text = ""
+        prev_text = None
         # Save
         results = []
         # Translate
-        # found = False
         for elem in data:
-            # if elem["key"] == "-3119569334078361786":
-            #     found = True
-            # if not found:
-            #     continue
-            # # Skip until key == -3119569334078361786
             result = await model.create_chat_completions(
                 elem["original"], glossary, prev_text
             )
@@ -57,13 +72,13 @@ async def main():
             elem["translated"] = result["text"]
             print(elem["translation"])
             print(elem["original"], "->", elem["translated"])
-            prev_text = elem["original"]
+            # prev_text = elem["original"]
+            prev_text = None
 
             results.append(elem)
-            with open(
-                os.path.join(dest_folder, "ebbb.json"), "w", encoding="utf-8"
-            ) as f:
-                json.dump(results, f, ensure_ascii=False, indent=4)
+
+        with open(os.path.join(dest_file), "w", encoding="utf-8") as f:
+            json.dump(results, f, ensure_ascii=False, indent=4)
 
 
 asyncio.run(main())
