@@ -67,3 +67,9 @@
 
 ```
 ```
+
+## Using Docker
+```sh
+docker build -t pspdev-dev .
+docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
+```

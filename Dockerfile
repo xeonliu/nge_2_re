@@ -12,10 +12,12 @@ RUN apk add curl
 # Install uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
-RUN source $HOME/.local/bin/env
-
 WORKDIR /app
 
 COPY pyproject.toml /app
 
-ENTRYPOINT [ "bash" ]
+# Install dependencies
+RUN source $HOME/.local/bin/env && uv sync
+
+# 使用 bash 并在启动时运行 source
+ENTRYPOINT [ "bash", "-c", "source $HOME/.local/bin/env && exec bash" ]
