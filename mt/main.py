@@ -1,12 +1,17 @@
 import os, json
 import asyncio
+import argparse
 from .sakura.sakura import TranslationModel
-from paratranz.download import dest_folder
-
 
 async def main():
-    api_base = "http://localhost:6006/v1"
-    model = ""
+    parser = argparse.ArgumentParser(description="Translation script with input and output file options.")
+    parser.add_argument("--term", required=True, help="Path to the term JSON file.")
+    parser.add_argument("--input", required=True, help="Path to the input JSON file.")
+    parser.add_argument("--output", required=True, help="Path to the output JSON file.")
+    args = parser.parse_args()
+
+    api_base = "https://sakura-share.one/v1"
+    model = "sakura-14b-qwen2.5-v1.0-iq4xs"
     model = TranslationModel(version="1.0", api_base=api_base, model=model)
 
     text = "これはテストです。"
@@ -15,7 +20,7 @@ async def main():
     result = await model.create_chat_completions(text, glossary, prev_text)
     print(result)
 
-    with open(os.path.join(dest_folder, "term.json"), "r", encoding="utf-8") as f:
+    with open(args.term, "r", encoding="utf-8") as f:
         glossary: dict = {}
         data = json.load(f)
         for elem in data:
@@ -23,19 +28,13 @@ async def main():
 
     print(glossary)
 
-    with open(os.path.join(dest_folder, "eboot_trans.json"), "r", encoding="utf-8") as f:
+    with open(args.input, "r", encoding="utf-8") as f:
         data = json.load(f)
         prev_text = ""
         # Save
         results = []
         # Translate
-        # found = False
         for elem in data:
-            # if elem["key"] == "-3119569334078361786":
-            #     found = True
-            # if not found:
-            #     continue
-            # # Skip until key == -3119569334078361786
             result = await model.create_chat_completions(
                 elem["original"], glossary, prev_text
             )
@@ -58,7 +57,7 @@ async def main():
 
             results.append(elem)
             with open(
-                os.path.join(dest_folder, "ebbb.json"), "w", encoding="utf-8"
+                args.output, "w", encoding="utf-8"
             ) as f:
                 json.dump(results, f, ensure_ascii=False, indent=4)
 
