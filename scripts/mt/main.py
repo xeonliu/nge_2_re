@@ -1,7 +1,7 @@
 import os
 import json
 import asyncio
-from sakura.sakura import TranslationModel
+from scripts.mt.sakura import TranslationModel
 import argparse
 
 
@@ -30,8 +30,9 @@ async def main():
     dest_file = args.dest_file
 
     # TODO: Use Paru
-    api_base = "http://localhost:6006/v1"
-    model = TranslationModel(version="1.0", api_base=api_base, model="")
+    api_base = "https://sakura-share.one/v1"
+    model = "sakura-14b-qwen2.5-v1.0-w8a8-int8-v2"
+    model = TranslationModel(version="1.0", api_base=api_base, model=model)
 
     text = "これはテストです。"
     glossary = {"テスト": "测试"}
@@ -77,8 +78,8 @@ async def main():
 
             results.append(elem)
 
-        with open(os.path.join(dest_file), "w", encoding="utf-8") as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
+            with open(os.path.join(dest_file), "w", encoding="utf-8") as f:
+                json.dump(results, f, ensure_ascii=False, indent=4)
 
 
 asyncio.run(main())
