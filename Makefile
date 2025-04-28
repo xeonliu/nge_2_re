@@ -1,15 +1,19 @@
+DOWNLOAD_DIR := data/pz_downloads
+
 download_translations:
 	@echo "Downloading translations..."
-	@mkdir -p data/pz_downloads
-	python -m paratranz.download
+	@mkdir -p $(DOWNLOAD_DIR)
+	uv run scripts/paratranz/dowanload.py --dest_folder data/pz_downloads
 
-check_translations:
-	@echo "Checking translations..."
-	python -m paratranz.check
+check_translations: $(DOWNLOAD_DIR)/evs_trans.json
+	@echo "Checking EVS translations..."
+	uv run -m scripts.check '$(DOWNLOAD_DIR)/evs_trans.json' build/evs_report.json evs
+	@echo "Checking EBOOT translations..."
+	uv run -m scripts.check '$(DOWNLOAD_DIR)/eboot_trans.json' build/eboot_report.json eboot
 
 import_translations:
 	@echo "Importing translations..."
-	python -m app.app --import_translation './downloads/evs_trans.json'
+	uv run -m app.app --import_translation './downloads/evs_trans.json'
 
 # TODO: 修改EBOOT？
 # 创建 Len Offset 之类的文件，让Plugin读取

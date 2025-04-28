@@ -94,7 +94,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dest_folder",
         type=str,
-        default="downloads",
+        default="data/pz_downloads",
         help="Destination folder for downloaded files.",
     )
     args = parser.parse_args()
