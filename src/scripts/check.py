@@ -1,8 +1,8 @@
 # 使用正则表达式匹配%s之类的字符串
 import re
 import json
-from tools.common import to_eva_sjis
-from tools.evs import CONTENT_BYTE_LIMIT
+from app.parser.tools.common import to_eva_sjis
+from app.parser.tools.evs import CONTENT_BYTE_LIMIT
 
 
 # 寻找字符串中的所有特殊字符，并以列表返回

@@ -87,7 +87,6 @@ def to_eva_sjis(content):
                 if entry['char'] == char:
                     # If found, use the custom code
                     encoded_char = bytes.fromhex(entry['custom_code'][2:])
-                    print(f"Custom encoding used for character: {char} -> {encoded_char.hex()}")
                     break
             if encoded_char is None:
                 raise Exception(f'There seems to be a character that cannot be converted to Shift_JIS or GB2312. Check the text: {char}')

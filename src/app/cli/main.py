@@ -7,7 +7,7 @@ from app.database.dao.hgar import HGARDao
 from app.database.dao.sentence import SentenceDao
 from app.database.dao.translation import TranslationDao
 
-from app.database import Base, engine
+from app.database.db import Base, engine
 from app.utils.evs import get_avatar_and_exp
 
 HGAR_PREFIX = ["a", "b2a", "b2s", "bb", "bs", "cev", "e", "f", "levent", "n", "tev"]

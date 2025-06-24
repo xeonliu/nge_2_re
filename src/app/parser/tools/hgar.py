@@ -133,11 +133,6 @@ class HGArchive(object):
         self.version = None
         self.files: list[HGArchiveFile] = []
         self.calculate_identifier_limit()
-    
-    def __init__(self, version, files):
-        self.version = version
-        self.files = files
-        self.calculate_identifier_limit()
 
     def add_file(self, long_name, short_name, size):
         new_file = HGArchiveFile(long_name, short_name, size)

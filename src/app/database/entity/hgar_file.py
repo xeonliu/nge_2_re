@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from app.db import Base
+from app.database.db import Base
 
 
 class HgarFile(Base):
