@@ -1,18 +1,18 @@
 # 《新世纪福音战士 2 ：被创造的世界》汉化计划
 
->本仓库最初 Fork 自 [rezual/nge_2_re](https://github.com/rezual/nge_2_re/)
+> 本仓库最初 Fork 自 [rezual/nge_2_re](https://github.com/rezual/nge_2_re/)
 >
-> 参见原项目在`forum.evageeks.org`上的[帖子](https://forum.evageeks.org/thread/1393/Game-Neon-Genesis-Evangelion-2-Another-Cases/700/)
+> 参见原项目在`EVA Geeks`上的[帖子](https://forum.evageeks.org/thread/1393/Game-Neon-Genesis-Evangelion-2-Another-Cases/700/)
 
 现在仓库的项目结构如下：
-- `app`：用于将游戏资源文件解析提取进数据库
-- `plugin`：使用`C`语言编写的PSP模块，用于替换`EBOOT.BIN`并对原游戏进行内存修改
-- `scripts`：一些脚本
-  - `paratranz`：用于处理`Paratranz`平台上存放的文本
-  - `mt`：使用机器翻译处理
-- `zh_cn`
-  - `elf_patch`：用于将`SJIS`文本翻译覆盖到 EBOOT.BIN中（Deprecated）
-- `tools`：来自源仓库的文件解析脚本，进行了部分修改
+- `src`：
+  - `app`：用于将游戏资源文件解析提取进数据库
+    - `elf_patch`：用于将`SJIS`文本翻译覆盖到 EBOOT.BIN中（Deprecated）
+    - `parser/tools`：来自源仓库的文件解析脚本，进行了部分修改
+  - `plugin`：使用`C`语言编写的PSP模块，用于替换`EBOOT.BIN`并对原游戏进行内存修改
+  - `scripts`：一些脚本
+    - `paratranz`：用于处理`Paratranz`平台上存放的文本
+    - `mt`：使用机器翻译处理
 
 本仓库代码按 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) 协议开源。
 
@@ -54,7 +54,7 @@
 + [ ] 补丁以插件（生成器？）形式发布
 + [ ] 动态修改EBOOT文件（所有EBOOT翻译？）
 
-+ [ ] 构建Docker镜像
++ [x] 构建Docker镜像
 
 # 开发
 
