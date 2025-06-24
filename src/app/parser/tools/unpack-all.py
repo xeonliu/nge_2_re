@@ -2,7 +2,6 @@
 
 import os
 import sys
-import json
 
 from hgpt import HgptWrapper
 from evs import EvsWrapper

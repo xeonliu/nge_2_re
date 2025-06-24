@@ -1,12 +1,13 @@
 import os
 import argparse
 
-from tools.hgar import HGArchive
-from app.dao.hgar import HGARDao
-from app.dao.sentence import SentenceDao
-from app.dao.translation import TranslationDao
+from app.parser import tools
 
-from app.db import Base, engine
+from app.database.dao.hgar import HGARDao
+from app.database.dao.sentence import SentenceDao
+from app.database.dao.translation import TranslationDao
+
+from app.database import Base, engine
 from app.utils.evs import get_avatar_and_exp
 
 HGAR_PREFIX = ["a", "b2a", "b2s", "bb", "bs", "cev", "e", "f", "levent", "n", "tev"]
@@ -26,7 +27,7 @@ class App:
             pass
 
     def compile_hgar(name: str, output_dir: str):
-        hgar: HGArchive = HGARDao.get_hgar_by_name(name)
+        hgar: tools.HGArchive = HGARDao.get_hgar_by_name(name)
         hgar.save(os.path.join(output_dir, name))
         pass
 
@@ -39,7 +40,7 @@ class App:
         pass
 
     def decompile_hgar(path: str):
-        hgar = HGArchive(None, [])
+        hgar = tools.HGArchive(None, [])
         hgar.open(path)
 
         filename = os.path.basename(path)

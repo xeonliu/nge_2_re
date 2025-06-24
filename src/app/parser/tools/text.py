@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-import struct
 import json
 import common
-import re
 
 class TextArchive(object):
     def __init__(self):

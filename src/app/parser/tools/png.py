@@ -732,7 +732,7 @@ try:
     BaseFilter = _rel_import('pngfilters', 'BaseFilter')
 except:
     # Whatever happens we could use internal part
-    if not(sys.exc_info()[0] is ImportError):
+    if sys.exc_info()[0] is not ImportError:
         logging.error("Error during import of compiled filters!")
         logging.error(sys.exc_info()[1])
         logging.error("Fallback to pure python mode!")

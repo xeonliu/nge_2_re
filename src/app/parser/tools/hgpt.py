@@ -7,7 +7,6 @@
 #   with the final one being in event/f013.har.HGARPACK/f013_15a.zpt.DECOMPRESSED
 
 import os
-import struct
 import json
 import png
 import common

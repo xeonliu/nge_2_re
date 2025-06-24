@@ -14,3 +14,8 @@ dependencies = [
     "openai<1.0",
 ]
 package_mode = false
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.0",
+]

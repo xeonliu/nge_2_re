@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-import struct
 import json
-import re
 import sys
 import io
 

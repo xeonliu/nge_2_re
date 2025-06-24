@@ -1,6 +1,7 @@
 import json
 import rzpipe
-from tools.common import to_eva_sjis
+
+from app.parser import tools
 
 
 class Patcher:
@@ -41,8 +42,8 @@ class Patcher:
                 """
                 elf_vmaddr, _, size = self.extract_technical(elem["key"])
                 print(elem["translation"])
-                original_bytes = to_eva_sjis(elem["original"])
-                translation_bytes = to_eva_sjis(elem["translation"])
+                original_bytes = tools.to_eva_sjis(elem["original"])
+                translation_bytes = tools.to_eva_sjis(elem["translation"])
                 hex = translation_bytes.hex() + b"\x00".hex()
                 if len(translation_bytes) > len(original_bytes):
                     fails.append(elem)

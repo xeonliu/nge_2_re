@@ -3,8 +3,7 @@ Obtain a sentence with or without translation from the database.
 """
 
 from ..db import get_db
-from tools.hgar import HGArchiveFile
-from tools.evs import EvsWrapper
+from app.parser import tools
 
 # Entities
 from ..entity.hgar_file import HgarFile
@@ -14,7 +13,7 @@ from .evs import EVSDao
 
 
 class HGARFileDao:
-    def save(hgar_id: int, hgar_files: list[HGArchiveFile]):
+    def save(hgar_id: int, hgar_files: list[tools.HGArchiveFile]):
         for file in hgar_files:
             with next(get_db()) as db:
                 # FIXME: Remove decode
@@ -35,7 +34,7 @@ class HGARFileDao:
 
                 # TODO: Type Check
                 if short_name.endswith(".evs"):
-                    evs_wrapper = EvsWrapper()
+                    evs_wrapper = tools.EvsWrapper()
                     evs_wrapper.open_bytes(content)
                     print("Save evs")
                     # Persisit Entries
@@ -48,7 +47,7 @@ class HGARFileDao:
                     db.commit()
         return hgar_files
 
-    def form(hgar_id: int) -> list[HGArchiveFile]:
+    def form(hgar_id: int) -> list[tools.HGArchiveFile]:
         with next(get_db()) as db:
             print(f"Form HGAR Files for {hgar_id}")
             hgar_files = (
@@ -61,12 +60,14 @@ class HGARFileDao:
             for hgar_file in hgar_files:
                 print(f"Short Name: {hgar_file.short_name}")
                 if hgar_file.short_name.endswith(".evs"):
-                    evs_wrapper: EvsWrapper = EVSDao.form_evs_wrapper(hgar_file.id)
+                    evs_wrapper: tools.EvsWrapper = EVSDao.form_evs_wrapper(
+                        hgar_file.id
+                    )
                     content = evs_wrapper.save_bytes()
                     size = len(content)
                     # print(f"Size: {size}")
                     hg_archive_files.append(
-                        HGArchiveFile(
+                        tools.HGArchiveFile(
                             long_name=hgar_file.long_name,
                             short_name=hgar_file.short_name,
                             size=size,
@@ -86,7 +87,7 @@ class HGARFileDao:
                     size = len(raw.content)
                     # print(f"Size: {size}")
                     hg_archive_files.append(
-                        HGArchiveFile(
+                        tools.HGArchiveFile(
                             long_name=hgar_file.long_name,
                             short_name=hgar_file.short_name,
                             size=size,

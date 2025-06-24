@@ -5,7 +5,7 @@ Persist EVSWrapper
 import hashlib
 
 from ..db import get_db
-from tools.evs import EvsWrapper
+from app.parser import tools
 
 from ..entity.evs_entry import EVSEntry
 from ..entity.sentence import Sentence
@@ -13,7 +13,7 @@ from ..entity.translation import Translation
 
 
 class EVSDao:
-    def save(hgar_file_id: int, evs_file: EvsWrapper):
+    def save(hgar_file_id: int, evs_file: tools.EvsWrapper):
         # Save All the Entries
         with next(get_db()) as db:
             for type, params, content in evs_file.entries:
@@ -22,7 +22,7 @@ class EVSDao:
                 # Entry Parameters
 
                 # Entry Content
-                if content == None or len(content) == 0:
+                if content is None or len(content) == 0:
                     evs = EVSEntry(
                         type=type,
                         param=params,
@@ -39,7 +39,7 @@ class EVSDao:
                 # Store the Sentence
                 if (
                     db.query(Sentence).filter(Sentence.key == hashed_str).scalar()
-                    == None
+                    is None
                 ):
                     sentence = Sentence(key=hashed_str, content=content)
                     print("Evs add")
@@ -55,7 +55,7 @@ class EVSDao:
                 db.add(evs)
             db.commit()
 
-    def form_evs_wrapper(hgar_file_id: int) -> EvsWrapper:
+    def form_evs_wrapper(hgar_file_id: int) -> tools.EvsWrapper:
         with next(get_db()) as db:
             evs_entries = (
                 db.query(EVSEntry)
@@ -64,9 +64,9 @@ class EVSDao:
                 .all()
             )
             print(evs_entries)
-            evs = EvsWrapper()
+            evs = tools.EvsWrapper()
             for entry in evs_entries:
-                if entry.sentence_key == None:
+                if entry.sentence_key is None:
                     evs.add_entry(entry.type, entry.param, b"")
                     continue
                 translation = (

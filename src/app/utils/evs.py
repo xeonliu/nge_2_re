@@ -1,4 +1,4 @@
-from tools.evs import FUNCTION_SAY_PARAMS
+from app.parser.tools.evs import FUNCTION_SAY_PARAMS
 
 
 def get_avatar_and_exp(avatar_param: int, exp_param: int):

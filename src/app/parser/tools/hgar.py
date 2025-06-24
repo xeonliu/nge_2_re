@@ -5,7 +5,6 @@
 # Mass-extract on Unix: find /path_to/PSP_GAME/USRDIR/ -name '*.har' -exec /path_to/hgar.py --extract {} \;
 
 import os
-import struct
 import tools.common as common
 
 class HGArchiveFile(object):
@@ -236,7 +235,7 @@ class HGArchive(object):
     def open(self, file_path):
         with open(file_path, 'rb') as f:
             # Store the filename.
-            self.filename = os.path.basename(file_path);
+            self.filename = os.path.basename(file_path)
             
             magic_number = f.read(4).decode('ascii', 'ignore')
             if magic_number != 'HGAR':
