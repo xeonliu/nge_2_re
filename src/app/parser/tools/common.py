@@ -5,6 +5,8 @@ import struct
 import os
 import sys
 
+from app.utils.map import CUSTOM_ENCODE_MAP
+
 if (sys.stdout.encoding.lower().strip().replace('-', '').replace(' ', '') != 'utf8'):
     print("Your system\'s default terminal/screen encoding is not UTF-8.\n"
           "Please rerun this script by first setting\n"
@@ -71,31 +73,23 @@ def to_eva_sjis(content):
     # We let most remain as regular ASCII
     #content = content.replace('N²', 'Ν')
     #content = content.replace('S²', 'Σ')
-    # NOTE: 我们采用一种新型编码
-    # 能SJIS就SJIS，不能就GB2312,然后GB2312是特殊的GB2312
-    # // index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
-    # // mapped_code = 0xA600 + index;
     # Convert unicode to nge2 SJIS
     result = bytearray()
     for char in content:
+        # 首先尝试将字符编码为 Shift_JIS
+        encoded_char = None
         try:
             encoded_char = char.encode('shift_jis')
         except UnicodeEncodeError:
-            try:
-                # TODO：这里逻辑应该抽取出来
-                # 需要读取映射表
-                encoded_char = char.encode('gb2312', 'ignore')
-                # 将GB2312编码转换为特殊的GB2312编码
-                if len(encoded_char) == 2:
-                    first_byte = encoded_char[0]
-                    second_byte = encoded_char[1]
-                    index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1)
-                    mapped_code = 0xA600 + index
-                    encoded_char = bytearray(2)
-                    encoded_char[0] = (mapped_code >> 8) & 0xFF
-                    encoded_char[1] = mapped_code & 0xFF
-                    # print("ENCODED: ", char, encoded_char.hex())
-            except UnicodeEncodeError:
+            # 然后尝试将字符编码为 GB2312（修改后）
+            # Find the Entry in which its 'char' equals to char in CUSTOM_ENCODE_MAP
+            for entry in CUSTOM_ENCODE_MAP:
+                if entry['char'] == char:
+                    # If found, use the custom code
+                    encoded_char = bytes.fromhex(entry['custom_code'][2:])
+                    print(f"Custom encoding used for character: {char} -> {encoded_char.hex()}")
+                    break
+            if encoded_char is None:
                 raise Exception(f'There seems to be a character that cannot be converted to Shift_JIS or GB2312. Check the text: {char}')
         result.extend(encoded_char)
     return bytes(result)

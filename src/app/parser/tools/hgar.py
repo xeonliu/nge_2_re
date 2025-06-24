@@ -5,7 +5,7 @@
 # Mass-extract on Unix: find /path_to/PSP_GAME/USRDIR/ -name '*.har' -exec /path_to/hgar.py --extract {} \;
 
 import os
-import tools.common as common
+import common as common
 
 class HGArchiveFile(object):
     def __init__(self, long_name, short_name, size, 

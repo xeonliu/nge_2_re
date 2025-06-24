@@ -1,6 +1,12 @@
 import unittest
-from app.entity.sentence import Sentence
-from app.db import Base, engine, get_db
+
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '../src'))
+
+from app.database.entity.sentence import Sentence
+from app.database.db import Base, engine, get_db
 
 
 class TestSentenceModel(unittest.TestCase):
@@ -18,7 +24,7 @@ class TestSentenceModel(unittest.TestCase):
         self.db.add(sentence)
         self.db.commit()
         self.db.refresh(sentence)
-        self.assertEqual(sentence.key, 1)
+        self.assertEqual(sentence.key, "1")
         self.assertEqual(sentence.content, "Hello, world!")
 
 
