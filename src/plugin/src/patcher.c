@@ -188,6 +188,16 @@ char *strcpy(char *dest, const char *src)
     return ret;
 }
 
+char *strcpyn(char *dest, const char *src, size_t n)
+{
+    char *ret = dest;
+    while (n-- && (*dest++ = *src++) != '\0')
+        ;
+    if (n > 0)
+        *dest = '\0'; // Null-terminate if there's space left
+    return ret;
+}
+
 // TODO: Patch Using External JSON File
 void patch_sentence()
 {
@@ -271,3 +281,51 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089ea0c4), "空闲存档槽");
     strcpy((char *)NEW_ADDR(0x089ea0d8), "Memory Stick™尚未完成加载。\n\n是否停止加载，继续游戏？");
 };
+
+typedef struct TranslationHeader {
+    u32 num;
+} TranslationHeader;
+
+typedef struct TranslationEntry {
+    u32 offset;
+    u32 size;
+    u8 buffer[1024];
+} TranslationEntry;
+
+/**
+* Patch SJIS Content in EBOOT bin using Entries Generated.
+*/
+int patch_from_external_file(const char* filename) {
+    int err;
+
+    SceUID fd = sceIoOpen(filename, PSP_O_RDONLY, 0777);
+    
+    TranslationHeader header;
+    err = sceIoRead(fd, &header.num, sizeof(u32));
+    if(err < 0) {
+        return err;
+    }
+    
+    TranslationEntry entry;
+    for(int i=0;i<header.num;++i) {
+        err = sceIoRead(fd, &entry.offset, sizeof(u32));
+        if (err < 0) {
+            return err;
+        }
+        
+        err = sceIoRead(fd, &entry.size,sizeof(u32));
+        if (err < 0) {
+            return err;
+        }
+        
+        err = sceIoRead(fd, &entry.buffer, entry.size);
+        if (err < 0) {
+            return err;
+        }
+
+        // Patch the BIN.
+        strcpyn((char *)NEW_ADDR(entry.offset), entry.buffer, entry.size);
+    }
+
+    return 0;
+}

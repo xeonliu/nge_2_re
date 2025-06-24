@@ -1,15 +1,37 @@
-"""Generate GB2312 Binary Table and Mapping File
-// Input Space
-// First Byte: 0xA1-0xF7
-// Second Byte: 0xA1-0xFE
-//
-// Output Space: 0xA600-0xDDFF
-// index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1);
-// mapped_code = 0xA600 + index;
+"""
+从GB2312编码生成自定义编码的映射表，并将其转换为UTF-16编码的二进制文件。
+注意避开0x25编码
 """
 
+from dataclasses import dataclass, asdict
+import json
 
-def gb2312_convert(f, func):
+
+@dataclass
+class Entry:
+    """
+    映射表条目类，包含字符、UTF-16编码和自定义编码。
+    """
+
+    char: str
+    utf16_hex: str
+    custom_code: str
+
+
+def gb2312_to_custom(f):
+    """
+    生成映射表并打印到文件，返回UTF16编码的字节序列列表。
+    映射表的格式为：
+    ```
+    字符\tUTF-16编码\t自定义编码
+    ```
+    """
+    utf16s = []
+    mappings = []
+
+    # 映射表的空间很大，不需要考虑大小问题，只用避开0x25即可。
+    i = 0
+    custom_code = 0xA600
     # 遍历所有可能的第一个字节
     for first_byte in range(0xA1, 0xF8):
         # 遍历所有可能的第二个字节
@@ -22,31 +44,50 @@ def gb2312_convert(f, func):
                 unicode_char = gb2312_bytes.decode("gb2312")
 
                 # 将 Unicode 字符编码为 UTF-16
-                utf16_bytes = unicode_char.encode("utf-16le")
+                utf16_bytes = unicode_char.encode("utf-16be")
 
-                # 计算自定义编码
-                index = (first_byte - 0xA1) * 94 + (second_byte - 0xA1)
-                custom_code = 0xA600 + index
+                if (i % 0x100) == 0x25:
+                    # 跳过 0x25
+                    i += 1
+                    utf16s.append(b"\x00\x00")
 
-                # 写入 UTF-16 编码到文件
-                func(f, unicode_char, utf16_bytes, custom_code)
+                custom_code = 0xA600 + i
+
+                # 将映射条目添加到列表中
+                utf16s.append(utf16_bytes)
+
+                mappings.append(
+                    Entry(unicode_char, utf16_bytes.hex(), hex(custom_code))
+                )
+
+                i += 1
             except UnicodeDecodeError:
-                # 写入 0x0000 表示无效编码
-                func(f, unicode_char, b"\x00\x00", custom_code)
+                # 跳过无效的 GB2312 编码
+                continue
+
+    json.dump([asdict(entry) for entry in mappings], f, ensure_ascii=False, indent=4)
+
+    # 合计 7445 个字符
+    print(f"Used Space: 0xa600-{hex(custom_code)}")
+    return utf16s
 
 
-def to_binary(f, unicode_char, utf16_bytes, custom_code):
-    f.write(utf16_bytes)
+def write_to_utf16_binary(utf16s: list[bytes]):
+    # 打开文件以写入二进制映射表
+    with open("GB2312_CUSTOM.BIN", "wb") as f:
+        # 遍历所有可能的第一个字节
+        for utf16_bytes in utf16s:
+            # 写入 UTF-16 编码到文件
+            f.write(utf16_bytes)
 
 
-def to_txt(f, unicode_char, utf16_bytes, custom_code):
-    f.write(f"{unicode_char}\t{utf16_bytes.hex()}\t{hex(custom_code)}\n")
+if __name__ == "__main__":
+    # 打开文件以写入映射表
+    with open("GB2312_Custom_Map.json", "w", encoding="utf-8") as f:
+        # 调用函数生成映射表
+        bytes = gb2312_to_custom(f)
 
+    print(f"{len(bytes)} characters generated.")
 
-# 调用函数生成映射表
-with open("gb2312_to_custom_map.txt", "w", encoding="utf-8") as f:
-    gb2312_convert(f, to_txt)
-
-# 调用函数生成二进制映射表
-with open("GB_2312.bin", "wb") as f:
-    gb2312_convert(f, to_binary)
+    # 调用函数生成二进制映射表
+    write_to_utf16_binary(bytes)

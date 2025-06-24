@@ -1,5 +1,5 @@
-# GB_2312.bin: 
-# 	python3 generate.py
+GB2312_CUSTOM.BIN: 
+	uv run generate.py
 
-# gb2312.c: GB_2312.bin
-# 	xxd -i GB_2312.bin > gb2312.c
+gb2312.c: GB2312_CUSTOM.BIN
+	xxd -i GB2312_CUSTOM.BIN > gb2312.c

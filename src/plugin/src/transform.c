@@ -33,8 +33,7 @@ extern unsigned char SJIS_bin[360]; // SJIS Table
 //
 // Output Space: 0xA600-0xDDFF
 // index: See gb2312_to_custom_map
-// mapped_code = 0xA600 + index;
-extern unsigned char GB_2312[]; // UTF-16 Table for Custom Encoding
+extern unsigned char GB2312_CUSTOM_BIN[]; // UTF-16 Table for Custom Encoding
 
 void transfrom_debug()
 {
@@ -71,7 +70,7 @@ uint16_t modified_to_utf16(u16 code)
     {
         dbg_log("Out of Range: %x\n", code);
     }
-    return ((u16 *)GB_2312)[code - 0xA600];
+    return ((u16 *)GB2312_CUSTOM_BIN)[code - 0xA600];
 }
 
 // FUN_08884680
