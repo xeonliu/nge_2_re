@@ -75,6 +75,7 @@ void patch(u32 mod_base)
     // TODO: Use L/R Buttons to Trigger Debug Menu
     pulse_autowin();
     debug_menu();
+    patch_from_external_file("ms0:/PSP/EBTRANS.BIN");
 };
 
 void patch_function()
@@ -298,15 +299,21 @@ typedef struct TranslationEntry {
 int patch_from_external_file(const char* filename) {
     int err;
 
+    static TranslationHeader header;
+    static TranslationEntry entry;
+
+
     SceUID fd = sceIoOpen(filename, PSP_O_RDONLY, 0777);
+
+    dbg_log("fd: %d", fd);
     
-    TranslationHeader header;
     err = sceIoRead(fd, &header.num, sizeof(u32));
     if(err < 0) {
         return err;
     }
+
+    dbg_log("Header Num: %d", header.num);
     
-    TranslationEntry entry;
     for(int i=0;i<header.num;++i) {
         err = sceIoRead(fd, &entry.offset, sizeof(u32));
         if (err < 0) {
@@ -318,14 +325,17 @@ int patch_from_external_file(const char* filename) {
             return err;
         }
         
-        err = sceIoRead(fd, &entry.buffer, entry.size);
+        err = sceIoRead(fd, &entry.buffer, 1024);
         if (err < 0) {
             return err;
         }
 
+        dbg_log("Offset: %x, Buffer: %x, Size: %d", entry.offset, entry.buffer, entry.size);
         // Patch the BIN.
         strcpyn((char *)NEW_ADDR(entry.offset), entry.buffer, entry.size);
     }
 
-    return 0;
+    err = sceIoClose(fd);
+
+    return err;
 }
