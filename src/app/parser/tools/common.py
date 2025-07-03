@@ -76,6 +76,10 @@ def to_eva_sjis(content):
     # Convert unicode to nge2 SJIS
     result = bytearray()
     for char in content:
+        # # FIXME:
+        # # 1. '-' 转换为 'ー'
+        # if char == '—':
+        #     char = 'ー'
         # 首先尝试将字符编码为 Shift_JIS
         encoded_char = None
         try:
@@ -89,7 +93,9 @@ def to_eva_sjis(content):
                     encoded_char = bytes.fromhex(entry['custom_code'][2:])
                     break
             if encoded_char is None:
-                raise Exception(f'There seems to be a character that cannot be converted to Shift_JIS or GB2312. Check the text: {char}')
+                # FIXME: If no custom code is found, fallback to a placeholder character
+                encoded_char = '?'.encode('shift_jis')  # Fallback to a placeholder character
+                # raise Exception(f'There seems to be a character that cannot be converted to Shift_JIS or GB2312. Check the text: {char}')
         result.extend(encoded_char)
     return bytes(result)
 

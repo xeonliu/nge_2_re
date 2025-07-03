@@ -44,7 +44,7 @@ def gb2312_to_custom(f):
                 unicode_char = gb2312_bytes.decode("gb2312")
 
                 # 将 Unicode 字符编码为 UTF-16
-                utf16_bytes = unicode_char.encode("utf-16be")
+                utf16_bytes = unicode_char.encode("utf-16le")
 
                 if (i % 0x100) == 0x25:
                     # 跳过 0x25

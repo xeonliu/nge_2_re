@@ -168,7 +168,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     if args.import_har:
         App()
-        App.import_har(os.path.dirname(args.import_har))
+        App.import_har(args.import_har)
     elif args.export_evs:
         App.output_evs(args.export_evs)
     elif args.import_translation:

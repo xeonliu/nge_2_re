@@ -30,3 +30,5 @@ downloads
 *.7z
 *.json
 pz_downloads
+temp
+build
