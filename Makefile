@@ -1,0 +1,49 @@
+DOWNLOAD_DIR := temp/downloads
+EVENT_DIR := temp/PSP_GAME/USRDIR/event
+
+download_translations:
+	@echo "Downloading translations..."
+	@mkdir -p $(DOWNLOAD_DIR)
+	uv run src/scripts/paratranz/download.py  --dest_folder $(DOWNLOAD_DIR)
+
+check_translations: $(DOWNLOAD_DIR)/evs_trans.json
+	@echo "Checking EVS translations..."
+	export PYTHONPATH=$(shell pwd)/src && uv run -m scripts.check '$(DOWNLOAD_DIR)/evs_trans.json' build/evs_report.json evs
+	@echo "Checking EBOOT translations..."
+	export PYTHONPATH=$(shell pwd)/src && uv run -m scripts.check '$(DOWNLOAD_DIR)/eboot_trans.json' build/eboot_report.json eboot
+
+import_translations:
+	@echo "Importing translations..."
+	export PYTHONPATH=$(shell pwd)/src && uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/evs_trans.json'
+
+import_event:
+	@echo "Importing event hgar..."
+	export PYTHONPATH=$(shell pwd)/src && uv run -m app.cli.main --import_har '$(EVENT_DIR)'
+
+# TODO: 修改EBOOT？
+# 创建 Len Offset 之类的文件，让Plugin读取
+
+hgar:
+	@echo "Generating hgar..."
+	export PYTHONPATH=$(shell pwd)/src && uv run -m app.cli.main --output_hgar build
+
+plugin:
+	@echo "Building plugin..."
+	make -C src/plugin
+	@echo "Copying plugin to build directory..."
+	@mkdir -p build
+	@cp -r src/plugin/EBOOT.BIN build/
+
+# TODO: Build? Install?
+# 拷贝到插件目录
+build:
+	@echo "Building app..."
+	@mkdir -p build
+	@cp -r app/build/* build/
+	@echo "Copying translations to build directory..."
+	@mkdir -p build/translations
+	@cp -r data/pz_downloads/* build/translations/
+	@echo "Copying assets to build directory..."
+	@mkdir -p build/assets
+	@cp -r assets/* build/assets/
+	@echo "Build complete."

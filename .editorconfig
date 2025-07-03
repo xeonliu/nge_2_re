@@ -1,0 +1,32 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# 顶层配置文件
+root = true
+
+# 所有文件通用设置
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Python 文件特定设置
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+
+# Markdown 文件特定设置
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# YAML 文件特定设置
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+# JSON 文件特定设置
+[*.json]
+indent_style = space
+indent_size = 2 
