@@ -31,7 +31,29 @@ layout: ../layouts/MarkdownPostLayout.astro
 
 7 月 18 日，`mel` 加入项目。对游戏官网历史版本进行存档并部署在 GitHub Pages 上，并将当时的游戏 PV 转载到 Bilibili。本站开始构建。
 
+8 月 29 日，`Tianying.exe` 加入项目。
+
 9 月 16 日，开始使用 `Meta-Llama-3-8B-Instruct` 模型进行辅助翻译。
+
+2025 年 1 月 29 日，使用哈希函数对 `EVS` 文件去重
+
+2 月 1 日，撰写脚本检查翻译格式。
+
+2 月 13 日，`カロモリモキナエ` 加入项目。
+
+2 月 14 日，`hanDragon20` 加入项目。
+
+4 月 27 日，建立 QQ 群。
+
+5 月 17 日，`Belfraw` 加入项目。
+
+7 月 3 日，代码重构，更新码表避开特殊字符。
+
+7 月 5 日，召开第一次汉化小组会议。
+
+7 月 6 日，`Asuka` 和 `yokuse` 加入项目。
+
+7 月 8 日，`Laolv000` 加入项目。汉化交流工作转移到 QQ 群。
 
 # 字体版权声明
 
@@ -54,6 +76,7 @@ layout: ../layouts/MarkdownPostLayout.astro
 - 本网站使用`astro`构建，使用`vanilla`主题
 - 本项目基于`rezual/nge_2_re`的研究成果
 - PSP 字体生成与替换使用`tpunix/pgftool`和`xeonliu/FontHack_PSP`
+- 断点调试使用 `hrydgard/ppsspp`
 
 # 商标声明
 
