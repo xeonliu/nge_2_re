@@ -60,7 +60,7 @@
 
 1. 安装[`uv`](https://docs.astral.sh/uv/)
 
-2. 配置`PSPDev`工具链
+2. 配置`PSPDEV`工具链
 
 
 ## Using Docker
@@ -68,3 +68,17 @@
 docker build -t pspdev-dev .
 docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 ```
+
+## 使用指南
+
+TODO: 如何使用补丁生成镜像
+
+### PPSSPP
+
++ 对于`1.19.0` 版本及以上的PPSSPP，可在`游戏设置`->`开发者工具`->`Disable HLE`中选中`sceFont_Library`以启用修改后的字体。
+
++ `IOS`设备请在`开发者工具`中将`CPU`核心模式改为解释器以减少 JIT 带来的性能损失
+
+### PSP
+
+需要一台破解后的`PSP`，推荐使用`ARK-4`
