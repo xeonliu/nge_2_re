@@ -19,18 +19,21 @@ class App:
         Base.metadata.create_all(bind=engine)
         pass
 
+    @staticmethod
     def import_har(dir_path: str):
         for root, _, files in os.walk(dir_path):
             for file in files:
                 if file.endswith(".har"):
                     App.decompile_hgar(os.path.join(root, file))
             pass
-
+    
+    @staticmethod
     def compile_hgar(name: str, output_dir: str):
         hgar: tools.HGArchive = HGARDao.get_hgar_by_name(name)
         hgar.save(os.path.join(output_dir, name))
         pass
-
+    
+    @staticmethod
     def output_hgar(output_dir: str):
         for prefix in HGAR_PREFIX:
             print(f"Exporting {prefix}")
@@ -38,7 +41,8 @@ class App:
             for name, hgar in zip(names, hgars):
                 hgar.save(os.path.join(output_dir, name))
         pass
-
+    
+    @staticmethod
     def decompile_hgar(path: str):
         hgar = tools.HGArchive(None, [])
         hgar.open(path)
@@ -52,6 +56,9 @@ class App:
         hgar.info()
 
     def output_evs(path: str):
+        """
+        输出Paratranz使用的EVS原文JSON
+        """
         for prefix in HGAR_PREFIX:
             print(f"Exporting {prefix}")
             results = SentenceDao.export_sentence_entry(prefix)

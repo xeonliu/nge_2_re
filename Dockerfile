@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ubuntu:22.04
+FROM --platform=linux/amd64 ubuntu:24.04
 
 LABEL maintainer="xeonliu"
 LABEL description="Translation Project for PSP Evangelion 2: Another Cases with custom PSPDEV setup"
@@ -41,18 +41,6 @@ ENV PATH="$PATH:$PSPDEV/bin"
 
 # Install uv for Python package management
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Set up the application workspace
-# WORKDIR /app
-
-# Copy Python project configuration
-# COPY --chown=pspdev:pspdev pyproject.toml /app/
-
-# Install Python dependencies with uv
-# RUN /home/pspdev/.local/bin/uv sync
-
-# Copy the rest of the application
-# COPY --chown=pspdev:pspdev . /app/
 
 # Verify PSP SDK installation
 RUN psp-config --pspdev-path

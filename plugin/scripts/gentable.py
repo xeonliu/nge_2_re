@@ -85,9 +85,9 @@ if __name__ == "__main__":
     # 打开文件以写入映射表
     with open("GB2312_Custom_Map.json", "w", encoding="utf-8") as f:
         # 调用函数生成映射表
-        bytes = gb2312_to_custom(f)
+        map_bytes = gb2312_to_custom(f)
 
-    print(f"{len(bytes)} characters generated.")
+    print(f"{len(map_bytes)} characters generated.")
 
     # 调用函数生成二进制映射表
-    write_to_utf16_binary(bytes)
+    write_to_utf16_binary(map_bytes)
