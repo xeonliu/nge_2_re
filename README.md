@@ -1,20 +1,21 @@
 # 《新世纪福音战士 2 ：被创造的世界》汉化计划
 
 > 本仓库最初 Fork 自 [rezual/nge_2_re](https://github.com/rezual/nge_2_re/)
->
+
 > 参见原项目在`EVA Geeks`上的[帖子](https://forum.evageeks.org/thread/1393/Game-Neon-Genesis-Evangelion-2-Another-Cases/700/)
 
 现在仓库的项目结构如下：
-- `src`：
-  - `app`：用于将游戏资源文件解析提取进数据库
-    - `elf_patch`：用于将`SJIS`文本翻译覆盖到 EBOOT.BIN中（Deprecated）
-    - `parser/tools`：来自源仓库的文件解析脚本，进行了部分修改
-  - `plugin`：使用`C`语言编写的PSP模块，用于替换`EBOOT.BIN`并对原游戏进行内存修改
-  - `scripts`：一些脚本
-    - `paratranz`：用于处理`Paratranz`平台上存放的文本
-    - `mt`：使用机器翻译处理
+- `app`：用于将游戏资源文件解析提取进数据库
+  - `elf_patch`：用于生成`S-JIS`文本翻译文件`EBTRANS.BIN`
+  - `parser/tools`：来自源仓库的资源文件解析脚本，进行了部分修改
+- `plugin`：
+  - 使用`C`语言编写的启动器，用于替换主程序`EBOOT.BIN`
+  - 在启动原游戏主程序后对其进行内存修改
+- `scripts`：一些脚本
+  - `paratranz`：用于处理`Paratranz`平台上存放的文本
+  - `mt`：使用机器翻译处理
 
-本仓库代码按 [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) 协议开源。
+本仓库代码按 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) 协议开源。
 
 本项目**中文翻译文本**按照[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)开源协议共享。
 
@@ -31,7 +32,7 @@
 
 二者存档通用，均显示为`ULJS00061`
 
-## TODO
+## RoadMap
 + [x] 使用关系型数据库储存解析后的内容
 + [x] 一键导出待翻译文本
 + [x] 从Paratranz导入翻译文本
@@ -42,7 +43,7 @@
   + [ ] 翻译进度统计
   + [x] 翻译问题报告
   + [x] 统计`$a``%s`等的使用情况
-  + ~~[ ] 使用XDelta自动生成Patch~~
+  + [ ] 使用XDelta自动生成Patch
 + [ ] 搭建翻译计划网站
 + [x] 对宣发网站存档。
 + [x] 扩展字库
@@ -53,15 +54,19 @@
 + [x] 修改编码映射，防止`厅`编码包含`%`
 + [ ] 补丁以插件/生成器形式发布
 + [x] 所有EBOOT翻译使用动态修改
-
 + [x] 构建Docker镜像
 
 # 开发
 
+## 使用 `VSCode` + `Docker`
+
+1. 安装 `Dev Containers` 插件
+2. 选择 `Reopen in Container` 在容器中进行开发
+
+## Build from Source
+
 1. 安装[`uv`](https://docs.astral.sh/uv/)
-
 2. 配置`PSPDEV`工具链
-
 
 ## Using Docker
 ```sh
@@ -82,3 +87,8 @@ TODO: 如何使用补丁生成镜像
 ### PSP
 
 需要一台破解后的`PSP`，推荐使用`ARK-4`
+
+使用Builder模式
+TODO：
+- 解析PP/PPD/PPC
+- 拥有Build能力，依据产物（传入）构建出文件。
