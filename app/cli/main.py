@@ -6,6 +6,7 @@ from app.parser import tools
 from app.database.dao.hgar import HGARDao
 from app.database.dao.sentence import SentenceDao
 from app.database.dao.translation import TranslationDao
+from app.database.dao.hgpt import HgptDao
 
 from app.database.db import Base, engine
 from app.utils.evs import get_avatar_and_exp
@@ -55,6 +56,7 @@ class App:
 
         hgar.info()
 
+    @staticmethod
     def output_evs(path: str):
         """
         输出Paratranz使用的EVS原文JSON
@@ -88,6 +90,7 @@ class App:
 
                 f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
+    @staticmethod
     def import_translation(filepath: str):
         # Drop all translations
         TranslationDao.delete_all()
@@ -98,6 +101,7 @@ class App:
             TranslationDao.save_translations(data)
         pass
 
+    @staticmethod
     def output_translation(output_dir):
         for prefix in HGAR_PREFIX:
             print(f"Exporting {prefix}")
@@ -131,11 +135,23 @@ class App:
                 f.write(json.dumps(list, indent=4, ensure_ascii=False))
         pass
 
-    def output_images():
-        pass
+    @staticmethod
+    def output_images(output_dir: str):
+        """
+        导出所有 HGPT 图像到指定目录
+        按照 HAR 文件组织，文件名包含短名称和 hash
+        """
+        print(f"Exporting HGPT images to {output_dir}")
+        HgptDao.export_all_images(output_dir)
 
-    def update_images():
-        pass
+    @staticmethod
+    def import_images(translation_dir: str):
+        """
+        从指定目录导入翻译后的图像
+        根据文件名中的 hash 匹配图像
+        """
+        print(f"Importing translated images from {translation_dir}")
+        HgptDao.import_translated_images(translation_dir)
 
     def compile():
         pass
@@ -170,7 +186,17 @@ if __name__ == "__main__":
     # Output HGAR
     parser.add_argument("--output_hgar", type=str, help="Path for exporting HGAR files")
 
-    # TODO: Import/Export Images
+    # Export Images (HGPT)
+    parser.add_argument(
+        "--export_images", type=str, help="Path for exporting HGPT images as PNG"
+    )
+
+    # Import Translated Images
+    parser.add_argument(
+        "--import_images",
+        type=str,
+        help="Path to the directory containing translated PNG images",
+    )
 
     args = parser.parse_args()
     if args.import_har:
@@ -184,3 +210,7 @@ if __name__ == "__main__":
         App.output_translation(args.export_translation)
     elif args.output_hgar:
         App.output_hgar(args.output_hgar)
+    elif args.export_images:
+        App.output_images(args.export_images)
+    elif args.import_images:
+        App.import_images(args.import_images)

@@ -3,6 +3,10 @@ from ..db import Base
 
 
 class EVSEntry(Base):
+    """
+    一个EVS文件对应一个HGAR内部的文件
+    一个EVS文件对应多条EVSEntry
+    """
     __tablename__ = "evs_entries"
 
     id = Column(Integer, primary_key=True, index=True)
