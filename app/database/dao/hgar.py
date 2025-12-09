@@ -44,3 +44,9 @@ class HGARDao:
                 hgar_archives.append(tools.HGArchive(hgar.version, hgar_files))
                 hgar_names.append(hgar.name)
             return hgar_names, hgar_archives
+
+    def get_all_hgar_names():
+        """获取所有 HGAR 文件的名称"""
+        with next(get_db()) as db:
+            hgars = db.query(Hgar).all()
+            return [hgar.name for hgar in hgars]

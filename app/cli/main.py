@@ -35,13 +35,36 @@ class App:
         pass
     
     @staticmethod
-    def output_hgar(output_dir: str):
-        for prefix in HGAR_PREFIX:
-            print(f"Exporting {prefix}")
+    def output_hgar(output_dir: str, prefix: str = None):
+        """
+        导出 HGAR 文件
+        
+        Args:
+            output_dir: 输出目录
+            prefix: 可选的前缀过滤（如 'a', 'cev' 等），如果为 None 则导出所有
+        """
+        os.makedirs(output_dir, exist_ok=True)
+        count = 0
+        
+        if prefix:
+            # 按前缀过滤
+            print(f"Exporting HAR files with prefix: {prefix}")
             names, hgars = HGARDao.get_hgar_by_prefix(prefix)
             for name, hgar in zip(names, hgars):
-                hgar.save(os.path.join(output_dir, name))
-        pass
+                output_path = os.path.join(output_dir, name)
+                hgar.save(output_path)
+                count += 1
+        else:
+            # 导出所有 HAR
+            print(f"Exporting all HAR files")
+            all_names = HGARDao.get_all_hgar_names()
+            for name in all_names:
+                hgar = HGARDao.get_hgar_by_name(name)
+                output_path = os.path.join(output_dir, name)
+                hgar.save(output_path)
+                count += 1
+        
+        print(f"Exported {count} HAR files to {output_dir}")
     
     @staticmethod
     def decompile_hgar(path: str):
@@ -57,26 +80,29 @@ class App:
         hgar.info()
 
     @staticmethod
-    def output_evs(path: str):
+    def output_evs(path: str, prefix: str = None):
         """
-        输出Paratranz使用的EVS原文JSON
+        输出 EVS 原文 JSON
+        
+        Args:
+            path: 输出目录
+            prefix: 可选的前缀过滤（如 'a', 'cev' 等），如果为 None 则导出所有
         """
-        for prefix in HGAR_PREFIX:
-            print(f"Exporting {prefix}")
-            results = SentenceDao.export_sentence_entry(prefix)
+        os.makedirs(path, exist_ok=True)
+        
+        prefixes_to_export = [prefix] if prefix else HGAR_PREFIX
+        
+        for prefix_item in prefixes_to_export:
+            print(f"Exporting {prefix_item}")
+            results = SentenceDao.export_sentence_entry(prefix_item)
+            if not results:
+                continue
+                
             list = []
             for sentence, evs_entry in results:
                 avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
                 key = sentence.key
                 original = sentence.content
-                # print(f"\n{key}:\n {original} AVA:{avatar}\n EXP:{exp}")
-                # {
-                #     "key": "KEY 键值",
-                #     "original": "source text 原文",
-                #     "translation": "translation text 译文",
-                #     "context": "Context 上下文 (for info)"
-                # }
-                # Find translation
                 list.append(
                     {
                         "key": key,
@@ -85,9 +111,8 @@ class App:
                     }
                 )
             # Write to file
-            with open(f"{path}/{prefix}.json", "w") as f:
+            with open(f"{path}/{prefix_item}.json", "w") as f:
                 import json
-
                 f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
     @staticmethod
@@ -102,23 +127,29 @@ class App:
         pass
 
     @staticmethod
-    def output_translation(output_dir):
-        for prefix in HGAR_PREFIX:
-            print(f"Exporting {prefix}")
-            results = SentenceDao.export_sentence_entry(prefix)
+    def output_translation(output_dir: str, prefix: str = None):
+        """
+        导出翻译 JSON
+        
+        Args:
+            output_dir: 输出目录
+            prefix: 可选的前缀过滤（如 'a', 'cev' 等），如果为 None 则导出所有
+        """
+        os.makedirs(output_dir, exist_ok=True)
+        
+        prefixes_to_export = [prefix] if prefix else HGAR_PREFIX
+        
+        for prefix_item in prefixes_to_export:
+            print(f"Exporting {prefix_item}")
+            results = SentenceDao.export_sentence_entry(prefix_item)
+            if not results:
+                continue
+                
             list = []
             for sentence, evs_entry in results:
                 avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
                 key = sentence.key
                 original = sentence.content
-                # print(f"\n{key}:\n {original} AVA:{avatar}\n EXP:{exp}")
-                # {
-                #     "key": "KEY 键值",
-                #     "original": "source text 原文",
-                #     "translation": "translation text 译文",
-                #     "context": "Context 上下文 (for info)"
-                # }
-                # Find translation
                 list.append(
                     {
                         "key": key,
@@ -129,11 +160,9 @@ class App:
                 )
 
             # Write to file
-            with open(f"{output_dir}/{prefix}.json", "w") as f:
+            with open(f"{output_dir}/{prefix_item}.json", "w") as f:
                 import json
-
                 f.write(json.dumps(list, indent=4, ensure_ascii=False))
-        pass
 
     @staticmethod
     def output_images(output_dir: str):
@@ -170,6 +199,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--export_evs", type=str, help="Path for exporting EVS Originals"
     )
+    parser.add_argument(
+        "--evs_prefix", type=str, help="Optional: filter by prefix (e.g., 'a', 'cev')"
+    )
 
     # Import Translations
     parser.add_argument(
@@ -182,9 +214,17 @@ if __name__ == "__main__":
     parser.add_argument(
         "--export_translation", type=str, help="Path for exporting translations"
     )
+    parser.add_argument(
+        "--translation_prefix", type=str, help="Optional: filter by prefix (e.g., 'a', 'cev')"
+    )
 
     # Output HGAR
-    parser.add_argument("--output_hgar", type=str, help="Path for exporting HGAR files")
+    parser.add_argument(
+        "--output_hgar", type=str, help="Path for exporting HGAR files"
+    )
+    parser.add_argument(
+        "--hgar_prefix", type=str, help="Optional: filter by prefix (e.g., 'a', 'cev')"
+    )
 
     # Export Images (HGPT)
     parser.add_argument(
@@ -200,16 +240,16 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     if args.import_har:
-        App()
+        # App()
         App.import_har(args.import_har)
     elif args.export_evs:
-        App.output_evs(args.export_evs)
+        App.output_evs(args.export_evs, prefix=args.evs_prefix)
     elif args.import_translation:
         App.import_translation(args.import_translation)
     elif args.export_translation:
-        App.output_translation(args.export_translation)
+        App.output_translation(args.export_translation, prefix=args.translation_prefix)
     elif args.output_hgar:
-        App.output_hgar(args.output_hgar)
+        App.output_hgar(args.output_hgar, prefix=args.hgar_prefix)
     elif args.export_images:
         App.output_images(args.export_images)
     elif args.import_images:

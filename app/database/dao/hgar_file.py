@@ -50,7 +50,7 @@ class HGARFileDao:
                     evs_wrapper = tools.EvsWrapper()
                     evs_wrapper.open_bytes(content)
                     print(f"  [EVS] {short_name}")
-                elif short_name.endswith(".zpt"):
+                elif short_name.endswith(".zpt") or short_name.endswith(".hpt"):
                     # 保存 HGPT 到数据库（去重）
                     print(f"  [HPT] {short_name}")
                     hgpt_key = HgptDao.save(hgpt_data=content)
@@ -103,7 +103,7 @@ class HGARFileDao:
                     )
                     content = evs_wrapper.save_bytes()
                     
-                elif hgar_file.short_name.endswith(".zpt"):
+                elif hgar_file.short_name.endswith(".zpt") or hgar_file.short_name.endswith(".hpt"):
                     # 重建 HGPT 文件
                     if hgar_file.hgpt_key:
                         content = HgptDao.get_hgpt_data(hgar_file.hgpt_key)

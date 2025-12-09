@@ -37,6 +37,7 @@
 
 #### 2025 年
 
+- **[12/09]** 实现 HGPT 图像导入导出
 - **[07/08]** Laolv000 加入项目，汉化交流工作转移到 QQ 群
 - **[07/06]** Asuka 和 yokuse 加入项目
 - **[07/05]** 召开第一次汉化小组会议
@@ -71,6 +72,8 @@
 
 ```
 app/
+├─ cli/      # 主程序
+├─ database/      # SQL数据库定义
 ├─ elf_patch/      # 生成 SJIS 文本翻译文件 EBTRANS.BIN
 ├─ parser/tools/   # 资源解析脚本（修改自原仓库）
 plugin/
@@ -100,7 +103,8 @@ scripts/
 - [x] 构建 Docker 镜像  
 - [ ] 自动生成 Patch（XDelta）  
 - [ ] 搭建汉化项目网站  
-- [ ] 自动导入导出 HGAR / TEXT 资源  
+- [x] 自动导入导出 HGAR
+- [x] 自动导入导出 TEXT 资源
 
 ---
 
@@ -135,14 +139,17 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 
 ## 🎮 使用指南
 
+
 ### PPSSPP 模拟器
 
+* 将`EBTRANS.BIN`翻译文件放置于`PPSSPP/memstick/PSP/`下
 * PPSSPP 1.19.0+ 可通过 `开发者工具 → Disable HLE → sceFont_Library` 启用修改字体
 * iOS 设备推荐将 CPU 核心模式改为 “解释器” 以减少 JIT 带来的性能损失
 
 ### PSP 实机
 
-需要已破解设备（推荐 **ARK-4**），可直接运行补丁版镜像。
+* 需要已破解设备（推荐 **ARK-4**），可直接运行补丁版镜像。
+* 将`EBTRANS.BIN`翻译文件放置于`ms0:/PSP/`下
 
 ---
 
