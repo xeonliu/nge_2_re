@@ -3,6 +3,7 @@ import zipfile
 import os
 import argparse
 import json
+import hashlib
 
 project_id = 10882  # 替换为你的项目ID
 
@@ -86,6 +87,26 @@ def replace_newlines(obj):
     return obj
 
 
+def hash_keys_in_data(data, normalize_newlines=False):
+    """将 JSON 数据中的 key 替换为 original 的 MD5 哈希值
+    
+    Args:
+        data: JSON 数据
+        normalize_newlines: 是否将 \\n 转换为真实换行符再计算 hash
+    """
+    if isinstance(data, list):
+        for item in data:
+            if isinstance(item, dict) and "original" in item:
+                original_text = item["original"]
+                # 如果需要标准化换行符，将 \n 转换为真实换行
+                if normalize_newlines:
+                    original_text = original_text.replace("\\n", "\n")
+                hash_object = hashlib.md5(original_text.encode())
+                item["key"] = hash_object.hexdigest()
+                item["original"] = original_text
+    return data
+
+
 if __name__ == "__main__":
     # Add Arguments
     parser = argparse.ArgumentParser(
@@ -113,6 +134,21 @@ if __name__ == "__main__":
         unzip_file(zip_path, dest_folder)
         print(f"Files have been downloaded and extracted to {dest_folder}")
 
+    # 处理 utf8/free 文件夹下的 JSON 文件，将 \n 转换为真实换行后再计算 hash
+    free_path = os.path.join(dest_folder, "utf8", "free")
+    if os.path.exists(free_path):
+        print("Processing JSON files in utf8/free folder...")
+        for file in os.listdir(free_path):
+            if file.endswith(".json"):
+                file_path = os.path.join(free_path, file)
+                with open(file_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                # 启用 normalize_newlines，将 \n 转换为真实换行后计算 hash
+                data = hash_keys_in_data(data, normalize_newlines=True)
+                with open(file_path, "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=4)
+                print(f"  Processed: {file_path}")
+
     # Combine all the EBOOT Translations.
     eboot_path = os.path.join(dest_folder, "raw", "EBOOT")
     data = []
@@ -122,6 +158,7 @@ if __name__ == "__main__":
             with open(file_path, "r", encoding="utf-8") as f:
                 data.extend(json.load(f))
     data = replace_newlines(data)
+    data = hash_keys_in_data(data)
     eboot_trans = os.path.join(dest_folder, "eboot_trans.json")
     with open(eboot_trans, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
@@ -135,6 +172,7 @@ if __name__ == "__main__":
             with open(file_path, "r", encoding="utf-8") as f:
                 data.extend(json.load(f))
     data = replace_newlines(data)
+    data = hash_keys_in_data(data)
     evs_trans = os.path.join(dest_folder, "evs_trans.json")
     with open(evs_trans, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)

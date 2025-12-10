@@ -7,8 +7,9 @@ from app.database.dao.hgar import HGARDao
 from app.database.dao.sentence import SentenceDao
 from app.database.dao.translation import TranslationDao
 from app.database.dao.hgpt import HgptDao
+from app.database.dao.text_entry import TextEntryDao
 
-from app.database.db import Base, engine
+from app.database.db import Base, engine, get_db
 from app.utils.evs import get_avatar_and_exp
 
 HGAR_PREFIX = ["a", "b2a", "b2s", "bb", "bs", "cev", "e", "f", "levent", "n", "tev"]
@@ -181,6 +182,102 @@ class App:
         """
         print(f"Importing translated images from {translation_dir}")
         HgptDao.import_translated_images(translation_dir)
+    
+    @staticmethod
+    def import_text(text_file_path: str):
+        """
+        导入 TEXT 文件（如 f2tuto.bin, f2info.bin）
+        解析并存储到数据库
+        """
+        from app.parser.tools import text as text_module
+        from app.database.entity.text_entry import TextEntry
+        
+        # 确保表存在
+        Base.metadata.create_all(bind=engine)
+        
+        print(f"Importing TEXT file: {text_file_path}")
+        
+        # 使用 TextArchive 解析文件
+        text_archive = text_module.TextArchive()
+        text_archive.open(text_file_path)
+        
+        # 获取文件名
+        filename = os.path.basename(text_file_path)
+        
+        # 保存到数据库
+        TextEntryDao.save_text_file(filename, text_archive)
+    
+    @staticmethod
+    def export_text(output_dir: str, filename: str = None):
+        """
+        导出 TEXT 文件为原始二进制格式
+        应用数据库中的翻译
+        
+        Args:
+            output_dir: 输出目录
+            filename: 可选的特定文件名（如 f2info.bin），不指定则导出所有
+        """
+        from app.parser.tools import text as text_module
+        
+        os.makedirs(output_dir, exist_ok=True)
+        
+        with next(get_db()) as db:
+            from app.database.entity.text_entry import TextEntry
+            
+            # 获取所有已导入的 TEXT 文件
+            if filename:
+                files = db.query(TextEntry.filename).filter(
+                    TextEntry.filename == filename
+                ).distinct().all()
+            else:
+                files = db.query(TextEntry.filename).distinct().all()
+            
+            count = 0
+            for (file_name,) in files:
+                print(f"Exporting {file_name}")
+                
+                # 创建新的 TextArchive
+                text_archive = text_module.TextArchive()
+                
+                # 从数据库重建
+                TextEntryDao.rebuild_text_archive(file_name, text_archive)
+                
+                # 保存为二进制文件
+                output_path = os.path.join(output_dir, file_name)
+                text_archive.save(output_path)
+                count += 1
+        
+        print(f"Exported {count} TEXT files to {output_dir}")
+    
+    @staticmethod
+    def export_text_json(output_dir: str, filename: str = None):
+        """
+        导出 TEXT 文件为 JSON（用于 Paratranz）
+        
+        Args:
+            output_dir: 输出目录
+            filename: 可选的特定文件名
+        """
+        os.makedirs(output_dir, exist_ok=True)
+        
+        with next(get_db()) as db:
+            from app.database.entity.text_entry import TextEntry
+            
+            # 获取所有已导入的 TEXT 文件
+            if filename:
+                files = db.query(TextEntry.filename).filter(
+                    TextEntry.filename == filename
+                ).distinct().all()
+            else:
+                files = db.query(TextEntry.filename).distinct().all()
+            
+            count = 0
+            for (file_name,) in files:
+                json_path = os.path.join(output_dir, f"{file_name}.json")
+                TextEntryDao.export_text_translations(file_name, json_path)
+                count += 1
+        
+        print(f"Exported {count} TEXT files as JSON")
 
     def compile():
         pass
@@ -237,6 +334,32 @@ if __name__ == "__main__":
         type=str,
         help="Path to the directory containing translated PNG images",
     )
+    
+    # Import TEXT (f2tuto.bin, f2info.bin)
+    parser.add_argument(
+        "--import_text",
+        type=str,
+        help="Path to TEXT file (f2tuto.bin, f2info.bin, etc.)",
+    )
+    
+    # Export TEXT
+    parser.add_argument(
+        "--export_text",
+        type=str,
+        help="Path for exporting TEXT files",
+    )
+    parser.add_argument(
+        "--text_filename",
+        type=str,
+        help="Optional: specific TEXT filename to export",
+    )
+    
+    # Export TEXT as JSON
+    parser.add_argument(
+        "--export_text_json",
+        type=str,
+        help="Path for exporting TEXT files as JSON (Paratranz format)",
+    )
 
     args = parser.parse_args()
     if args.import_har:
@@ -254,3 +377,9 @@ if __name__ == "__main__":
         App.output_images(args.export_images)
     elif args.import_images:
         App.import_images(args.import_images)
+    elif args.import_text:
+        App.import_text(args.import_text)
+    elif args.export_text:
+        App.export_text(args.export_text, filename=args.text_filename)
+    elif args.export_text_json:
+        App.export_text_json(args.export_text_json, filename=args.text_filename)
