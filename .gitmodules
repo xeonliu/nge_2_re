@@ -1,0 +1,6 @@
+[submodule "third_party/pspdecrypt"]
+	path = third_party/pspdecrypt
+	url = https://github.com/Linblow/pspdecrypt.git
+[submodule "third_party/pgftool"]
+	path = third_party/pgftool
+	url = https://github.com/tpunix/pgftool.git

@@ -7,6 +7,9 @@ LABEL description="Translation Project for PSP Evangelion 2: Another Cases with 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system dependencies
+# pngquant is for image pallette conversion
+# openssl is for pspdecrypt
+# freetype is for pgftool
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -24,10 +27,18 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     bash \
     pngquant \
+    openssl \
+    xdelta3 \
+    zlib1g-dev \
+    libssl-dev \
+    libfreetype6-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Create a non-root user
-RUN useradd -m -s /bin/bash pspdev
+RUN useradd -m -s /bin/bash pspdev \
+    && apt-get update && apt-get install -y sudo \
+    && usermod -aG sudo pspdev \
+    && echo "pspdev ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
 USER pspdev
 WORKDIR /home/pspdev
 

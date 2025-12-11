@@ -52,6 +52,20 @@ plugin:
 	@mkdir -p build
 	@cp -r plugin/EBOOT.BIN build/
 
+pgftool:
+	@echo "Building pgftool..."
+	make -C third_party/pgftool
+	@echo "Copying pgftool to build directory..."
+	@mkdir -p build/tools
+	@cp third_party/pgftool/dump_pgf third_party/pgftool/mix_pgf third_party/pgftool/ttf_pgf build/tools/
+
+pspdecrypt:
+	@echo "Building pspdecrypt..."
+	make CC=gcc CXX=g++ -C third_party/pspdecrypt
+	@echo "Copying pspdecrypt to build directory..."
+	@mkdir -p build/tools
+	@cp third_party/pspdecrypt/pspdecrypt build/tools/
+
 # TODO: Deal with ISO File Injection & Patch Generation
 
 build:
