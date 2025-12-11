@@ -4,3 +4,6 @@
 [submodule "third_party/pgftool"]
 	path = third_party/pgftool
 	url = https://github.com/tpunix/pgftool.git
+[submodule "resources/trans_pic"]
+	path = resources/trans_pic
+	url = git@github.com:xeonliu/nge_2_re_pics.git

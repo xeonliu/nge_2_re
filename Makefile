@@ -1,5 +1,11 @@
-DOWNLOAD_DIR := temp/downloads # Directory for downloaded translation files (from ParaTranz)
-PSP_GAME_DIR := temp/PSP_GAME # Path to the PSP_GAME directory
+# Temporary working directory
+TEMP_DIR := temp
+# Directory for downloaded translation files (from ParaTranz)
+DOWNLOAD_DIR := $(TEMP_DIR)/downloads
+# Path to the PSP_GAME directory
+PSP_GAME_DIR := $(TEMP_DIR)/ULJS00064/PSP_GAME_DIR
+
+# TODO: Work Folder
 
 # USRDIR Directories
 EVENT_DIR := ${PSP_GAME_DIR}/USRDIR/event
@@ -43,6 +49,7 @@ export_hgar:
 
 export_eboot_trans:
 	@echo "Generating EBOOT translation binary..."
+	uv run -m app.elf_patch.patcher -t ./temp/downloads/eboot_trans.json -o ./build/EBTRANS.BIN
 
 ### Generate Plugin
 plugin:
@@ -67,6 +74,18 @@ pspdecrypt:
 	@cp third_party/pspdecrypt/pspdecrypt build/tools/
 
 # TODO: Deal with ISO File Injection & Patch Generation
+
+extract:
+	@echo "Extracting game files..."
+	uv run scripts/pack/unpack.py -o '$(TEMP_DIR)/ULJS00064' '$(TEMP_DIR)/ULJS00064.iso'
+
+repack:
+	@echo "Repacking game files into ISO..."
+	uv run scripts/pack/repack.py '$(TEMP_DIR)/ULJS00064.iso' 'build/ULJS00064_patched.iso' '$(TEMP_DIR)/ULJS00064'
+
+decrypt: pspdecrypt
+	@echo "Decrypting game files..."
+	./build/tools/pspdecrypt '$(TEMP_DIR)/ULJS00064/PSP_GAME/SYSDIR/EBOOT.BIN' -o 'build/BOOT.BIN'
 
 build:
 	@echo "Building app..."

@@ -72,7 +72,7 @@ class Patcher:
                 "context": "elf:rodata:0x001D144C,ram:0x089D544C,size:20\n106"
             },
             """
-            elf_vmaddr, ram_vmaddr, size = self.extract_technical(elem["key"])
+            elf_vmaddr, ram_vmaddr, size = self.extract_technical(elem["context"])
             print(elem["translation"])
             original_bytes = tools.to_eva_sjis(elem["original"])
             translation_bytes = tools.to_eva_sjis(elem["translation"])
@@ -97,22 +97,48 @@ class Patcher:
 
 if __name__ == "__main__":
   
+    import sys
+    import os
     parser = argparse.ArgumentParser(
         prog="ELF Patcher", description="Patch ELF Encoding Table and SJIS Strings"
     )
 
-    parser.add_argument("-t", "--translation_path")
+    parser.add_argument("-t", "--translation_path", required=True, help="Path to translation JSON file")
     parser.add_argument("-o", help="Output file path", default="EBTRANS.BIN")
     args = parser.parse_args()
-    print(args)
+
+    # 检查 translation_path 是否存在
+    if not os.path.isfile(args.translation_path):
+        print(f"Error: Translation file '{args.translation_path}' does not exist.", file=sys.stderr)
+        sys.exit(1)
+
+    # 检查输出路径是否可写
+    out_dir = os.path.dirname(args.o) or '.'
+    if not os.access(out_dir, os.W_OK):
+        print(f"Error: Output directory '{out_dir}' is not writable.", file=sys.stderr)
+        sys.exit(1)
 
     patcher = Patcher()
-    patcher.load_translation(args.translation_path)
-    entries = patcher.patch_translation()
+    try:
+        patcher.load_translation(args.translation_path)
+    except Exception as e:
+        print(f"Error loading translation file: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    try:
+        entries = patcher.patch_translation()
+    except Exception as e:
+        print(f"Error processing translation entries: {e}", file=sys.stderr)
+        sys.exit(1)
+
     print(f"Success: {len(entries)}")
-    
+
     header = TranslationHeader(num=len(entries))
-    with open(args.o, "wb") as f:
-        f.write(header.to_bytes())
-        for entry in entries:
-            f.write(entry.to_bytes())
+    try:
+        with open(args.o, "wb") as f:
+            f.write(header.to_bytes())
+            for entry in entries:
+                f.write(entry.to_bytes())
+    except Exception as e:
+        print(f"Error writing output file: {e}", file=sys.stderr)
+        sys.exit(1)
