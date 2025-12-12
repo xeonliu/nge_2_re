@@ -40,4 +40,4 @@ class TranslationDao:
     def get_translation_by_key(key: str):
         with next(get_db()) as db:
             trans = db.query(Translation).filter(Translation.key == key).first()
-            return trans.content
+            return trans.content if trans else ""

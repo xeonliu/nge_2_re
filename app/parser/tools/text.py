@@ -19,168 +19,201 @@ class TextArchive(object):
         self.warnings.append(message)
         print(message)
 
+    def _parse(self, f, file_size):
+        """
+        Internal method to parse TEXT format from a file-like object
+        
+        Args:
+            f: File-like object (supports read, seek, tell)
+            file_size: Total size of the data
+        """
+        # Read magic header
+        magic_number = f.read(4).decode('ascii', 'ignore')
+        if magic_number != 'TEXT':
+            raise Exception('Not a TEXT file!')
+
+        # Read number of entries
+        number_of_entries = common.read_uint32(f)
+
+        # Read size of header
+        header_size = common.read_uint32(f)
+        if (header_size != 16):
+            msg='# Warning: Non-standard TEXT header size: %s' % header_size
+            self.warn(msg)
+        
+        # Read content start offset
+        content_start_offset = common.read_uint32(f)
+
+        # There should be no post-header padding,
+        # but check for it anyways
+        pre_header_skip_position = f.tell()
+
+        # Skip the header
+        f.seek(header_size)
+
+        # Complete the header padding calculation
+        self.header_padding = f.tell() - pre_header_skip_position
+
+        # Read entries
+        # Don't create them yet,
+        # since we want to store the string index instead of the offset
+        # and we can't figure out the string index until we've seen all the strings
+        entry_unknowns = [0] * number_of_entries
+        entry_string_offsets = [0] * number_of_entries
+        for i in range(0, number_of_entries):
+            entry_unknowns[i] = common.read_uint32(f)
+            entry_string_offsets[i] = common.read_uint32(f)
+
+        # There should be no post-header padding,
+        # but check for it anyways
+        pre_entry_skip_position = f.tell()
+
+        # Skip to the content start
+        f.seek(content_start_offset)
+
+        # Complete the header padding calculation
+        self.entry_padding = f.tell() - pre_entry_skip_position
+
+        # Read the actual strings (which are used multiple times per entry)
+        # Figure out the string index by sorting string offsets from low to high
+        string_offset_index_map = {}
+        for index, offset in enumerate(sorted(set(entry_string_offsets))):
+
+            # Update the string offset map
+            string_offset_index_map[offset] = index
+
+            # Go to the string offset
+            f.seek(offset)
+
+            # If offset is at the end, skip
+            if (offset >= file_size):
+                self.warn('Out of bounds string in TEXT file, using nulls instead')
+                self.strings.append((None, None, None))
+                continue
+
+            # Read the unknowns
+            unknown_first = common.read_uint32(f)
+            unknown_second = common.read_uint32(f)
+
+            # Read content until null-terminator (but aligned to 32-bit boundaries)
+            raw_string_content = b''
+            while True:
+                raw_string_content += f.read(4)
+                if raw_string_content[-1] == 0:
+                    break
+
+            # Convert Shift-JIS to unicode
+            string_content = common.from_eva_sjis(raw_string_content)
+
+            # Strip trailing \0's
+            string_content = string_content.rstrip('\0')
+            
+            # Add this string to the array
+            self.strings.append((unknown_first, unknown_second, string_content))
+
+        # Finally create the entries now that we know the string offset to index mapping
+        for i in range(0, number_of_entries):
+            self.entries.append((entry_unknowns[i], string_offset_index_map[entry_string_offsets[i]]))
+
     def open(self, file_path):
+        """Parse TEXT file from disk"""
         with open(file_path, 'rb') as f:
             file_size = common.get_file_size(f)
+            self._parse(f, file_size)
+    
+    def open_bytes(self, data):
+        """Parse TEXT format from bytes in memory"""
+        import io
+        f = io.BytesIO(data)
+        file_size = len(data)
+        self._parse(f, file_size)
 
-            # Read magic header
-            magic_number = f.read(4).decode('ascii', 'ignore')
-            if magic_number != 'TEXT':
-                raise Exception('Not a TEXT file!')
+    def _serialize_to_stream(self, f):
+        """
+        Internal method to serialize TEXT format to a file-like object
+        
+        Args:
+            f: File-like object (supports write)
+        """
+        # Write magic header
+        f.write(b'TEXT')
 
-            # Read number of entries
-            number_of_entries = common.read_uint32(f)
+        # Write number of entries
+        common.write_uint32(f, len(self.entries))
+        
+        # Write size of header
+        common.write_uint32(f, 16)
+        
+        # Write content start offset
+        # Size of each entry * number of entries + header size
+        content_start_offset = 8 * len(self.entries) + 16
+        common.write_uint32(f, content_start_offset)
 
-            # Read size of header
-            header_size = common.read_uint32(f)
-            if (header_size != 16):
-                msg='# Warning: Non-standard TEXT header size: %s' % header_size
-                self.warn(msg)
-            
-            # Read content start offset
-            content_start_offset = common.read_uint32(f)
+        # Generate the string offsets
+        previous_string_end = content_start_offset
+        converted_strings = []
+        for (unknown_first, unknown_second, string_content) in self.strings:
+            # If string is None, because its contents were outside the end of the file,
+            # then recreate the same conditions by injecting a dummy
+            if string_content is None:
+                converted_strings.append((unknown_first, unknown_second, None, previous_string_end))
+                continue
 
-            # There should be no post-header padding,
-            # but check for it anyways
-            pre_header_skip_position = f.tell()
+            # Calculate the offset of this string based on the end of the previous string
+            string_offset = previous_string_end
 
-            # Skip the header
-            f.seek(header_size)
+            # Add the implicit null terminator
+            string_content += '\0'
 
-            # Complete the header padding calculation
-            self.header_padding = f.tell() - pre_header_skip_position
+            # Convert unicode to Shift-JIS
+            raw_string_content = common.to_eva_sjis(string_content)
 
-            # Read entries
-            # Don't create them yet,
-            # since we want to store the string index instead of the offset
-            # and we can't figure out the string index until we've seen all the strings
-            entry_unknowns = [0] * number_of_entries
-            entry_string_offsets = [0] * number_of_entries
-            for i in range(0, number_of_entries):
-                entry_unknowns[i] = common.read_uint32(f)
-                entry_string_offsets[i] = common.read_uint32(f)
+            # Calculate how much memory this string takes
+            raw_string_content = common.zero_pad_and_align_string(raw_string_content)
+            string_padded_size = len(raw_string_content)
 
-            # There should be no post-header padding,
-            # but check for it anyways
-            pre_entry_skip_position = f.tell()
+            # Update previous_string_end for the next iteration (+ 8 for the two unknowns)
+            previous_string_end += string_padded_size + 8
 
-            # Skip to the content start
-            f.seek(content_start_offset)
+            # Add the string to converted strings
+            converted_strings.append((unknown_first, unknown_second, raw_string_content, string_offset))
 
-            # Complete the header padding calculation
-            self.entry_padding = f.tell() - pre_entry_skip_position
+        # Write entries
+        for (entry_unknown, entry_string_index) in self.entries:
+            # Write unknown
+            common.write_uint32(f, entry_unknown)
 
-            # Read the actual strings (which are used multiple times per entry)
-            # Figure out the string index by sorting string offsets from low to high
-            string_offset_index_map = {}
-            for index, offset in enumerate(sorted(set(entry_string_offsets))):
+            # Write string offset
+            # 3rd index is the string offset
+            common.write_uint32(f, converted_strings[entry_string_index][3])
 
-                # Update the string offset map
-                string_offset_index_map[offset] = index
+        # Write the actual strings (which are used multiple times per entry)
+        # They should already be in order of appearance
+        for (unknown_first, unknown_second, string_content, string_offset) in converted_strings:
 
-                # Go to the string offset
-                f.seek(offset)
+            # This feature is used by the game to put a
+            # dynamic string at the end possibly
+            if string_content is None:
+                continue
 
-                # If offset is at the end, skip
-                if (offset >= file_size):
-                    self.warn('Out of bounds string in TEXT file, using nulls instead')
-                    self.strings.append((None, None, None))
-                    continue
+            # Write the unknowns
+            common.write_uint32(f, unknown_first)
+            common.write_uint32(f, unknown_second)
 
-                # Read the unknowns
-                unknown_first = common.read_uint32(f)
-                unknown_second = common.read_uint32(f)
-
-                # Read content until null-terminator (but aligned to 32-bit boundaries)
-                raw_string_content = b''
-                while True:
-                    raw_string_content += f.read(4)
-                    if raw_string_content[-1] == 0:
-                        break
-
-                # Convert Shift-JIS to unicode
-                string_content = common.from_eva_sjis(raw_string_content)
- 
-                # Strip trailing \0's
-                string_content = string_content.rstrip('\0')
-                
-                # Add this string to the array
-                self.strings.append((unknown_first, unknown_second, string_content))
-
-            # Finally create the entries now that we know the string offset to index mapping
-            for i in range(0, number_of_entries):
-                self.entries.append((entry_unknowns[i], string_offset_index_map[entry_string_offsets[i]]))
-
+            # Write the string
+            f.write(string_content)
+    
     def save(self, file_path):
+        """Save TEXT format to disk"""
         with open(file_path, 'wb') as f:
-
-            # Write magic header
-            f.write(b'TEXT')
-
-            # Write number of entries
-            common.write_uint32(f, len(self.entries))
-            
-            # Write size of header
-            common.write_uint32(f, 16)
-            
-            # Write content start offset
-            # Size of each entry * number of entries + header size
-            content_start_offset = 8 * len(self.entries) + 16
-            common.write_uint32(f, content_start_offset)
-
-            # Generate the string offsets
-            previous_string_end = content_start_offset
-            converted_strings = []
-            for (unknown_first, unknown_second, string_content) in self.strings:
-                # If string is None, because its contents were outside the end of the file,
-                # then recreate the same conditions by injecting a dummy
-                if string_content is None:
-                    converted_strings.append((unknown_first, unknown_second, None, previous_string_end))
-                    continue
-
-                # Calculate the offset of this string based on the end of the previous string
-                string_offset = previous_string_end
-
-                # Add the implicit null terminator
-                string_content += '\0'
-
-                # Convert unicode to Shift-JIS
-                raw_string_content = common.to_eva_sjis(string_content)
-
-                # Calculate how much memory this string takes
-                raw_string_content = common.zero_pad_and_align_string(raw_string_content)
-                string_padded_size = len(raw_string_content)
-
-                # Update previous_string_end for the next iteration (+ 8 for the two unknowns)
-                previous_string_end += string_padded_size + 8
-
-                # Add the string to converted strings
-                converted_strings.append((unknown_first, unknown_second, raw_string_content, string_offset))
-
-            # Write entries
-            for (entry_unknown, entry_string_index) in self.entries:
-                # Write unknown
-                common.write_uint32(f, entry_unknown)
-
-                # Write string offset
-                # 3rd index is the string offset
-                common.write_uint32(f, converted_strings[entry_string_index][3])
-
-            # Write the actual strings (which are used multiple times per entry)
-            # They should already be in order of appearance
-            for (unknown_first, unknown_second, string_content, string_offset) in converted_strings:
-
-                # This feature is used by the game to put a
-                # dynamic string at the end possibly
-                if string_content is None:
-                    continue
-
-                # Write the unknowns
-                common.write_uint32(f, unknown_first)
-                common.write_uint32(f, unknown_second)
-
-                # Write the string
-                f.write(string_content)
+            self._serialize_to_stream(f)
+    
+    def serialize(self):
+        """Serialize TEXT format to bytes in memory"""
+        import io
+        buffer = io.BytesIO()
+        self._serialize_to_stream(buffer)
+        return buffer.getvalue()
 
     def patch(self, patch_file):
         translate_map = {}

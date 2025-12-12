@@ -13,8 +13,8 @@ from .hgar_file import HGARFileDao
 
 
 class HGARDao:
-    def save(filename: str, hg_archive: tools.HGArchive):
-        hgar = Hgar(name=filename, version=hg_archive.version)
+    def save(filename: str, hg_archive: tools.HGArchive, relative_path: str = ""):
+        hgar = Hgar(name=filename, version=hg_archive.version, relative_path=relative_path)
         with next(get_db()) as db:
             db.add(hgar)
             db.commit()
@@ -50,3 +50,14 @@ class HGARDao:
         with next(get_db()) as db:
             hgars = db.query(Hgar).all()
             return [hgar.name for hgar in hgars]
+    
+    def get_all_hgars():
+        """获取所有 HGAR 文件的完整信息（name, relative_path, archive）"""
+        with next(get_db()) as db:
+            hgars = db.query(Hgar).all()
+            results = []
+            for hgar in hgars:
+                hgar_files = HGARFileDao.form(hgar.id)
+                archive = tools.HGArchive(hgar.version, hgar_files)
+                results.append((hgar.name, hgar.relative_path, archive))
+            return results

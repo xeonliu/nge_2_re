@@ -12,6 +12,33 @@ class TextEntryDao:
     """
     
     @staticmethod
+    def save_text_file_with_session(db, filename: str, text_archive):
+        """
+        使用现有 session 保存 TEXT 文件
+        """
+        # 清除该文件的旧条目
+        db.query(TextEntry).filter(TextEntry.filename == filename).delete()
+        
+        # 保存所有条目
+        for entry_index, (entry_unknown, entry_string_idx) in enumerate(text_archive.entries):
+            # 获取对应的字符串内容
+            if entry_string_idx < len(text_archive.strings):
+                unknown_first, unknown_second, string_content = text_archive.strings[entry_string_idx]
+                
+                # 创建数据库条目
+                text_entry = TextEntry(
+                    filename=filename,
+                    original=string_content or "",
+                    entry_unknown=entry_unknown or 0,
+                    string_index=entry_string_idx,
+                    unknown_first=unknown_first or 0,
+                    unknown_second=unknown_second or 0,
+                    header_padding=text_archive.header_padding,
+                    entry_padding=text_archive.entry_padding
+                )
+                db.add(text_entry)
+
+    @staticmethod
     def save_text_file(filename: str, text_archive):
         """
         保存 TEXT 文件到数据库
@@ -21,28 +48,7 @@ class TextEntryDao:
             text_archive: TextArchive 对象，包含 entries 和 strings
         """
         with next(get_db()) as db:
-            # 清除该文件的旧条目
-            db.query(TextEntry).filter(TextEntry.filename == filename).delete()
-            
-            # 保存所有条目
-            for entry_index, (entry_unknown, entry_string_idx) in enumerate(text_archive.entries):
-                # 获取对应的字符串内容
-                if entry_string_idx < len(text_archive.strings):
-                    unknown_first, unknown_second, string_content = text_archive.strings[entry_string_idx]
-                    
-                    # 创建数据库条目
-                    text_entry = TextEntry(
-                        filename=filename,
-                        original=string_content or "",
-                        entry_unknown=entry_unknown or 0,
-                        string_index=entry_string_idx,
-                        unknown_first=unknown_first or 0,
-                        unknown_second=unknown_second or 0,
-                        header_padding=text_archive.header_padding,
-                        entry_padding=text_archive.entry_padding
-                    )
-                    db.add(text_entry)
-            
+            TextEntryDao.save_text_file_with_session(db, filename, text_archive)
             db.commit()
             print(f"  [TextEntry] Saved {len(text_archive.entries)} entries from {filename}")
     

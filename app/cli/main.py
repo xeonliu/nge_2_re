@@ -8,6 +8,7 @@ from app.database.dao.sentence import SentenceDao
 from app.database.dao.translation import TranslationDao
 from app.database.dao.hgpt import HgptDao
 from app.database.dao.text_entry import TextEntryDao
+from app.database.dao.bind import BindDao
 
 from app.database.db import Base, engine, get_db
 from app.utils.evs import get_avatar_and_exp
@@ -17,16 +18,33 @@ HGAR_PREFIX = ["a", "b2a", "b2s", "bb", "bs", "cev", "e", "f", "levent", "n", "t
 
 class App:
     def __init__(self):
-        Base.metadata.drop_all(bind=engine)
+        # Base.metadata.drop_all(bind=engine)
         Base.metadata.create_all(bind=engine)
         pass
 
     @staticmethod
     def import_har(dir_path: str):
-        for root, _, files in os.walk(dir_path):
+        # 解析为绝对路径
+        base_path = os.path.abspath(dir_path)
+        # 获取基础目录名（如 "btdemo", "event" 等）
+        base_dir_name = os.path.basename(base_path)
+        
+        for root, _, files in os.walk(base_path):
             for file in files:
                 if file.endswith(".har"):
-                    App.decompile_hgar(os.path.join(root, file))
+                    full_path = os.path.join(root, file)
+                    # 计算相对于base_path的相对路径
+                    relative_to_base = os.path.relpath(root, base_path)
+                    
+                    # 构建完整的相对路径（包含基础目录名）
+                    if relative_to_base == '.':
+                        # 文件直接在基础目录下
+                        relative_dir = base_dir_name
+                    else:
+                        # 文件在子目录下
+                        relative_dir = os.path.join(base_dir_name, relative_to_base)
+                    
+                    App.decompile_hgar(full_path, relative_dir)
             pass
     
     @staticmethod
@@ -38,7 +56,7 @@ class App:
     @staticmethod
     def output_hgar(output_dir: str, prefix: str = None):
         """
-        导出 HGAR 文件
+        导出 HGAR 文件，按原始目录结构
         
         Args:
             output_dir: 输出目录
@@ -51,32 +69,61 @@ class App:
             # 按前缀过滤
             print(f"Exporting HAR files with prefix: {prefix}")
             names, hgars = HGARDao.get_hgar_by_prefix(prefix)
-            for name, hgar in zip(names, hgars):
-                output_path = os.path.join(output_dir, name)
-                hgar.save(output_path)
-                count += 1
+            # 需要获取relative_path，所以使用完整查询
+            from app.database.entity.hgar import Hgar
+            from app.database.db import get_db
+            with next(get_db()) as db:
+                hgars_with_path = db.query(Hgar).filter(Hgar.name.like(f"{prefix}%")).all()
+                for hgar_entity in hgars_with_path:
+                    hgar = HGARDao.get_hgar_by_name(hgar_entity.name)
+                    # 创建子目录如果需要
+                    if hgar_entity.relative_path:
+                        target_dir = os.path.join(output_dir, hgar_entity.relative_path)
+                    else:
+                        target_dir = output_dir
+                    os.makedirs(target_dir, exist_ok=True)
+                    output_path = os.path.join(target_dir, hgar_entity.name)
+                    hgar.save(output_path)
+                    count += 1
         else:
-            # 导出所有 HAR
-            print(f"Exporting all HAR files")
-            all_names = HGARDao.get_all_hgar_names()
-            for name in all_names:
-                hgar = HGARDao.get_hgar_by_name(name)
-                output_path = os.path.join(output_dir, name)
-                hgar.save(output_path)
-                count += 1
+            # 导出所有 HAR，按目录结构（逐个处理避免内存占用）
+            print(f"Exporting all HAR files with original directory structure")
+            from app.database.entity.hgar import Hgar
+            from app.database.db import get_db
+            
+            with next(get_db()) as db:
+                # 只获取基本信息，不加载文件内容
+                hgar_entities = db.query(Hgar.id, Hgar.name, Hgar.relative_path).all()
+                total = len(hgar_entities)
+                
+                for idx, (hgar_id, name, relative_path) in enumerate(hgar_entities, 1):
+                    print(f"  [{idx}/{total}] Exporting {relative_path}/{name if relative_path else name}")
+                    
+                    # 逐个加载和保存
+                    hgar = HGARDao.get_hgar_by_name(name)
+                    
+                    # 创建子目录如果需要
+                    if relative_path:
+                        target_dir = os.path.join(output_dir, relative_path)
+                    else:
+                        target_dir = output_dir
+                    os.makedirs(target_dir, exist_ok=True)
+                    output_path = os.path.join(target_dir, name)
+                    hgar.save(output_path)
+                    count += 1
         
         print(f"Exported {count} HAR files to {output_dir}")
     
     @staticmethod
-    def decompile_hgar(path: str):
+    def decompile_hgar(path: str, relative_path: str = ""):
         hgar = tools.HGArchive(None, [])
         hgar.open(path)
 
         filename = os.path.basename(path)
-        print(f"Extracted filename: {filename}")
+        print(f"Extracted filename: {filename} (path: {relative_path})")
 
         # Store HGAR & HGAR Files into DB
-        HGARDao.save(filename, hgar)
+        HGARDao.save(filename, hgar, relative_path)
 
         hgar.info()
 
@@ -91,35 +138,91 @@ class App:
         """
         os.makedirs(path, exist_ok=True)
         
-        prefixes_to_export = [prefix] if prefix else HGAR_PREFIX
-        
-        for prefix_item in prefixes_to_export:
-            print(f"Exporting {prefix_item}")
-            results = SentenceDao.export_sentence_entry(prefix_item)
-            if not results:
-                continue
+        if prefix:
+            # 如果指定了前缀，使用旧的逻辑（按前缀导出，主要用于 event 目录）
+            print(f"Exporting {prefix}")
+            results = SentenceDao.export_sentence_entry(prefix)
+            if results:
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                # Write to file
+                with open(f"{path}/{prefix}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
+        else:
+            # 导出所有：先按前缀导出 event 目录，再按 relative_path 导出其他目录
+            
+            # 1. 导出 event 目录（按前缀分类）
+            print("Exporting event directory by prefix...")
+            for prefix_item in HGAR_PREFIX:
+                print(f"  Exporting {prefix_item}")
+                results = SentenceDao.export_sentence_entry(prefix_item)
+                if not results:
+                    continue
+                    
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                # Write to file
+                with open(f"{path}/{prefix_item}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
+            
+            # 2. 导出其他目录（按 relative_path 分类）
+            print("Exporting other directories by path...")
+            all_paths = SentenceDao.get_all_relative_paths()
+            for rel_path in all_paths:
+                # 跳过 event 目录（已经按前缀处理过了）
+                if rel_path == 'event' or rel_path.startswith('event/'):
+                    continue
                 
-            list = []
-            for sentence, evs_entry in results:
-                avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
-                key = sentence.key
-                original = sentence.content
-                list.append(
-                    {
-                        "key": key,
-                        "original": original,
-                        "context": f"AVA: {avatar}\nEXP: {exp}",
-                    }
-                )
-            # Write to file
-            with open(f"{path}/{prefix_item}.json", "w") as f:
-                import json
-                f.write(json.dumps(list, indent=4, ensure_ascii=False))
+                print(f"  Exporting {rel_path}")
+                results = SentenceDao.export_sentence_by_path(rel_path)
+                if not results:
+                    continue
+                
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                
+                # 文件名使用路径（将 / 替换为 _）
+                filename = rel_path.replace('/', '_')
+                with open(f"{path}/{filename}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
     @staticmethod
     def import_translation(filepath: str):
         # Drop all translations
-        TranslationDao.delete_all()
+        # TranslationDao.delete_all()
         with open(filepath, "r") as f:
             import json
 
@@ -138,32 +241,89 @@ class App:
         """
         os.makedirs(output_dir, exist_ok=True)
         
-        prefixes_to_export = [prefix] if prefix else HGAR_PREFIX
-        
-        for prefix_item in prefixes_to_export:
-            print(f"Exporting {prefix_item}")
-            results = SentenceDao.export_sentence_entry(prefix_item)
-            if not results:
-                continue
+        if prefix:
+            # 如果指定了前缀，使用旧的逻辑（按前缀导出，主要用于 event 目录）
+            print(f"Exporting {prefix}")
+            results = SentenceDao.export_sentence_entry(prefix)
+            if results:
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "translation": TranslationDao.get_translation_by_key(key),
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                # Write to file
+                with open(f"{output_dir}/{prefix}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
+        else:
+            # 导出所有：先按前缀导出 event 目录，再按 relative_path 导出其他目录
+            
+            # 1. 导出 event 目录（按前缀分类）
+            print("Exporting event directory by prefix...")
+            for prefix_item in HGAR_PREFIX:
+                print(f"  Exporting {prefix_item}")
+                results = SentenceDao.export_sentence_entry(prefix_item)
+                if not results:
+                    continue
+                    
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "translation": TranslationDao.get_translation_by_key(key),
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                # Write to file
+                with open(f"{output_dir}/{prefix_item}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
+            
+            # 2. 导出其他目录（按 relative_path 分类）
+            print("Exporting other directories by path...")
+            all_paths = SentenceDao.get_all_relative_paths()
+            for path in all_paths:
+                # 跳过 event 目录（已经按前缀处理过了）
+                if path == 'event' or path.startswith('event/'):
+                    continue
                 
-            list = []
-            for sentence, evs_entry in results:
-                avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
-                key = sentence.key
-                original = sentence.content
-                list.append(
-                    {
-                        "key": key,
-                        "original": original,
-                        "translation": TranslationDao.get_translation_by_key(key),
-                        "context": f"AVA: {avatar}\nEXP: {exp}",
-                    }
-                )
-
-            # Write to file
-            with open(f"{output_dir}/{prefix_item}.json", "w") as f:
-                import json
-                f.write(json.dumps(list, indent=4, ensure_ascii=False))
+                print(f"  Exporting {path}")
+                results = SentenceDao.export_sentence_by_path(path)
+                if not results:
+                    continue
+                
+                list = []
+                for sentence, evs_entry in results:
+                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    key = sentence.key
+                    original = sentence.content
+                    list.append(
+                        {
+                            "key": key,
+                            "original": original,
+                            "translation": TranslationDao.get_translation_by_key(key),
+                            "context": f"AVA: {avatar}\nEXP: {exp}",
+                        }
+                    )
+                
+                # 文件名使用路径（将 / 替换为 _）
+                filename = path.replace('/', '_')
+                with open(f"{output_dir}/{filename}.json", "w") as f:
+                    import json
+                    f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
     @staticmethod
     def output_images(output_dir: str):
@@ -278,6 +438,92 @@ class App:
                 count += 1
         
         print(f"Exported {count} TEXT files as JSON")
+    
+    @staticmethod
+    def import_bind(bind_file_path: str):
+        """
+        导入 BIND 文件（如 imtext.bin, btimtext.bin）
+        解析并存储到数据库
+        """
+        from app.parser.tools import bind as bind_module
+        from app.database.entity.bind_entry import BindEntry
+        
+        # 确保表存在
+        Base.metadata.create_all(bind=engine)
+        
+        print(f"Importing BIND file: {bind_file_path}")
+        
+        # 使用 BindArchive 解析文件
+        bind_archive = bind_module.BindArchive()
+        bind_archive.open(bind_file_path)
+        
+        # 获取文件名
+        filename = os.path.basename(bind_file_path)
+        
+        # 保存到数据库
+        BindDao.save_bind_file(filename, bind_archive)
+    
+    @staticmethod
+    def export_bind(output_dir: str, filename: str = None):
+        """
+        导出 BIND 文件为原始二进制格式
+        应用数据库中的翻译
+        
+        Args:
+            output_dir: 输出目录
+            filename: 可选的特定文件名（如 imtext.bin），不指定则导出所有
+        """
+        from app.parser.tools import bind as bind_module
+        
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # 获取所有已导入的 BIND 文件
+        if filename:
+            filenames = [filename]
+        else:
+            filenames = BindDao.get_all_bind_filenames()
+        
+        count = 0
+        for file_name in filenames:
+            print(f"Exporting {file_name}")
+            
+            # 创建新的 BindArchive
+            bind_archive = bind_module.BindArchive()
+            
+            # 从数据库重建
+            BindDao.rebuild_bind_archive(file_name, bind_archive)
+            
+            # 保存为二进制文件
+            output_path = os.path.join(output_dir, file_name)
+            bind_archive.save(output_path)
+            count += 1
+        
+        print(f"Exported {count} BIND files to {output_dir}")
+    
+    @staticmethod
+    def export_bind_json(output_dir: str, filename: str = None):
+        """
+        导出 BIND 文件为 JSON（用于 Paratranz）
+        
+        Args:
+            output_dir: 输出目录
+            filename: 可选的特定文件名
+        """
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # 获取所有已导入的 BIND 文件
+        if filename:
+            filenames = [filename]
+        else:
+            filenames = BindDao.get_all_bind_filenames()
+        
+        count = 0
+        for file_name in filenames:
+            json_path = os.path.join(output_dir, f"{file_name}.json")
+            BindDao.export_bind_translations(file_name, json_path)
+            count += 1
+        
+        print(f"Exported {count} BIND files as JSON")
 
     def compile():
         pass
@@ -360,10 +606,40 @@ if __name__ == "__main__":
         type=str,
         help="Path for exporting TEXT files as JSON (Paratranz format)",
     )
+    
+    # 初始化数据库
+    parser.add_argument("--init_db", action="store_true", help="Initialize the database")
+    # Import BIND (imtext.bin, btimtext.bin)
+    parser.add_argument(
+        "--import_bind",
+        type=str,
+        help="Path to BIND file (imtext.bin, btimtext.bin, etc.)",
+    )
+    
+    # Export BIND
+    parser.add_argument(
+        "--export_bind",
+        type=str,
+        help="Path for exporting BIND files",
+    )
+    parser.add_argument(
+        "--bind_filename",
+        type=str,
+        help="Optional: specific BIND filename to export",
+    )
+    
+    # Export BIND as JSON
+    parser.add_argument(
+        "--export_bind_json",
+        type=str,
+        help="Path for exporting BIND files as JSON (Paratranz format)",
+    )
 
     args = parser.parse_args()
-    if args.import_har:
-        # App()
+    if args.init_db:
+        print("Initializing database...")
+        App()
+    elif args.import_har:
         App.import_har(args.import_har)
     elif args.export_evs:
         App.output_evs(args.export_evs, prefix=args.evs_prefix)
@@ -383,3 +659,9 @@ if __name__ == "__main__":
         App.export_text(args.export_text, filename=args.text_filename)
     elif args.export_text_json:
         App.export_text_json(args.export_text_json, filename=args.text_filename)
+    elif args.import_bind:
+        App.import_bind(args.import_bind)
+    elif args.export_bind:
+        App.export_bind(args.export_bind, filename=args.bind_filename)
+    elif args.export_bind_json:
+        App.export_bind_json(args.export_bind_json, filename=args.bind_filename)

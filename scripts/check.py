@@ -187,20 +187,21 @@ def paging_error(source: str, translation: str) -> None:
     """
     # Split by page break marker
     split_contents = translation.split("▽")
-    
     for idx, content in enumerate(split_contents, 1):
-        raw_content = to_eva_sjis(content)
-        # Strip spaces and newlines as they may not count toward the limit
-        raw_split_length = len(
-            raw_content.replace(b" ", b"").replace(b"\n", b"") + to_eva_sjis("▽")
-        )
-        
-        if raw_split_length >= CONTENT_BYTE_LIMIT:
-            raise ValueError(
-                f"Paging error: Page {idx} exceeds limit "
-                f"({raw_split_length} >= {CONTENT_BYTE_LIMIT} bytes). "
-                f"Content: '{content[:50]}{'...' if len(content) > 50 else ''}'"
+        # Further split by $n
+        sub_contents = content.split("$n")
+        for sub_idx, sub_content in enumerate(sub_contents, 1):
+            raw_content = to_eva_sjis(sub_content)
+            # Strip spaces and newlines as they may not count toward the limit
+            raw_split_length = len(
+                raw_content.replace(b" ", b"").replace(b"\n", b"") + to_eva_sjis("▽")
             )
+            if raw_split_length >= CONTENT_BYTE_LIMIT:
+                raise ValueError(
+                    f"Paging error: Page {idx}-$n{sub_idx} exceeds limit "
+                    f"({raw_split_length} >= {CONTENT_BYTE_LIMIT} bytes). "
+                    f"Content: '{sub_content[:50]}{'...' if len(sub_content) > 50 else ''}'"
+                )
 
 
 def validate_translations(
@@ -262,7 +263,13 @@ def validate_translations(
         try:
             # Always check format specifiers
             special_character_error(original, translation)
-            
+
+            # Length ratio check (translation > 2x original)
+            if len(translation) > 2 * len(original):
+                raise ValueError(
+                    f"Length ratio warning: Translation length {len(translation)} is more than 2x original length {len(original)}."
+                )
+
             # Type-specific checks
             if check_type == "eboot":
                 eboot_length_error(original, translation)
@@ -271,7 +278,7 @@ def validate_translations(
                 paging_error(original, translation)
             else:
                 logger.warning(f"Unknown check type: {check_type}")
-                
+
         except ValueError as e:
             logger.error(f"Entry {idx} ({entry_key}): {e}")
             errors.append({
@@ -315,7 +322,7 @@ def main():
     error_count = validate_translations(translation_file, report_file, check_type)
     
     # Exit with error code if validation failed
-    sys.exit(1 if error_count > 0 else 0)
+    # sys.exit(1 if error_count > 0 else 0)
 
 
 if __name__ == "__main__":

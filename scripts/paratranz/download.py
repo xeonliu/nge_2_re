@@ -136,18 +136,29 @@ if __name__ == "__main__":
 
     # 处理 utf8/free 文件夹下的 JSON 文件，将 \n 转换为真实换行后再计算 hash
     free_path = os.path.join(dest_folder, "utf8", "free")
+    game_path = os.path.join(dest_folder, "utf8", "game")
     if os.path.exists(free_path):
-        print("Processing JSON files in utf8/free folder...")
+        print("Processing JSON files in utf8/free and utf8/game folders...")
         for file in os.listdir(free_path):
             if file.endswith(".json"):
                 file_path = os.path.join(free_path, file)
                 with open(file_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                # 启用 normalize_newlines，将 \n 转换为真实换行后计算 hash
                 data = hash_keys_in_data(data, normalize_newlines=True)
                 with open(file_path, "w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False, indent=4)
                 print(f"  Processed: {file_path}")
+        
+        if os.path.exists(game_path):
+            for file in os.listdir(game_path):
+                if file.endswith(".json"):
+                    file_path = os.path.join(game_path, file)
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    data = hash_keys_in_data(data, normalize_newlines=True)
+                    with open(file_path, "w", encoding="utf-8") as f:
+                        json.dump(data, f, ensure_ascii=False, indent=4)
+                    print(f"  Processed: {file_path}")
 
     # Combine all the EBOOT Translations.
     eboot_path = os.path.join(dest_folder, "raw", "EBOOT")

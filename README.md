@@ -37,6 +37,7 @@
 
 #### 2025 年
 
+- **[12/10]** 实现 TEXT 文本导入导出
 - **[12/09]** 实现 HGPT 图像导入导出
 - **[07/08]** Laolv000 加入项目，汉化交流工作转移到 QQ 群
 - **[07/06]** Asuka 和 yokuse 加入项目
@@ -81,6 +82,7 @@ plugin/
 scripts/
 ├─ paratranz/      # Paratranz 文本导入导出工具
 ├─ mt/             # 机器翻译工具
+├─ pack/           # 打包工具
 ````
 
 ## 🗺️ 适用镜像
@@ -105,6 +107,7 @@ scripts/
 - [ ] 搭建汉化项目网站  
 - [x] 自动导入导出 HGAR
 - [x] 自动导入导出 TEXT 资源
+- [ ] 自动导入导出 BIN 资源
 
 ---
 
@@ -146,6 +149,8 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 * PPSSPP 1.19.0+ 可通过 `开发者工具 → Disable HLE → sceFont_Library` 启用修改字体
 * iOS 设备推荐将 CPU 核心模式改为 “解释器” 以减少 JIT 带来的性能损失
 
+> 对于 Mac 设备，位于 `/Users/<your-user-name>/.config/ppsspp/PSP`
+
 ### PSP 实机
 
 * 需要已破解设备（推荐 **ARK-4**），可直接运行补丁版镜像。
@@ -183,6 +188,9 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 
 * [rezual/nge_2_re](https://github.com/rezual/nge_2_re)
 * [tpunix/pgftool](https://github.com/tpunix/pgftool) 用于 PSP 字体生成
+* [Linblow/pspdecrypt](https://github.com/Linblow/pspdecrypt)
+* [jmacd/xdelta](https://github.com/jmacd/xdelta)
+* [Illidanz/hacktools](https://github.com/Illidanz/hacktools)
 * [Paratranz](https://paratranz.cn)
 * [PPSSPP](https://www.ppsspp.org/)
 * [PSPDev 工具链](https://pspdev.github.io/)
