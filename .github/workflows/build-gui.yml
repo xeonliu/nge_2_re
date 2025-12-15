@@ -21,18 +21,18 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: ubuntu-latest
-            artifact_name: NGE2汉化工具-Linux
-            exe_name: NGE2汉化工具
-            spec_name: NGE2汉化工具
+            artifact_name: NGE2-Translation-Tool-Linux
+            exe_name: NGE2-Translation-Tool
+            spec_name: NGE2-Translation-Tool
           - os: windows-latest
-            artifact_name: NGE2汉化工具-Windows
-            exe_name: NGE2汉化工具.exe
-            spec_name: NGE2汉化工具
+            artifact_name: NGE2-Translation-Tool-Windows
+            exe_name: NGE2-Translation-Tool.exe
+            spec_name: NGE2-Translation-Tool
           - os: macos-latest
-            artifact_name: NGE2汉化工具-macOS
-            exe_name: NGE2汉化工具
-            spec_name: NGE2汉化工具
-            app_name: NGE2汉化工具.app
+            artifact_name: NGE2-Translation-Tool-macOS
+            exe_name: NGE2-Translation-Tool
+            spec_name: NGE2-Translation-Tool
+            app_name: NGE2-Translation-Tool.app
 
     steps:
       - name: Checkout code
@@ -154,10 +154,10 @@ jobs:
 
       - name: Create archive (Windows)
         if: matrix.os == 'windows-latest'
-        shell: bash
+        shell: pwsh
         run: |
           cd dist
-          zip -r ${{ matrix.artifact_name }}.zip ${{ matrix.artifact_name }}
+          Compress-Archive -Path "${{ matrix.artifact_name }}" -DestinationPath "${{ matrix.artifact_name }}.zip" -Force
 
       - name: Create archive (macOS)
         if: matrix.os == 'macos-latest'
@@ -205,14 +205,14 @@ jobs:
         with:
           path: artifacts
 
-      - name: Rename artifacts to avoid Chinese characters in filenames
+      - name: Prepare release assets
         run: |
           mkdir -p release_assets
-          # Find and rename Linux artifact
+          # Copy Linux artifact
           find artifacts -name "*Linux*.tar.gz" -type f -exec cp {} release_assets/NGE2-Translation-Tool-Linux.tar.gz \;
-          # Find and rename Windows artifact
+          # Copy Windows artifact
           find artifacts -name "*Windows*.zip" -type f -exec cp {} release_assets/NGE2-Translation-Tool-Windows.zip \;
-          # Find and rename macOS artifact
+          # Copy macOS artifact
           find artifacts -name "*macOS*.zip" -type f -exec cp {} release_assets/NGE2-Translation-Tool-macOS.zip \;
           # List files for debugging
           ls -la release_assets/
