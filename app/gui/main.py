@@ -12,6 +12,7 @@ from pathlib import Path
 
 # 导入 CLI 主程序的功能
 from app.cli.main import App
+from scripts.paratranz.download import download_and_process
 
 # 重定向 print 输出到 GUI
 class TextRedirector:
@@ -273,6 +274,16 @@ class NGE2TranslationGUI:
             command=self.on_export_eboot_trans
         ).pack(fill=tk.X, pady=2)
         
+        # Paratranz 操作
+        paratranz_frame = ttk.LabelFrame(parent, text="Paratranz 操作", padding="10")
+        paratranz_frame.pack(fill=tk.X, pady=5)
+        
+        ttk.Button(
+            paratranz_frame, 
+            text="下载翻译", 
+            command=self.on_download_translation
+        ).pack(fill=tk.X, pady=2)
+        
     def log(self, message):
         """添加日志消息"""
         self.log_text.insert(tk.END, message)
@@ -292,6 +303,22 @@ class NGE2TranslationGUI:
         
         thread = threading.Thread(target=wrapper, daemon=True)
         thread.start()
+    
+    def run_terminal_command(self, command):
+        """运行终端命令"""
+        # 这里我们需要导入run_in_terminal，但它是工具，不是模块。
+        # 实际上，我们不能直接调用run_in_terminal，因为它是工具。
+        # 我们需要使用subprocess或os.system。
+        import subprocess
+        import sys
+        try:
+            result = subprocess.run(command, shell=True, cwd=str(Path(__file__).parent.parent.parent), capture_output=True, text=True)
+            if result.stdout:
+                self.log(result.stdout)
+            if result.stderr:
+                self.log(result.stderr)
+        except Exception as e:
+            self.log(f"命令执行失败: {str(e)}\n")
     
     def ask_prefix(self, title="输入前缀"):
         """询问用户输入前缀"""
@@ -377,6 +404,53 @@ class NGE2TranslationGUI:
         
         dialog.wait_window()
         # 返回 False 表示用户取消，None 表示全部，字符串表示具体前缀
+        if cancelled[0]:
+            return False
+        return result[0]
+    
+    def ask_token(self, title="输入 Token"):
+        """询问用户输入 Token"""
+        dialog = tk.Toplevel(self.root)
+        dialog.title(title)
+        dialog.geometry("400x140")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # 居中显示对话框
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        result = [None]
+        cancelled = [False]
+        
+        ttk.Label(dialog, text="请输入 Paratranz Token:").pack(pady=10)
+        entry = ttk.Entry(dialog, width=50, show="*")  # 隐藏输入
+        entry.pack(pady=5)
+        entry.focus()
+        
+        def ok():
+            token = entry.get().strip()
+            if token:
+                result[0] = token
+                dialog.destroy()
+            else:
+                messagebox.showwarning("警告", "Token 不能为空")
+        
+        def cancel():
+            cancelled[0] = True
+            dialog.destroy()
+        
+        button_frame = ttk.Frame(dialog)
+        button_frame.pack(pady=10)
+        ttk.Button(button_frame, text="确定", command=ok).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="取消", command=cancel).pack(side=tk.LEFT, padx=5)
+        
+        entry.bind('<Return>', lambda e: ok())
+        dialog.bind('<Escape>', lambda e: cancel())
+        
+        dialog.wait_window()
         if cancelled[0]:
             return False
         return result[0]
@@ -541,6 +615,14 @@ class NGE2TranslationGUI:
                 self.log(f"翻译文件路径: {translation_path}\n")
                 self.log(f"输出文件路径: {output_path}\n")
                 self.run_in_thread(App.export_eboot_trans, translation_path, output_path)
+    
+    def on_download_translation(self):
+        """下载翻译"""
+        token = self.ask_token("输入 Paratranz Token")
+        if token is not False:  # False 表示用户取消
+            self.log("正在下载翻译...\n")
+            # 使用 run_in_terminal 运行下载脚本，设置环境变量
+            self.run_in_thread(download_and_process, token)
 
 
 def main():
