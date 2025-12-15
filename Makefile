@@ -166,6 +166,7 @@ repack:
 
 decrypt: pspdecrypt
 	@echo "Decrypting game files..."
+	mkdir -p ${EXPORT_SYSDIR}
 	./build/tools/pspdecrypt '${PSP_GAME_DIR}/SYSDIR/EBOOT.BIN' -o '${EXPORT_SYSDIR}/BOOT.BIN'
 
 build:
@@ -179,3 +180,17 @@ build:
 	@mkdir -p build/assets
 	@cp -r assets/* build/assets/
 	@echo "Build complete."
+
+full_build:
+	$(MAKE) init_db
+	$(MAKE) import_hgar
+	$(MAKE) import_bind
+	$(MAKE) import_text
+	$(MAKE) import_translations
+	$(MAKE) import_images
+	$(MAKE) export_text
+	$(MAKE) export_bind
+	$(MAKE) export_hgar
+	$(MAKE) export_eboot_trans
+	$(MAKE) plugin
+	$(MAKE) decrypt

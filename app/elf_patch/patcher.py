@@ -42,9 +42,33 @@ class Patcher:
         self.data = None
 
     # Load Translation downloaded from Crowdin.
-    def load_translation(self, json_file_path: str):
-        with open(json_file_path, "r", encoding="utf-8") as json_file:
-            self.data = json.load(json_file)
+    def load_translation(self, path: str):
+        """加载翻译数据，支持单个文件或目录（自动合并所有 chunk_*.json）"""
+        import glob
+        import os
+
+        if os.path.isfile(path):
+            # 单个文件
+            with open(path, "r", encoding="utf-8") as json_file:
+                self.data = json.load(json_file)
+        elif os.path.isdir(path):
+            # 目录：合并所有 chunk_*.json 文件
+            pattern = os.path.join(path, "chunk_*.json")
+            chunk_files = sorted(glob.glob(pattern))
+
+            if not chunk_files:
+                raise ValueError(f"No chunk_*.json files found in directory: {path}")
+
+            print(f"Found {len(chunk_files)} chunk files, merging...")
+            self.data = []
+            for chunk_file in chunk_files:
+                with open(chunk_file, "r", encoding="utf-8") as json_file:
+                    chunk_data = json.load(json_file)
+                    self.data.extend(chunk_data)
+                    print(f"  Loaded {os.path.basename(chunk_file)}: {len(chunk_data)} entries")
+            print(f"Total entries loaded: {len(self.data)}")
+        else:
+            raise ValueError(f"Path does not exist: {path}")
 
     @staticmethod
     def extract_technical(technical: str) -> tuple[str, str, int]:
@@ -61,8 +85,11 @@ class Patcher:
 
     def patch_translation(self) -> list:
         entries = []
-        # fails = []
-        for elem in self.data:
+        
+        # 首先按照地址排序所有条目
+        sorted_data = sorted(self.data, key=lambda x: int(self.extract_technical(x["context"])[0], 16))
+        
+        for i, elem in enumerate(sorted_data):
             """
             {
                 "key": "elf:rodata:0x001D144C,ram:0x089D544C,size:20",
@@ -73,19 +100,42 @@ class Patcher:
             },
             """
             elf_vmaddr, ram_vmaddr, size = self.extract_technical(elem["context"])
+            current_offset = int(elf_vmaddr, 16)
+            
             print(elem["translation"])
             original_bytes = tools.to_eva_sjis(elem["original"])
             translation_bytes = tools.to_eva_sjis(elem["translation"])
-            hex = translation_bytes.hex() + b"\x00".hex()
-            if len(translation_bytes) > len(original_bytes):
-                # fails.append(elem)
-                print(f"Failed: {elem['original']}")
+            
+            # 计算翻译文本需要的空间（包括结尾的 \0）
+            required_space = len(translation_bytes) + 1
+            
+            # 计算可用空间：如果有下一个条目，用下一个地址减去当前地址；否则使用原始 size
+            if i + 1 < len(sorted_data):
+                next_elf_vmaddr, _, _ = self.extract_technical(sorted_data[i + 1]["context"])
+                next_offset = int(next_elf_vmaddr, 16)
+                available_space = next_offset - current_offset
+            else:
+                available_space = size
+            
+            # 检查空间是否足够（仅在翻译比原文长时才报错）
+            if required_space > available_space and len(translation_bytes) > len(original_bytes):
+                print(f"Failed: {elem['translation']} (需要 {required_space} 字节，可用 {available_space} 字节)，原文：{len(original_bytes) + 1}字节")
                 continue
-
+            if len(translation_bytes) > 1023:
+                print(f"Failed: {elem['translation']} (翻译文本超过 1023 字节限制)")
+                continue
+            
+            if len(translation_bytes) == len(original_bytes):
+                hex = translation_bytes.hex()
+            else:
+                hex = translation_bytes.hex() + b"\x00".hex()
+            
+            buffer = bytes.fromhex(hex)
+            
             entry = TranslationEntry(
                 offset=int(ram_vmaddr, 16),
-                size=size,
-                buffer=bytes.fromhex(hex)
+                size=len(buffer),
+                buffer=buffer
             )
 
             entries.append(entry)
@@ -103,13 +153,13 @@ if __name__ == "__main__":
         prog="ELF Patcher", description="Patch ELF Encoding Table and SJIS Strings"
     )
 
-    parser.add_argument("-t", "--translation_path", required=True, help="Path to translation JSON file")
+    parser.add_argument("-t", "--translation_path", required=True, help="Path to translation JSON file or directory containing chunk_*.json files")
     parser.add_argument("-o", help="Output file path", default="EBTRANS.BIN")
     args = parser.parse_args()
 
     # 检查 translation_path 是否存在
-    if not os.path.isfile(args.translation_path):
-        print(f"Error: Translation file '{args.translation_path}' does not exist.", file=sys.stderr)
+    if not os.path.exists(args.translation_path):
+        print(f"Error: Translation path '{args.translation_path}' does not exist.", file=sys.stderr)
         sys.exit(1)
 
     # 检查输出路径是否可写
