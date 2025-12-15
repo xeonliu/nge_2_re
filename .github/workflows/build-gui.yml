@@ -61,7 +61,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install --system -r <(uv pip compile pyproject.toml -o -)
+          uv pip compile pyproject.toml -o requirements.txt
+          uv pip install --system -r requirements.txt
           uv pip install --system pyinstaller
 
       - name: Build with PyInstaller (Linux)
@@ -204,13 +205,25 @@ jobs:
         with:
           path: artifacts
 
+      - name: Rename artifacts to avoid Chinese characters in filenames
+        run: |
+          mkdir -p release_assets
+          # Find and rename Linux artifact
+          find artifacts -name "*Linux*.tar.gz" -type f -exec cp {} release_assets/NGE2-Translation-Tool-Linux.tar.gz \;
+          # Find and rename Windows artifact
+          find artifacts -name "*Windows*.zip" -type f -exec cp {} release_assets/NGE2-Translation-Tool-Windows.zip \;
+          # Find and rename macOS artifact
+          find artifacts -name "*macOS*.zip" -type f -exec cp {} release_assets/NGE2-Translation-Tool-macOS.zip \;
+          # List files for debugging
+          ls -la release_assets/
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            artifacts/NGE2汉化工具-Linux/NGE2汉化工具-Linux.tar.gz
-            artifacts/NGE2汉化工具-Windows/NGE2汉化工具-Windows.zip
-            artifacts/NGE2汉化工具-macOS/NGE2汉化工具-macOS.zip
+            release_assets/NGE2-Translation-Tool-Linux.tar.gz
+            release_assets/NGE2-Translation-Tool-Windows.zip
+            release_assets/NGE2-Translation-Tool-macOS.zip
           body: |
             ## NGE2 汉化工具 GUI 版本
             
