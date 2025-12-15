@@ -68,56 +68,26 @@ jobs:
       - name: Build with PyInstaller (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          pyinstaller --onefile \
-            --windowed \
+          pyinstaller --onefile --windowed \
             --name "${{ matrix.spec_name }}" \
             --add-data "app:app" \
-            --hidden-import sqlalchemy \
-            --hidden-import sqlalchemy.dialects.sqlite \
-            --hidden-import app.cli.main \
-            --hidden-import app.gui.main \
-            --hidden-import app.elf_patch.patcher \
-            --hidden-import app.parser.tools \
-            --hidden-import app.database \
-            --hidden-import app.utils \
-            --collect-all sqlalchemy \
             run_gui.py
 
       - name: Build with PyInstaller (Windows)
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          pyinstaller --onefile \
-            --windowed \
+          pyinstaller --onefile --windowed \
             --name "${{ matrix.spec_name }}" \
             --add-data "app;app" \
-            --hidden-import sqlalchemy \
-            --hidden-import sqlalchemy.dialects.sqlite \
-            --hidden-import app.cli.main \
-            --hidden-import app.gui.main \
-            --hidden-import app.elf_patch.patcher \
-            --hidden-import app.parser.tools \
-            --hidden-import app.database \
-            --hidden-import app.utils \
-            --collect-all sqlalchemy \
             run_gui.py
 
       - name: Build with PyInstaller (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          pyinstaller --onefile \
-            --windowed \
+          pyinstaller --onefile --windowed \
             --name "${{ matrix.spec_name }}" \
             --add-data "app:app" \
-            --hidden-import sqlalchemy \
-            --hidden-import sqlalchemy.dialects.sqlite \
-            --hidden-import app.cli.main \
-            --hidden-import app.gui.main \
-            --hidden-import app.elf_patch.patcher \
-            --hidden-import app.parser.tools \
-            --hidden-import app.database \
-            --hidden-import app.utils \
-            --collect-all sqlalchemy \
             --osx-bundle-identifier "com.nge2.translation.tool" \
             run_gui.py
 
