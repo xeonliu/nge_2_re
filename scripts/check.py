@@ -53,6 +53,8 @@ def find_special_characters(s: str) -> Dict[str, int]:
     pattern = r"%[0-9]*[a-zA-Z]+"
     # Pattern for script-style variables: $s, $d, $1s, etc.
     pattern += r"|\$[0-9]*[a-zA-Z]+"
+    # Pattern for SJIS full-width characters (digits and letters)
+    pattern += r"|［０-９Ａ-Ｚａ-ｚ］"
     
     matches = re.findall(pattern, s)
     

@@ -1,16 +1,3 @@
-def add_comment_to_string(string_id: int, content: str, auth: str) -> bool:
-    """Add a comment to a string in Paratranz."""
-    url = "https://paratranz.cn/api/comments"
-    headers = {"Authorization": auth}
-    data = {"type": "text", "tid": string_id, "content": content, "images": []}
-    try:
-        response = requests.post(url, headers=headers, json=data, timeout=10)
-        response.raise_for_status()
-        print(f"      └─ Added comment for {string_id}")
-        return True
-    except requests.RequestException as e:
-        print(f"      └─ Failed to add comment for {string_id}: {e}")
-        return False
 #!/usr/bin/env python3
 """
 Mark strings from report.json as untranslated in Paratranz API.
@@ -24,6 +11,20 @@ import time
 from pathlib import Path
 
 project_id = 10882
+
+def add_comment_to_string(string_id: int, content: str, auth: str) -> bool:
+    """Add a comment to a string in Paratranz."""
+    url = "https://paratranz.cn/api/comments"
+    headers = {"Authorization": auth}
+    data = {"type": "text", "tid": string_id, "content": content, "images": []}
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=10)
+        response.raise_for_status()
+        print(f"      └─ Added comment for {string_id}")
+        return True
+    except requests.RequestException as e:
+        print(f"      └─ Failed to add comment for {string_id}: {e}")
+        return False
 
 
 def search_by_original(original_text: str, auth: str) -> list:

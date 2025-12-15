@@ -1,3 +1,11 @@
+"""
+Docstring for scripts.paratranz.download
+This script downloads translation files from Paratranz for a specific project,
+unzips them, processes JSON files to replace newline characters and compute MD5 hashes for keys,
+and combines EBOOT and EVS translations into separate JSON files.
+
+NOTE THAT '\n' IN PARATRANZ IS '\\n', SO WE NEED TO CONVERT IT BACK TO REAL NEWLINE WHEN PROCESSING.
+"""
 import requests
 import zipfile
 import os
