@@ -156,7 +156,7 @@ class App:
                         }
                     )
                 # Write to file
-                with open(f"{path}/{prefix}.json", "w") as f:
+                with open(f"{path}/{prefix}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
         else:
@@ -183,7 +183,7 @@ class App:
                         }
                     )
                 # Write to file
-                with open(f"{path}/{prefix_item}.json", "w") as f:
+                with open(f"{path}/{prefix_item}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
             
@@ -215,7 +215,7 @@ class App:
                 
                 # 文件名使用路径（将 / 替换为 _）
                 filename = rel_path.replace('/', '_')
-                with open(f"{path}/{filename}.json", "w") as f:
+                with open(f"{path}/{filename}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
@@ -223,7 +223,9 @@ class App:
     def import_translation(filepath: str):
         # Drop all translations
         # TranslationDao.delete_all()
-        with open(filepath, "r") as f:
+        # Windows 默认编码可能不是 UTF-8，导致读取包含多字节字符的文件时抛出
+        # “'gbk' codec can't decode byte ...” 等错误，因此显式使用 UTF-8。
+        with open(filepath, "r", encoding="utf-8") as f:
             import json
 
             data = json.load(f)
@@ -260,7 +262,7 @@ class App:
                         }
                     )
                 # Write to file
-                with open(f"{output_dir}/{prefix}.json", "w") as f:
+                with open(f"{output_dir}/{prefix}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
         else:
@@ -288,7 +290,7 @@ class App:
                         }
                     )
                 # Write to file
-                with open(f"{output_dir}/{prefix_item}.json", "w") as f:
+                with open(f"{output_dir}/{prefix_item}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
             
@@ -321,7 +323,7 @@ class App:
                 
                 # 文件名使用路径（将 / 替换为 _）
                 filename = path.replace('/', '_')
-                with open(f"{output_dir}/{filename}.json", "w") as f:
+                with open(f"{output_dir}/{filename}.json", "w", encoding="utf-8") as f:
                     import json
                     f.write(json.dumps(list, indent=4, ensure_ascii=False))
 
