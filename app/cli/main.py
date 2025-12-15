@@ -525,6 +525,51 @@ class App:
         
         print(f"Exported {count} BIND files as JSON")
 
+    @staticmethod
+    def export_eboot_trans(translation_path: str, output_path: str = "EBTRANS.BIN"):
+        """
+        生成 EBOOT 翻译二进制文件（EBTRANS.BIN）
+        
+        Args:
+            translation_path: 翻译 JSON 文件路径或包含 chunk_*.json 的目录
+            output_path: 输出文件路径，默认为 EBTRANS.BIN
+        """
+        from app.elf_patch.patcher import Patcher, TranslationHeader
+        
+        print(f"正在生成 EBOOT 翻译文件...")
+        print(f"翻译文件路径: {translation_path}")
+        print(f"输出文件路径: {output_path}")
+        
+        patcher = Patcher()
+        try:
+            patcher.load_translation(translation_path)
+        except Exception as e:
+            print(f"错误：加载翻译文件失败: {e}")
+            raise
+        
+        try:
+            entries = patcher.patch_translation()
+        except Exception as e:
+            print(f"错误：处理翻译条目失败: {e}")
+            raise
+        
+        print(f"成功处理 {len(entries)} 个翻译条目（共 {len(patcher.data)} 个条目）")
+        
+        header = TranslationHeader(num=len(entries))
+        try:
+            # 确保输出目录存在
+            output_dir = os.path.dirname(output_path) or '.'
+            os.makedirs(output_dir, exist_ok=True)
+            
+            with open(output_path, "wb") as f:
+                f.write(header.to_bytes())
+                for entry in entries:
+                    f.write(entry.to_bytes())
+            print(f"成功生成 EBTRANS.BIN: {output_path}")
+        except Exception as e:
+            print(f"错误：写入输出文件失败: {e}")
+            raise
+    
     def compile():
         pass
 
@@ -634,6 +679,19 @@ if __name__ == "__main__":
         type=str,
         help="Path for exporting BIND files as JSON (Paratranz format)",
     )
+    
+    # Export EBOOT Translation (EBTRANS.BIN)
+    parser.add_argument(
+        "--export_eboot_trans",
+        type=str,
+        help="Path to translation JSON file or directory containing chunk_*.json files",
+    )
+    parser.add_argument(
+        "--eboot_trans_output",
+        type=str,
+        default="EBTRANS.BIN",
+        help="Output path for EBTRANS.BIN (default: EBTRANS.BIN)",
+    )
 
     args = parser.parse_args()
     if args.init_db:
@@ -665,3 +723,5 @@ if __name__ == "__main__":
         App.export_bind(args.export_bind, filename=args.bind_filename)
     elif args.export_bind_json:
         App.export_bind_json(args.export_bind_json, filename=args.bind_filename)
+    elif args.export_eboot_trans:
+        App.export_eboot_trans(args.export_eboot_trans, args.eboot_trans_output)

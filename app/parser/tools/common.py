@@ -7,15 +7,17 @@ import sys
 
 from app.utils.map import CUSTOM_ENCODE_MAP
 
-if (sys.stdout.encoding.lower().strip().replace('-', '').replace(' ', '') != 'utf8'):
-    print("Your system\'s default terminal/screen encoding is not UTF-8.\n"
-          "Please rerun this script by first setting\n"
-          "PYTHONIOENCODING to utf-8.\n"
-          "On Windows:\n"
-          "set PYTHONIOENCODING=utf-8\n"
-          "On Unix:\n"
-          "export PYTHONIOENCODING=utf-8")
-    sys.exit(-1)
+# Check encoding only if stdout is available (not in GUI mode or when redirected)
+if sys.stdout and hasattr(sys.stdout, 'encoding') and sys.stdout.encoding:
+    if (sys.stdout.encoding.lower().strip().replace('-', '').replace(' ', '') != 'utf8'):
+        print("Your system\'s default terminal/screen encoding is not UTF-8.\n"
+              "Please rerun this script by first setting\n"
+              "PYTHONIOENCODING to utf-8.\n"
+              "On Windows:\n"
+              "set PYTHONIOENCODING=utf-8\n"
+              "On Unix:\n"
+              "export PYTHONIOENCODING=utf-8")
+        sys.exit(-1)
 
 # Common helper functions
 def read_uint8(file_handle):
