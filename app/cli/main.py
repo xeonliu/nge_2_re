@@ -145,7 +145,11 @@ class App:
             if results:
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(
@@ -172,7 +176,11 @@ class App:
                     
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(
@@ -202,7 +210,11 @@ class App:
                 
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(
@@ -250,7 +262,11 @@ class App:
             if results:
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(
@@ -278,7 +294,11 @@ class App:
                     
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(
@@ -309,7 +329,11 @@ class App:
                 
                 list = []
                 for sentence, evs_entry in results:
-                    avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    # 对于非对话类型（如 function 149），参数可能为空
+                    if len(evs_entry.param) >= 2:
+                        avatar, exp = get_avatar_and_exp(evs_entry.param[0], evs_entry.param[1])
+                    else:
+                        avatar, exp = f"function_{evs_entry.type}", None
                     key = sentence.key
                     original = sentence.content
                     list.append(

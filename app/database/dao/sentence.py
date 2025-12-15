@@ -22,12 +22,15 @@ class SentenceDao:
 
     def export_sentence_entry(prefix: str):
         with next(get_db()) as db:
+            # HAS_CONTENT_SECTION = (0x01, 0x8C, 0x8D, 0xA3, 0x8E, 0x95)
+            # 包含文本内容的所有function类型：1(对话), 140(0x8C), 141(0x8D), 142(0x8E), 149(0x95), 163(0xA3)
+            HAS_CONTENT_SECTION = (0x01, 0x8C, 0x8D, 0xA3, 0x8E, 0x95)
             subquery = (
                 db.query(EVSEntry.sentence_key, func.min(EVSEntry.id).label("min_id"))
                 .join(HgarFile, EVSEntry.hgar_file_id == HgarFile.id)
                 .join(Hgar, HgarFile.hgar_id == Hgar.id)
                 .filter(Hgar.name.like(f"{prefix}%"))
-                .filter(EVSEntry.type == 1)
+                .filter(EVSEntry.type.in_(HAS_CONTENT_SECTION))
                 .group_by(EVSEntry.sentence_key)
                 .subquery()
             )
@@ -44,12 +47,15 @@ class SentenceDao:
     def export_sentence_by_path(relative_path: str):
         """按照 relative_path 导出句子（用于非 event 目录）"""
         with next(get_db()) as db:
+            # HAS_CONTENT_SECTION = (0x01, 0x8C, 0x8D, 0xA3, 0x8E, 0x95)
+            # 包含文本内容的所有function类型：1(对话), 140(0x8C), 141(0x8D), 142(0x8E), 149(0x95), 163(0xA3)
+            HAS_CONTENT_SECTION = (0x01, 0x8C, 0x8D, 0xA3, 0x8E, 0x95)
             subquery = (
                 db.query(EVSEntry.sentence_key, func.min(EVSEntry.id).label("min_id"))
                 .join(HgarFile, EVSEntry.hgar_file_id == HgarFile.id)
                 .join(Hgar, HgarFile.hgar_id == Hgar.id)
                 .filter(Hgar.relative_path == relative_path)
-                .filter(EVSEntry.type == 1)
+                .filter(EVSEntry.type.in_(HAS_CONTENT_SECTION))
                 .group_by(EVSEntry.sentence_key)
                 .subquery()
             )

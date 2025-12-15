@@ -73,7 +73,7 @@ class HGARFileDao:
                 # 持久化文件内容
                 if short_name.endswith(".evs"):
                     EVSDao.save(hgar_file.id, evs_wrapper)
-                elif short_name.endswith(".hpt"):
+                elif short_name.endswith(".hpt"): # FIXME: 之前这里没出BUG，暂时留着？ or short_name.endswith(".zpt"):
                     # HGPT 已经通过 hgpt_key 关联，无需额外操作
                     pass
                 else:
