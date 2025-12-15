@@ -1,0 +1,242 @@
+name: Build GUI Application
+
+on:
+  push:
+    tags:
+      - 'v*'  # 当推送版本标签时触发
+  workflow_dispatch:  # 允许手动触发
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.0.0)'
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            artifact_name: NGE2汉化工具-Linux
+            exe_name: NGE2汉化工具
+            spec_name: NGE2汉化工具
+          - os: windows-latest
+            artifact_name: NGE2汉化工具-Windows
+            exe_name: NGE2汉化工具.exe
+            spec_name: NGE2汉化工具
+          - os: macos-latest
+            artifact_name: NGE2汉化工具-macOS
+            exe_name: NGE2汉化工具
+            spec_name: NGE2汉化工具
+            app_name: NGE2汉化工具.app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk
+
+      - name: Install system dependencies (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install python-tk || true
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: |
+          uv pip install --system -r <(uv pip compile pyproject.toml -o -)
+          uv pip install --system pyinstaller
+
+      - name: Build with PyInstaller (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          pyinstaller --onefile \
+            --windowed \
+            --name "${{ matrix.spec_name }}" \
+            --add-data "app:app" \
+            --hidden-import sqlalchemy \
+            --hidden-import sqlalchemy.dialects.sqlite \
+            --hidden-import app.cli.main \
+            --hidden-import app.gui.main \
+            --hidden-import app.elf_patch.patcher \
+            --hidden-import app.parser.tools \
+            --hidden-import app.database \
+            --hidden-import app.utils \
+            --collect-all sqlalchemy \
+            run_gui.py
+
+      - name: Build with PyInstaller (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          pyinstaller --onefile \
+            --windowed \
+            --name "${{ matrix.spec_name }}" \
+            --add-data "app;app" \
+            --hidden-import sqlalchemy \
+            --hidden-import sqlalchemy.dialects.sqlite \
+            --hidden-import app.cli.main \
+            --hidden-import app.gui.main \
+            --hidden-import app.elf_patch.patcher \
+            --hidden-import app.parser.tools \
+            --hidden-import app.database \
+            --hidden-import app.utils \
+            --collect-all sqlalchemy \
+            run_gui.py
+
+      - name: Build with PyInstaller (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          pyinstaller --onefile \
+            --windowed \
+            --name "${{ matrix.spec_name }}" \
+            --add-data "app:app" \
+            --hidden-import sqlalchemy \
+            --hidden-import sqlalchemy.dialects.sqlite \
+            --hidden-import app.cli.main \
+            --hidden-import app.gui.main \
+            --hidden-import app.elf_patch.patcher \
+            --hidden-import app.parser.tools \
+            --hidden-import app.database \
+            --hidden-import app.utils \
+            --collect-all sqlalchemy \
+            --osx-bundle-identifier "com.nge2.translation.tool" \
+            run_gui.py
+
+      - name: Prepare artifacts (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          mkdir -p dist/${{ matrix.artifact_name }}
+          cp dist/${{ matrix.exe_name }} dist/${{ matrix.artifact_name }}/
+          cp README.md dist/${{ matrix.artifact_name }}/
+          cp app/gui/README.md dist/${{ matrix.artifact_name }}/GUI_README.md
+
+      - name: Prepare artifacts (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          mkdir -p dist/${{ matrix.artifact_name }}
+          cp dist/${{ matrix.exe_name }} dist/${{ matrix.artifact_name }}/
+          cp README.md dist/${{ matrix.artifact_name }}/
+          cp app/gui/README.md dist/${{ matrix.artifact_name }}/GUI_README.md
+
+      - name: Prepare artifacts (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          mkdir -p dist/${{ matrix.artifact_name }}
+          cp -r dist/${{ matrix.app_name }} dist/${{ matrix.artifact_name }}/
+          cp README.md dist/${{ matrix.artifact_name }}/
+          cp app/gui/README.md dist/${{ matrix.artifact_name }}/GUI_README.md
+
+      - name: Create archive (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd dist
+          tar -czf ${{ matrix.artifact_name }}.tar.gz ${{ matrix.artifact_name }}
+
+      - name: Create archive (Windows)
+        if: matrix.os == 'windows-latest'
+        shell: bash
+        run: |
+          cd dist
+          zip -r ${{ matrix.artifact_name }}.zip ${{ matrix.artifact_name }}
+
+      - name: Create archive (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd dist
+          zip -r ${{ matrix.artifact_name }}.zip ${{ matrix.artifact_name }}
+
+      - name: Upload Linux artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}.tar.gz
+          retention-days: 30
+
+      - name: Upload Windows artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}.zip
+          retention-days: 30
+
+      - name: Upload macOS artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: dist/${{ matrix.artifact_name }}.zip
+          retention-days: 30
+
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            artifacts/NGE2汉化工具-Linux/NGE2汉化工具-Linux.tar.gz
+            artifacts/NGE2汉化工具-Windows/NGE2汉化工具-Windows.zip
+            artifacts/NGE2汉化工具-macOS/NGE2汉化工具-macOS.zip
+          body: |
+            ## NGE2 汉化工具 GUI 版本
+            
+            这是一个图形界面版本，适合不会编程的用户使用。
+            
+            ### 下载说明
+            
+            - **Linux**: 下载 `.tar.gz` 文件，解压后运行可执行文件
+            - **Windows**: 下载 `.zip` 文件，解压后运行 `.exe` 文件
+            - **macOS**: 下载 `.zip` 文件，解压后运行 `.app` 文件
+            
+            ### 使用前准备
+            
+            - Linux 用户需要确保已安装 `python3-tk`（通常已包含）
+            - Windows 和 macOS 用户无需额外安装
+            
+            ### 功能
+            
+            - 数据库管理
+            - HAR 文件导入导出
+            - EVS 和翻译管理
+            - 图像处理
+            - TEXT/BIND 文件处理
+            - EBOOT 翻译文件生成
+            
+            详细使用说明请查看压缩包内的 `GUI_README.md` 文件。
+          draft: false
+          prerelease: false
+
