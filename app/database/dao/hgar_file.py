@@ -15,7 +15,16 @@ from .hgpt import HgptDao
 
 
 class HGARFileDao:
+    @staticmethod
     def save(hgar_id: int, hgar_files: list[tools.HGArchiveFile]):
+        """
+        保存 HGAR 文件列表到数据库
+        主要处理 EVS 和 HGPT 文件的特殊存储需求
+        其余文件作为 Raw 存储
+        Args:
+            hgar_id: 关联的 HGAR ID
+            hgar_files: 要保存的 HGAR 文件列表
+        """
         for file in hgar_files:
             with next(get_db()) as db:
                 # FIXME: Remove decode
@@ -73,7 +82,7 @@ class HGARFileDao:
                 # 持久化文件内容
                 if short_name.endswith(".evs"):
                     EVSDao.save(hgar_file.id, evs_wrapper)
-                elif short_name.endswith(".hpt"): # FIXME: 之前这里没出BUG，暂时留着？ or short_name.endswith(".zpt"):
+                elif short_name.endswith(".hpt") or short_name.endswith(".zpt"):
                     # HGPT 已经通过 hgpt_key 关联，无需额外操作
                     pass
                 else:
@@ -82,6 +91,7 @@ class HGARFileDao:
                     db.commit()
         return hgar_files
 
+    @staticmethod
     def form(hgar_id: int) -> list[tools.HGArchiveFile]:
         with next(get_db()) as db:
             print(f"Form HGAR Files for {hgar_id}")

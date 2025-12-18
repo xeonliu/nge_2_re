@@ -11,8 +11,11 @@ from ..entity.hgar import Hgar
 
 from .hgar_file import HGARFileDao
 
-
 class HGARDao:
+    """
+    记录 HGAR 归档文件的元数据，其名称、位置、版本等
+    """
+    @staticmethod
     def save(filename: str, hg_archive: tools.HGArchive, relative_path: str = ""):
         hgar = Hgar(name=filename, version=hg_archive.version, relative_path=relative_path)
         with next(get_db()) as db:
@@ -22,6 +25,7 @@ class HGARDao:
         HGARFileDao.save(hgar.id, hg_archive.files)
         return hgar
 
+    @staticmethod
     def get_hgar_by_name(name: str) -> tools.HGArchive:
         with next(get_db()) as db:
             hgar = db.query(Hgar).filter(Hgar.name == name).first()
@@ -30,6 +34,7 @@ class HGARDao:
             # Form HGArcive
             return tools.HGArchive(hgar.version, hgar_files)
 
+    @staticmethod
     def get_hgar_by_prefix(prefix: str):
         with next(get_db()) as db:
             hgars = db.query(Hgar).filter(Hgar.name.like(f"{prefix}%")).all()
@@ -45,12 +50,14 @@ class HGARDao:
                 hgar_names.append(hgar.name)
             return hgar_names, hgar_archives
 
+    @staticmethod
     def get_all_hgar_names():
         """获取所有 HGAR 文件的名称"""
         with next(get_db()) as db:
             hgars = db.query(Hgar).all()
             return [hgar.name for hgar in hgars]
     
+    @staticmethod
     def get_all_hgars():
         """获取所有 HGAR 文件的完整信息（name, relative_path, archive）"""
         with next(get_db()) as db:
