@@ -25,6 +25,7 @@
 
 ### 📰 最新进展
 
+- [2025/12] 实现HGPT、TEXT、BIND文件的处理，生成 GUI 程序
 - [2025/10] 引入 GPT 翻译与文本格式自动检测模块
 - [2025/09] 建立完整数据库与导入导出工具链
 - [2025/08] 成功实现 EBOOT 动态修改与编码映射修复
@@ -107,7 +108,8 @@ scripts/
 - [ ] 搭建汉化项目网站  
 - [x] 自动导入导出 HGAR
 - [x] 自动导入导出 TEXT 资源
-- [ ] 自动导入导出 BIN 资源
+- [x] 自动导入导出 BIND 资源
+- [x] GUI 汉化工具
 
 ---
 
@@ -191,6 +193,7 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 * [Linblow/pspdecrypt](https://github.com/Linblow/pspdecrypt)
 * [jmacd/xdelta](https://github.com/jmacd/xdelta)
 * [Illidanz/hacktools](https://github.com/Illidanz/hacktools)
+* [pngquant](https://pngquant.org)
 * [Paratranz](https://paratranz.cn)
 * [PPSSPP](https://www.ppsspp.org/)
 * [PSPDev 工具链](https://pspdev.github.io/)

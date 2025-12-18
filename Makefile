@@ -133,7 +133,7 @@ export_eboot_trans:
 	uv run -m app.elf_patch.patcher -t ${DOWNLOAD_DIR}/eboot_trans.json -o ${EXPORT_BIN_DIR}/EBTRANS.BIN
 
 ### Generate Plugin
-plugin:
+plugin: .PHONY
 	@echo "Building plugin..."
 	make -C plugin
 	@echo "Copying plugin to build directory..."
@@ -194,3 +194,5 @@ full_build:
 	$(MAKE) export_eboot_trans
 	$(MAKE) plugin
 	$(MAKE) decrypt
+
+.PHONY:
