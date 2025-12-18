@@ -68,7 +68,6 @@ class App:
         if prefix:
             # 按前缀过滤
             print(f"Exporting HAR files with prefix: {prefix}")
-            names, hgars = HGARDao.get_hgar_by_prefix(prefix)
             # 需要获取relative_path，所以使用完整查询
             from app.database.entity.hgar import Hgar
             from app.database.db import get_db
