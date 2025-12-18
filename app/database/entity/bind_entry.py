@@ -19,11 +19,7 @@ class BindEntry(Base):
     
     # 原始二进制内容
     content = Column(LargeBinary, nullable=False)
-    
-    # 如果内容是文本，可以提取并存储原始文本
-    # 用于翻译和查询（可选）
-    text_content = Column(Text, nullable=True)
-    
+        
     # BIND 元数据
     size_byte_size = Column(Integer, default=4)
     block_size = Column(Integer, default=2048)

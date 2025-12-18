@@ -46,7 +46,6 @@ class BindDao:
                     filename=filename,
                     entry_index=entry_index,
                     content=entry.content,
-                    text_content=None,
                     size_byte_size=bind_archive.size_byte_size,
                     block_size=bind_archive.block_size
                 )
