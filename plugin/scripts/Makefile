@@ -1,5 +1,5 @@
 GB2312_CUSTOM.BIN: 
-	uv run generate.py
+	uv run gentable.py
 
 gb2312.c: GB2312_CUSTOM.BIN
 	xxd -i GB2312_CUSTOM.BIN > gb2312.c

@@ -29,7 +29,7 @@ def gb2312_to_custom(f):
     utf16s = []
     mappings = []
 
-    # 映射表的空间很大，不需要考虑大小问题，只用避开0x25即可。
+    # 映射表的空间很大，不需要考虑大小问题，只用避开 0x25 和 0x00 即可。
     i = 0
     custom_code = 0xA600
     # 遍历所有可能的第一个字节
@@ -41,13 +41,13 @@ def gb2312_to_custom(f):
 
             try:
                 # 将 GB2312 编码的字节序列解码为 Unicode 字符
-                unicode_char = gb2312_bytes.decode("gb2312")
+                unicode_char = gb2312_bytes.decode("gbk") # GB2312 会将破折号映射为 U+2015 (HORIZONTAL BAR), 而 GBK 映射到 U+2014 与现在输入法行为相符。
 
                 # 将 Unicode 字符编码为 UTF-16
                 utf16_bytes = unicode_char.encode("utf-16le")
 
-                if (i % 0x100) == 0x25:
-                    # 跳过 0x25
+                if (i % 0x100) == 0x25 or (i % 0x100 == 0x00):
+                    # 跳过 0x25 ('%') 和 0x00 ('\0')
                     i += 1
                     utf16s.append(b"\x00\x00")
 
