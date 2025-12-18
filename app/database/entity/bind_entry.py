@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, LargeBinary, Text
+from sqlalchemy import Column, Integer, String, LargeBinary, Text, UniqueConstraint
 from ..db import Base
 
 
@@ -23,6 +23,11 @@ class BindEntry(Base):
     # BIND 元数据
     size_byte_size = Column(Integer, default=4)
     block_size = Column(Integer, default=2048)
+    
+    # 唯一约束：同一文件中不能有相同索引的条目
+    __table_args__ = (
+        UniqueConstraint('filename', 'entry_index', name='uix_bind_filename_index'),
+    )
 
     def __repr__(self):
         size = len(self.content) if self.content else 0

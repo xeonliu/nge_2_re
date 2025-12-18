@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, LargeBinary
+from sqlalchemy import Column, Integer, String, LargeBinary, UniqueConstraint
 from ..db import Base
 
 
@@ -30,6 +30,11 @@ class TextEntry(Base):
     # 保留元数据
     header_padding = Column(Integer, default=0)
     entry_padding = Column(Integer, default=0)
+    
+    # 唯一约束：同一文件中不能有相同索引的条目
+    __table_args__ = (
+        UniqueConstraint('filename', 'string_index', name='uix_text_filename_index'),
+    )
 
     def __repr__(self):
         return (

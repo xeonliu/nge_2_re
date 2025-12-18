@@ -31,15 +31,10 @@ class BindDao:
         from ..entity.text_entry import TextEntry
         
         with next(get_db()) as db:
-            # 清除该文件的旧条目
-            db.query(BindEntry).filter(BindEntry.filename == filename).delete()
-            # 清除该文件的旧 TEXT 条目
-            db.query(TextEntry).filter(TextEntry.filename.like(f"{filename}#%")).delete(synchronize_session=False)
-            
             text_count = 0
             binary_count = 0
             
-            # 保存所有条目
+            # 保存所有条目（如果已存在会因唯一约束而报错）
             for entry_index, entry in enumerate(bind_archive.entries):
                 # 无论是否是 TEXT，都保存到 BindEntry 作为备份和结构参考
                 bind_entry = BindEntry(

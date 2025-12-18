@@ -13,6 +13,7 @@ from ..entity.hgar_file import HgarFile
 
 
 class SentenceDao:
+    @staticmethod
     def save(sentence: Sentence):
         with next(get_db()) as db:
             db.add(sentence)
@@ -20,6 +21,7 @@ class SentenceDao:
             db.refresh(sentence)
             return sentence
 
+    @staticmethod
     def export_sentence_entry(prefix: str):
         with next(get_db()) as db:
             # HAS_CONTENT_SECTION = (0x01, 0x8C, 0x8D, 0xA3, 0x8E, 0x95)
@@ -44,6 +46,7 @@ class SentenceDao:
             )
             return results
     
+    @staticmethod
     def export_sentence_by_path(relative_path: str):
         """按照 relative_path 导出句子（用于非 event 目录）"""
         with next(get_db()) as db:
@@ -69,6 +72,7 @@ class SentenceDao:
             )
             return results
     
+    @staticmethod
     def get_all_relative_paths():
         """获取所有不同的 relative_path"""
         with next(get_db()) as db:

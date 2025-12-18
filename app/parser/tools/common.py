@@ -78,10 +78,23 @@ def to_eva_sjis(content):
     # Convert unicode to nge2 SJIS
     result = bytearray()
     for char in content:
-        # # FIXME:
-        # # 1. '-' 转换为 'ー'
+        # FIXME: 这些应该在原文进行修正
+        # 1. '-' 转换为 'ー'
+        # 英文输入法下的连字符是(-, U+002D)
+        # 中文输入法下的破折号是（—, U+2014）
+        # 日文中常用的长音符号是(ー, U+30FC)
+        # 另外还存在一种破折号（―, U+2015） 
+        # GB2312 会将破折号映射为 U+2015 (HORIZONTAL BAR), 而 GBK 映射到 U+2014 与现在输入法行为相符。
         # if char == '—':
         #     char = 'ー'
+        # 2. '~'和'～'转换
+        # 英文输入法下的波浪号是（~, U+007E）
+        # 中文输入法往往会输入全角波浪号（～, U+FF5E），而日文则使用波浪号（〜, U+301C）
+        # CP932: \uff5e FULLWIDTH TILDE (U+FF5E)
+        # SHIFT_JIS: \u301c WAVE DASH (U+301C)
+        if char == '~' or char == '～':
+            char = '〜'
+            
         # 首先尝试将字符编码为 Shift_JIS
         encoded_char = None
         try:

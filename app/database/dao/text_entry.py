@@ -15,10 +15,8 @@ class TextEntryDao:
     def save_text_file_with_session(db, filename: str, text_archive):
         """
         使用现有 session 保存 TEXT 文件
+        如果文件已存在，会因唯一约束而报错
         """
-        # 清除该文件的旧条目
-        db.query(TextEntry).filter(TextEntry.filename == filename).delete()
-        
         # 保存所有条目
         for entry_index, (entry_unknown, entry_string_idx) in enumerate(text_archive.entries):
             # 获取对应的字符串内容
