@@ -6,16 +6,19 @@ and combines EBOOT and EVS translations into separate JSON files.
 
 NOTE THAT '\n' IN PARATRANZ IS '\\n', SO WE NEED TO CONVERT IT BACK TO REAL NEWLINE WHEN PROCESSING.
 """
+
 import requests
 import zipfile
 import os
 import argparse
 import json
 import hashlib
+from .preprocess import normalize_data, hash_keys_in_data
 
 project_id = 10882  # 替换为你的项目ID
 
-def download_and_process(
+
+def download_function(
     auth_key: str,
     dest_folder: str = "temp/downloads",
     project_id_override: int | None = None,
@@ -36,10 +39,12 @@ def download_and_process(
         unzip_file(zip_path, dest_folder)
         print(f"Files extracted to {dest_folder}")
 
-    # ===== 后面的逻辑几乎原封不动 =====
+
+def merge_function(dest_folder: str = "temp/downloads"):
     process_utf8_json(dest_folder)
     combine_eboot(dest_folder)
     combine_evs(dest_folder)
+
 
 def process_utf8_json(dest_folder):
     free_path = os.path.join(dest_folder, "utf8", "free")
@@ -51,22 +56,25 @@ def process_utf8_json(dest_folder):
                 file_path = os.path.join(free_path, file)
                 with open(file_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                data = hash_keys_in_data(data, normalize_newlines=True)
+                data = normalize_data(data)
+                data = hash_keys_in_data(data)
                 with open(file_path, "w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False, indent=4)
                 print(f"  Processed: {file_path}")
-        
+
         if os.path.exists(game_path):
             for file in os.listdir(game_path):
                 if file.endswith(".json"):
                     file_path = os.path.join(game_path, file)
                     with open(file_path, "r", encoding="utf-8") as f:
                         data = json.load(f)
-                    data = hash_keys_in_data(data, normalize_newlines=True)
+                    data = normalize_data(data)
+                    data = hash_keys_in_data(data)
                     with open(file_path, "w", encoding="utf-8") as f:
                         json.dump(data, f, ensure_ascii=False, indent=4)
                     print(f"  Processed: {file_path}")
-                    
+
+
 def combine_eboot(dest_folder):
     # Combine all the EBOOT Translations.
     eboot_path = os.path.join(dest_folder, "raw", "EBOOT")
@@ -76,12 +84,12 @@ def combine_eboot(dest_folder):
             file_path = os.path.join(root, file)
             with open(file_path, "r", encoding="utf-8") as f:
                 data.extend(json.load(f))
-    data = replace_newlines(data)
-    data = hash_keys_in_data(data)
+    data = normalize_data(data)
     eboot_trans = os.path.join(dest_folder, "eboot_trans.json")
     with open(eboot_trans, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-        
+
+
 def combine_evs(dest_folder):
     # Combine the EVS translations
     evs_path = os.path.join(dest_folder, "raw", "EVS")
@@ -91,12 +99,11 @@ def combine_evs(dest_folder):
             file_path = os.path.join(root, file)
             with open(file_path, "r", encoding="utf-8") as f:
                 data.extend(json.load(f))
-    data = replace_newlines(data)
+    data = normalize_data(data)
     data = hash_keys_in_data(data)
     evs_trans = os.path.join(dest_folder, "evs_trans.json")
     with open(evs_trans, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-    
 
 
 def update_string(key: str, content: str, auth, stage=2):
@@ -168,56 +175,31 @@ def unzip_file(zip_path, dest_folder):
         zip_ref.extractall(dest_folder)
 
 
-def replace_newlines(obj):
-    if isinstance(obj, str):
-        return obj.replace("\\n", "\n")
-    elif isinstance(obj, list):
-        return [replace_newlines(item) for item in obj]
-    elif isinstance(obj, dict):
-        return {key: replace_newlines(value) for key, value in obj.items()}
-    return obj
-
-
-def hash_keys_in_data(data, normalize_newlines=False):
-    """将 JSON 数据中的 key 替换为 original 的 MD5 哈希值
-    
-    Args:
-        data: JSON 数据
-        normalize_newlines: 是否将 \\n 转换为真实换行符再计算 hash
-    """
-    if isinstance(data, list):
-        for item in data:
-            if isinstance(item, dict) and "original" in item:
-                original_text = item["original"]
-                # 如果需要标准化换行符，将 \n 转换为真实换行
-                if normalize_newlines:
-                    original_text = original_text.replace("\\n", "\n")
-                hash_object = hashlib.md5(original_text.encode())
-                item["key"] = hash_object.hexdigest()
-                item["original"] = original_text
-    return data
-
-
 if __name__ == "__main__":
     # Add Arguments
     parser = argparse.ArgumentParser(
         description="Download and process Paratranz files."
     )
     parser.add_argument(
+        "--action",
+        type=str,
+        choices=["download", "merge"],
+        required=True,
+        help="Action to perform: 'download' to download and unzip files, 'merge' to process and combine translations.",
+    )
+    parser.add_argument(
         "--dest_folder",
         type=str,
-        default="data/pz_downloads",
+        default="temp/downloads",
         help="Destination folder for downloaded files.",
     )
     args = parser.parse_args()
     dest_folder = args.dest_folder
-    
-    auth_key = os.getenv("AUTH_KEY")
-    if not auth_key:
-        raise ValueError("AUTH_KEY环境变量未设置")
-    
-    download_and_process(
-        auth_key,
-        dest_folder,
-    )
 
+    if args.action == "download":
+        auth_key = os.getenv("AUTH_KEY")
+        if not auth_key:
+            raise ValueError("AUTH_KEY环境变量未设置")
+        download_function(auth_key, dest_folder)
+    elif args.action == "merge":
+        merge_function(dest_folder)

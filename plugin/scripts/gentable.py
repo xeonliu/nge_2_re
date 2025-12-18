@@ -41,7 +41,9 @@ def gb2312_to_custom(f):
 
             try:
                 # 将 GB2312 编码的字节序列解码为 Unicode 字符
-                unicode_char = gb2312_bytes.decode("gbk") # GB2312 会将破折号映射为 U+2015 (HORIZONTAL BAR), 而 GBK 映射到 U+2014 与现在输入法行为相符。
+                unicode_char = gb2312_bytes.decode(
+                    "gbk"
+                )  # GB2312 会将破折号映射为 U+2015 (HORIZONTAL BAR), 而 GBK 映射到 U+2014 与现在输入法行为相符。
 
                 # 将 Unicode 字符编码为 UTF-16
                 utf16_bytes = unicode_char.encode("utf-16le")

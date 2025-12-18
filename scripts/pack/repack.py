@@ -18,9 +18,9 @@ logger.addHandler(handler)
 
 @dataclass
 class ISOFileEntry:
-    realpath: Path        # path on disk (work folder)
-    isopath: str          # path inside ISO, like '/PSP_GAME/SYSDIR/EBOOT.BIN'
-    dir_record_pos: int   # byte offset in the ISO where the directory record starts
+    realpath: Path  # path on disk (work folder)
+    isopath: str  # path inside ISO, like '/PSP_GAME/SYSDIR/EBOOT.BIN'
+    dir_record_pos: int  # byte offset in the ISO where the directory record starts
     original_extent_lba: int
     original_size: int
     new_extent_lba: Optional[int] = None
@@ -48,8 +48,8 @@ def read_primary_volume_root(fin) -> Tuple[int, int]:
     Offsets used in original: 0x809e (rootlba), 0x80a6 (rootlength).
     Those are relative to file start.
     """
-    root_lba = read_uint32_le_at(fin, 0x809e)
-    root_length = read_uint32_le_at(fin, 0x80a6)
+    root_lba = read_uint32_le_at(fin, 0x809E)
+    root_length = read_uint32_le_at(fin, 0x80A6)
     logger.debug(f"root_lba={root_lba}, root_length={root_length}")
     return root_lba, root_length
 
@@ -79,7 +79,7 @@ def iter_directory_records(data: bytes):
                 break
             i = next_sector
             continue
-        record = data[i:i + length]
+        record = data[i : i + length]
         yield i, record
         i += length
 
@@ -97,7 +97,7 @@ def parse_dir_record(record: bytes) -> dict:
     flags = record[25]
     file_id_len = record[32]
     fid_start = 33
-    fid = record[fid_start:fid_start + file_id_len]
+    fid = record[fid_start : fid_start + file_id_len]
     # decode name, strip version suffix like ';1'
     try:
         name = fid.decode("utf-8", errors="ignore")
@@ -112,7 +112,7 @@ def parse_dir_record(record: bytes) -> dict:
         "flags": flags,
         "file_id_len": file_id_len,
         "file_id_raw": fid,
-        "name": name
+        "name": name,
     }
 
 
@@ -126,7 +126,9 @@ def normalize_component(comp: str) -> str:
     return comp_upper
 
 
-def find_dir_record_offset_for_path(fin, path_components: List[str], root_lba: int, root_length: int) -> Optional[int]:
+def find_dir_record_offset_for_path(
+    fin, path_components: List[str], root_lba: int, root_length: int
+) -> Optional[int]:
     """
     Given a list of path components (['PSP_GAME','SYSDIR','EBOOT.BIN']), traverse ISO directories
     starting from root_lba and find the byte offset (in file) of the directory record for the final component.
@@ -185,12 +187,25 @@ def collect_work_files(workfolder: Path) -> List[ISOFileEntry]:
         if p.is_file():
             # iso path: make it '/'-prefixed and use forward slashes
             rel = "/" + str(p.relative_to(workfolder)).replace("\\", "/")
-            files.append(ISOFileEntry(realpath=p, isopath=rel, dir_record_pos=0,
-                                      original_extent_lba=0, original_size=0))
+            files.append(
+                ISOFileEntry(
+                    realpath=p,
+                    isopath=rel,
+                    dir_record_pos=0,
+                    original_extent_lba=0,
+                    original_size=0,
+                )
+            )
     return files
 
 
-def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str = "", sectorpadding: int = 1) -> None:
+def repack_umd(
+    umdfile: Path,
+    umdpatch: Path,
+    workfolder: Path,
+    patchfile: str = "",
+    sectorpadding: int = 1,
+) -> None:
     """
     Modern, readable reimplementation of repackUMD.
     """
@@ -214,13 +229,18 @@ def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str =
             entry.dir_record_pos = pos
             entry.original_extent_lba = read_uint32_le_at(fin, pos + 2)
             entry.original_size = read_uint32_le_at(fin, pos + 0x0A)
-            logger.debug(f"Found {entry.isopath}: dir_rec_pos=0x{pos:x}, lba={entry.original_extent_lba}, size={entry.original_size}")
+            logger.debug(
+                f"Found {entry.isopath}: dir_rec_pos=0x{pos:x}, lba={entry.original_extent_lba}, size={entry.original_size}"
+            )
 
     # Sort by original file LBA to keep order and minimize movement
     files.sort(key=lambda e: e.original_extent_lba)
 
     # Create output patch file
-    with umdpatch.open("r+b" if umdpatch.exists() else "wb+") as fout, umdfile.open("rb") as fin:
+    with (
+        umdpatch.open("r+b" if umdpatch.exists() else "wb+") as fout,
+        umdfile.open("rb") as fin,
+    ):
         # Copy everything up to the first file content LBA
         first_content_offset = files[0].original_extent_lba * SECTOR_SIZE
         fin.seek(0)
@@ -235,7 +255,9 @@ def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str =
                 # seek to original LBA (pad with zeros)
                 fout.seek(entry.original_extent_lba * SECTOR_SIZE)
             new_offset = fout.tell()
-            logger.debug(f"Writing {entry.isopath} at offset {new_offset} (sector {new_offset // SECTOR_SIZE})")
+            logger.debug(
+                f"Writing {entry.isopath} at offset {new_offset} (sector {new_offset // SECTOR_SIZE})"
+            )
             # write file bytes
             with entry.realpath.open("rb") as sf:
                 shutil.copyfileobj(sf, fout)
@@ -256,7 +278,9 @@ def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str =
             write_uint32_le_at(fout, entry.dir_record_pos + 0x0A, entry.new_size)
             # write data length (BE) at dir_record_pos + 0x0E
             write_uint32_be_at(fout, entry.dir_record_pos + 0x0E, entry.new_size)
-            logger.debug(f"Updated dir record @0x{entry.dir_record_pos:x} -> lba={entry.new_extent_lba}, size={entry.new_size}")
+            logger.debug(
+                f"Updated dir record @0x{entry.dir_record_pos:x} -> lba={entry.new_extent_lba}, size={entry.new_size}"
+            )
 
         # If new file is smaller than original, pad one zero at end of original size to match original file length
         fin.seek(0, 2)
@@ -264,7 +288,9 @@ def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str =
         fout.seek(0, 2)
         new_total_size = fout.tell()
         if new_total_size < original_total_size:
-            logger.debug("Patching end of file to match original size (pad one zero byte).")
+            logger.debug(
+                "Patching end of file to match original size (pad one zero byte)."
+            )
             fout.seek(original_total_size - 1)
             fout.write(b"\x00")
 
@@ -280,12 +306,18 @@ def repack_umd(umdfile: Path, umdpatch: Path, workfolder: Path, patchfile: str =
     if patchfile:
         try:
             logger.info("Creating xdelta patch: %s", patchfile)
-            subprocess.run(["xdelta3", "-e", "-s", str(umdfile), str(umdpatch), patchfile], check=True)
+            subprocess.run(
+                ["xdelta3", "-e", "-s", str(umdfile), str(umdpatch), patchfile],
+                check=True,
+            )
             logger.info("xdelta patch created: %s", patchfile)
         except FileNotFoundError:
-            logger.warning("xdelta3 not found. Install xdelta3 to enable patch creation.")
+            logger.warning(
+                "xdelta3 not found. Install xdelta3 to enable patch creation."
+            )
         except subprocess.CalledProcessError as e:
             logger.error("xdelta3 failed: %s", e)
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -326,7 +358,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Enable verbose logging output.",
     )
@@ -340,6 +373,7 @@ def main():
 
     if args.verbose:
         import logging
+
         logging.getLogger("repackUMD").setLevel(logging.DEBUG)
 
     repack_umd(
@@ -353,4 +387,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    

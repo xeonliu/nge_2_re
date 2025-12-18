@@ -6,7 +6,9 @@ from pathlib import Path
 import pycdlib
 
 
-def unpack_iso9660(iso_path: Path, out_dir: Path, *, strip_version: bool = True) -> None:
+def unpack_iso9660(
+    iso_path: Path, out_dir: Path, *, strip_version: bool = True
+) -> None:
     """
     Extract all files from an ISO9660 image using pycdlib.
 
@@ -40,7 +42,7 @@ def unpack_iso9660(iso_path: Path, out_dir: Path, *, strip_version: bool = True)
                 filename = filename.replace(";1", "")
 
             output_file = current_dir / filename
-            
+
             print(f"Extracting: {relative}/{filename}")
 
             # Extract file
@@ -51,25 +53,20 @@ def unpack_iso9660(iso_path: Path, out_dir: Path, *, strip_version: bool = True)
 
 
 def build_cli():
-    parser = argparse.ArgumentParser(
-        description="Extract files from an ISO9660 image."
-    )
+    parser = argparse.ArgumentParser(description="Extract files from an ISO9660 image.")
 
+    parser.add_argument("iso", type=Path, help="Path to the input ISO file.")
     parser.add_argument(
-        "iso",
-        type=Path,
-        help="Path to the input ISO file."
-    )
-    parser.add_argument(
-        "-o", "--output",
+        "-o",
+        "--output",
         type=Path,
         required=True,
-        help="Directory to output extracted files."
+        help="Directory to output extracted files.",
     )
     parser.add_argument(
         "--keep-version",
         action="store_true",
-        help="Keep ISO9660 filename version suffix (e.g., ';1')."
+        help="Keep ISO9660 filename version suffix (e.g., ';1').",
     )
 
     return parser
@@ -81,9 +78,7 @@ def main():
 
     try:
         unpack_iso9660(
-            iso_path=args.iso,
-            out_dir=args.output,
-            strip_version=not args.keep_version
+            iso_path=args.iso, out_dir=args.output, strip_version=not args.keep_version
         )
     except Exception as e:
         print(f"Error: {e}")
