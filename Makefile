@@ -87,7 +87,8 @@ import_bind:
 download_translations:
 	@echo "Downloading translations..."
 	@mkdir -p $(DOWNLOAD_DIR)
-	uv run scripts/paratranz/download.py  --dest_folder $(DOWNLOAD_DIR)
+	uv run scripts/paratranz/download.py --action download --dest_folder $(DOWNLOAD_DIR)
+	uv run scripts/paratranz/download.py --action merge --dest_folder $(DOWNLOAD_DIR)
 
 check_translations: $(DOWNLOAD_DIR)/evs_trans.json
 	@echo "Checking EVS translations..."

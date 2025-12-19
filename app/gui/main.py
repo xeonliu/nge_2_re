@@ -9,10 +9,11 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 import threading
 from pathlib import Path
+import json
 
 # 导入 CLI 主程序的功能
 from app.cli.main import App
-from scripts.paratranz.download import download_and_process
+from scripts.paratranz.download import download_function, merge_function
 
 # 重定向 print 输出到 GUI
 class TextRedirector:
@@ -36,12 +37,19 @@ class NGE2TranslationGUI:
         self.root.title("NGE2 汉化工具")
         self.root.geometry("900x700")
         
+        # 设置文件路径
+        self.settings_file = Path("settings.json")
+        self.token = self.load_token()
+        
         # 设置窗口图标（如果有的话）
         try:
             # 可以在这里设置图标
             pass
         except:
             pass
+        
+        # 创建菜单栏
+        self.create_menu()
         
         # 创建主框架
         self.create_widgets()
@@ -57,6 +65,78 @@ class NGE2TranslationGUI:
         except Exception as e:
             self.log(f"数据库初始化失败: {str(e)}\n")
             messagebox.showerror("错误", f"数据库初始化失败:\n{str(e)}")
+    
+    def load_token(self):
+        """从设置文件加载Token"""
+        try:
+            if self.settings_file.exists():
+                with open(self.settings_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    return data.get('token', '')
+        except Exception as e:
+            self.log(f"加载Token失败: {str(e)}\n")
+        return ''
+    
+    def save_token(self, token):
+        """保存Token到设置文件"""
+        try:
+            self.settings_file.parent.mkdir(parents=True, exist_ok=True)
+            data = {'token': token}
+            with open(self.settings_file, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+            self.token = token
+            self.log("Token已保存！\n")
+        except Exception as e:
+            self.log(f"保存Token失败: {str(e)}\n")
+            messagebox.showerror("错误", f"保存Token失败:\n{str(e)}")
+    
+    def create_menu(self):
+        """创建菜单栏"""
+        menubar = tk.Menu(self.root)
+        self.root.config(menu=menubar)
+        
+        # 设置菜单
+        settings_menu = tk.Menu(menubar, tearoff=0)
+        menubar.add_cascade(label="设置", menu=settings_menu)
+        settings_menu.add_command(label="设置Token", command=self.on_settings_token)
+    
+    def on_settings_token(self):
+        """设置Token对话框"""
+        dialog = tk.Toplevel(self.root)
+        dialog.title("设置 Paratranz Token")
+        dialog.geometry("400x160")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # 居中显示对话框
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        ttk.Label(dialog, text="请输入 Paratranz Token:").pack(pady=10)
+        entry = ttk.Entry(dialog, width=50, show="*")
+        entry.pack(pady=5)
+        entry.insert(0, self.token)  # 预填当前Token
+        entry.focus()
+        
+        def save():
+            token = entry.get().strip()
+            if token:
+                self.save_token(token)
+                dialog.destroy()
+            else:
+                messagebox.showwarning("警告", "Token 不能为空")
+        
+        def cancel():
+            dialog.destroy()
+        
+        button_frame = ttk.Frame(dialog)
+        button_frame.pack(pady=10)
+        ttk.Button(button_frame, text="保存", command=save).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="取消", command=cancel).pack(side=tk.LEFT, padx=5)
+        
+        entry.bind('<Return>', lambda e: save())
     
     def create_widgets(self):
         """创建界面组件"""
@@ -618,11 +698,26 @@ class NGE2TranslationGUI:
     
     def on_download_translation(self):
         """下载翻译"""
-        token = self.ask_token("输入 Paratranz Token")
-        if token is not False:  # False 表示用户取消
+        token = self.token if self.token else self.ask_token("输入 Paratranz Token")
+        if token:  # token 不为空
             self.log("正在下载翻译...\n")
-            # 使用 run_in_terminal 运行下载脚本，设置环境变量
-            self.run_in_thread(download_and_process, token)
+            # 先下载文件
+            self.run_in_thread(self.download_and_merge, token)
+            # 如果是从ask_token得到的，保存它
+            if not self.token:
+                self.save_token(token)
+    
+    def download_and_merge(self, token):
+        """下载并合并翻译文件"""
+        try:
+            # 下载文件
+            download_function(token, "temp/downloads")
+            # 合并文件
+            merge_function("temp/downloads")
+            self.log("翻译下载和处理完成！\n")
+        except Exception as e:
+            self.log(f"下载或处理失败: {str(e)}\n")
+            raise
 
 
 def main():
