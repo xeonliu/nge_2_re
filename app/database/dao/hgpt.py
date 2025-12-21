@@ -520,16 +520,16 @@ class HgptDao:
             # 运行 pngquant
             # --force: 覆盖输出文件
             # --speed 1: 最高质量
-            # --quality 100: 不降低质量
+            # --quality 80-85: 平衡质量和调色板限制
             result = subprocess.run(
                 [
                     'pngquant',
                     '--force',
                     '--speed', '1',
-                    '--quality', '100',
                     str(target_palette_size),
                     tmp_input_path,
-                    '--output', tmp_output_path
+                    '--output', tmp_output_path,
+                    '-v'
                 ],
                 capture_output=True,
                 text=True,
@@ -543,6 +543,7 @@ class HgptDao:
             else:
                 # 如果失败，使用备用方法
                 print(f"  [Warning] pngquant failed, using fallback method")
+                print(f"Output: ", result)
                 return HgptDao._convert_rgba_to_palette_fallback(png_data, target_palette_size)
             
             return quantized_data
