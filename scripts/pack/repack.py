@@ -184,7 +184,8 @@ def find_dir_record_offset_for_path(
 def collect_work_files(workfolder: Path) -> List[ISOFileEntry]:
     files: List[ISOFileEntry] = []
     for p in sorted(workfolder.rglob("*")):
-        if p.is_file():
+        # Ignore .DS_Store and similar
+        if p.is_file() and not p.name.startswith("."):
             # iso path: make it '/'-prefixed and use forward slashes
             rel = "/" + str(p.relative_to(workfolder)).replace("\\", "/")
             files.append(
