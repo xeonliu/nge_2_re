@@ -65,7 +65,7 @@ def get_7byte_datetime():
 def build_directory_record(
     name: str, lba: int, size: int, is_dir: bool = False
 ) -> bytes:
-    name_bytes = name.upper().encode("utf-8", "ignore")
+    name_bytes = name.encode("utf-8", "ignore")
     if not is_dir and b";" not in name_bytes:
         name_bytes += b";1"
     length_name = len(name_bytes)

@@ -1,6 +1,6 @@
 <!-- markdownlint-disable MD001 MD041 -->
 <p align="center">
-  <img alt="EVA2 Translation Project" src="https://raw.githubusercontent.com/xeonliu/nge_2_re/main/docs/assets/logo.png" width="55%">
+  <img alt="EVA2 Translation Project" src="https://raw.githubusercontent.com/xeonliu/nge_2_re/main/resources/assets/logo.png" width="55%">
 </p>
 
 <h3 align="center">
