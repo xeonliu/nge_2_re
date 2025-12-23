@@ -1,0 +1,80 @@
+name: Build PSP Translation with Custom Docker
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-in-docker:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Build Docker Image
+      run: |
+        docker build -t psp-builder .
+
+    - name: Run Build inside Container
+      # 【重要】在这里将 Secrets 映射为 Runner 的环境变量
+      # 这样 GitHub 会自动开启日志掩码保护
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+      run: |
+        mkdir -p temp build
+        
+        # 启动容器
+        # 注意下面的 -e 参数只写了变量名，没有写值
+        # Docker 会自动读取上面的 env 中的值，这样命令行里就不会出现明文 Token
+        docker run --rm \
+          -v "${{ github.workspace }}:/work" \
+          -w /work \
+          -e HF_TOKEN \
+          -e AUTH_TOKEN \
+          -e HOME=/home/pspdev \
+          -e PATH="/home/pspdev/.local/bin:/home/pspdev/pspdev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+          psp-builder \
+          /bin/bash -c '
+            set -e
+            
+            echo "🔧 Configuring Git safe directory..."
+            git config --global --add safe.directory /work
+            git config --global --add safe.directory /work/third_party/pgftool
+            git config --global --add safe.directory /work/third_party/pspdecrypt
+            
+            echo "📦 Installing additional runtime deps..."
+            uv pip install --system huggingface_hub
+            
+            echo "⬇️ Downloading ISO from Hugging Face..."
+            mkdir -p temp
+            # 这里的脚本会直接读取容器内的 HF_TOKEN 环境变量
+            huggingface-cli download anononon/anon ULJS00064.iso \
+              --repo-type model \
+              --token "$HF_TOKEN" \
+              --local-dir temp \
+              --local-dir-use-symlinks False
+            
+            echo "⬇️ Downloading Translations..."
+            # 【重要】确保你的 scripts/paratranz/download.py 能读取 AUTH_TOKEN 环境变量
+            # 或者 Makefile 中的 download_trans 目标可以接收环境变量
+            make download_trans
+            
+            echo "🚀 Starting Full Build..."
+            # 执行构建
+            make full_build
+          '
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: PSP-Translation-Build
+        path: |
+          build/bin/EBTRANS.BIN
+          build/evs_report.json
+        if-no-files-found: error

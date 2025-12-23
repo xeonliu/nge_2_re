@@ -1,199 +1,195 @@
-# Temporary working directory
-TEMP_DIR := temp
-# Directory for downloaded translation files (from ParaTranz)
-DOWNLOAD_DIR := $(TEMP_DIR)/downloads
-# Path to the PSP_GAME directory
-PSP_GAME_DIR := $(TEMP_DIR)/ULJS00064/PSP_GAME
+# ==========================================
+# Configuration & Path Definitions
+# ==========================================
 
-EXPORT_GAME_DIR := build/ULJS00064/PSP_GAME
-EXPORT_BIN_DIR := build/bin
+# Temporary and Build Directories
+TEMP_DIR        := temp
+DOWNLOAD_DIR    := $(TEMP_DIR)/downloads
+BUILD_DIR       := build
+EXPORT_GAME_DIR := $(BUILD_DIR)/ULJS00064/PSP_GAME
+EXPORT_BIN_DIR  := $(BUILD_DIR)/bin
+EXPORT_SYSDIR   := $(EXPORT_GAME_DIR)/SYSDIR
+EXPORT_USRDIR   := $(EXPORT_GAME_DIR)/USRDIR
+TOOLS_DIR       := $(BUILD_DIR)/tools
 
-EXPORT_SYSDIR := $(EXPORT_GAME_DIR)/SYSDIR
-EXPORT_USRDIR := $(EXPORT_GAME_DIR)/USRDIR
+# Source Directories
+PSP_GAME_DIR    := $(TEMP_DIR)/ULJS00064/PSP_GAME
+USRDIR          := $(PSP_GAME_DIR)/USRDIR
 
-# TODO: Work Folder
+# HGAR Directories List (Used for loop)
+HGAR_DIRS       := btdemo btface btl chara event face free game im map
 
-# USRDIR Directories
-USRDIR := ${PSP_GAME_DIR}/USRDIR
-BTDEMO_DIR := ${USRDIR}/btdemo
-BTFACE_DIR := ${USRDIR}/btface
-BTL_DIR := ${USRDIR}/btl
-CHARA_DIR := ${USRDIR}/chara
-EVENT_DIR := ${USRDIR}/event
-FACE_DIR := ${USRDIR}/face
-FREE_DIR := ${USRDIR}/free
-GAME_DIR := ${USRDIR}/game
-IM_DIR := ${USRDIR}/im
-MAP_DIR := ${USRDIR}/map
+# Tool Commands
+UV_RUN          := uv run
+PYTHON_MAIN     := $(UV_RUN) -m app.cli.main
+
+# ==========================================
+# Default Target: Help
+# ==========================================
+.DEFAULT_GOAL := help
+
+help:
+	@echo "Available commands:"
+	@echo "  make init_db             - Initialize the database"
+	@echo "  make import_all          - Import all assets (hgar, text, bind)"
+	@echo "  make download_trans      - Download translations from ParaTranz"
+	@echo "  make import_trans        - Import downloaded translations to DB"
+	@echo "  make export_all          - Export all game files (text, hgar, eboot)"
+	@echo "  make patch_iso           - Create the patched ISO and xdelta"
+	@echo "  make full_build          - Run the complete pipeline"
+	@echo "  make clean               - Clean build artifacts"
+
+# ==========================================
+# Database & Import Tasks
+# ==========================================
 
 init_db:
 	@echo "Initializing database..."
-	uv run -m app.cli.main --init_db
+	$(PYTHON_MAIN) --init_db
 
-### Import Game Files
-import_hgar: import_btdemo import_btface import_btl import_chara import_event import_face import_free import_game import_im import_map
-
-import_btdemo:
-	@echo "Importing btdemo hgar..."
-	uv run -m app.cli.main --import_har '$(BTDEMO_DIR)'
-
-import_btface:
-	@echo "Importing btface hgar..."
-	uv run -m app.cli.main --import_har '$(BTFACE_DIR)'
-
-import_btl:
-	@echo "Importing btl hgar..."
-	uv run -m app.cli.main --import_har '$(BTL_DIR)'
-
-import_chara:
-	@echo "Importing chara hgar..."
-	uv run -m app.cli.main --import_har '$(CHARA_DIR)'
-
-import_event:
-	@echo "Importing event hgar..."
-	uv run -m app.cli.main --import_har '$(EVENT_DIR)'
-
-import_face:
-	@echo "Importing face hgar..."
-	uv run -m app.cli.main --import_har '$(FACE_DIR)'
-
-import_free:
-	@echo "Importing free hgar..."
-	uv run -m app.cli.main --import_har '$(FREE_DIR)'
-
-import_game:
-	@echo "Importing game hgar..."
-	uv run -m app.cli.main --import_har '$(GAME_DIR)'
-
-import_im:
-	@echo "Importing im hgar..."
-	uv run -m app.cli.main --import_har '$(IM_DIR)'
-
-import_map:
-	@echo "Importing map hgar..."
-	uv run -m app.cli.main --import_har '$(MAP_DIR)' 
+# Combined Import HGAR Target using Loop
+import_hgar:
+	@echo "Importing HGAR archives..."
+	@for dir in $(HGAR_DIRS); do \
+		echo "  -> Importing $$dir..."; \
+		$(PYTHON_MAIN) --import_har '$(USRDIR)/$$dir'; \
+	done
 
 import_text:
 	@echo "Importing text entries..."
-	uv run -m app.cli.main --import_text '${PSP_GAME_DIR}/USRDIR/free/f2info.bin'
-	uv run -m app.cli.main --import_text '${PSP_GAME_DIR}/USRDIR/free/f2tuto.bin'
+	$(PYTHON_MAIN) --import_text '$(USRDIR)/free/f2info.bin'
+	$(PYTHON_MAIN) --import_text '$(USRDIR)/free/f2tuto.bin'
 
 import_bind:
 	@echo "Importing binding entries..."
-	uv run -m app.cli.main --import_bind '${PSP_GAME_DIR}/USRDIR/btl/btimtext.bin'
-	uv run -m app.cli.main --import_bind '${PSP_GAME_DIR}/USRDIR/game/imtext.bin'
-
-### Translation Tasks
-download_translations:
-	@echo "Downloading translations..."
-	@mkdir -p $(DOWNLOAD_DIR)
-	uv run scripts/paratranz/download.py --action download --dest_folder $(DOWNLOAD_DIR)
-	uv run scripts/paratranz/download.py --action merge --dest_folder $(DOWNLOAD_DIR)
-
-check_translations: $(DOWNLOAD_DIR)/evs_trans.json
-	@echo "Checking EVS translations..."
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/evs_trans.json' build/evs_report.json evs
-	@echo "Checking EBOOT translations..."
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/eboot_trans.json' build/eboot_report.json eboot
-	@echo "Checking UTF8 translations..."
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/utf8/free/info.json' build/info_report.json evs
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/utf8/free/tuto.json' build/tuto_report.json evs
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/utf8/game/btimtext.json' build/btimtext_report.json evs
-	uv run -m scripts.check '$(DOWNLOAD_DIR)/utf8/game/imtext.json' build/imtext_report.json evs
-
-import_translations:
-	@echo "Importing translations..."
-	uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/evs_trans.json'
-	uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/utf8/free/info.json'
-	uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/utf8/free/tuto.json'
-	uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/utf8/game/btimtext.json'
-	uv run -m app.cli.main --import_translation '$(DOWNLOAD_DIR)/utf8/game/imtext.json'
+	$(PYTHON_MAIN) --import_bind '$(USRDIR)/btl/btimtext.bin'
+	$(PYTHON_MAIN) --import_bind '$(USRDIR)/game/imtext.bin'
 
 import_images:
 	@echo "Importing images..."
-	uv run -m app.cli.main --import_images 'resources/trans_pic/trans'
+	$(PYTHON_MAIN) --import_images 'resources/trans_pic/trans'
 
-### Export Game Files
+import_all: import_hgar import_text import_bind import_images
+
+# ==========================================
+# Translation Management
+# ==========================================
+
+download_trans:
+	@echo "Downloading translations..."
+	@mkdir -p $(DOWNLOAD_DIR)
+	$(UV_RUN) scripts/paratranz/download.py --action download --dest_folder $(DOWNLOAD_DIR)
+	$(UV_RUN) scripts/paratranz/download.py --action merge --dest_folder $(DOWNLOAD_DIR)
+
+# TODO: Add specific check targets if needed, or group them here
+check_trans:
+	@echo "Checking translations..."
+	$(UV_RUN) -m scripts.check '$(DOWNLOAD_DIR)/evs_trans.json' $(BUILD_DIR)/evs_report.json evs
+	# ... (Add other checks here if needed)
+
+import_trans:
+	@echo "Importing translations..."
+	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/evs_trans.json'
+	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/free/info.json'
+	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/free/tuto.json'
+	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/game/btimtext.json'
+	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/game/imtext.json'
+
+# ==========================================
+# Export Tasks
+# ==========================================
+
 export_text:
 	@echo "Exporting text entries..."
-	uv run -m app.cli.main --export_text ${EXPORT_USRDIR}/free --text_filename f2info.bin
-	uv run -m app.cli.main --export_text ${EXPORT_USRDIR}/free --text_filename f2tuto.bin
+	$(PYTHON_MAIN) --export_text $(EXPORT_USRDIR)/free --text_filename f2info.bin
+	$(PYTHON_MAIN) --export_text $(EXPORT_USRDIR)/free --text_filename f2tuto.bin
 
 export_bind:
 	@echo "Exporting binding entries..."
-	uv run -m app.cli.main --export_bind ${EXPORT_USRDIR}/btl --bind_filename btimtext.bin
-	uv run -m app.cli.main --export_bind ${EXPORT_USRDIR}/game --bind_filename imtext.bin
+	$(PYTHON_MAIN) --export_bind $(EXPORT_USRDIR)/btl --bind_filename btimtext.bin
+	$(PYTHON_MAIN) --export_bind $(EXPORT_USRDIR)/game --bind_filename imtext.bin
 
 export_hgar:
 	@echo "Generating hgar..."
-	uv run -m app.cli.main --output_hgar ${EXPORT_USRDIR}
+	$(PYTHON_MAIN) --output_hgar $(EXPORT_USRDIR)
 
 export_eboot_trans:
 	@echo "Generating EBOOT translation binary..."
-	mkdir -p ${EXPORT_BIN_DIR}
-	uv run -m app.elf_patch.patcher -t ${DOWNLOAD_DIR}/eboot_trans.json -o ${EXPORT_BIN_DIR}/EBTRANS.BIN
+	@mkdir -p $(EXPORT_BIN_DIR)
+	$(UV_RUN) -m app.elf_patch.patcher -t $(DOWNLOAD_DIR)/eboot_trans.json -o $(EXPORT_BIN_DIR)/EBTRANS.BIN
 
-### Generate Plugin
-plugin: .PHONY
+export_all: export_text export_bind export_hgar export_eboot_trans
+
+# ==========================================
+# Tools & Plugins Build
+# ==========================================
+
+plugin:
 	@echo "Building plugin..."
-	make -C plugin
-	@echo "Copying plugin to build directory..."
-	@mkdir -p ${EXPORT_SYSDIR}
-	@cp -r plugin/EBOOT.BIN ${EXPORT_SYSDIR}/EBOOT.BIN
+	$(MAKE) -C plugin
+	@mkdir -p $(EXPORT_SYSDIR)
+	@cp -r plugin/EBOOT.BIN $(EXPORT_SYSDIR)/EBOOT.BIN
 
 pgftool:
 	@echo "Building pgftool..."
-	make -C third_party/pgftool
-	@echo "Copying pgftool to build directory..."
-	@mkdir -p build/tools
-	@cp third_party/pgftool/dump_pgf third_party/pgftool/mix_pgf third_party/pgftool/ttf_pgf build/tools/
+	$(MAKE) -C third_party/pgftool
+	@mkdir -p $(TOOLS_DIR)
+	@cp third_party/pgftool/{dump_pgf,mix_pgf,ttf_pgf} $(TOOLS_DIR)/
 
 pspdecrypt:
 	@echo "Building pspdecrypt..."
-	make CC=gcc CXX=g++ -C third_party/pspdecrypt
-	@echo "Copying pspdecrypt to build directory..."
-	@mkdir -p build/tools
-	@cp third_party/pspdecrypt/pspdecrypt build/tools/
+	$(MAKE) CC=gcc CXX=g++ -C third_party/pspdecrypt
+	@mkdir -p $(TOOLS_DIR)
+	@cp third_party/pspdecrypt/pspdecrypt $(TOOLS_DIR)/
 
-# TODO: Deal with ISO File Injection & Patch Generation
+# ==========================================
+# ISO & Patch Operations
+# ==========================================
 
-extract:
+extract_iso:
 	@echo "Extracting game files..."
-	uv run scripts/pack/unpack.py -o '$(TEMP_DIR)/ULJS00064' '$(TEMP_DIR)/ULJS00064.iso'
+	$(UV_RUN) scripts/pack/unpack.py -o '$(TEMP_DIR)/ULJS00064' '$(TEMP_DIR)/ULJS00064.iso'
 
-repack:
+decrypt_eboot: pspdecrypt
+	@echo "Decrypting EBOOT..."
+	@mkdir -p $(EXPORT_SYSDIR)
+	./$(TOOLS_DIR)/pspdecrypt '$(PSP_GAME_DIR)/SYSDIR/EBOOT.BIN' -o '$(EXPORT_SYSDIR)/BOOT.BIN'
+
+repack_iso:
 	@echo "Repacking game files into ISO..."
-	uv run scripts/pack/repack.py '$(TEMP_DIR)/ULJS00064.iso' 'build/ULJS00064_patched.iso' '$(TEMP_DIR)/ULJS00064'
+	$(UV_RUN) scripts/pack/repack-add.py '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(TEMP_DIR)/ULJS00064'
 
-decrypt: pspdecrypt
-	@echo "Decrypting game files..."
-	mkdir -p ${EXPORT_SYSDIR}
-	./build/tools/pspdecrypt '${PSP_GAME_DIR}/SYSDIR/EBOOT.BIN' -o '${EXPORT_SYSDIR}/BOOT.BIN'
+gen_xdelta:
+	@echo "Generating xdelta patch..."
+	xdelta3 -e -s '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(BUILD_DIR)/ULJS00064_patch.xdelta'
 
-build:
-	@echo "Building app..."
-	@mkdir -p build
-	@cp -r app/build/* build/
-	@echo "Copying translations to build directory..."
-	@mkdir -p build/translations
-	@cp -r data/pz_downloads/* build/translations/
-	@echo "Copying assets to build directory..."
-	@mkdir -p build/assets
-	@cp -r assets/* build/assets/
-	@echo "Build complete."
+patch_iso: repack_iso gen_xdelta
 
+# ==========================================
+# Meta Targets
+# ==========================================
+
+# Full Build Pipeline
+# Note: We keep strictly ordered steps here to avoid DB locking issues
 full_build:
 	$(MAKE) init_db
-	$(MAKE) import_hgar
-	$(MAKE) import_bind
-	$(MAKE) import_text
-	$(MAKE) import_translations
-	$(MAKE) import_images
-	$(MAKE) export_text
-	$(MAKE) export_bind
-	$(MAKE) export_hgar
-	$(MAKE) export_eboot_trans
+	$(MAKE) import_all
+	$(MAKE) import_trans
+	$(MAKE) export_all
 	$(MAKE) plugin
-	$(MAKE) decrypt
+	$(MAKE) decrypt_eboot
 
-.PHONY:
+clean:
+	@echo "Cleaning build directory..."
+	rm -rf $(BUILD_DIR)
+	# Optional: Clean plugin and tools
+	# $(MAKE) -C plugin clean
+	# $(MAKE) -C third_party/pspdecrypt clean
+
+# Mark targets as PHONY (not real files)
+.PHONY: help init_db import_hgar import_text import_bind import_images import_all \
+        download_trans check_trans import_trans \
+        export_text export_bind export_hgar export_eboot_trans export_all \
+        plugin pgftool pspdecrypt \
+        extract_iso decrypt_eboot repack_iso gen_xdelta patch_iso \
+        full_build clean
