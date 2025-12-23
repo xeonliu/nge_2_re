@@ -53,7 +53,7 @@ jobs:
     # 5. 在容器内运行构建
     - name: Run Build inside Container
       env:
-        AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+        AUTH_KEY: ${{ secrets.AUTH_KEY }}
       run: |
         mkdir -p build
         
@@ -61,7 +61,7 @@ jobs:
         docker run --rm \
           -v "${{ github.workspace }}:/work" \
           -w /work \
-          -e AUTH_TOKEN \
+          -e AUTH_KEY \
           -e HOME=/home/pspdev \
           -e PATH="/home/pspdev/.local/bin:/home/pspdev/pspdev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
           psp-builder \

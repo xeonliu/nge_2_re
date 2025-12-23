@@ -78,8 +78,8 @@ import_all: import_hgar import_text import_bind import_images
 download_trans:
 	@echo "Downloading translations..."
 	@mkdir -p $(DOWNLOAD_DIR)
-	$(UV_RUN) scripts/paratranz/download.py --action download --dest_folder $(DOWNLOAD_DIR)
-	$(UV_RUN) scripts/paratranz/download.py --action merge --dest_folder $(DOWNLOAD_DIR)
+	$(UV_RUN) -m scripts.paratranz.download --action download --dest_folder $(DOWNLOAD_DIR)
+	$(UV_RUN) -m scripts.paratranz.download --action merge --dest_folder $(DOWNLOAD_DIR)
 
 # TODO: Add specific check targets if needed, or group them here
 check_trans:
