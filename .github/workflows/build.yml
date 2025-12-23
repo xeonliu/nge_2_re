@@ -10,32 +10,57 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    # 1. 检出代码 (手动管理 Submodule)
     - name: Checkout Code
       uses: actions/checkout@v4
       with:
-        submodules: recursive
+        submodules: false  # 关闭自动 submodule
         fetch-depth: 0
+        persist-credentials: false
 
+    # 2. 强制 Git 使用 PAT 访问所有 GitHub 仓库
+    - name: Configure Git & Update Submodules
+      run: |
+        # 配置 URL 替换，强制带上 Token
+        git config --global url."https://${{ secrets.GIT_PAT }}@github.com/".insteadOf "https://github.com/"
+        
+        # 现在手动更新 submodule，它会使用上面的配置
+        echo "⬇️ Updating submodules..."
+        git submodule update --init --recursive
+
+    # 3. 安装 HF CLI 并下载 ISO
+    - name: Download ISO from Hugging Face
+      env:
+        HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        HF_REPO_ID: ${{ secrets.HF_REPO_ID }}
+      run: |
+        echo "📦 Installing Hugging Face CLI..."
+        curl -LsSf https://hf.co/cli/install.sh | bash
+        export PATH="$HOME/.local/bin:$PATH"
+        
+        echo "⬇️ Downloading ISO from Hugging Face Repo: $HF_REPO_ID..."
+        mkdir -p temp
+        hf download "$HF_REPO_ID" ULJS00064.iso \
+          --repo-type model \
+          --token "$HF_TOKEN" \
+          --local-dir temp
+
+    # 4. 构建 Docker 镜像
     - name: Build Docker Image
       run: |
         docker build -t psp-builder .
 
+    # 5. 在容器内运行构建
     - name: Run Build inside Container
-      # 【重要】在这里将 Secrets 映射为 Runner 的环境变量
-      # 这样 GitHub 会自动开启日志掩码保护
       env:
-        HF_TOKEN: ${{ secrets.HF_TOKEN }}
         AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
       run: |
-        mkdir -p temp build
+        mkdir -p build
         
         # 启动容器
-        # 注意下面的 -e 参数只写了变量名，没有写值
-        # Docker 会自动读取上面的 env 中的值，这样命令行里就不会出现明文 Token
         docker run --rm \
           -v "${{ github.workspace }}:/work" \
           -w /work \
-          -e HF_TOKEN \
           -e AUTH_TOKEN \
           -e HOME=/home/pspdev \
           -e PATH="/home/pspdev/.local/bin:/home/pspdev/pspdev/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
@@ -44,29 +69,14 @@ jobs:
             set -e
             
             echo "🔧 Configuring Git safe directory..."
-            git config --global --add safe.directory /work
-            git config --global --add safe.directory /work/third_party/pgftool
-            git config --global --add safe.directory /work/third_party/pspdecrypt
-            
-            echo "📦 Installing additional runtime deps..."
-            uv pip install --system huggingface_hub
-            
-            echo "⬇️ Downloading ISO from Hugging Face..."
-            mkdir -p temp
-            # 这里的脚本会直接读取容器内的 HF_TOKEN 环境变量
-            huggingface-cli download anononon/anon ULJS00064.iso \
-              --repo-type model \
-              --token "$HF_TOKEN" \
-              --local-dir temp \
-              --local-dir-use-symlinks False
+            git config --global --add safe.directory "*"
+
+            uv venv
             
             echo "⬇️ Downloading Translations..."
-            # 【重要】确保你的 scripts/paratranz/download.py 能读取 AUTH_TOKEN 环境变量
-            # 或者 Makefile 中的 download_trans 目标可以接收环境变量
             make download_trans
             
             echo "🚀 Starting Full Build..."
-            # 执行构建
             make full_build
           '
 
