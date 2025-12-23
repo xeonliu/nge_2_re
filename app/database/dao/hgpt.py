@@ -9,11 +9,15 @@ import os
 import shutil
 from pathlib import Path
 from typing import Dict, List, Tuple
+import logging
+from tqdm import tqdm
 
 from ..db import get_db
 from app.parser.tools import hgp, png
 
 from ..entity.hgpt import Hgpt
+
+logger = logging.getLogger(__name__)
 
 
 class HgptDao:
@@ -36,7 +40,7 @@ class HgptDao:
             # 2. 检查是否已存在
             existing = db.query(Hgpt).filter(Hgpt.key == hashed_key).first()
             if existing:
-                print(f"  [HGPT] Duplicate found: {hashed_key[:8]}... (skipping)")
+                logger.debug("  [HGPT] Duplicate found: %s... (skipping)", hashed_key[:8])
                 return hashed_key
             
             # 3. 解析 HGPT 文件（使用 BytesIO，无需临时文件）
@@ -72,11 +76,11 @@ class HgptDao:
                 db.add(hgpt_record)
                 db.commit()
                 
-                print(f"  [HGPT] Saved: {hashed_key[:8]}... ({hgpt_image.display_info.width}x{hgpt_image.display_info.height})")
+                logger.debug("  [HGPT] Saved: %s... (%dx%d)", hashed_key[:8], hgpt_image.display_info.width, hgpt_image.display_info.height)
                 return hashed_key
                 
             except Exception as e:
-                print(f"  [HGPT] Parse error: {e}")
+                logger.warning("  [HGPT] Parse error: %s", e)
                 # 如果解析失败，仍然保存原始数据
                 hgpt_record = Hgpt(
                     key=hashed_key,
@@ -329,7 +333,7 @@ class HgptDao:
             # 遍历所有 HGAR 文件
             hgar_list = db.query(Hgar).all()
             
-            for hgar in hgar_list:
+            for hgar in tqdm(hgar_list, desc="Exporting HGARs", unit="hgar"):
                 har_name = hgar.name.replace('.har', '')
                 har_images_temp[har_name] = []
                 
@@ -371,16 +375,16 @@ class HgptDao:
                         hash_part = filename.split('_')[-1].replace('.png', '')
                         exported_images[har_name].append((filename, hash_part))
                     
-                    print(f"  [Export] {har_name}: {len(exported_images[har_name])} images")
+                    logger.debug("  [Export] %s: %d images", har_name, len(exported_images[har_name]))
             
             # 删除空文件夹
             for item in output_path.iterdir():
                 if item.is_dir() and not list(item.iterdir()):
                     shutil.rmtree(item)
-                    print(f"  [Export] Removed empty directory: {item.name}")
+                    logger.debug("  [Export] Removed empty directory: %s", item.name)
         
         total_images = sum(len(imgs) for imgs in exported_images.values())
-        print(f"\n  [Export] Total: {total_images} unique images exported to {output_dir}")
+        logger.debug("\n  [Export] Total: %d unique images exported to %s", total_images, output_dir)
         return exported_images
     
     @staticmethod
@@ -405,16 +409,16 @@ class HgptDao:
         # 递归查找所有 PNG 文件
         png_files = list(translation_path.rglob("*.png"))
         
-        print(f"  [Import] Found {len(png_files)} PNG files in {translation_dir}")
+        logger.debug("  [Import] Found %d PNG files in %s", len(png_files), translation_dir)
         
         with next(get_db()) as db:
-            for png_file in png_files:
+            for png_file in tqdm(png_files, desc="Importing translated images", unit="image"):
                 # 从文件名提取 hash（格式：xxx_HASH8.png）
                 filename = png_file.stem  # 去掉 .png
                 parts = filename.split('_')
                 
                 if len(parts) < 2:
-                    print(f"  [Import] Skip (no hash): {png_file.name}")
+                    logger.debug("  [Import] Skip (no hash): %s", png_file.name)
                     continue
                 
                 hash_short = parts[-1]  # 最后一部分是 hash
@@ -423,11 +427,11 @@ class HgptDao:
                 hgpt_list = db.query(Hgpt).filter(Hgpt.key.like(f"{hash_short}%")).all()
                 
                 if not hgpt_list:
-                    print(f"  [Import] Skip (not found): {png_file.name} (hash: {hash_short})")
+                    logger.debug("  [Import] Skip (not found): %s (hash: %s)", png_file.name, hash_short)
                     continue
                 
                 if len(hgpt_list) > 1:
-                    print(f"  [Import] Warning: Multiple matches for {hash_short}, using first")
+                    logger.warning("  [Import] Warning: Multiple matches for %s, using first", hash_short)
                 
                 hgpt = hgpt_list[0]
                 
@@ -441,8 +445,7 @@ class HgptDao:
                     width, height, rows, info = pr.read()
                     
                     if width != hgpt.width or height != hgpt.height:
-                        print(f"  [Import] Skip (size mismatch): {png_file.name} "
-                              f"(expected {hgpt.width}x{hgpt.height}, got {width}x{height})")
+                        logger.warning("  [Import] Skip (size mismatch): %s (expected %dx%d, got %dx%d)", png_file.name, hgpt.width, hgpt.height, width, height)
                         continue
                     
                     # 根据原始格式转换PNG
@@ -451,13 +454,13 @@ class HgptDao:
                     
                     if needs_palette and not is_currently_palette:
                         # 需要调色板但当前是RGBA，转换为调色板
-                        print(f"  [Import] Converting RGBA to palette: {png_file.name}")
+                        logger.debug("  [Import] Converting RGBA to palette: %s", png_file.name)
                         translated_png = HgptDao._convert_rgba_to_palette(
                             translated_png_raw, hgpt.palette_size
                         )
                     elif not needs_palette and is_currently_palette:
                         # 需要RGBA但当前是调色板，转换为RGBA
-                        print(f"  [Import] Converting palette to RGBA: {png_file.name}")
+                        logger.debug("  [Import] Converting palette to RGBA: %s", png_file.name)
                         translated_png = HgptDao._convert_palette_to_rgba(translated_png_raw)
                     else:
                         # 格式匹配，直接使用
@@ -466,17 +469,15 @@ class HgptDao:
                     # 导入转换后的翻译版本
                     hgpt.png_translated = translated_png
                     imported_count += 1
-                    print(f"  [Import] ✓ {png_file.name} -> {hgpt.key[:8]}...")
+                    logger.debug("  [Import] ✓ %s -> %s...", png_file.name, hgpt.key[:8])
                     
                 except Exception as e:
-                    print(f"  [Import] Error: {png_file.name} - {e}")
-                    import traceback
-                    traceback.print_exc()
+                    logger.exception("  [Import] Error: %s - %s", png_file.name, e)
                     continue
             
             db.commit()
         
-        print(f"\n  [Import] Successfully imported {imported_count} translated images")
+        logger.debug("\n  [Import] Successfully imported %d translated images", imported_count)
         return imported_count
     
     @staticmethod

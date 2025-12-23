@@ -1,8 +1,12 @@
 import hashlib
+import logging
+from tqdm import tqdm
 
 from ..db import get_db
 from ..entity.text_entry import TextEntry
 from ..entity.translation import Translation
+
+logger = logging.getLogger(__name__)
 
 
 class TextEntryDao:
@@ -49,7 +53,7 @@ class TextEntryDao:
         with next(get_db()) as db:
             TextEntryDao.save_text_file_with_session(db, filename, text_archive)
             db.commit()
-            print(f"  [TextEntry] Saved {len(text_archive.entries)} entries from {filename}")
+            logger.debug(f"  [TextEntry] Saved {len(text_archive.entries)} entries from {filename}")
     
     @staticmethod
     def get_text_entries_by_filename(filename: str):
@@ -74,7 +78,7 @@ class TextEntryDao:
             db_entries = db.query(TextEntry).filter(TextEntry.filename == filename).order_by(TextEntry.id).all()
             
             if not db_entries:
-                print(f"  [TextEntry] No entries found for {filename}")
+                logger.debug(f"  [TextEntry] No entries found for {filename}")
                 return
             
             # 恢复元数据
@@ -101,7 +105,7 @@ class TextEntryDao:
                 translated_content = trans.content.replace("\\n", "\n") if trans and trans.content else db_entry.original
                 
                 if trans:
-                    print("Translation Found: ", db_entry.original, "->", translated_content)
+                    logger.debug("Translation Found: %s -> %s", db_entry.original, translated_content)
                 
                 # 创建唯一键：内容 + unknown_first + unknown_second
                 # 这样可以确保只有内容和 unknown 值都相同的字符串才会被重用
@@ -127,7 +131,7 @@ class TextEntryDao:
                     string_idx
                 ))
             
-            print(f"  [TextEntry] Rebuilt {len(text_archive.entries)} entries with {len(text_archive.strings)} strings for {filename}")
+            logger.debug(f"  [TextEntry] Rebuilt {len(text_archive.entries)} entries with {len(text_archive.strings)} strings for {filename}")
     
     @staticmethod
     def export_text_translations(filename: str, output_path: str):
@@ -140,7 +144,7 @@ class TextEntryDao:
             entries = db.query(TextEntry).filter(TextEntry.filename == filename).all()
             
             result = []
-            for entry in entries:
+            for entry in tqdm(entries, desc="Exporting text entries", unit="entry"):
                 # 计算原始字符串的hash用于查询翻译
                 hash_object = hashlib.md5(entry.original.encode())
                 hashed_str = hash_object.hexdigest()
@@ -157,7 +161,7 @@ class TextEntryDao:
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(result, f, indent=4, ensure_ascii=False)
             
-            print(f"  [TextEntry] Exported {len(result)} entries to {output_path}")
+            logger.debug(f"  [TextEntry] Exported {len(result)} entries to {output_path}")
     
     @staticmethod
     def import_text_translations(json_path: str):
@@ -171,7 +175,7 @@ class TextEntryDao:
         
         with next(get_db()) as db:
             count = 0
-            for item in data:
+            for item in tqdm(data, desc="Importing translations", unit="entry"):
                 original_key = item.get("key")
                 translation = item.get("translation")
                 
@@ -190,4 +194,4 @@ class TextEntryDao:
                     count += 1
             
             db.commit()
-            print(f"  [TextEntry] Imported {count} translations from {json_path}")
+            logger.debug(f"  [TextEntry] Imported {count} translations from {json_path}")

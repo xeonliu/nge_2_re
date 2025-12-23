@@ -123,8 +123,9 @@ class App:
 
         # Store HGAR & HGAR Files into DB
         HGARDao.save(filename, hgar, relative_path)
-
-        hgar.info()
+        
+        # Logging the HGAR info
+        # hgar.info()
 
     @staticmethod
     def output_evs(path: str, prefix: str = None):

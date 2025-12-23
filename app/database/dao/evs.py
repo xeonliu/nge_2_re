@@ -3,6 +3,8 @@ Persist EVSWrapper
 """
 
 import hashlib
+import logging
+from tqdm import tqdm
 
 from ..db import get_db
 from app.parser import tools
@@ -11,13 +13,15 @@ from ..entity.evs_entry import EVSEntry
 from ..entity.sentence import Sentence
 from ..entity.translation import Translation
 
+logger = logging.getLogger(__name__)
+
 
 class EVSDao:
     def save(hgar_file_id: int, evs_file: tools.EvsWrapper):
         # Save All the Entries
         with next(get_db()) as db:
-            for type, params, content in evs_file.entries:
-                print("evs", type, params, content)
+            for type, params, content in tqdm(evs_file.entries, desc="Saving EVS entries", unit="entry"):
+                logger.debug("evs %s %s %s", type, params, content)
                 # Entry Type
                 # Entry Parameters
 
@@ -42,7 +46,7 @@ class EVSDao:
                     is None
                 ):
                     sentence = Sentence(key=hashed_str, content=content)
-                    print("Evs add")
+                    logger.debug("Evs add: %s", hashed_str)
                     db.add(sentence)
                     db.commit()
 
@@ -63,9 +67,9 @@ class EVSDao:
                 .order_by(EVSEntry.id.asc())
                 .all()
             )
-            print(evs_entries)
+            logger.debug("Loaded %d EVS entries for hgar_file_id=%s", len(evs_entries), hgar_file_id)
             evs = tools.EvsWrapper()
-            for entry in evs_entries:
+            for entry in tqdm(evs_entries, desc="Forming EVS wrapper", unit="entry"):
                 if entry.sentence_key is None:
                     evs.add_entry(entry.type, entry.param, b"")
                     continue
@@ -82,6 +86,6 @@ class EVSDao:
                 content = original.content
                 if translation:
                     content = translation.content
-                print(content)
+                logger.debug("EVS content: %s", content)
                 evs.add_entry(entry.type, entry.param, content)
             return evs

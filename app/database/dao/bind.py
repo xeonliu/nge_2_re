@@ -1,11 +1,15 @@
 import hashlib
 import json
 import os
+import logging
+from tqdm import tqdm
 
 from ..db import get_db
 from ..entity.bind_entry import BindEntry
 from ..entity.translation import Translation
 from app.parser.tools import common
+
+logger = logging.getLogger(__name__)
 
 
 class BindDao:
@@ -35,7 +39,7 @@ class BindDao:
             binary_count = 0
             
             # 保存所有条目（如果已存在会因唯一约束而报错）
-            for entry_index, entry in enumerate(bind_archive.entries):
+            for entry_index, entry in enumerate(tqdm(bind_archive.entries, desc="Saving bind entries", unit="entry")):
                 # 无论是否是 TEXT，都保存到 BindEntry 作为备份和结构参考
                 bind_entry = BindEntry(
                     filename=filename,
@@ -59,7 +63,7 @@ class BindDao:
                         TextEntryDao.save_text_file_with_session(db, sub_filename, text_archive)
                         text_count += 1
                     except Exception as e:
-                        print(f"  [WARNING] Failed to parse TEXT at entry {entry_index}: {e}")
+                        logger.warning("  [WARNING] Failed to parse TEXT at entry %s: %s", entry_index, e)
                         # 解析失败，仅保留 BindEntry
                         binary_count += 1
                 else:
@@ -67,9 +71,9 @@ class BindDao:
                     binary_count += 1
             
             db.commit()
-            print(f"  [BindEntry] Saved {len(bind_archive.entries)} entries from {filename}")
-            print(f"  [BindEntry]   - {text_count} TEXT files (stored in TextEntry)")
-            print(f"  [BindEntry]   - {binary_count} binary/failed entries (stored in BindEntry)")
+            logger.debug(f"  [BindEntry] Saved {len(bind_archive.entries)} entries from {filename}")
+            logger.debug(f"  [BindEntry]   - {text_count} TEXT files (stored in TextEntry)")
+            logger.debug(f"  [BindEntry]   - {binary_count} binary/failed entries (stored in BindEntry)")
     
     @staticmethod
     def get_bind_entries_by_filename(filename: str):
@@ -105,7 +109,7 @@ class BindDao:
             ).order_by(BindEntry.entry_index).all()
             
             if not all_entries:
-                print(f"  [BindEntry] No entries found for {filename}")
+                logger.debug(f"  [BindEntry] No entries found for {filename}")
                 return
             
             # 恢复元数据
@@ -121,7 +125,7 @@ class BindDao:
             
             # 重建
             bind_archive.entries = []
-            for entry in all_entries:
+            for entry in tqdm(all_entries, desc="Rebuilding bind entries", unit="entry"):
                 sub_filename = f"{filename}#{entry.entry_index}"
                 
                 if sub_filename in text_entries_filenames:
@@ -136,7 +140,7 @@ class BindDao:
                     # 二进制条目或空 TEXT 条目：直接使用原始内容
                     bind_archive.add_entry(entry.content)
             
-            print(f"  [BindEntry] Rebuilt {len(bind_archive.entries)} entries for {filename}")
+            logger.debug(f"  [BindEntry] Rebuilt {len(bind_archive.entries)} entries for {filename}")
     
     @staticmethod
     def export_bind_translations(filename: str, output_path: str):
@@ -156,14 +160,14 @@ class BindDao:
             ).distinct().order_by(TextEntry.filename).all()
             
             if not text_entries:
-                print(f"  [BindEntry] No TEXT entries found for {filename}")
+                logger.debug(f"  [BindEntry] No TEXT entries found for {filename}")
                 return
             
             # 使用 TextEntryDao 导出每个 TEXT 的翻译
             import tempfile
             all_translations = []
             
-            for (text_filename,) in text_entries:
+            for (text_filename,) in tqdm(text_entries, desc="Exporting bind text entries", unit="textfile"):
                 # 创建临时文件
                 with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as tmp:
                     tmp_path = tmp.name
@@ -183,7 +187,7 @@ class BindDao:
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(all_translations, f, indent=4, ensure_ascii=False)
             
-            print(f"  [BindEntry] Exported {len(all_translations)} text entries to {output_path}")
+            logger.debug(f"  [BindEntry] Exported {len(all_translations)} text entries to {output_path}")
     
     @staticmethod
     def get_all_bind_filenames():

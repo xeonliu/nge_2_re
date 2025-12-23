@@ -4,6 +4,11 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      build_name:
+        description: 'Build Name'
+        required: false
+        type: string
 
 jobs:
   build-in-docker:

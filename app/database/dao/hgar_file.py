@@ -4,6 +4,8 @@ Obtain a sentence with or without translation from the database.
 
 from ..db import get_db
 from app.parser import tools
+import logging
+from tqdm import tqdm
 
 # Entities
 from ..entity.hgar_file import HgarFile
@@ -12,6 +14,8 @@ from ..entity.hgpt import Hgpt
 
 from .evs import EVSDao
 from .hgpt import HgptDao
+
+logger = logging.getLogger(__name__)
 
 
 class HGARFileDao:
@@ -25,7 +29,7 @@ class HGARFileDao:
             hgar_id: 关联的 HGAR ID
             hgar_files: 要保存的 HGAR 文件列表
         """
-        for file in hgar_files:
+        for file in tqdm(hgar_files, desc="Saving HGAR files", unit="file"):
             with next(get_db()) as db:
                 # FIXME: Remove decode
                 short_name: str = file.short_name.decode("ascii").rstrip(" \t\r\n\0")
@@ -46,10 +50,10 @@ class HGARFileDao:
                         
                         # 解压时使用 -15 (raw deflate without header)
                         decompressed = zlib.decompress(compressed_data, -15)
-                        print(f"  [DECOMPRESS] {short_name}: {len(compressed_data)} → {len(decompressed)} bytes")
+                        logger.debug("  [DECOMPRESS] %s: %d → %d bytes", short_name, len(compressed_data), len(decompressed))
                         content = decompressed
                     except Exception as e:
-                        print(f"  [DECOMPRESS ERROR] {short_name}: {e}")
+                        logger.warning("  [DECOMPRESS ERROR] %s: %s", short_name, e)
                         # 如果解压失败，继续使用原始内容
                         content = content[4:]  # 至少跳过 size 字段
                 
@@ -58,10 +62,10 @@ class HGARFileDao:
                 if short_name.endswith(".evs"):
                     evs_wrapper = tools.EvsWrapper()
                     evs_wrapper.open_bytes(content)
-                    print(f"  [EVS] {short_name}")
+                    logger.debug("  [EVS] %s", short_name)
                 elif short_name.endswith(".zpt") or short_name.endswith(".hpt"):
                     # 保存 HGPT 到数据库（去重）
-                    print(f"  [HPT] {short_name}")
+                    logger.debug("  [HPT] %s", short_name)
                     hgpt_key = HgptDao.save(hgpt_data=content)
                 
                 # 创建 HgarFile 记录
@@ -94,7 +98,7 @@ class HGARFileDao:
     @staticmethod
     def form(hgar_id: int) -> list[tools.HGArchiveFile]:
         with next(get_db()) as db:
-            print(f"Form HGAR Files for {hgar_id}")
+            logger.debug("Form HGAR Files for %s", hgar_id)
             hgar_files = (
                 db.query(HgarFile)
                 .filter(HgarFile.hgar_id == hgar_id)
@@ -102,8 +106,8 @@ class HGARFileDao:
                 .all()
             )
             hg_archive_files = []
-            for hgar_file in hgar_files:
-                print(f"  Rebuilding: {hgar_file.short_name}")
+            for hgar_file in tqdm(hgar_files, desc="Rebuilding HGAR files", unit="file"):
+                logger.debug("  Rebuilding: %s", hgar_file.short_name)
                 
                 # 根据文件类型重建内容
                 if hgar_file.short_name.endswith(".evs"):
@@ -123,14 +127,14 @@ class HGARFileDao:
                         if raw:
                             content = raw.content
                         else:
-                            print(f"    WARNING: No HGPT or Raw data for {hgar_file.short_name}")
+                            logger.warning("    WARNING: No HGPT or Raw data for %s", hgar_file.short_name)
                             continue
                             
                 else:
                     # 其他文件类型，从 Raw 表读取
                     raw = db.query(Raw).filter(Raw.hgar_file_id == hgar_file.id).first()
                     if not raw:
-                        print(f"    WARNING: No Raw data for {hgar_file.short_name}")
+                        logger.warning("    WARNING: No Raw data for %s", hgar_file.short_name)
                         continue
                     content = raw.content
                 
@@ -149,7 +153,7 @@ class HGARFileDao:
                     import struct
                     final_content = struct.pack('<I', original_size) + compressed_content
                     
-                    print(f"  [COMPRESS] {hgar_file.short_name}: {original_size} → {len(compressed_content)} bytes")
+                    logger.debug("  [COMPRESS] %s: %d → %d bytes", hgar_file.short_name, original_size, len(compressed_content))
                     content = final_content
                 
                 # 构建 HGArchiveFile 对象
