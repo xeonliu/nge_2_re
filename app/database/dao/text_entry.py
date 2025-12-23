@@ -83,7 +83,9 @@ class TextEntryDao:
             
             # 构建字符串内容到字符串索引的映射
             # 这样可以实现多个条目共享同一个字符串
-            string_content_to_idx = {}
+            # FIXME: 事实上不需要这样
+            # 注意：需要同时考虑内容和 unknown_first/unknown_second，因为它们可能标识说话人/语音
+            string_key_to_idx = {}
             text_archive.strings = []
             text_archive.entries = []
             
@@ -100,8 +102,12 @@ class TextEntryDao:
                 if trans:
                     print("Translation Found: ", db_entry.original, "->", translated_content)
                 
-                # 检查这个字符串内容是否已经存在
-                if translated_content not in string_content_to_idx:
+                # 创建唯一键：内容 + unknown_first + unknown_second
+                # 这样可以确保只有内容和 unknown 值都相同的字符串才会被重用
+                string_key = (translated_content, db_entry.unknown_first, db_entry.unknown_second)
+                
+                # 检查这个字符串（包括 unknown 值）是否已经存在
+                if string_key not in string_key_to_idx:
                     # 新字符串，添加到列表
                     string_idx = len(text_archive.strings)
                     text_archive.strings.append((
@@ -109,10 +115,10 @@ class TextEntryDao:
                         db_entry.unknown_second,
                         translated_content
                     ))
-                    string_content_to_idx[translated_content] = string_idx
+                    string_key_to_idx[string_key] = string_idx
                 else:
-                    # 重用已存在的字符串
-                    string_idx = string_content_to_idx[translated_content]
+                    # 重用已存在的字符串（内容和 unknown 值都相同）
+                    string_idx = string_key_to_idx[string_key]
                 
                 # 添加条目，使用保存的 entry_unknown
                 text_archive.entries.append((
