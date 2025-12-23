@@ -28,6 +28,7 @@ class TextEntryDao:
                     filename=filename,
                     original=string_content or "",
                     entry_unknown=entry_unknown or 0,
+                    entry_index=entry_index,
                     string_index=entry_string_idx,
                     unknown_first=unknown_first or 0,
                     unknown_second=unknown_second or 0,
