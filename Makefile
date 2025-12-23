@@ -52,7 +52,7 @@ import_hgar:
 	@echo "Importing HGAR archives..."
 	@for dir in $(HGAR_DIRS); do \
 		echo "  -> Importing $$dir..."; \
-		$(PYTHON_MAIN) --import_har '$(USRDIR)/$$dir'; \
+		$(PYTHON_MAIN) --import_har "$(USRDIR)/$$dir"; \
 	done
 
 import_text:
