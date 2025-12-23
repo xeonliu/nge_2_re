@@ -172,12 +172,14 @@ patch_iso: repack_iso gen_xdelta
 # Full Build Pipeline
 # Note: We keep strictly ordered steps here to avoid DB locking issues
 full_build:
+	$(MAKE) extract_iso
 	$(MAKE) init_db
 	$(MAKE) import_all
 	$(MAKE) import_trans
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
+	$(MAKE) patch_iso
 
 clean:
 	@echo "Cleaning build directory..."
