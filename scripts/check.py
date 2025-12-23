@@ -19,6 +19,7 @@ import logging
 import sys
 from pathlib import Path
 from typing import Dict, List, Optional
+from tqdm import tqdm
 
 from app.parser.tools.common import to_eva_sjis
 from app.parser.tools.evs import CONTENT_BYTE_LIMIT
@@ -217,7 +218,7 @@ def validate_translations(
     Returns:
         Number of errors found
     """
-    logger.info(f"Loading translations from: {translation_file}")
+    logger.debug(f"Loading translations from: {translation_file}")
 
     # Load translation data
     try:
@@ -230,15 +231,15 @@ def validate_translations(
         logger.error(f"Invalid JSON in translation file: {e}")
         sys.exit(1)
 
-    logger.info(f"Checking {len(translation_data)} translation entries...")
-    logger.info(f"Check type: {check_type}")
+    logger.debug(f"Checking {len(translation_data)} translation entries...")
+    logger.debug(f"Check type: {check_type}")
 
     errors: List[Dict] = []
     checked_count = 0
     skipped_count = 0
 
     # Validate each translation entry
-    for idx, elem in enumerate(translation_data, 1):
+    for idx, elem in enumerate(tqdm(translation_data, desc="Validating", unit="entry"), 1):
         # Validate entry structure
         if "original" not in elem or "translation" not in elem:
             logger.warning(

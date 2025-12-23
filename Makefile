@@ -157,7 +157,7 @@ decrypt_eboot: pspdecrypt
 
 repack_iso:
 	@echo "Repacking game files into ISO..."
-	$(UV_RUN) scripts/pack/repack-add.py '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(TEMP_DIR)/ULJS00064'
+	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(BUILD_DIR)/ULJS00064'
 
 gen_xdelta:
 	@echo "Generating xdelta patch..."
