@@ -1,0 +1,248 @@
+---
+// src/components/EvaReleaseGallery.astro
+import img64Inner from "../pages/posts/assets/64-inner.webp";
+import img64Back from "../pages/posts/assets/64-back.webp";
+import img00061Cover from "../pages/posts/assets/00061-cover.jpg";
+import img00061Back from "../pages/posts/assets/00061-back.webp";
+import img19017Cover from "../pages/posts/assets/19017-front.png";
+import img19017Full from "../pages/posts/assets/19017-full.png";
+
+interface ReleaseVersion {
+    id: string;
+    title: string;
+    images: {
+        label: string; // 按钮上显示的文字，如 "封面", "封底"
+        src: string; // 图片路径
+        alt: string;
+    }[];
+    specs: {
+        label: string;
+        value: string;
+    }[];
+    description?: string; // 可选的详细描述
+}
+
+// 这里定义数据，方便管理，以后修改不需要去翻 HTML
+const releases: ReleaseVersion[] = [
+    {
+        id: "uljs-00064",
+        title: "ULJS-00064 单碟装",
+        images: [
+            { label: "内盒", src: img64Inner.src, alt: "ULJS-00064 内盒展示" },
+            { label: "封底", src: img64Back.src, alt: "ULJS-00064 封底" },
+        ],
+        specs: [
+            { label: "条形码", value: "4582224491025" },
+            { label: "发售时间", value: "2006/04/27" },
+            { label: "价格", value: "5,040 JPN" },
+        ],
+    },
+    {
+        id: "uljs-00061",
+        title: "ULJS-00061 十周年纪念装",
+        images: [
+            { label: "封面", src: img00061Cover.src, alt: "十周年纪念装封面" },
+            { label: "封底", src: img00061Back.src, alt: "十周年纪念装封底" },
+        ],
+        specs: [
+            { label: "包含内容", value: "游戏 + 旧剧场版 UMD" },
+            { label: "条形码", value: "4582224491018" },
+            { label: "发售时间", value: "2006/04/27" },
+            { label: "价格", value: "10,500 JPN" },
+        ],
+        description: `【基本情報】
+■タイトル:新世紀エヴァンゲリオン -DECADE-(新世紀エヴァンゲリオン2 造られしセカイ -another cases-) 10周年記念メモリアルBOX(限定版)
+■機種:プレイステーションポータブルソフト(PlayStation PortableGame)
+■発売日:2006/04/27
+■メーカー品番:ULJS-00061
+■JAN/EAN:4582224491018
+■メーカー:バンダイナムコエンターテインメント
+■ジャンル:ワールドシミュレーター
+■対象年齢:CERO 12才以上対象
+■プレイ人数:1人
+
+【商品説明】
+■10周年記念メモリアルBOX同梱物
+◇PSPソフト「新世紀エヴァンゲリオン2 造られしセカイ -another cases-」
+◇UMD Videoソフト「劇場版 新世紀エヴァンゲリオン DEATH(TRUE)2/Air/まごころを、君に」
+◇メモリアルBOX
+
+テレビアニメーション放送より10年を経た今でも全く衰えぬ人気を誇る「新世紀エヴァンゲリオン」のゲームの新作であるPSP(プレイステーション・ポータブル)向けソフト「エヴァンゲリオン2 造られしセカイ -another cases-」と作品初のUMD Video化である「劇場版 新世紀エヴァンゲリオン DEATH(TRUE)2・Air/まごころを、君に」をカップリングした『エヴァンゲリオン10周年記念作品』です!
+
+◇「新世紀エヴァンゲリオン2 造られしセカイ -another cases-」とは
+生まれ変わった「エヴァンゲリオン」のセカイ。「エヴァンゲリオン」を再現したセカイを、キャラクターの1人となり物語を紡いでいくワールドシミュレーターです。
+プレイステーション2ソフト「エヴァンゲリオン2」をベースに、シナリオ・グラフィックをはじめ、全ての要素を大幅に強化しました。
+『PSP』の性能を活かした美麗なグラフィックと洗練されたシステムを備えた、正に決定版といえます。
+
+■権利表記:©GAINAX/Project Eva.・テレビ東京 © 1997 GAINAX/EVA製作委員会 © BANDAI 2006
+`,
+    },
+    {
+        id: "uljs-19017",
+        title: "ULJS-19017 PSP the Best",
+        images: [
+            {
+                label: "封面",
+                src: img19017Cover.src,
+                alt: "PSP the Best 版本封面",
+            },
+            {
+                label: "内盒",
+                src: img19017Full.src,
+                alt: "PSP the Best 版本内盒",
+            },
+        ],
+        specs: [
+            { label: "条形码", value: "4582224491766" },
+            { label: "发售时间", value: "2007/08/30" },
+            { label: "备注", value: "新剧场版：序 上映前一天" },
+            { label: "价格", value: "2,800 JPN" },
+        ],
+        description: `【基本情報】
+■タイトル:新世紀エヴァンゲリオン2 造られしセカイ～another cases～PSP the Best(ULJS-19017)
+■機種:プレイステーションポータブルソフト(PlayStation PortableGame)
+■発売日:2007/08/30
+■メーカー品番:ULJS-19017
+■JAN/EAN:4582224491766
+■メーカー：バンダイナムコエンターテインメント
+■ジャンル：ワールドシミュレーター
+■対象年齢：CERO B 12才以上対象
+■プレイ人数：1人
+
+【商品説明】
+お求めやすい価格で登場!シナリオごとに変わるキャラクターを操り、「エヴァンゲリオン」の世界を体験。登場人物になりきって原作とおりのストーリーを歩むか、違った道を歩むかはプレイヤー次第!
+■権利表記：©GAINAX・カラー / Project Eva. ©GAINAX・カラー / EVA製作委員会 ©2006 NBGI`,
+    },
+];
+---
+
+<div class="eva-gallery">
+    <div class="row u-equal-height">
+        {
+            releases.map((release) => (
+                <div class="col-4 col-medium-6">
+                    <div class="p-card--highlighted">
+                        <h3 class="p-card__title">{release.title}</h3>
+                        <div class="p-card__content">
+                            <div
+                                class="image-viewer"
+                                id={`viewer-${release.id}`}
+                            >
+                                <div
+                                    class="image-stage u-align--center"
+                                    style="height: 250px; display: flex; align-items: center; justify-content: center; background: #fff; margin-bottom: 1rem; border-radius: 4px;"
+                                >
+                                    {release.images.map((img, index) => (
+                                        <img
+                                            src={img.src}
+                                            alt={img.alt}
+                                            class={index === 0 ? "" : "u-hide"}
+                                            data-index={index}
+                                            loading="lazy"
+                                            style="max-height: 100%; max-width: 100%; object-fit: contain;"
+                                        />
+                                    ))}
+                                </div>
+
+                                {release.images.length > 1 && (
+                                    <div class="u-align--center u-margin--bottom">
+                                        <div class="p-button-group">
+                                            {release.images.map(
+                                                (img, index) => (
+                                                    <button
+                                                        class={
+                                                            index === 0
+                                                                ? "p-button--small p-button--brand tab-btn"
+                                                                : "p-button--small p-button--neutral tab-btn"
+                                                        }
+                                                        data-target={`viewer-${release.id}`}
+                                                        data-index={index}
+                                                        aria-pressed={
+                                                            index === 0
+                                                                ? "true"
+                                                                : "false"
+                                                        }
+                                                    >
+                                                        {img.label}
+                                                    </button>
+                                                ),
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            <table class="p-table p-table--mobile-card">
+                                <tbody>
+                                    {release.specs.map((spec) => (
+                                        <tr>
+                                            <th role="rowheader">
+                                                {spec.label}
+                                            </th>
+                                            <td class="u-align--right">
+                                                {spec.value}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            {release.description && (
+                                <details class="p-accordion">
+                                    <summary class="">查看详细说明</summary>
+                                    <div class="p-accordion__panel">
+                                        <p>{release.description}</p>
+                                    </div>
+                                </details>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<script>
+    // 客户端脚本：处理图片切换
+    document.addEventListener("astro:page-load", () => {
+        initGallery();
+    });
+
+    initGallery();
+
+    function initGallery() {
+        const buttons = document.querySelectorAll(".tab-btn");
+
+        buttons.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                const targetId = (e.currentTarget as HTMLElement).dataset
+                    .target;
+                const index = (e.currentTarget as HTMLElement).dataset.index;
+                const viewer = document.getElementById(targetId);
+
+                if (!viewer) return;
+
+                // 1. 切换按钮状态
+                viewer.querySelectorAll(".tab-btn").forEach((b) => {
+                    b.classList.remove("p-button--brand");
+                    b.classList.add("p-button--neutral");
+                    b.setAttribute("aria-pressed", "false");
+                });
+                const activeBtn = e.currentTarget as HTMLElement;
+                activeBtn.classList.remove("p-button--neutral");
+                activeBtn.classList.add("p-button--brand");
+                activeBtn.setAttribute("aria-pressed", "true");
+
+                // 2. 切换图片显示
+                viewer
+                    .querySelectorAll(".image-stage img")
+                    .forEach((img) => img.classList.add("u-hide"));
+                const targetImg = viewer.querySelector(
+                    `.image-stage img[data-index="${index}"]`,
+                );
+                if (targetImg) targetImg.classList.remove("u-hide");
+            });
+        });
+    }
+</script>
