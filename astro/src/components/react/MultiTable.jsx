@@ -1,27 +1,57 @@
 import React, { useState, useMemo } from "react";
 import "./MultiTable.css";
 
-// 提取颜色逻辑，供 TableRow 和 MultiTable 共同使用
+// 颜色逻辑
 const getProgressColor = (percentage) => {
-  if (percentage < 33) return "#c7162b"; // Vanilla Negative
-  if (percentage < 66) return "#ed6c02"; // Vanilla Warning
-  return "#0e8a16"; // Vanilla Positive
+  if (percentage < 33) return "#c7162b";
+  if (percentage < 66) return "#ed6c02";
+  return "#0e8a16";
+};
+
+// 递归计算某个节点及其所有子节点的汇总数据
+const calculateStats = (item) => {
+  if (item.isLeaf) {
+    return {
+      total: item.total || 0,
+      translated: item.translated || 0,
+      disputed: item.disputed || 0,
+      checked: item.checked || 0,
+      reviewed: item.reviewed || 0,
+    };
+  }
+
+  const stats = { total: 0, translated: 0, disputed: 0, checked: 0, reviewed: 0 };
+  if (item.content && item.content.length > 0) {
+    item.content.forEach((child) => {
+      const childStats = calculateStats(child);
+      stats.total += childStats.total;
+      stats.translated += childStats.translated;
+      stats.disputed += childStats.disputed;
+      stats.checked += childStats.checked;
+      stats.reviewed += childStats.reviewed;
+    });
+  }
+  return stats;
 };
 
 const TableRow = ({ item, depth = 0 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
-  const percentage = item.total > 0 ? Math.round((item.checked / item.total) * 100) : 0;
+  // 无论是否是叶子节点，都计算（或直接获取）统计数据
+  const stats = useMemo(() => calculateStats(item), [item]);
+  const percentage = stats.total > 0 ? Math.round((stats.checked / stats.total) * 100) : 0;
   const hasChildren = !item.isLeaf && item.content && item.content.length > 0;
 
   return (
     <>
       <tr 
         className={hasChildren ? "is-clickable" : ""} 
-        onClick={hasChildren ? toggleExpand : undefined} 
-        style={{ cursor: hasChildren ? 'pointer' : 'default' }}
+        onClick={hasChildren ? toggleExpand : undefined}
+        style={{ 
+          cursor: hasChildren ? 'pointer' : 'default',
+          backgroundColor: !item.isLeaf ? `rgba(0,0,0, ${0.02 * (depth + 1)})` : 'transparent' // 给父行加一点背景深浅区分
+        }}
       >
         <td style={{ paddingLeft: `${depth * 1.5 + 0.5}rem` }}>
           <div className="u-flex-center">
@@ -29,38 +59,39 @@ const TableRow = ({ item, depth = 0 }) => {
               <button 
                 className="u-no-border u-cursor-pointer"
                 onClick={(e) => { e.stopPropagation(); toggleExpand(); }}
-                aria-label={isExpanded ? "Collapse" : "Expand"}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '1rem', background: 'transparent' }}
+                style={{ background: 'transparent', width: '1rem', display: 'flex', alignItems: 'center' }}
               >
                 <i className={isExpanded ? "p-icon--chevron-down" : "p-icon--chevron-right"}></i>
               </button>
             ) : (
               <span style={{ width: "1rem", display: "inline-block" }}></span>
             )}
-            <span style={{ fontWeight: hasChildren ? "600" : "400", marginLeft: "0.5rem" }}>{item.name}</span>
+            <span style={{ fontWeight: !item.isLeaf ? "600" : "400", marginLeft: "4px" }}>
+              {item.name}
+            </span>
           </div>
         </td>
         <td>
-          {item.isLeaf ? (
-            <div>
-              <div style={{ fontSize: "0.85em", marginBottom: "2px" }}>{percentage}%</div>
-              <div className="u-progress-bar">
-                <div 
-                  className="u-progress-bar__fill" 
-                  style={{ 
-                    width: `${percentage}%`, 
-                    backgroundColor: getProgressColor(percentage) 
-                  }}
-                ></div>
-              </div>
+          <div>
+            <div style={{ fontSize: "0.85em", marginBottom: "2px" }}>
+              {percentage}% {!item.isLeaf && <span style={{opacity: 0.6, fontSize: '0.9em'}}></span>}
             </div>
-          ) : "-"}
+            <div className="u-progress-bar" style={{ height: !item.isLeaf ? '6px' : '4px' }}>
+              <div 
+                className="u-progress-bar__fill" 
+                style={{ 
+                  width: `${percentage}%`, 
+                  backgroundColor: getProgressColor(percentage) 
+                }}
+              ></div>
+            </div>
+          </div>
         </td>
-        <td className="u-align--right">{item.isLeaf ? item.total : "-"}</td>
-        <td className="u-align--right">{item.isLeaf ? item.translated : "-"}</td>
-        <td className="u-align--right">{item.isLeaf ? item.disputed : "-"}</td>
-        <td className="u-align--right">{item.isLeaf ? item.checked : "-"}</td>
-        <td className="u-align--right">{item.isLeaf ? item.reviewed : "-"}</td>
+        <td className="u-align--right" style={{ fontWeight: !item.isLeaf ? "600" : "400" }}>{stats.total}</td>
+        <td className="u-align--right">{stats.translated}</td>
+        <td className="u-align--right">{stats.disputed}</td>
+        <td className="u-align--right">{stats.checked}</td>
+        <td className="u-align--right">{stats.reviewed}</td>
       </tr>
       {isExpanded && hasChildren && item.content.map((child, index) => (
         <TableRow key={index} item={child} depth={depth + 1} />
@@ -70,30 +101,21 @@ const TableRow = ({ item, depth = 0 }) => {
 };
 
 const MultiTable = ({ data }) => {
-  // 1. 递归计算所有叶子节点的总和
-  const totals = useMemo(() => {
-    const stats = { total: 0, translated: 0, disputed: 0, checked: 0, reviewed: 0 };
-
-    const traverse = (nodes) => {
-      nodes.forEach((node) => {
-        if (node.isLeaf) {
-          stats.total += node.total || 0;
-          stats.translated += node.translated || 0;
-          stats.disputed += node.disputed || 0;
-          stats.checked += node.checked || 0;
-          stats.reviewed += node.reviewed || 0;
-        } else if (node.content && node.content.length > 0) {
-          traverse(node.content);
-        }
-      });
-    };
-
-    traverse(data);
-    return stats;
+  // 计算全表总和
+  const globalTotals = useMemo(() => {
+    return data.reduce((acc, curr) => {
+      const stats = calculateStats(curr);
+      return {
+        total: acc.total + stats.total,
+        translated: acc.translated + stats.translated,
+        disputed: acc.disputed + stats.disputed,
+        checked: acc.checked + stats.checked,
+        reviewed: acc.reviewed + stats.reviewed,
+      };
+    }, { total: 0, translated: 0, disputed: 0, checked: 0, reviewed: 0 });
   }, [data]);
 
-  // 2. 计算全局百分比
-  const totalPercentage = totals.total > 0 ? Math.round((totals.checked / totals.total) * 100) : 0;
+  const globalPercentage = globalTotals.total > 0 ? Math.round((globalTotals.checked / globalTotals.total) * 100) : 0;
 
   return (
     <div style={{ overflowX: 'auto' }}>
@@ -101,45 +123,20 @@ const MultiTable = ({ data }) => {
         <thead>
           <tr>
             <th style={{ verticalAlign: "bottom" }}>Name</th>
-            
-            {/* 进度条表头：显示全局进度 */}
-            <th style={{ width: "25%", verticalAlign: "bottom" }}>
+            <th style={{ width: "20%", verticalAlign: "bottom" }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span>Progress</span>
-                <span style={{ fontSize: "0.85em", fontWeight: "normal" }}>{totalPercentage}%</span>
+                <span>Global Progress</span>
+                <span style={{ fontSize: "0.85em" }}>{globalPercentage}%</span>
               </div>
               <div className="u-progress-bar" style={{ marginTop: '4px', height: '4px' }}>
-                <div 
-                  className="u-progress-bar__fill" 
-                  style={{ 
-                    width: `${totalPercentage}%`, 
-                    backgroundColor: getProgressColor(totalPercentage) 
-                  }}
-                ></div>
+                <div className="u-progress-bar__fill" style={{ width: `${globalPercentage}%`, backgroundColor: getProgressColor(globalPercentage) }}></div>
               </div>
             </th>
-
-            {/* 数值表头：显示名称和下方的总数 */}
-            <th className="u-align--right" style={{ verticalAlign: "bottom" }}>
-              <div>Total</div>
-              <div style={{ fontSize: "1.1em", fontWeight: "300", marginTop: "4px" }}>{totals.total}</div>
-            </th>
-            <th className="u-align--right" style={{ verticalAlign: "bottom" }}>
-              <div>Translated</div>
-              <div style={{ fontSize: "1.1em", fontWeight: "300", marginTop: "4px" }}>{totals.translated}</div>
-            </th>
-            <th className="u-align--right" style={{ verticalAlign: "bottom" }}>
-              <div>Disputed</div>
-              <div style={{ fontSize: "1.1em", fontWeight: "300", marginTop: "4px" }}>{totals.disputed}</div>
-            </th>
-            <th className="u-align--right" style={{ verticalAlign: "bottom" }}>
-              <div>Checked</div>
-              <div style={{ fontSize: "1.1em", fontWeight: "300", marginTop: "4px" }}>{totals.checked}</div>
-            </th>
-            <th className="u-align--right" style={{ verticalAlign: "bottom" }}>
-              <div>Reviewed</div>
-              <div style={{ fontSize: "1.1em", fontWeight: "300", marginTop: "4px" }}>{totals.reviewed}</div>
-            </th>
+            <th className="u-align--right">Total<br/><small>{globalTotals.total}</small></th>
+            <th className="u-align--right">Translated<br/><small>{globalTotals.translated}</small></th>
+            <th className="u-align--right">Disputed<br/><small>{globalTotals.disputed}</small></th>
+            <th className="u-align--right">Checked<br/><small>{globalTotals.checked}</small></th>
+            <th className="u-align--right">Reviewed<br/><small>{globalTotals.reviewed}</small></th>
           </tr>
         </thead>
         <tbody>
