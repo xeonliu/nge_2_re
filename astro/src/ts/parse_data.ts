@@ -30,6 +30,7 @@ class MyFile implements MyBaseFile {
     total: number;
     translated: number;
     disputed: number;
+    checked: number;
     reviewed: number;
 
     constructor(raw) {
@@ -39,6 +40,7 @@ class MyFile implements MyBaseFile {
         this.total = raw.total;
         this.translated = raw.translated;
         this.disputed = raw.disputed;
+        this.checked = raw.checked;
         this.reviewed = raw.reviewed;
     }
 

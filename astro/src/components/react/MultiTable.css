@@ -1,0 +1,33 @@
+/* Minimal CSS for Progress Bar not provided by Vanilla Framework */
+.u-progress-bar {
+  background-color: #e5e5e5;
+  border-radius: 100px;
+  height: 6px;
+  width: 100%;
+  min-width: 60px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.u-progress-bar__fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 100px;
+}
+
+.u-flex-center {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.u-cursor-pointer {
+  cursor: pointer;
+}
+
+.u-no-border {
+  border: none !important;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
