@@ -2,7 +2,7 @@
 title: "发行历史"
 pubDate: 2022-07-01
 layout: ../../layouts/MarkdownPostLayout.astro
-description: "EVA2历史"
+description: "EVA2的发行历史"
 author: "Astro 学习者"
 image:
   url: "https://docs.astro.build/assets/rose.webp"
