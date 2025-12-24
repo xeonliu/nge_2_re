@@ -35,22 +35,38 @@ const allPosts = await Astro.glob("./posts/*.md");
     <div class="row">
       <div class="col-12">
         <hr />
-        <h2>相关文档</h2>
       </div>
     </div>
-    <div class="row u-equal-height">
-      {
-        allPosts.map((post) => (
-          <div class="col-3 p-card--clickable">
-            <a href={post.url} class="p-card__content">
-              <h3 class="p-card__title">{post.frontmatter.title}</h3>
-              <p class="p-card__description">
-                {post.frontmatter.description || "点击阅读全文..."}
-              </p>
-            </a>
-          </div>
-        ))
-      }
+    <div class="row">
+      <div class="col-4">
+        <h2>相关文档</h2>
+        <div class="p-card--highlighted">
+          <h3 class="p-card__title">参与贡献</h3>
+          <p class="p-card__description">
+            我们欢迎任何人参与到翻译工作中来。
+          </p>
+          <a href="/nge_2_re/contribute">了解更多 &rsaquo;</a>
+        </div>
+      </div>
+      <div class="col-8">
+        <div id="articles" class="row">
+          {
+            allPosts.map((post) => (
+              <article class="col-6 u-margin--bottom">
+                <h3 class="p-heading--4">
+                  <a href={post.url}>{post.frontmatter.title}</a>
+                </h3>
+                <p class="u-no-margin--bottom">
+                  <span class="p-badge">
+                    {post.frontmatter.date || "2024-01-01"}
+                  </span>
+                  <small class="u-text--muted">文档</small>
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </section>
 </Layout>

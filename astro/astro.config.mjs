@@ -3,5 +3,6 @@ import react from '@astrojs/react';
 export default defineConfig({
   // ...
   integrations: [react()],
-  site: 'https://xeonliu.github.io/nge_2_re/'
+  site: 'https://xeonliu.github.io',
+  base: '/nge_2_re'
 });
