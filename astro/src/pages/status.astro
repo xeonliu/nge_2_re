@@ -1,9 +1,11 @@
 ---
+
 import Table from "../components/react/Table";
 import Layout from "../layouts/Layout.astro";
 import data from "../data/files.json";
 import MyProject from "../ts/parse_data";
 import MultiTable from "../components/react/MultiTable";
+import LeaderboardTable from "../components/react/LeaderboardTable.jsx";
 
 const proj = new MyProject();
 
@@ -19,8 +21,8 @@ const result = proj.root.getContent();
     <div class="l-docs__main">
       <div class="p-section">
         <main class="u-fixed-width">
-          <!-- <Table /> -->
           <MultiTable data={result} client:load />
+          <LeaderboardTable client:load />
         </main>
       </div>
     </div>

@@ -118,7 +118,8 @@ const MultiTable = ({ data }) => {
   const globalPercentage = globalTotals.total > 0 ? Math.round((globalTotals.checked / globalTotals.total) * 100) : 0;
 
   return (
-    <div style={{ overflowX: 'auto' }}>
+    <div style={{ overflowX: 'auto' , marginTop: '2rem'}}>
+      <h2>翻译进度</h2>
       <table className="p-table">
         <thead>
           <tr>
