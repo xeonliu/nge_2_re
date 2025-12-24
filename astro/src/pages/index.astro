@@ -1,34 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
-const allPosts = await Astro.glob("./posts/*.md");
+const allPosts = await Astro.glob(["./posts/*.md", "./posts/*.mdx"]);
+import icon from "./posts/assets/logo.png";
 ---
 
 <Layout title="EVA2 汉化计划">
   <div id="main-content" class="p-section--hero">
     <div class="row--25-75">
       <div class="col">
-        <div class="p-section--shallow">
-          <h1>欢迎来到</h1>
-          <h2>EVA2 汉化计划</h2>
-          <h1>的官网</h1>
-        </div>
-
-        <div class="p-section--shallow">
-          <ul class="p-inline-list u-no-margin--bottom">
-            <li class="p-inline-list__item">
-              <a
-                href="/nge_2_re/"
-                class="p-button--positive u-no-margin--bottom"
-                >下载补丁（暂不可用）</a
-              >
-            </li>
-            <li class="p-inline-list__item">
-              <a
-                href="/nge_2_re/contribute"
-                class="p-button u-no-margin--bottom">贡献翻译</a
-              >
-            </li>
-          </ul>
+        <img src={icon.src} alt="EVA2 汉化计划 Logo" style="max-width: 90px; min-width: 60px; width: 12vw; height: auto;" />
+        <div>
+          <div class="p-section--shallow" style="margin-bottom: 0.5rem;">
+            <h1 style="margin-bottom: 0.2em;">欢迎来到</h1>
+            <h2 style="margin-bottom: 0.2em;">EVA2 汉化计划</h2>
+            <h1 style="margin-bottom: 0;">的官网</h1>
+          </div>
+          <div class="p-section--shallow">
+            <ul class="p-inline-list u-no-margin--bottom">
+              <li class="p-inline-list__item">
+                <a
+                  href="/nge_2_re/"
+                  class="p-button--positive u-no-margin--bottom"
+                  >下载补丁（暂不可用）</a
+                >
+              </li>
+              <li class="p-inline-list__item">
+                <a
+                  href="/nge_2_re/contribute"
+                  class="p-button u-no-margin--bottom">贡献翻译</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
