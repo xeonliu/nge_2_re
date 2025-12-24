@@ -1,2 +1,56 @@
 @import "vanilla-framework";
 @include vanilla;
+
+// 确保移动端导航菜单正确显示
+// Vanilla Framework 默认在 1030px (62rem) 以下折叠导航
+@media (max-width: 1030px) {
+  .p-navigation .p-navigation__nav {
+    display: none;
+  }
+
+  .p-navigation.is-active {
+    // 确保父容器相对定位，以便下拉菜单定位
+    position: relative;
+
+    .p-navigation__nav {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: #262626; // 匹配 is-dark 主题背景
+      z-index: 1000;
+      padding: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+
+      .p-navigation__items {
+        display: block; // 强制垂直排列
+        margin: 0;
+        padding: 0;
+      }
+
+      .p-navigation__item {
+        display: block;
+        width: 100%;
+        margin: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+
+      .p-navigation__link {
+        display: block;
+        padding: 1rem 1.5rem;
+        color: #fff; // 确保文字可见
+        text-decoration: none;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+      }
+    }
+  }
+}

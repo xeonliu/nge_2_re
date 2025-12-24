@@ -53,3 +53,26 @@ const links = [
     </nav>
   </div>
 </header>
+
+<script>
+  // Vanilla Framework navigation toggle functionality
+  function initNavigation() {
+    const nav = document.querySelector('#navigation');
+    const menuButton = nav?.querySelector('.js-menu-button');
+
+    if (!nav || !menuButton) {
+      return;
+    }
+
+    menuButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      nav.classList.toggle('is-active');
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNavigation);
+  } else {
+    initNavigation();
+  }
+</script>
