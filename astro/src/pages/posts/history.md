@@ -1,6 +1,6 @@
 ---
 title: "发行历史"
-pubDate: 2022-07-01
+pubDate: 2024-08-08
 layout: ../../layouts/MarkdownPostLayout.astro
 description: "EVA2的发行历史"
 author: "Astro 学习者"

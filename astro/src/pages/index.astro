@@ -16,13 +16,16 @@ const allPosts = await Astro.glob("./posts/*.md");
         <div class="p-section--shallow">
           <ul class="p-inline-list u-no-margin--bottom">
             <li class="p-inline-list__item">
-              <a href="/nge_2_re/" class="p-button--positive u-no-margin--bottom"
+              <a
+                href="/nge_2_re/"
+                class="p-button--positive u-no-margin--bottom"
                 >下载补丁（暂不可用）</a
               >
             </li>
             <li class="p-inline-list__item">
-              <a href="/nge_2_re/contribute" class="p-button u-no-margin--bottom"
-                >贡献翻译</a
+              <a
+                href="/nge_2_re/contribute"
+                class="p-button u-no-margin--bottom">贡献翻译</a
               >
             </li>
           </ul>
@@ -48,17 +51,14 @@ const allPosts = await Astro.glob("./posts/*.md");
           </div>
           <p>获取最新的 EVA2 汉化补丁文件。</p>
           <p style="margin-bottom: 0px;">
-            <a
-              class="p-button"
-              href="/nge_2_re/download">下载最新版本</a
-            >
+            <a class="p-button" href="/nge_2_re/download">下载最新版本</a>
           </p>
           <small
             >查看 <a href="/nge_2_re/changelog">更新日志</a> 了解详情。</small
           >
         </div>
       </div>
-      <div class="p-card--highlighted col-4 col-medium-3">
+      <div class="p-card--highlighted col-2 col-medium-3">
         <div class="p-heading-icon--small">
           <div class="p-heading-icon__header">
             <img
@@ -70,10 +70,23 @@ const allPosts = await Astro.glob("./posts/*.md");
           </div>
           <p>了解如何安装和使用汉化补丁。</p>
           <p style="margin-bottom: 0px;">
-            <a
-              class="p-button"
-              href="/nge_2_re/guide">查看使用指南</a
-            >
+            <a class="p-button" href="/nge_2_re/guide">查看使用指南</a>
+          </p>
+        </div>
+      </div>
+      <div class="p-card--highlighted col-2 col-medium-3">
+        <div class="p-heading-icon--small">
+          <div class="p-heading-icon__header">
+            <img
+              class="p-heading-icon__img"
+              src="https://assets.ubuntu.com/v1/c42ba977-figma-logo-o.svg"
+              alt="Docs:"
+            />
+            <h3 class="p-heading-icon__title">游戏存档</h3>
+          </div>
+          <p>下载其他玩家的游戏存档文件。</p>
+          <p style="margin-bottom: 0px;">
+            <a class="p-button" href="/nge_2_re/guide">查看存档列表</a>
           </p>
         </div>
       </div>
@@ -91,9 +104,7 @@ const allPosts = await Astro.glob("./posts/*.md");
         <h2>相关文档</h2>
         <div class="p-card--highlighted">
           <h3 class="p-card__title">参与贡献</h3>
-          <p class="p-card__description">
-            我们欢迎任何人参与到翻译工作中来。
-          </p>
+          <p class="p-card__description">我们欢迎任何人参与到翻译工作中来。</p>
           <a href="/nge_2_re/contribute">了解更多 &rsaquo;</a>
         </div>
       </div>
@@ -107,7 +118,7 @@ const allPosts = await Astro.glob("./posts/*.md");
                 </h3>
                 <p class="u-no-margin--bottom">
                   <span class="p-badge">
-                    {post.frontmatter.date || "2024-01-01"}
+                    {post.frontmatter.pubDate || "2024-01-01"}
                   </span>
                   <small class="u-text--muted">文档</small>
                 </p>

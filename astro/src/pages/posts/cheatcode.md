@@ -1,5 +1,6 @@
 ---
 title: 作弊码：金手指（CW Cheat）
+description: "EVA2的内存修改指令"
 ---
 
 https://w.atwiki.jp/cwcwiki/pages/37.html
