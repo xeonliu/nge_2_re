@@ -8,7 +8,11 @@ import icon from "./posts/assets/logo.png";
   <div id="main-content" class="p-section--hero">
     <div class="row--25-75">
       <div class="col">
-        <img src={icon.src} alt="EVA2 汉化计划 Logo" style="max-width: 90px; min-width: 60px; width: 12vw; height: auto;" />
+        <img
+          src={icon.src}
+          alt="EVA2 汉化计划 Logo"
+          style="max-width: 90px; min-width: 60px; width: 12vw; height: auto;"
+        />
         <div>
           <div class="p-section--shallow" style="margin-bottom: 0.5rem;">
             <h1 style="margin-bottom: 0.2em;">欢迎来到</h1>
@@ -115,15 +119,20 @@ import icon from "./posts/assets/logo.png";
         <div id="articles" class="row">
           {
             allPosts.map((post) => (
-              <article class="col-6 u-margin--bottom">
-                <h3 class="p-heading--4">
+              // /* 1. 增加 p-card 或 u-sv2 (垂直间距) 确保行与行之间有距离 */
+              <article class="col-6" style="margin-bottom: 2rem;">
+                {/* /* 2. 移除 h3 的默认下边距 */ }
+                <h3 class="p-heading--4 u-no-margin--bottom">
                   <a href={post.url}>{post.frontmatter.title}</a>
                 </h3>
+                {/* /* 3. 这里的 p 已经有了 u-no-margin--bottom，保持不变 */}
                 <p class="u-no-margin--bottom">
-                  <span class="p-badge">
+                  <small class="u-text--muted">
+                    {post.frontmatter.description || "文档"}
+                  </small>
+                  <span class="p-badge" style="margin-left: 8px;">
                     {post.frontmatter.pubDate || "2024-01-01"}
                   </span>
-                  <small class="u-text--muted">文档</small>
                 </p>
               </article>
             ))
