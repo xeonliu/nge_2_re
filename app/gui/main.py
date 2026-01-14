@@ -13,6 +13,7 @@ import json
 
 # 导入 CLI 主程序的功能
 from app.cli.main import App
+from app.gui.workflows import Workflows
 from scripts.paratranz.download import download_function, merge_function
 
 # 重定向 print 输出到 GUI
@@ -85,10 +86,28 @@ class NGE2TranslationGUI:
             with open(self.settings_file, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
             self.token = token
+            self.update_token_status()
             self.log("Token已保存！\n")
+            messagebox.showinfo("成功", "Token已保存并持久化到 settings.json")
         except Exception as e:
             self.log(f"保存Token失败: {str(e)}\n")
             messagebox.showerror("错误", f"保存Token失败:\n{str(e)}")
+    
+    def update_token_status(self):
+        """更新Token状态显示"""
+        if hasattr(self, 'token_status_label'):
+            if self.token:
+                # 显示Token的前4位和后4位
+                masked = f"{self.token[:4]}...{self.token[-4:]}" if len(self.token) > 8 else "****"
+                self.token_status_label.config(
+                    text=f"✓ Token: {masked}",
+                    foreground="green"
+                )
+            else:
+                self.token_status_label.config(
+                    text="❌ 未设置 Token",
+                    foreground="red"
+                )
     
     def create_menu(self):
         """创建菜单栏"""
@@ -104,7 +123,7 @@ class NGE2TranslationGUI:
         """设置Token对话框"""
         dialog = tk.Toplevel(self.root)
         dialog.title("设置 Paratranz Token")
-        dialog.geometry("400x160")
+        dialog.geometry("500x220")
         dialog.transient(self.root)
         dialog.grab_set()
         
@@ -114,11 +133,44 @@ class NGE2TranslationGUI:
         y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
         dialog.geometry(f"+{x}+{y}")
         
-        ttk.Label(dialog, text="请输入 Paratranz Token:").pack(pady=10)
-        entry = ttk.Entry(dialog, width=50, show="*")
-        entry.pack(pady=5)
+        # 说明文本
+        info_label = ttk.Label(
+            dialog,
+            text="请输入您的 Paratranz API Token\n用于下载翻译文件（Token将保存到 settings.json）",
+            justify=tk.CENTER,
+            foreground="gray"
+        )
+        info_label.pack(pady=10)
+        
+        ttk.Label(dialog, text="Token:", font=("Arial", 10, "bold")).pack(pady=(5, 0))
+        
+        # 输入框
+        entry_frame = ttk.Frame(dialog)
+        entry_frame.pack(pady=5, padx=20, fill=tk.X)
+        
+        entry = ttk.Entry(entry_frame, show="*", font=("Arial", 10))
+        entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
         entry.insert(0, self.token)  # 预填当前Token
         entry.focus()
+        
+        # 显示/隐藏按钮
+        show_var = tk.BooleanVar(value=False)
+        
+        def toggle_show():
+            if show_var.get():
+                entry.config(show="")
+                show_btn.config(text="🙈 隐藏")
+            else:
+                entry.config(show="*")
+                show_btn.config(text="👁 显示")
+        
+        show_btn = ttk.Button(
+            entry_frame,
+            text="👁 显示",
+            command=lambda: (show_var.set(not show_var.get()), toggle_show()),
+            width=8
+        )
+        show_btn.pack(side=tk.LEFT)
         
         def save():
             token = entry.get().strip()
@@ -132,9 +184,9 @@ class NGE2TranslationGUI:
             dialog.destroy()
         
         button_frame = ttk.Frame(dialog)
-        button_frame.pack(pady=10)
-        ttk.Button(button_frame, text="保存", command=save).pack(side=tk.LEFT, padx=5)
-        ttk.Button(button_frame, text="取消", command=cancel).pack(side=tk.LEFT, padx=5)
+        button_frame.pack(pady=15)
+        ttk.Button(button_frame, text="💾 保存", command=save, width=12).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text="❌ 取消", command=cancel, width=12).pack(side=tk.LEFT, padx=5)
         
         entry.bind('<Return>', lambda e: save())
     
@@ -236,6 +288,85 @@ class NGE2TranslationGUI:
         
     def create_button_groups(self, parent):
         """创建功能按钮组"""
+        
+        # ===== 快速工作流区域 =====
+        workflow_frame = ttk.LabelFrame(parent, text="⚡ 快速工作流", padding="10")
+        workflow_frame.pack(fill=tk.X, pady=5)
+        
+        # Token 设置区域
+        token_frame = ttk.Frame(workflow_frame)
+        token_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        # Token 状态标签
+        self.token_status_label = ttk.Label(
+            token_frame,
+            text="❌ 未设置 Token",
+            foreground="red",
+            font=("Arial", 9, "bold")
+        )
+        self.token_status_label.pack(side=tk.LEFT, padx=(0, 10))
+        
+        # 更新Token状态显示
+        self.update_token_status()
+        
+        ttk.Button(
+            token_frame,
+            text="🔑 设置 Token",
+            command=self.on_settings_token,
+            width=15
+        ).pack(side=tk.LEFT)
+        
+        ttk.Separator(workflow_frame, orient='horizontal').pack(fill=tk.X, pady=5)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="🎉 全自动流程（下载+导入+导出）", 
+            command=self.on_full_auto_workflow
+        ).pack(fill=tk.X, pady=2)
+        
+        ttk.Separator(workflow_frame, orient='horizontal').pack(fill=tk.X, pady=5)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="📥 下载翻译文件", 
+            command=self.on_download_translations_workflow
+        ).pack(fill=tk.X, pady=2)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="🚀 一键完整流程（不含下载）", 
+            command=self.on_quick_workflow
+        ).pack(fill=tk.X, pady=2)
+        
+        ttk.Separator(workflow_frame, orient='horizontal').pack(fill=tk.X, pady=5)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="📥 导入所有游戏资源", 
+            command=self.on_import_all_from_game
+        ).pack(fill=tk.X, pady=2)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="📝 导入所有翻译", 
+            command=self.on_import_all_translations
+        ).pack(fill=tk.X, pady=2)
+        
+        ttk.Button(
+            workflow_frame, 
+            text="📤 导出到构建目录", 
+            command=self.on_export_all_to_build
+        ).pack(fill=tk.X, pady=2)
+        
+        # 添加说明标签
+        info_label = ttk.Label(
+            workflow_frame,
+            text="💡 游戏ISO请解压到 temp/ULJS00064",
+            font=("Arial", 8),
+            foreground="gray"
+        )
+        info_label.pack(fill=tk.X, pady=(5, 0))
+        
         # 数据库操作
         db_frame = ttk.LabelFrame(parent, text="数据库操作", padding="10")
         db_frame.pack(fill=tk.X, pady=5)
@@ -246,103 +377,6 @@ class NGE2TranslationGUI:
             command=self.on_init_db
         ).pack(fill=tk.X, pady=2)
         
-        # HAR 文件操作
-        har_frame = ttk.LabelFrame(parent, text="HAR 文件操作", padding="10")
-        har_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            har_frame, 
-            text="导入 HAR 文件（目录）", 
-            command=self.on_import_har
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            har_frame, 
-            text="导出 HAR 文件", 
-            command=self.on_export_hgar
-        ).pack(fill=tk.X, pady=2)
-        
-        # EVS 和翻译操作
-        evs_frame = ttk.LabelFrame(parent, text="EVS 和翻译", padding="10")
-        evs_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            evs_frame, 
-            text="导出 EVS 原文（JSON）", 
-            command=self.on_export_evs
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            evs_frame, 
-            text="导入翻译（JSON）", 
-            command=self.on_import_translation
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            evs_frame, 
-            text="导出翻译（JSON）", 
-            command=self.on_export_translation
-        ).pack(fill=tk.X, pady=2)
-        
-        # 图像操作
-        image_frame = ttk.LabelFrame(parent, text="图像操作", padding="10")
-        image_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            image_frame, 
-            text="导出图像（PNG）", 
-            command=self.on_export_images
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            image_frame, 
-            text="导入翻译后的图像", 
-            command=self.on_import_images
-        ).pack(fill=tk.X, pady=2)
-        
-        # TEXT 文件操作
-        text_frame = ttk.LabelFrame(parent, text="TEXT 文件操作", padding="10")
-        text_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            text_frame, 
-            text="导入 TEXT 文件", 
-            command=self.on_import_text
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            text_frame, 
-            text="导出 TEXT 文件", 
-            command=self.on_export_text
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            text_frame, 
-            text="导出 TEXT 为 JSON", 
-            command=self.on_export_text_json
-        ).pack(fill=tk.X, pady=2)
-        
-        # BIND 文件操作
-        bind_frame = ttk.LabelFrame(parent, text="BIND 文件操作", padding="10")
-        bind_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            bind_frame, 
-            text="导入 BIND 文件", 
-            command=self.on_import_bind
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            bind_frame, 
-            text="导出 BIND 文件", 
-            command=self.on_export_bind
-        ).pack(fill=tk.X, pady=2)
-        
-        ttk.Button(
-            bind_frame, 
-            text="导出 BIND 为 JSON", 
-            command=self.on_export_bind_json
-        ).pack(fill=tk.X, pady=2)
         
         # EBOOT 翻译操作
         eboot_frame = ttk.LabelFrame(parent, text="EBOOT 翻译", padding="10")
@@ -352,16 +386,6 @@ class NGE2TranslationGUI:
             eboot_frame, 
             text="生成 EBTRANS.BIN", 
             command=self.on_export_eboot_trans
-        ).pack(fill=tk.X, pady=2)
-        
-        # Paratranz 操作
-        paratranz_frame = ttk.LabelFrame(parent, text="Paratranz 操作", padding="10")
-        paratranz_frame.pack(fill=tk.X, pady=5)
-        
-        ttk.Button(
-            paratranz_frame, 
-            text="下载翻译", 
-            command=self.on_download_translation
         ).pack(fill=tk.X, pady=2)
         
     def log(self, message):
@@ -718,6 +742,112 @@ class NGE2TranslationGUI:
         except Exception as e:
             self.log(f"下载或处理失败: {str(e)}\n")
             raise
+    
+    # ===== 快速工作流事件处理 =====
+    
+    def on_download_translations_workflow(self):
+        """下载翻译文件"""
+        # 检查token是否已设置
+        if not self.token:
+            messagebox.showwarning(
+                "需要设置 Token",
+                "请先点击 '🔑 设置 Token' 按钮设置您的 Paratranz Token！\n\n"
+                "Token 将被安全保存到 settings.json 文件中。"
+            )
+            self.on_settings_token()  # 直接打开设置对话框
+            if not self.token:  # 如果用户取消了设置
+                return
+        
+        result = messagebox.askyesno(
+            "确认", 
+            "这将从 Paratranz 下载最新翻译到 temp/downloads\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.download_translations, self.token)
+    
+    def on_full_auto_workflow(self):
+        """全自动工作流：下载+导入+导出"""
+        # 检查token是否已设置
+        if not self.token:
+            messagebox.showwarning(
+                "需要设置 Token",
+                "请先点击 '🔑 设置 Token' 按钮设置您的 Paratranz Token！\n\n"
+                "Token 将被安全保存到 settings.json 文件中，\n"
+                "之后您就不需要每次都输入了。"
+            )
+            self.on_settings_token()  # 直接打开设置对话框
+            if not self.token:  # 如果用户取消了设置
+                return
+        
+        result = messagebox.askyesno(
+            "确认", 
+            "这将执行以下操作：\n"
+            "1. 从 Paratranz 下载最新翻译\n"
+            "2. 从 temp/ULJS00064 导入所有游戏资源\n"
+            "3. 导入所有翻译文件\n"
+            "4. 导出到 build/ULJS00064\n\n"
+            "🎉 这是最简单的方式，只需要确保游戏ISO已解压!\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.full_auto_workflow, self.token)
+    
+    def on_quick_workflow(self):
+        """快速工作流：一键完成所有操作"""
+        result = messagebox.askyesno(
+            "确认", 
+            "这将执行以下操作：\n"
+            "1. 从 temp/ULJS00064 导入所有游戏资源\n"
+            "2. 从 temp/downloads 导入所有翻译\n"
+            "3. 导出到 build/ULJS00064\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            self.log("=" * 60 + "\n")
+            self.log("启动快速工作流...\n")
+            self.log("=" * 60 + "\n")
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.quick_workflow)
+    
+    def on_import_all_from_game(self):
+        """从游戏导入所有资源"""
+        result = messagebox.askyesno(
+            "确认", 
+            "这将从 temp/ULJS00064 导入：\n"
+            "• 所有 HGAR 目录\n"
+            "• TEXT 文件 (info, tuto)\n"
+            "• BIND 文件 (btimtext, imtext)\n"
+            "• 翻译图像\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.import_all_from_game)
+    
+    def on_import_all_translations(self):
+        """导入所有翻译"""
+        result = messagebox.askyesno(
+            "确认", 
+            "这将从 temp/downloads 导入所有翻译文件。\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.import_all_translations)
+    
+    def on_export_all_to_build(self):
+        """导出所有文件到构建目录"""
+        result = messagebox.askyesno(
+            "确认", 
+            "这将导出所有文件到 build/ULJS00064/PSP_GAME/USRDIR。\n\n"
+            "确定要继续吗？"
+        )
+        if result:
+            workflows = Workflows(logger=self.log)
+            self.run_in_thread(workflows.export_all_to_build)
 
 
 def main():
