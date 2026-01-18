@@ -66,6 +66,9 @@ def build_directory_record(
     name: str, lba: int, size: int, is_dir: bool = False
 ) -> bytes:
     name_bytes = name.encode("utf-8", "ignore")
+    # Don't add version number - UMDGen doesn't use them
+    # if not is_dir and b";" not in name_bytes:
+    #     name_bytes += b";1"
     length_name = len(name_bytes)
     record_length = 33 + length_name
     if record_length % 2 != 0:
@@ -464,24 +467,111 @@ def repack_umd(
                 # B. Add new file records
                 files_to_add_here = parent_updates.get(dpath, [])
 
-                # Always rebuild sectors properly to avoid crossing boundaries
-                # Rebuild all records properly respecting sector boundaries
-                all_records = []
+                # Collect all records (existing + new) and sort them
+                all_records_with_names = []
+                
+                # Collect existing records (skip . and ..)
                 for _, r in iter_directory_records(dir_data):
-                    all_records.append(r)
+                    info = parse_dir_record(r)
+                    if info and info["name"] not in (".", "..", "\x00"):
+                        all_records_with_names.append((info["name"], r))
+                
+                # Add new file records
                 for nf in files_to_add_here:
-                    all_records.append(
-                        build_directory_record(
-                            nf.filename, nf.new_extent_lba, nf.new_size, False
-                        )
+                    new_rec = build_directory_record(
+                        nf.filename, nf.new_extent_lba, nf.new_size, False
                     )
+                    all_records_with_names.append((nf.filename, new_rec))
+                
+                # Sort by name (case-insensitive, like UMDGen does)
+                all_records_with_names.sort(key=lambda x: x[0].upper())
+                
+                # Extract just the records
+                sorted_records = [rec for _, rec in all_records_with_names]
 
+                # Always rebuild sectors properly to avoid crossing boundaries
+                # Get . and .. records first (we'll update . with new size later)
+                dot_record = None
+                dotdot_record = None
+                for off, rec in iter_directory_records(dir_data):
+                    info = parse_dir_record(rec)
+                    if info and info["name"] == ".":
+                        dot_record = rec
+                    elif info and info["name"] == "..":
+                        dotdot_record = rec
+                
+                # We need to calculate the new directory size BEFORE building final records
+                # to update the . record correctly
+                # First, pack records temporarily to get final size
+                temp_records = []
+                if dot_record:
+                    temp_records.append(dot_record)
+                if dotdot_record:
+                    temp_records.append(dotdot_record)
+                temp_records.extend(sorted_records)
+                
+                temp_sectors = bytearray()
+                curr_sect = bytearray(SECTOR_SIZE)
+                ptr = 0
+                for rec in temp_records:
+                    if ptr + len(rec) > SECTOR_SIZE:
+                        temp_sectors.extend(curr_sect)
+                        curr_sect = bytearray(SECTOR_SIZE)
+                        ptr = 0
+                    curr_sect[ptr : ptr + len(rec)] = rec
+                    ptr += len(rec)
+                temp_sectors.extend(curr_sect)
+                new_total_size = len(temp_sectors)
+                
+                # Now rebuild . record with correct size
+                # The . record needs to reflect the directory's final size and LBA
+                # We don't know the final LBA yet (might move), so we'll update it later
+                # For now, update size in the . record
+                if dot_record:
+                    dot_record = bytearray(dot_record)
+                    # Keep original LBA for now (will update after determining if we move)
+                    # Update size fields (offset 10: LE size, 14: BE size)
+                    struct.pack_into("<I", dot_record, 10, new_total_size)
+                    struct.pack_into(">I", dot_record, 14, new_total_size)
+                    dot_record = bytes(dot_record)
+                
+                # Build final record list with updated . record
+                all_records = []
+                if dot_record:
+                    all_records.append(dot_record)
+                if dotdot_record:
+                    all_records.append(dotdot_record)
+                all_records.extend(sorted_records)
+
+                # Determine if we need to move the directory
+                old_num_sectors = (old_size + SECTOR_SIZE - 1) // SECTOR_SIZE
+                new_num_sectors = (new_total_size + SECTOR_SIZE - 1) // SECTOR_SIZE
+                
+                can_fit_in_place = (new_num_sectors <= old_num_sectors)
+                final_lba = old_lba if can_fit_in_place else None
+                
+                # If we need to move, allocate new space
+                if not can_fit_in_place:
+                    fout.seek(0, 2)
+                    curr = fout.tell()
+                    pad = (SECTOR_SIZE - (curr % SECTOR_SIZE)) % SECTOR_SIZE
+                    if pad:
+                        fout.write(b"\x00" * pad)
+                    final_lba = fout.tell() // SECTOR_SIZE
+                
+                # Now update the . record with final LBA
+                if dot_record:
+                    all_records[0] = bytearray(all_records[0])
+                    struct.pack_into("<I", all_records[0], 2, final_lba)
+                    struct.pack_into(">I", all_records[0], 6, final_lba)
+                    all_records[0] = bytes(all_records[0])
+                
+                # Pack final sectors with updated records
                 repacked_sectors = bytearray()
                 curr_sect = bytearray(SECTOR_SIZE)
                 ptr = 0
 
                 for rec in all_records:
-                    # If record would cross sector boundary, pad current sector and start new
                     if ptr + len(rec) > SECTOR_SIZE:
                         repacked_sectors.extend(curr_sect)
                         curr_sect = bytearray(SECTOR_SIZE)
@@ -490,30 +580,16 @@ def repack_umd(
                     ptr += len(rec)
 
                 repacked_sectors.extend(curr_sect)
-                new_total_size = len(repacked_sectors)
-                old_num_sectors = (old_size + SECTOR_SIZE - 1) // SECTOR_SIZE
-                new_num_sectors = len(repacked_sectors) // SECTOR_SIZE
                 
-                can_fit_in_place = (new_num_sectors <= old_num_sectors)
-
-                if can_fit_in_place:
-                    fout.seek(old_lba * SECTOR_SIZE)
-                    fout.write(repacked_sectors)
-                    dir_status[dpath] = {"lba": old_lba, "size": new_total_size}
-                else:
-                    # Move Directory - append at end of ISO
-                    fout.seek(0, 2)
-                    curr = fout.tell()
-                    pad = (SECTOR_SIZE - (curr % SECTOR_SIZE)) % SECTOR_SIZE
-                    if pad:
-                        fout.write(b"\x00" * pad)
-
-                    new_lba = fout.tell() // SECTOR_SIZE
-                    fout.write(repacked_sectors)
-
-                    dir_status[dpath] = {"lba": new_lba, "size": new_total_size}
+                # Write to final location
+                fout.seek(final_lba * SECTOR_SIZE)
+                fout.write(repacked_sectors)
+                
+                dir_status[dpath] = {"lba": final_lba, "size": new_total_size}
+                
+                if not can_fit_in_place:
                     logger.info(
-                        f"Directory moved: /{dpath} (LBA: {old_lba}->{new_lba}, Size: {old_size}->{new_total_size})"
+                        f"Directory moved: /{dpath} (LBA: {old_lba}->{final_lba}, Size: {old_size}->{new_total_size})"
                     )
 
             # --- PHASE 4: PVD Update ---
