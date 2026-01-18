@@ -7,7 +7,7 @@ TEMP_DIR        := temp
 DOWNLOAD_DIR    := $(TEMP_DIR)/downloads
 BUILD_DIR       := build
 EXPORT_GAME_DIR := $(BUILD_DIR)/ULJS00064/PSP_GAME
-EXPORT_BIN_DIR  := $(BUILD_DIR)/bin
+EXPORT_BIN_DIR  := $(EXPORT_GAME_DIR)/USRDIR
 EXPORT_SYSDIR   := $(EXPORT_GAME_DIR)/SYSDIR
 EXPORT_USRDIR   := $(EXPORT_GAME_DIR)/USRDIR
 TOOLS_DIR       := $(BUILD_DIR)/tools
@@ -155,13 +155,19 @@ decrypt_eboot: pspdecrypt
 	@mkdir -p $(EXPORT_SYSDIR)
 	./$(TOOLS_DIR)/pspdecrypt '$(PSP_GAME_DIR)/SYSDIR/EBOOT.BIN' -o '$(EXPORT_SYSDIR)/BOOT.BIN'
 
+# Timestamped output filenames to avoid overwriting previous builds
+TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
+PATCHED_ISO := $(BUILD_DIR)/ULJS00064_patched_$(TIMESTAMP).iso
+PATCH_XDELTA := $(BUILD_DIR)/ULJS00064_patch_$(TIMESTAMP).xdelta
+
 repack_iso:
 	@echo "Repacking game files into ISO..."
-	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(BUILD_DIR)/ULJS00064'
+	@mkdir -p $(BUILD_DIR)
+	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS00064.iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
 
 gen_xdelta:
 	@echo "Generating xdelta patch..."
-	xdelta3 -e -s '$(TEMP_DIR)/ULJS00064.iso' '$(BUILD_DIR)/ULJS00064_patched.iso' '$(BUILD_DIR)/ULJS00064_patch.xdelta'
+	xdelta3 -e -9 -S djw -f -s '$(TEMP_DIR)/ULJS00064.iso' '$(PATCHED_ISO)' '$(PATCH_XDELTA)'
 
 patch_iso: repack_iso gen_xdelta
 
@@ -175,6 +181,14 @@ full_build:
 	$(MAKE) extract_iso
 	$(MAKE) init_db
 	$(MAKE) import_all
+	$(MAKE) import_trans
+	$(MAKE) export_all
+	$(MAKE) plugin
+	$(MAKE) decrypt_eboot
+	$(MAKE) patch_iso
+
+rebuild:
+	$(MAKE) download_trans
 	$(MAKE) import_trans
 	$(MAKE) export_all
 	$(MAKE) plugin

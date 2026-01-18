@@ -75,7 +75,10 @@ void patch(u32 mod_base)
     // TODO: Use L/R Buttons to Trigger Debug Menu
     pulse_autowin();
     debug_menu();
-    patch_from_external_file("ms0:/PSP/EBTRANS.BIN");
+    // TODO: 找不到文件直接报错，不要让这些人运行！
+    // TODO: 无法加载libfont直接报错，不要让这些人用错误的字体！
+    patch_from_external_file("disc0:/PSP_GAME/USRDIR/EBTRANS.BIN");
+    // TODO: Patch Save Data Language to Simplified Chinese
 };
 
 void patch_function()
@@ -227,7 +230,7 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4c38), "人类补完计划");
     strcpy((char *)NEW_ADDR(0x089b4c4c), "未完成的白日梦");
     strcpy((char *)NEW_ADDR(0x089b4c64), "女人如火");
-    strcpy((char *)NEW_ADDR(0x089b4c70), "火树银花");
+    strcpy((char *)NEW_ADDR(0x089b4c70), "花样年华");
     strcpy((char *)NEW_ADDR(0x089b4c80), "模糊的天空");
     strcpy((char *)NEW_ADDR(0x089b4c90), "Cobalt Sky");
     strcpy((char *)NEW_ADDR(0x089b4ca8), "VS．SEELE");
