@@ -90,6 +90,7 @@ jobs:
       with:
         name: PSP-Translation-Build
         path: |
-          build/bin/EBTRANS.BIN
+          build/ULJS00064/PSP_GAME/USRDIR/EBTRANS.BIN
           build/evs_report.json
+          build/eboot_report.json
         if-no-files-found: error
