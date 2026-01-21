@@ -130,39 +130,59 @@ class TileProcessor(ABC):
 
     def untile(self, tiled_data: list, storage_width: int, storage_height: int) -> list:
         """将瓦片数据重新排列为线性的像素数据（用于显示或导出）。"""
-        content = [0] * (self.display_info.width * self.display_info.height)
-        tile_size = self.tile_width * self.tile_height
-        tile_row_size = tile_size * (storage_width // self.tile_width)
+        # 缓存所有属性访问，避免重复查找
+        display_width = self.display_info.width
+        display_height = self.display_info.height
+        tile_w = self.tile_width
+        tile_h = self.tile_height
         
-        for y in range(self.display_info.height):
-            for x in range(self.display_info.width):
-                tile_y = y // self.tile_height
-                tile_x = x // self.tile_width
-                sub_y = y % self.tile_height
-                sub_x = x % self.tile_width
+        content = [0] * (display_width * display_height)
+        tile_size = tile_w * tile_h
+        tile_row_size = tile_size * (storage_width // tile_w)
+        
+        for y in range(display_height):
+            # 预计算 y 相关的值（在内循环外）
+            tile_y = y // tile_h
+            sub_y = y % tile_h
+            content_y_offset = y * display_width
+            tile_y_offset = tile_y * tile_row_size + sub_y * tile_w
+            
+            for x in range(display_width):
+                tile_x = x // tile_w
+                sub_x = x % tile_w
                 
-                tiled_index = tile_y * tile_row_size + tile_x * tile_size + sub_y * self.tile_width + sub_x
-                content_index = y * self.display_info.width + x
+                tiled_index = tile_y_offset + tile_x * tile_size + sub_x
+                content_index = content_y_offset + x
                 content[content_index] = tiled_data[tiled_index]
                 
         return content
 
     def tile(self, content: list, storage_width: int, storage_height: int) -> list:
         """将线性的像素数据排列为瓦片数据（用于写入文件）。"""
+        # 缓存所有属性访问，避免重复查找
+        display_width = self.display_info.width
+        display_height = self.display_info.height
+        tile_w = self.tile_width
+        tile_h = self.tile_height
+        
         number_of_pixels = storage_width * storage_height
         tiled_data = [0] * number_of_pixels
-        tile_size = self.tile_width * self.tile_height
-        tile_row_size = tile_size * (storage_width // self.tile_width)
+        tile_size = tile_w * tile_h
+        tile_row_size = tile_size * (storage_width // tile_w)
 
-        for y in range(self.display_info.height):
-            for x in range(self.display_info.width):
-                tile_y = y // self.tile_height
-                tile_x = x // self.tile_width
-                sub_y = y % self.tile_height
-                sub_x = x % self.tile_width
+        for y in range(display_height):
+            # 预计算 y 相关的值（在内循环外）
+            tile_y = y // tile_h
+            sub_y = y % tile_h
+            content_y_offset = y * display_width
+            tile_y_offset = tile_y * tile_row_size + sub_y * tile_w
+            
+            for x in range(display_width):
+                tile_x = x // tile_w
+                sub_x = x % tile_w
 
-                content_index = y * self.display_info.width + x
-                tiled_index = tile_y * tile_row_size + tile_x * tile_size + sub_y * self.tile_width + sub_x
+                content_index = content_y_offset + x
+                tiled_index = tile_y_offset + tile_x * tile_size + sub_x
                 tiled_data[tiled_index] = content[content_index]
         
         return tiled_data
@@ -180,8 +200,8 @@ class TileProcessor13(TileProcessor):
         return [common.read_uint8(f) for _ in range(number_of_pixels)]
 
     def encode(self, f, tiled_image_data):
-        for pixel_index in tiled_image_data:
-            common.write_uint8(f, pixel_index)
+        # 批量写入：一次性转换为 bytes 并写入，而不是逐个字节
+        f.write(bytes(tiled_image_data))
 
 class TileProcessor14(TileProcessor):
     """处理器，用于 pp_format 0x14 (4-bit paletted, 16色)。"""
@@ -202,10 +222,17 @@ class TileProcessor14(TileProcessor):
         return data
 
     def encode(self, f, tiled_image_data):
-        for i in range(0, len(tiled_image_data), 2):
+        # 批量写入：先构建完整的字节数组，然后一次性写入
+        data_len = len(tiled_image_data)
+        byte_count = (data_len + 1) // 2
+        packed_data = bytearray(byte_count)
+        
+        for i in range(0, data_len, 2):
             low_nibble = tiled_image_data[i] & 0x0F
-            high_nibble = (tiled_image_data[i+1] & 0x0F) << 4 if i + 1 < len(tiled_image_data) else 0
-            common.write_uint8(f, high_nibble | low_nibble)
+            high_nibble = (tiled_image_data[i+1] & 0x0F) << 4 if i + 1 < data_len else 0
+            packed_data[i // 2] = high_nibble | low_nibble
+        
+        f.write(packed_data)
 
 class TileProcessor8800(TileProcessor):
     """处理器，用于 pp_format 0x8800 (32-bit RGBA)。"""
@@ -236,12 +263,19 @@ class TileProcessor8800(TileProcessor):
         return data
 
     def encode(self, f, tiled_image_data):
-        for pixel in tiled_image_data:
+        # 批量写入：先构建完整的 RGBA 字节数组，然后一次性写入
+        pixel_count = len(tiled_image_data)
+        packed_data = bytearray(pixel_count * 4)
+        
+        for i, pixel in enumerate(tiled_image_data):
             r, g, b, a = pixel
-            common.write_uint8(f, r)
-            common.write_uint8(f, g)
-            common.write_uint8(f, b)
-            common.write_uint8(f, self._encode_alpha(a))
+            offset = i * 4
+            packed_data[offset] = r
+            packed_data[offset + 1] = g
+            packed_data[offset + 2] = b
+            packed_data[offset + 3] = self._encode_alpha(a)
+        
+        f.write(packed_data)
             
 def get_tile_processor(pp_format: int, display_info: DisplayInfo) -> TileProcessor:
     """工厂函数，根据 pp_format 返回相应的处理器实例。"""

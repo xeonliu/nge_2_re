@@ -115,8 +115,8 @@ class HgptDao:
             if not hgpt:
                 raise ValueError(f"HGPT not found: {hgpt_key}")
             
-            # 优先使用翻译后的 PNG，否则使用原始 PNG
-            if hgpt.png_translated or hgpt.png_image:
+            # 使用翻译后的 PNG，未翻译直接使用原数据
+            if hgpt.png_translated:
                 return HgptDao._rebuild_from_png(hgpt)
             else:
                 # 回退：如果没有 PNG，使用原始数据
