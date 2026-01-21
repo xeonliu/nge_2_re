@@ -65,11 +65,7 @@ import_bind:
 	$(PYTHON_MAIN) --import_bind '$(USRDIR)/btl/btimtext.bin'
 	$(PYTHON_MAIN) --import_bind '$(USRDIR)/game/imtext.bin'
 
-import_images:
-	@echo "Importing images..."
-	$(PYTHON_MAIN) --import_images 'resources/trans_pic/trans'
-
-import_all: import_hgar import_text import_bind import_images
+import_all: import_hgar import_text import_bind
 
 # ==========================================
 # Translation Management
@@ -94,6 +90,10 @@ import_trans:
 	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/free/tuto.json'
 	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/game/btimtext.json'
 	$(PYTHON_MAIN) --import_translation '$(DOWNLOAD_DIR)/utf8/game/imtext.json'
+
+import_images:
+	@echo "Importing images..."
+	$(PYTHON_MAIN) --import_images 'resources/trans_pic/trans'
 
 # ==========================================
 # Export Tasks
@@ -181,6 +181,7 @@ full_build:
 	$(MAKE) extract_iso
 	$(MAKE) init_db
 	$(MAKE) import_all
+	$(MAKE) import_images
 	$(MAKE) import_trans
 	$(MAKE) export_all
 	$(MAKE) plugin
