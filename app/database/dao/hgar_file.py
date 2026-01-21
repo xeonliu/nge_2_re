@@ -29,8 +29,16 @@ class HGARFileDao:
             hgar_id: 关联的 HGAR ID
             hgar_files: 要保存的 HGAR 文件列表
         """
-        for file in tqdm(hgar_files, desc="Saving HGAR files", unit="file"):
-            with next(get_db()) as db:
+        import zlib
+        import struct
+        
+        # 使用单个数据库会话进行批量操作
+        with next(get_db()) as db:
+            # 第一阶段：预处理所有文件，收集数据
+            processed_files = []
+            hgpt_cache = {}  # 缓存当前批次中的 hgpt_key，避免重复处理
+            
+            for file in tqdm(hgar_files, desc="Processing files", unit="file"):
                 # FIXME: Remove decode
                 short_name: str = file.short_name.decode("ascii").rstrip(" \t\r\n\0")
                 
@@ -41,8 +49,6 @@ class HGARFileDao:
                 
                 # 如果文件是压缩的，先解压
                 if is_compressed:
-                    import zlib
-                    import struct
                     try:
                         # 压缩格式：size(4 bytes) + compressed_data (without zlib header/trailer)
                         original_size = struct.unpack('<I', content[:4])[0]
@@ -59,40 +65,88 @@ class HGARFileDao:
                 
                 # 处理文件内容，获取可能的 hgpt_key
                 hgpt_key = None
+                evs_wrapper = None
+                
                 if short_name.endswith(".evs"):
                     evs_wrapper = tools.EvsWrapper()
                     evs_wrapper.open_bytes(content)
                     logger.debug("  [EVS] %s", short_name)
                 elif short_name.endswith(".zpt") or short_name.endswith(".hpt"):
-                    # 保存 HGPT 到数据库（去重）
-                    logger.debug("  [HPT] %s", short_name)
-                    hgpt_key = HgptDao.save(hgpt_data=content)
+                    # 计算 hash 来去重
+                    import hashlib
+                    hash_object = hashlib.md5(content)
+                    hashed_key = hash_object.hexdigest()
+                    
+                    # 检查本地缓存
+                    if hashed_key not in hgpt_cache:
+                        # 保存 HGPT 到数据库（去重），使用当前 db 会话
+                        logger.debug("  [HPT] %s", short_name)
+                        hgpt_key = HgptDao.save(hgpt_data=content, db=db)
+                        hgpt_cache[hashed_key] = hgpt_key
+                    else:
+                        hgpt_key = hgpt_cache[hashed_key]
+                        logger.debug("  [HPT] %s (cached)", short_name)
                 
-                # 创建 HgarFile 记录
+                processed_files.append({
+                    'file': file,
+                    'short_name': short_name,
+                    'content': content,
+                    'hgpt_key': hgpt_key,
+                    'evs_wrapper': evs_wrapper,
+                })
+            
+            # 第二阶段：批量插入 HgarFile 记录
+            hgar_file_objects = []
+            for data in tqdm(processed_files, desc="Creating HgarFile records", unit="file"):
+                file = data['file']
                 hgar_file = HgarFile(
                     hgar_id=hgar_id,
-                    short_name=short_name,
+                    short_name=data['short_name'],
                     long_name=file.long_name,
-                    file_size=len(content),
+                    file_size=len(data['content']),
                     compressed_size=file.size if hasattr(file, 'size') else None,
                     encoded_identifier=file.encoded_identifier,
                     unknown_first=file.unknown_first,
                     unknown_last=file.unknown_last,
-                    hgpt_key=hgpt_key,  # 关联 HGPT
+                    hgpt_key=data['hgpt_key'],  # 关联 HGPT
                 )
-                db.add(hgar_file)
-                db.commit()
-
-                # 持久化文件内容
+                hgar_file_objects.append(hgar_file)
+            
+            # 使用 add_all 批量添加（保持对象在会话中）
+            db.add_all(hgar_file_objects)
+            db.flush()  # flush 来获取生成的 ID，但不提交事务
+            
+            # 第三阶段：批量保存文件内容（EVS、Raw）
+            raw_objects = []
+            evs_data = []
+            
+            for i, data in enumerate(tqdm(processed_files, desc="Saving file contents", unit="file")):
+                hgar_file = hgar_file_objects[i]
+                short_name = data['short_name']
+                content = data['content']
+                evs_wrapper = data['evs_wrapper']
+                
                 if short_name.endswith(".evs"):
-                    EVSDao.save(hgar_file.id, evs_wrapper)
+                    # 收集 EVS 数据，稍后批量处理
+                    evs_data.append((hgar_file.id, evs_wrapper))
                 elif short_name.endswith(".hpt") or short_name.endswith(".zpt"):
                     # HGPT 已经通过 hgpt_key 关联，无需额外操作
                     pass
                 else:
-                    raw = Raw(hgar_file_id=hgar_file.id, content=content)
-                    db.add(raw)
-                    db.commit()
+                    # 收集 Raw 对象，稍后批量插入
+                    raw_objects.append(Raw(hgar_file_id=hgar_file.id, content=content))
+            
+            # 批量插入 Raw 数据
+            if raw_objects:
+                db.add_all(raw_objects)
+            
+            # 批量保存 EVS 数据（使用优化后的 EVSDao）
+            for hgar_file_id, evs_wrapper in evs_data:
+                EVSDao.save(hgar_file_id, evs_wrapper, db)
+            
+            # 最终提交所有数据
+            db.commit()
+            
         return hgar_files
 
     @staticmethod

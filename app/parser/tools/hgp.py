@@ -5,6 +5,7 @@ import os
 import json
 import png
 import common
+import numpy as np
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Optional
 
@@ -129,63 +130,77 @@ class TileProcessor(ABC):
         pass
 
     def untile(self, tiled_data: list, storage_width: int, storage_height: int) -> list:
-        """将瓦片数据重新排列为线性的像素数据（用于显示或导出）。"""
-        # 缓存所有属性访问，避免重复查找
+        """将瓦片数据重新排列为线性的像素数据（用于显示或导出）。使用 NumPy 优化。"""
         display_width = self.display_info.width
         display_height = self.display_info.height
         tile_w = self.tile_width
         tile_h = self.tile_height
         
-        content = [0] * (display_width * display_height)
-        tile_size = tile_w * tile_h
-        tile_row_size = tile_size * (storage_width // tile_w)
+        # 将输入转换为 NumPy 数组（如果还不是）
+        if isinstance(tiled_data, list):
+            tiled_array = np.array(tiled_data)
+        else:
+            tiled_array = tiled_data
         
-        for y in range(display_height):
-            # 预计算 y 相关的值（在内循环外）
-            tile_y = y // tile_h
-            sub_y = y % tile_h
-            content_y_offset = y * display_width
-            tile_y_offset = tile_y * tile_row_size + sub_y * tile_w
-            
-            for x in range(display_width):
-                tile_x = x // tile_w
-                sub_x = x % tile_w
-                
-                tiled_index = tile_y_offset + tile_x * tile_size + sub_x
-                content_index = content_y_offset + x
-                content[content_index] = tiled_data[tiled_index]
-                
-        return content
+        # 计算瓦片相关参数
+        tiles_per_row = storage_width // tile_w
+        tiles_per_col = storage_height // tile_h
+        tile_size = tile_w * tile_h
+        
+        # 重塑为瓦片形状：(tiles_per_col, tiles_per_row, tile_h, tile_w)
+        # 每个瓦片是 tile_h x tile_w
+        tiled_reshaped = tiled_array.reshape(tiles_per_col, tiles_per_row, tile_h, tile_w)
+        
+        # 转置轴以获得正确的布局：(tiles_per_col, tile_h, tiles_per_row, tile_w)
+        transposed = tiled_reshaped.transpose(0, 2, 1, 3)
+        
+        # 重塑为最终的图像形状：(storage_height, storage_width)
+        untiled = transposed.reshape(storage_height, storage_width)
+        
+        # 裁剪到显示尺寸
+        result = untiled[:display_height, :display_width]
+        
+        # 转换回列表（保持接口一致性）
+        return result.flatten().tolist()
 
     def tile(self, content: list, storage_width: int, storage_height: int) -> list:
-        """将线性的像素数据排列为瓦片数据（用于写入文件）。"""
-        # 缓存所有属性访问，避免重复查找
+        """将线性的像素数据排列为瓦片数据（用于写入文件）。使用 NumPy 优化。"""
         display_width = self.display_info.width
         display_height = self.display_info.height
         tile_w = self.tile_width
         tile_h = self.tile_height
         
-        number_of_pixels = storage_width * storage_height
-        tiled_data = [0] * number_of_pixels
-        tile_size = tile_w * tile_h
-        tile_row_size = tile_size * (storage_width // tile_w)
-
-        for y in range(display_height):
-            # 预计算 y 相关的值（在内循环外）
-            tile_y = y // tile_h
-            sub_y = y % tile_h
-            content_y_offset = y * display_width
-            tile_y_offset = tile_y * tile_row_size + sub_y * tile_w
-            
-            for x in range(display_width):
-                tile_x = x // tile_w
-                sub_x = x % tile_w
-
-                content_index = content_y_offset + x
-                tiled_index = tile_y_offset + tile_x * tile_size + sub_x
-                tiled_data[tiled_index] = content[content_index]
+        # 将输入转换为 NumPy 数组
+        if isinstance(content, list):
+            content_array = np.array(content)
+        else:
+            content_array = content
         
-        return tiled_data
+        # 重塑为 2D 图像
+        image = content_array.reshape(display_height, display_width)
+        
+        # 填充到存储尺寸
+        if storage_height > display_height or storage_width > display_width:
+            padded = np.zeros((storage_height, storage_width), dtype=image.dtype)
+            padded[:display_height, :display_width] = image
+        else:
+            padded = image
+        
+        # 计算瓦片参数
+        tiles_per_row = storage_width // tile_w
+        tiles_per_col = storage_height // tile_h
+        
+        # 重塑为瓦片布局：(tiles_per_col, tile_h, tiles_per_row, tile_w)
+        reshaped = padded.reshape(tiles_per_col, tile_h, tiles_per_row, tile_w)
+        
+        # 转置轴以获得瓦片格式：(tiles_per_col, tiles_per_row, tile_h, tile_w)
+        transposed = reshaped.transpose(0, 2, 1, 3)
+        
+        # 展平为一维数组
+        tiled = transposed.flatten()
+        
+        # 转换回列表
+        return tiled.tolist()
 
 class TileProcessor13(TileProcessor):
     """处理器，用于 pp_format 0x13 (8-bit paletted, 256色)。"""
@@ -197,7 +212,9 @@ class TileProcessor13(TileProcessor):
     def bytes_per_pixel(self): return 1.0
 
     def decode(self, f, number_of_pixels):
-        return [common.read_uint8(f) for _ in range(number_of_pixels)]
+        # 批量读取：一次性读取所有字节，然后转换为列表
+        data = f.read(number_of_pixels)
+        return list(data)
 
     def encode(self, f, tiled_image_data):
         # 批量写入：一次性转换为 bytes 并写入，而不是逐个字节
@@ -213,9 +230,13 @@ class TileProcessor14(TileProcessor):
     def bytes_per_pixel(self): return 0.5
     
     def decode(self, f, number_of_pixels):
+        # 批量读取：一次性读取所有字节，然后解包
+        byte_count = (number_of_pixels + 1) // 2
+        raw_data = f.read(byte_count)
+        
         data = [0] * number_of_pixels
         for i in range(0, number_of_pixels, 2):
-            byte = common.read_uint8(f)
+            byte = raw_data[i // 2]
             data[i] = byte & 0x0F          # 低4位给第一个像素
             if i + 1 < number_of_pixels:
                 data[i+1] = (byte >> 4) & 0x0F # 高4位给第二个像素
@@ -253,12 +274,16 @@ class TileProcessor8800(TileProcessor):
         return 0x80 if alpha == 0x7F else alpha
 
     def decode(self, f, number_of_pixels):
+        # 批量读取：一次性读取所有 RGBA 数据
+        raw_data = f.read(number_of_pixels * 4)
+        
         data = []
-        for _ in range(number_of_pixels):
-            r = common.read_uint8(f)
-            g = common.read_uint8(f)
-            b = common.read_uint8(f)
-            a_encoded = common.read_uint8(f)
+        for i in range(number_of_pixels):
+            offset = i * 4
+            r = raw_data[offset]
+            g = raw_data[offset + 1]
+            b = raw_data[offset + 2]
+            a_encoded = raw_data[offset + 3]
             data.append((r, g, b, self._decode_alpha(a_encoded)))
         return data
 

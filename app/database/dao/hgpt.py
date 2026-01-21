@@ -22,12 +22,13 @@ logger = logging.getLogger(__name__)
 
 class HgptDao:
     @staticmethod
-    def save(hgpt_data: bytes) -> str:
+    def save(hgpt_data: bytes, db=None) -> str:
         """
         保存 HGPT 数据到数据库（去重）
         
         Args:
             hgpt_data: 原始解压后的 HGPT 二进制数据
+            db: 可选的数据库会话，用于批量操作（避免重复创建会话）
             
         Returns:
             str: HGPT 的 hash key
@@ -36,67 +37,80 @@ class HgptDao:
         hash_object = hashlib.md5(hgpt_data)
         hashed_key = hash_object.hexdigest()
         
-        with next(get_db()) as db:
-            # 2. 检查是否已存在
-            existing = db.query(Hgpt).filter(Hgpt.key == hashed_key).first()
-            if existing:
-                logger.debug("  [HGPT] Duplicate found: %s... (skipping)", hashed_key[:8])
-                return hashed_key
+        # 如果没有提供 db 会话，创建新的
+        if db is None:
+            with next(get_db()) as db:
+                return HgptDao._save_with_session(hgpt_data, hashed_key, db)
+        else:
+            return HgptDao._save_with_session(hgpt_data, hashed_key, db)
+    
+    @staticmethod
+    def _save_with_session(hgpt_data: bytes, hashed_key: str, db) -> str:
+        """
+        使用给定的数据库会话保存 HGPT 数据（内部方法）
+        """
+        # 2. 检查是否已存在
+        existing = db.query(Hgpt).filter(Hgpt.key == hashed_key).first()
+        if existing:
+            logger.debug("  [HGPT] Duplicate found: %s... (skipping)", hashed_key[:8])
+            return hashed_key
+        
+        # 3. 解析 HGPT 文件（使用 BytesIO，无需临时文件）
+        try:
+            # 使用 BytesIO 将字节数据转换为文件流
+            file_stream = io.BytesIO(hgpt_data)
+            reader = hgp.HgptReader(file_stream)
+            hgpt_image = reader.read()
             
-            # 3. 解析 HGPT 文件（使用 BytesIO，无需临时文件）
-            try:
-                # 使用 BytesIO 将字节数据转换为文件流
-                file_stream = io.BytesIO(hgpt_data)
-                reader = hgp.HgptReader(file_stream)
-                hgpt_image = reader.read()
-                
-                # 4. 导出为 PNG（用于预览和翻译）
-                png_data = HgptDao._export_to_png(hgpt_image)
-                
-                # 5. 提取格式信息
-                pp_format = HgptDao._get_pp_format(hgpt_image)
-                palette_size = len(hgpt_image.palette) if (hgpt_image.palette and hasattr(hgpt_image.palette, '__len__')) else None
-                
-                # 6. 创建数据库记录
-                hgpt_record = Hgpt(
-                    key=hashed_key,
-                    content=hgpt_data,
-                    png_image=png_data,
-                    has_extended_header=hgpt_image.header.has_extended_header,
-                    unknown_two=hgpt_image.header.unknown_two,
-                    unknown_three=hgpt_image.header.unknown_three,
-                    width=hgpt_image.display_info.width,
-                    height=hgpt_image.display_info.height,
-                    pp_format=pp_format,
-                    palette_size=palette_size,
-                    division_name=hgpt_image.division_info.name if hgpt_image.division_info else None,
-                    divisions=hgpt_image.division_info.divisions if hgpt_image.division_info else None,
-                )
-                
-                db.add(hgpt_record)
-                db.commit()
-                
-                logger.debug("  [HGPT] Saved: %s... (%dx%d)", hashed_key[:8], hgpt_image.display_info.width, hgpt_image.display_info.height)
-                return hashed_key
-                
-            except Exception as e:
-                logger.warning("  [HGPT] Parse error: %s", e)
-                # 如果解析失败，仍然保存原始数据
-                hgpt_record = Hgpt(
-                    key=hashed_key,
-                    content=hgpt_data,
-                    png_image=None,
-                    has_extended_header=False,
-                    unknown_two=0,
-                    unknown_three=0x0013,
-                    width=0,
-                    height=0,
-                    pp_format=None,
-                    palette_size=None,
-                )
-                db.add(hgpt_record)
-                db.commit()
-                return hashed_key
+            # 4. 导出为 PNG（用于预览和翻译）
+            png_data = HgptDao._export_to_png(hgpt_image)
+            
+            # 5. 提取格式信息
+            pp_format = HgptDao._get_pp_format(hgpt_image)
+            palette_size = len(hgpt_image.palette) if (hgpt_image.palette and hasattr(hgpt_image.palette, '__len__')) else None
+            
+            # 6. 创建数据库记录
+            hgpt_record = Hgpt(
+                key=hashed_key,
+                content=hgpt_data,
+                png_image=png_data,
+                has_extended_header=hgpt_image.header.has_extended_header,
+                unknown_two=hgpt_image.header.unknown_two,
+                unknown_three=hgpt_image.header.unknown_three,
+                width=hgpt_image.display_info.width,
+                height=hgpt_image.display_info.height,
+                pp_format=pp_format,
+                palette_size=palette_size,
+                division_name=hgpt_image.division_info.name if hgpt_image.division_info else None,
+                divisions=hgpt_image.division_info.divisions if hgpt_image.division_info else None,
+            )
+            
+            db.add(hgpt_record)
+            # 不在这里提交，让调用者统一提交
+            # db.commit()
+            
+            logger.debug("  [HGPT] Saved: %s... (%dx%d)", hashed_key[:8], hgpt_image.display_info.width, hgpt_image.display_info.height)
+            return hashed_key
+            
+        except Exception as e:
+            logger.warning("  [HGPT] Parse error: %s", e)
+            # 如果解析失败，仍然保存原始数据
+            hgpt_record = Hgpt(
+                key=hashed_key,
+                content=hgpt_data,
+                png_image=None,
+                has_extended_header=False,
+                unknown_two=0,
+                unknown_three=0x0013,
+                width=0,
+                height=0,
+                pp_format=None,
+                palette_size=None,
+            )
+            db.add(hgpt_record)
+            # 不在这里提交，让调用者统一提交
+            # db.commit()
+            return hashed_key
     
     @staticmethod
     def get_hgpt_data(hgpt_key: str) -> bytes:
