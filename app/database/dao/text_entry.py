@@ -94,18 +94,40 @@ class TextEntryDao:
             text_archive.strings = []
             text_archive.entries = []
             
+            # --- Optimization: Batch fetch translations ---
+            entry_hashes = {} # id -> hash
+            unique_hashes = set()
             for db_entry in db_entries:
-                # 计算原始字符串的hash用于查询翻译
-                hash_object = hashlib.md5(db_entry.original.encode())
-                hashed_str = hash_object.hexdigest()
+                h = hashlib.md5(db_entry.original.encode()).hexdigest()
+                entry_hashes[db_entry.id] = h
+                unique_hashes.add(h)
+
+            trans_map = {}
+            if unique_hashes:
+                # Batch query using IN clause
+                # SQLite limit varies, but batching by 900 is safe usually
+                unique_hashes_list = list(unique_hashes)
+                batch_size = 900
+                for i in range(0, len(unique_hashes_list), batch_size):
+                    batch = unique_hashes_list[i:i+batch_size]
+                    translations = db.query(Translation).filter(Translation.key.in_(batch)).all()
+                    for t in translations:
+                        trans_map[t.key] = t.content
+            # ---------------------------------------------
+
+            for db_entry in db_entries:
+                # 使用预计算的 hash
+                hashed_str = entry_hashes[db_entry.id]
                 
-                # 使用 hash 查询翻译
-                trans = db.query(Translation).filter(Translation.key == hashed_str).first()
+                # 从内存字典查询 (O(1))
+                trans_content = trans_map.get(hashed_str)
+
                 # FIXME: 这里最好统一
-                translated_content = trans.content.replace("\\n", "\n") if trans and trans.content else db_entry.original
+                translated_content = trans_content.replace("\\n", "\n") if trans_content else db_entry.original
                 
-                if trans:
-                    logger.debug("Translation Found: %s -> %s", db_entry.original, translated_content)
+                if trans_content:
+                    # logger.debug("Translation Found: %s -> %s", db_entry.original, translated_content)
+                    pass
                 
                 # 创建唯一键：内容 + unknown_first + unknown_second
                 # 这样可以确保只有内容和 unknown 值都相同的字符串才会被重用
