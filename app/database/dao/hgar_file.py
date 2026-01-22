@@ -37,6 +37,10 @@ class HGARFileDao:
         
         # 使用单个数据库会话进行批量操作
         with next(get_db()) as db:
+            # 解决 N+1 问题：一次性加载所有已存在的 HGPT key 到内存
+            # 这样在循环内部就不需要重复查询数据库了
+            existing_hgpt_keys = set(r[0] for r in db.query(Hgpt.key).all())
+            
             # 第一阶段：预处理所有文件，收集数据
             processed_files = []
             hgpt_cache = {}  # 缓存当前批次中的 hgpt_key，避免重复处理
@@ -82,9 +86,9 @@ class HGARFileDao:
                     
                     # 检查本地缓存
                     if hashed_key not in hgpt_cache:
-                        # 保存 HGPT 到数据库（去重），使用当前 db 会话
+                        # 保存 HGPT 到数据库（去重），使用当前 db 会话和预加载的 key 集合
                         logger.debug("  [HPT] %s", short_name)
-                        hgpt_key = HgptDao.save(hgpt_data=content, db=db)
+                        hgpt_key = HgptDao.save(hgpt_data=content, db=db, existing_keys=existing_hgpt_keys)
                         hgpt_cache[hashed_key] = hgpt_key
                     else:
                         hgpt_key = hgpt_cache[hashed_key]

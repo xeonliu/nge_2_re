@@ -22,13 +22,14 @@ logger = logging.getLogger(__name__)
 
 class HgptDao:
     @staticmethod
-    def save(hgpt_data: bytes, db=None) -> str:
+    def save(hgpt_data: bytes, db=None, existing_keys: set = None) -> str:
         """
         保存 HGPT 数据到数据库（去重）
         
         Args:
             hgpt_data: 原始解压后的 HGPT 二进制数据
             db: 可选的数据库会话，用于批量操作（避免重复创建会话）
+            existing_keys: 可选的内存中已存在的 key 集合，用于加速去重判断
             
         Returns:
             str: HGPT 的 hash key
@@ -37,23 +38,35 @@ class HgptDao:
         hash_object = hashlib.md5(hgpt_data)
         hashed_key = hash_object.hexdigest()
         
+        # 优先使用内存中的已存 key 集合进行判断（解决 N+1 问题）
+        if existing_keys is not None:
+            if hashed_key in existing_keys:
+                return hashed_key
+        
         # 如果没有提供 db 会话，创建新的
         if db is None:
             with next(get_db()) as db:
-                return HgptDao._save_with_session(hgpt_data, hashed_key, db)
+                res = HgptDao._save_with_session(hgpt_data, hashed_key, db, skip_query=(existing_keys is not None))
         else:
-            return HgptDao._save_with_session(hgpt_data, hashed_key, db)
+            res = HgptDao._save_with_session(hgpt_data, hashed_key, db, skip_query=(existing_keys is not None))
+
+        # 如果保存成功且提供了集合，更新集合
+        if existing_keys is not None:
+            existing_keys.add(hashed_key)
+            
+        return res
     
     @staticmethod
-    def _save_with_session(hgpt_data: bytes, hashed_key: str, db) -> str:
+    def _save_with_session(hgpt_data: bytes, hashed_key: str, db, skip_query: bool = False) -> str:
         """
         使用给定的数据库会话保存 HGPT 数据（内部方法）
         """
-        # 2. 检查是否已存在
-        existing = db.query(Hgpt).filter(Hgpt.key == hashed_key).first()
-        if existing:
-            logger.debug("  [HGPT] Duplicate found: %s... (skipping)", hashed_key[:8])
-            return hashed_key
+        # 2. 检查是否已存在（如果外部已验证，则跳过）
+        if not skip_query:
+            existing = db.query(Hgpt).filter(Hgpt.key == hashed_key).first()
+            if existing:
+                logger.debug("  [HGPT] Duplicate found: %s... (skipping)", hashed_key[:8])
+                return hashed_key
         
         # 3. 解析 HGPT 文件（使用 BytesIO，无需临时文件）
         try:
