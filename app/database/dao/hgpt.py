@@ -303,7 +303,9 @@ class HgptDao:
                 width=hgpt_image.display_info.width,
                 height=hgpt_image.display_info.height,
                 palette=palette_colors,
-                bitdepth=8
+                bitdepth=8,
+                compression=1,
+                filter_type=0
             )
             rows = [
                 hgpt_image.content[i:i + hgpt_image.display_info.width]
@@ -315,7 +317,9 @@ class HgptDao:
                 width=hgpt_image.display_info.width,
                 height=hgpt_image.display_info.height,
                 greyscale=False,
-                alpha=True
+                alpha=True,
+                compression=1,
+                filter_type=0
             )
             rows = [
                 hgpt_image.content[i:i + hgpt_image.display_info.width]
