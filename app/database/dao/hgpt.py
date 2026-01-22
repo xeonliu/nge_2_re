@@ -57,6 +57,121 @@ class HgptDao:
         return res
     
     @staticmethod
+    def save_batch(hgpt_data_list: list[bytes], db, existing_keys: set = None) -> dict:
+        """
+        批量保存 HGPT 数据到数据库（去重）
+        使用 bulk_insert_mappings 进行高性能批量插入，绕过 ORM 开销
+        
+        Args:
+            hgpt_data_list: HGPT 二进制数据列表
+            db: 数据库会话
+            existing_keys: 可选的内存中已存在的 key 集合，用于加速去重判断
+            
+        Returns:
+            dict: {hashed_key: hashed_key} 映射，用于后续关联
+        """
+        if not hgpt_data_list:
+            return {}
+        
+        # 1. 计算所有 hash
+        hgpt_dict = {}  # {hashed_key: hgpt_data}
+        for hgpt_data in hgpt_data_list:
+            hash_object = hashlib.md5(hgpt_data)
+            hashed_key = hash_object.hexdigest()
+            
+            # 去重检查
+            if existing_keys is not None:
+                if hashed_key in existing_keys:
+                    continue
+            
+            # 避免重复处理相同 key
+            if hashed_key not in hgpt_dict:
+                hgpt_dict[hashed_key] = hgpt_data
+        
+        if not hgpt_dict:
+            return {}
+        
+        # 2. 批量检查数据库中已存在的 key
+        keys_to_check = list(hgpt_dict.keys())
+        existing_in_db = set(r[0] for r in db.query(Hgpt.key).filter(Hgpt.key.in_(keys_to_check)).all())
+        
+        # 3. 过滤出需要插入的数据
+        to_insert = {}
+        for hashed_key, hgpt_data in hgpt_dict.items():
+            if hashed_key not in existing_in_db:
+                to_insert[hashed_key] = hgpt_data
+        
+        if not to_insert:
+            # 更新 existing_keys
+            if existing_keys is not None:
+                existing_keys.update(keys_to_check)
+            return {k: k for k in keys_to_check}
+        
+        # 4. 批量解析和准备数据
+        mappings = []
+        for hashed_key, hgpt_data in tqdm(to_insert.items(), desc="Preparing HGPT data", unit="hgpt"):
+            try:
+                # 解析 HGPT 文件
+                file_stream = io.BytesIO(hgpt_data)
+                reader = hgp.HgptReader(file_stream)
+                hgpt_image = reader.read()
+                
+                # 导出为 PNG
+                png_data = HgptDao._export_to_png(hgpt_image)
+                
+                # 提取格式信息
+                pp_format = HgptDao._get_pp_format(hgpt_image)
+                palette_size = len(hgpt_image.palette) if (hgpt_image.palette and hasattr(hgpt_image.palette, '__len__')) else None
+                
+                # 准备字典映射
+                mapping = {
+                    'key': hashed_key,
+                    'content': hgpt_data,
+                    'png_image': png_data,
+                    'has_extended_header': hgpt_image.header.has_extended_header,
+                    'unknown_two': hgpt_image.header.unknown_two,
+                    'unknown_three': hgpt_image.header.unknown_three,
+                    'width': hgpt_image.display_info.width,
+                    'height': hgpt_image.display_info.height,
+                    'pp_format': pp_format,
+                    'palette_size': palette_size,
+                    'division_name': hgpt_image.division_info.name if hgpt_image.division_info else None,
+                    'divisions': hgpt_image.division_info.divisions if hgpt_image.division_info else None,
+                }
+                mappings.append(mapping)
+                
+            except Exception as e:
+                logger.warning("  [HGPT] Parse error for %s: %s", hashed_key[:8], e)
+                # 如果解析失败，仍然保存原始数据
+                mapping = {
+                    'key': hashed_key,
+                    'content': hgpt_data,
+                    'png_image': None,
+                    'has_extended_header': False,
+                    'unknown_two': 0,
+                    'unknown_three': 0x0013,
+                    'width': 0,
+                    'height': 0,
+                    'pp_format': None,
+                    'palette_size': None,
+                    'division_name': None,
+                    'divisions': None,
+                }
+                mappings.append(mapping)
+        
+        # 5. 使用 bulk_insert_mappings 批量插入（绕过 ORM 开销）
+        if mappings:
+            db.bulk_insert_mappings(Hgpt, mappings)
+            logger.debug("  [HGPT] Bulk inserted %d records", len(mappings))
+        
+        # 6. 更新 existing_keys
+        if existing_keys is not None:
+            existing_keys.update(keys_to_check)
+        
+        # 7. 返回所有 key 的映射
+        return {k: k for k in keys_to_check}
+    
+    @staticmethod
     def _save_with_session(hgpt_data: bytes, hashed_key: str, db, skip_query: bool = False) -> str:
         """
         使用给定的数据库会话保存 HGPT 数据（内部方法）

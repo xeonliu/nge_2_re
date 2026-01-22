@@ -29,6 +29,8 @@ class App:
         # 获取基础目录名（如 "btdemo", "event" 等）
         base_dir_name = os.path.basename(base_path)
         
+        # 收集所有 HAR 文件路径
+        har_files = []
         for root, _, files in os.walk(base_path):
             for file in files:
                 if file.endswith(".har"):
@@ -44,8 +46,16 @@ class App:
                         # 文件在子目录下
                         relative_dir = os.path.join(base_dir_name, relative_to_base)
                     
-                    App.decompile_hgar(full_path, relative_dir)
-            pass
+                    har_files.append((full_path, relative_dir))
+        
+        # 使用单个数据库会话批量处理所有文件
+        from app.database.db import get_db
+        with next(get_db()) as db:
+            for full_path, relative_dir in har_files:
+                App.decompile_hgar(full_path, relative_dir, db=db)
+            
+            # 统一提交所有数据（只提交一次！）
+            db.commit()
     
     @staticmethod
     def compile_hgar(name: str, output_dir: str):
@@ -114,15 +124,23 @@ class App:
         print(f"Exported {count} HAR files to {output_dir}")
     
     @staticmethod
-    def decompile_hgar(path: str, relative_path: str = ""):
+    def decompile_hgar(path: str, relative_path: str = "", db=None):
+        """
+        解压并保存 HGAR 文件到数据库
+        
+        Args:
+            path: HAR 文件路径
+            relative_path: 相对路径
+            db: 可选的数据库会话，用于批量操作（避免重复提交）
+        """
         hgar = tools.HGArchive(None, [])
         hgar.open(path)
 
         filename = os.path.basename(path)
         print(f"Extracted filename: {filename} (path: {relative_path})")
 
-        # Store HGAR & HGAR Files into DB
-        HGARDao.save(filename, hgar, relative_path)
+        # Store HGAR & HGAR Files into DB（不提交，由调用者统一提交）
+        HGARDao.save(filename, hgar, relative_path, db=db)
         
         # Logging the HGAR info
         # hgar.info()

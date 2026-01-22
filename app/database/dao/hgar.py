@@ -16,14 +16,36 @@ class HGARDao:
     记录 HGAR 归档文件的元数据，其名称、位置、版本等
     """
     @staticmethod
-    def save(filename: str, hg_archive: tools.HGArchive, relative_path: str = ""):
-        hgar = Hgar(name=filename, version=hg_archive.version, relative_path=relative_path)
-        with next(get_db()) as db:
+    def save(filename: str, hg_archive: tools.HGArchive, relative_path: str = "", db=None):
+        """
+        保存 HGAR 到数据库
+        
+        Args:
+            filename: 文件名
+            hg_archive: HGArchive 对象
+            relative_path: 相对路径
+            db: 可选的数据库会话，用于批量操作（避免重复创建会话和提交）
+            
+        Returns:
+            Hgar: 保存的 Hgar 对象
+        """
+        # 如果没有提供 db 会话，创建新的（向后兼容）
+        if db is None:
+            with next(get_db()) as db:
+                hgar = Hgar(name=filename, version=hg_archive.version, relative_path=relative_path)
+                db.add(hgar)
+                db.commit()
+                db.refresh(hgar)
+                HGARFileDao.save(hgar.id, hg_archive.files, db=db)
+                return hgar
+        else:
+            # 批量模式：不提交，由调用者统一提交
+            hgar = Hgar(name=filename, version=hg_archive.version, relative_path=relative_path)
             db.add(hgar)
-            db.commit()
+            db.flush()  # flush 来获取生成的 ID，但不提交
             db.refresh(hgar)
-        HGARFileDao.save(hgar.id, hg_archive.files)
-        return hgar
+            HGARFileDao.save(hgar.id, hg_archive.files, db=db)
+            return hgar
 
     @staticmethod
     def get_hgar_by_name(name: str) -> tools.HGArchive:

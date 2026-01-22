@@ -9,6 +9,7 @@ import struct
 import zlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
+from sqlalchemy import func
 
 # Entities
 from ..entity.hgar_file import HgarFile
@@ -23,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 class HGARFileDao:
     @staticmethod
-    def save(hgar_id: int, hgar_files: list[tools.HGArchiveFile]):
+    def save(hgar_id: int, hgar_files: list[tools.HGArchiveFile], db=None):
         """
         保存 HGAR 文件列表到数据库
         主要处理 EVS 和 HGPT 文件的特殊存储需求
@@ -35,15 +36,25 @@ class HGARFileDao:
         import zlib
         import struct
         
-        # 使用单个数据库会话进行批量操作
-        with next(get_db()) as db:
+        # 如果没有提供 db 会话，创建新的（向后兼容）
+        if db is None:
+            with next(get_db()) as db:
+                HGARFileDao._save_with_session(hgar_id, hgar_files, db)
+                db.commit()
+        else:
+            # 批量模式：不提交，由调用者统一提交
+            HGARFileDao._save_with_session(hgar_id, hgar_files, db)
+    
+    @staticmethod
+    def _save_with_session(hgar_id: int, hgar_files: list[tools.HGArchiveFile], db):
             # 解决 N+1 问题：一次性加载所有已存在的 HGPT key 到内存
             # 这样在循环内部就不需要重复查询数据库了
             existing_hgpt_keys = set(r[0] for r in db.query(Hgpt.key).all())
             
             # 第一阶段：预处理所有文件，收集数据
             processed_files = []
-            hgpt_cache = {}  # 缓存当前批次中的 hgpt_key，避免重复处理
+            hgpt_data_list = []  # 收集所有 HGPT 数据用于批量处理
+            hgpt_data_to_file = {}  # {hashed_key: short_name} 用于后续映射
             
             for file in tqdm(hgar_files, desc="Processing files", unit="file"):
                 # FIXME: Remove decode
@@ -73,6 +84,7 @@ class HGARFileDao:
                 # 处理文件内容，获取可能的 hgpt_key
                 hgpt_key = None
                 evs_wrapper = None
+                hashed_key = None
                 
                 if short_name.endswith(".evs"):
                     evs_wrapper = tools.EvsWrapper()
@@ -84,77 +96,123 @@ class HGARFileDao:
                     hash_object = hashlib.md5(content)
                     hashed_key = hash_object.hexdigest()
                     
-                    # 检查本地缓存
-                    if hashed_key not in hgpt_cache:
-                        # 保存 HGPT 到数据库（去重），使用当前 db 会话和预加载的 key 集合
-                        logger.debug("  [HPT] %s", short_name)
-                        hgpt_key = HgptDao.save(hgpt_data=content, db=db, existing_keys=existing_hgpt_keys)
-                        hgpt_cache[hashed_key] = hgpt_key
+                    # 检查是否已存在
+                    if hashed_key in existing_hgpt_keys:
+                        # 已存在，直接使用 key
+                        hgpt_key = hashed_key
                     else:
-                        hgpt_key = hgpt_cache[hashed_key]
-                        logger.debug("  [HPT] %s (cached)", short_name)
+                        # 收集 HGPT 数据用于批量处理
+                        hgpt_data_list.append(content)
+                        hgpt_data_to_file[hashed_key] = short_name
                 
                 processed_files.append({
                     'file': file,
                     'short_name': short_name,
                     'content': content,
-                    'hgpt_key': hgpt_key,
+                    'hgpt_key': hgpt_key,  # 已存在的直接使用，否则稍后从批量处理结果中获取
                     'evs_wrapper': evs_wrapper,
+                    'hgpt_hash': hashed_key,  # 保存 hash 用于后续映射
                 })
             
-            # 第二阶段：批量插入 HgarFile 记录
-            hgar_file_objects = []
-            for data in tqdm(processed_files, desc="Creating HgarFile records", unit="file"):
-                file = data['file']
-                hgar_file = HgarFile(
-                    hgar_id=hgar_id,
-                    short_name=data['short_name'],
-                    long_name=file.long_name,
-                    file_size=len(data['content']),
-                    compressed_size=file.size if hasattr(file, 'size') else None,
-                    encoded_identifier=file.encoded_identifier,
-                    unknown_first=file.unknown_first,
-                    unknown_last=file.unknown_last,
-                    hgpt_key=data['hgpt_key'],  # 关联 HGPT
-                )
-                hgar_file_objects.append(hgar_file)
+            # 批量保存所有 HGPT 数据（使用 bulk_insert_mappings 优化）
+            if hgpt_data_list:
+                logger.debug("  [HGPT] Batch processing %d HGPT files", len(hgpt_data_list))
+                hgpt_key_map = HgptDao.save_batch(hgpt_data_list, db, existing_keys=existing_hgpt_keys)
+                
+                # 更新 processed_files 中的 hgpt_key（对于新插入的）
+                for data in processed_files:
+                    if data['hgpt_hash'] and data['hgpt_key'] is None:
+                        # 从批量处理结果中获取 key（应该等于 hash）
+                        data['hgpt_key'] = hgpt_key_map.get(data['hgpt_hash'], data['hgpt_hash'])
             
-            # 使用 add_all 批量添加（保持对象在会话中）
-            db.add_all(hgar_file_objects)
-            db.flush()  # flush 来获取生成的 ID，但不提交事务
+            # 第二阶段：批量插入 HgarFile 记录（使用手动生成 ID，消除查询开销）
+            hgar_file_mappings = []
+            hgar_file_id_map = {}  # (short_name, encoded_identifier) -> id 映射
+            
+            # 优化：手动生成 ID（client-side IDs），避免插入后查询
+            # 1. 获取当前最大 ID（仅查询一次）
+            max_id = db.query(func.max(HgarFile.id)).scalar() or 0
+            current_id = max_id + 1
+            
+            for idx, data in enumerate(tqdm(processed_files, desc="Preparing HgarFile records", unit="file")):
+                file = data['file']
+                short_name = data['short_name']
+                encoded_id = file.encoded_identifier if hasattr(file, 'encoded_identifier') else None
+                
+                # 手动分配 ID
+                hgar_file_id = current_id
+                current_id += 1
+                
+                # 构造映射，明确写入 ID
+                hgar_file_mappings.append({
+                    'id': hgar_file_id,  # 手动分配的 ID
+                    'hgar_id': hgar_id,
+                    'short_name': short_name,
+                    'long_name': file.long_name,
+                    'file_size': len(data['content']),
+                    'compressed_size': file.size if hasattr(file, 'size') else None,
+                    'encoded_identifier': encoded_id,
+                    'unknown_first': file.unknown_first,
+                    'unknown_last': file.unknown_last,
+                    'hgpt_key': data['hgpt_key'],  # 关联 HGPT
+                })
+                
+                # 存入映射表，后续直接使用，完全不需要查询数据库
+                key = (short_name, encoded_id)
+                hgar_file_id_map[key] = hgar_file_id
+            
+            # 使用 bulk_insert_mappings 批量插入（包含手动分配的 ID）
+            if hgar_file_mappings:
+                db.bulk_insert_mappings(HgarFile, hgar_file_mappings)
+                # 不需要 flush，不需要重新 query！ID 已经在内存中了
             
             # 第三阶段：批量保存文件内容（EVS、Raw）
-            raw_objects = []
+            raw_mappings = []
             evs_data = []
+            seen_raw_file_ids = set()  # 用于去重，确保每个 hgar_file_id 只创建一个 Raw 记录
             
-            for i, data in enumerate(tqdm(processed_files, desc="Saving file contents", unit="file")):
-                hgar_file = hgar_file_objects[i]
+            for idx, data in enumerate(tqdm(processed_files, desc="Preparing file contents", unit="file")):
                 short_name = data['short_name']
                 content = data['content']
                 evs_wrapper = data['evs_wrapper']
+                file = data['file']
+                
+                # 直接从内存映射中获取 ID（无需查询数据库）
+                encoded_id = file.encoded_identifier if hasattr(file, 'encoded_identifier') else None
+                key = (short_name, encoded_id)
+                hgar_file_id = hgar_file_id_map.get(key)
+                
+                if hgar_file_id is None:
+                    logger.warning("  [HGARFile] Could not find ID for %s (encoded_id: %s)", short_name, encoded_id)
+                    continue
                 
                 if short_name.endswith(".evs"):
                     # 收集 EVS 数据，稍后批量处理
-                    evs_data.append((hgar_file.id, evs_wrapper))
+                    evs_data.append((hgar_file_id, evs_wrapper))
                 elif short_name.endswith(".hpt") or short_name.endswith(".zpt"):
                     # HGPT 已经通过 hgpt_key 关联，无需额外操作
                     pass
                 else:
-                    # 收集 Raw 对象，稍后批量插入
-                    raw_objects.append(Raw(hgar_file_id=hgar_file.id, content=content))
+                    # 收集 Raw 映射，稍后批量插入
+                    # 确保每个 hgar_file_id 只创建一个 Raw 记录（去重）
+                    if hgar_file_id not in seen_raw_file_ids:
+                        raw_mappings.append({
+                            'hgar_file_id': hgar_file_id,
+                            'content': content,
+                        })
+                        seen_raw_file_ids.add(hgar_file_id)
+                    else:
+                        logger.warning("  [HGARFile] Duplicate hgar_file_id %d for Raw, skipping %s", hgar_file_id, short_name)
             
-            # 批量插入 Raw 数据
-            if raw_objects:
-                db.add_all(raw_objects)
+            # 使用 bulk_insert_mappings 批量插入 Raw 数据（绕过 ORM 开销）
+            if raw_mappings:
+                db.bulk_insert_mappings(Raw, raw_mappings)
             
-            # 批量保存 EVS 数据（使用优化后的 EVSDao）
+            # 批量保存 EVS 数据（使用优化后的 EVSDao，不提交）
             for hgar_file_id, evs_wrapper in evs_data:
-                EVSDao.save(hgar_file_id, evs_wrapper, db)
+                EVSDao._save_with_session(hgar_file_id, evs_wrapper, db)
             
-            # 最终提交所有数据
-            db.commit()
-            
-        return hgar_files
+            # 注意：不在这里提交，由调用者统一提交
 
     @staticmethod
     def _process_single_hgar_file(hgar_file, raw_map, hgpt_map, is_compressed):
