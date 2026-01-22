@@ -5,6 +5,9 @@ Obtain a sentence with or without translation from the database.
 from ..db import get_db
 from app.parser import tools
 import logging
+import struct
+import zlib
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 
 # Entities
@@ -150,6 +153,49 @@ class HGARFileDao:
         return hgar_files
 
     @staticmethod
+    def _process_single_hgar_file(hgar_file, raw_map, hgpt_map, is_compressed):
+        logger.debug("  Rebuilding: %s", hgar_file.short_name)
+
+        # 获取原始内容
+        short_name = hgar_file.short_name
+        if short_name.endswith(".evs"):
+            evs_wrapper: tools.EvsWrapper = EVSDao.form_evs_wrapper(hgar_file.id)
+            content = evs_wrapper.save_bytes()
+        elif short_name.endswith((".zpt", ".hpt")):
+            if hgar_file.hgpt_key and hgar_file.hgpt_key in hgpt_map:
+                hgpt = hgpt_map[hgar_file.hgpt_key]
+                content = HgptDao._rebuild_from_png(hgpt) if hgpt.png_translated else hgpt.content
+            elif hgar_file.id in raw_map:
+                content = raw_map[hgar_file.id]
+            else:
+                logger.warning("    WARNING: No HGPT or Raw data for %s", hgar_file.short_name)
+                return None
+        else:
+            if hgar_file.id in raw_map:
+                content = raw_map[hgar_file.id]
+            else:
+                logger.warning("    WARNING: No Raw data for %s", hgar_file.short_name)
+                return None
+
+        # 按需要重新压缩（保持原有 zlib 设置和数据格式）
+        if is_compressed:
+            original_size = len(content)
+            compressed = zlib.compress(content)
+            compressed_content = compressed[2:-4]  # 去掉 zlib 头和校验，保持原格式
+            content = struct.pack("<I", original_size) + compressed_content
+            logger.debug("  [COMPRESS] %s: %d → %d bytes", short_name, original_size, len(compressed_content))
+
+        return {
+            "long_name": hgar_file.long_name,
+            "short_name": short_name,
+            "size": len(content),
+            "encoded_identifier": hgar_file.encoded_identifier,
+            "unknown_first": hgar_file.unknown_first,
+            "unknown_last": hgar_file.unknown_last,
+            "content": content,
+        }
+
+    @staticmethod
     def form(hgar_id: int) -> list[tools.HGArchiveFile]:
         with next(get_db()) as db:
             logger.debug("Form HGAR Files for %s", hgar_id)
@@ -174,73 +220,28 @@ class HGARFileDao:
                 hgpt_records = db.query(Hgpt).filter(Hgpt.key.in_(hgpt_keys)).all()
                 hgpt_map = {h.key: h for h in hgpt_records}
             
-            hg_archive_files = []
-            for hgar_file in tqdm(hgar_files, desc="Rebuilding HGAR files", unit="file"):
-                logger.debug("  Rebuilding: %s", hgar_file.short_name)
-                
-                # 根据文件类型重建内容
-                if hgar_file.short_name.endswith(".evs"):
-                    # 重建 EVS 文件
-                    evs_wrapper: tools.EvsWrapper = EVSDao.form_evs_wrapper(
-                        hgar_file.id
-                    )
-                    content = evs_wrapper.save_bytes()
-                    
-                elif hgar_file.short_name.endswith(".zpt") or hgar_file.short_name.endswith(".hpt"):
-                    # 重建 HGPT 文件
-                    if hgar_file.hgpt_key and hgar_file.hgpt_key in hgpt_map:
-                        hgpt = hgpt_map[hgar_file.hgpt_key]
-                        # 使用翻译后的 PNG，未翻译直接使用原数据
-                        if hgpt.png_translated:
-                            content = HgptDao._rebuild_from_png(hgpt)
-                        else:
-                            content = hgpt.content
-                    else:
-                        # 如果没有关联 HGPT，从 Raw 读取
-                        if hgar_file.id in raw_map:
-                            content = raw_map[hgar_file.id]
-                        else:
-                            logger.warning("    WARNING: No HGPT or Raw data for %s", hgar_file.short_name)
-                            continue
-                            
-                else:
-                    # 其他文件类型，从 Raw 表读取
-                    if hgar_file.id in raw_map:
-                        content = raw_map[hgar_file.id]
-                    else:
-                        logger.warning("    WARNING: No Raw data for %s", hgar_file.short_name)
-                        continue
-                
-                # 检查是否需要重新压缩（根据 encoded_identifier）
+            tasks = []
+            for idx, hgar_file in enumerate(hgar_files):
                 is_compressed = ((hgar_file.encoded_identifier >> 31) == 1) if hgar_file.encoded_identifier else False
-                
-                if is_compressed:
-                    # 重新压缩数据
-                    import zlib
-                    original_size = len(content)
-                    compressed = zlib.compress(content)
-                    # 跳过 2 字节头部和 4 字节校验和
-                    compressed_content = compressed[2:-4]
-                    
-                    # 构建压缩格式：size(4 bytes) + compressed_data
-                    import struct
-                    final_content = struct.pack('<I', original_size) + compressed_content
-                    
-                    logger.debug("  [COMPRESS] %s: %d → %d bytes", hgar_file.short_name, original_size, len(compressed_content))
-                    content = final_content
-                
-                # 构建 HGArchiveFile 对象
-                size = len(content)
-                hg_archive_files.append(
-                    tools.HGArchiveFile(
-                        long_name=hgar_file.long_name,
-                        short_name=hgar_file.short_name,
-                        size=size,
-                        encoded_identifier=hgar_file.encoded_identifier,
-                        unknown_first=hgar_file.unknown_first,
-                        unknown_last=hgar_file.unknown_last,
-                        content=content,
-                    )
-                )
-            # print(f"Formed {(hg_archive_files)}")
-            return hg_archive_files
+                tasks.append((idx, hgar_file, is_compressed))
+
+            results: list[tools.HGArchiveFile | None] = [None] * len(tasks)
+            with ThreadPoolExecutor() as executor:
+                future_to_idx = {
+                    executor.submit(
+                        HGARFileDao._process_single_hgar_file,
+                        hgar_file,
+                        raw_map,
+                        hgpt_map,
+                        is_compressed,
+                    ): idx
+                    for idx, hgar_file, is_compressed in tasks
+                }
+
+                for future in tqdm(as_completed(future_to_idx), total=len(future_to_idx), desc="Rebuilding HGAR files", unit="file"):
+                    idx = future_to_idx[future]
+                    result = future.result()
+                    if result:
+                        results[idx] = tools.HGArchiveFile(**result)
+
+            return [res for res in results if res]
