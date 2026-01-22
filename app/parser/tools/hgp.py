@@ -137,8 +137,15 @@ class TileProcessor(ABC):
         tile_h = self.tile_height
         
         # 将输入转换为 NumPy 数组（如果还不是）
+        # 优化：对于 list of integers (0-255)，使用 np.frombuffer 零拷贝转换
         if isinstance(tiled_data, list):
-            tiled_array = np.array(tiled_data)
+            # 检查是否为简单的整数列表（适用于 8-bit 调色板格式）
+            if tiled_data and isinstance(tiled_data[0], int) and not isinstance(tiled_data[0], tuple):
+                # 使用 np.frombuffer 零拷贝转换，避免 np.array() 的内存复制
+                tiled_array = np.frombuffer(bytes(tiled_data), dtype=np.uint8)
+            else:
+                # 对于复杂类型（如 tuples），仍使用 np.array()
+                tiled_array = np.array(tiled_data)
         else:
             tiled_array = tiled_data
         
@@ -171,8 +178,15 @@ class TileProcessor(ABC):
         tile_h = self.tile_height
         
         # 将输入转换为 NumPy 数组
+        # 优化：对于 list of integers (0-255)，使用 np.frombuffer 零拷贝转换
         if isinstance(content, list):
-            content_array = np.array(content)
+            # 检查是否为简单的整数列表（适用于 8-bit 调色板格式）
+            if content and isinstance(content[0], int) and not isinstance(content[0], tuple):
+                # 使用 np.frombuffer 零拷贝转换，避免 np.array() 的内存复制
+                content_array = np.frombuffer(bytes(content), dtype=np.uint8)
+            else:
+                # 对于复杂类型（如 tuples），仍使用 np.array()
+                content_array = np.array(content)
         else:
             content_array = content
         
@@ -212,13 +226,17 @@ class TileProcessor13(TileProcessor):
     def bytes_per_pixel(self): return 1.0
 
     def decode(self, f, number_of_pixels):
-        # 批量读取：一次性读取所有字节，然后转换为列表
+        # 批量读取：一次性读取所有字节，使用 np.frombuffer 零拷贝转换为 numpy 数组
+        # 优化：避免 list() 和 np.array() 的内存复制开销
         data = f.read(number_of_pixels)
-        return list(data)
+        return np.frombuffer(data, dtype=np.uint8)
 
     def encode(self, f, tiled_image_data):
-        # 批量写入：一次性转换为 bytes 并写入，而不是逐个字节
-        f.write(bytes(tiled_image_data))
+        # 批量写入：如果已经是 numpy 数组，使用 tobytes() 更高效
+        if isinstance(tiled_image_data, np.ndarray):
+            f.write(tiled_image_data.tobytes())
+        else:
+            f.write(bytes(tiled_image_data))
 
 class TileProcessor14(TileProcessor):
     """处理器，用于 pp_format 0x14 (4-bit paletted, 16色)。"""
@@ -230,30 +248,48 @@ class TileProcessor14(TileProcessor):
     def bytes_per_pixel(self): return 0.5
     
     def decode(self, f, number_of_pixels):
-        # 批量读取：一次性读取所有字节，然后解包
+        # 批量读取：一次性读取所有字节，使用 numpy 向量化操作解包
         byte_count = (number_of_pixels + 1) // 2
         raw_data = f.read(byte_count)
         
-        data = [0] * number_of_pixels
-        for i in range(0, number_of_pixels, 2):
-            byte = raw_data[i // 2]
-            data[i] = byte & 0x0F          # 低4位给第一个像素
-            if i + 1 < number_of_pixels:
-                data[i+1] = (byte >> 4) & 0x0F # 高4位给第二个像素
+        # 使用 np.frombuffer 零拷贝读取原始字节
+        raw_array = np.frombuffer(raw_data, dtype=np.uint8)
+        
+        # 向量化解包：低4位和高4位
+        low_nibbles = raw_array & 0x0F
+        high_nibbles = (raw_array >> 4) & 0x0F
+        
+        # 交错合并：低4位和高4位交替
+        data = np.empty(number_of_pixels, dtype=np.uint8)
+        data[0::2] = low_nibbles[:len(data[0::2])]
+        if number_of_pixels > 1:
+            data[1::2] = high_nibbles[:len(data[1::2])]
+        
         return data
 
     def encode(self, f, tiled_image_data):
-        # 批量写入：先构建完整的字节数组，然后一次性写入
-        data_len = len(tiled_image_data)
+        # 批量写入：使用 numpy 向量化操作打包 4-bit 数据
+        if isinstance(tiled_image_data, np.ndarray):
+            data_array = tiled_image_data
+        else:
+            data_array = np.array(tiled_image_data, dtype=np.uint8)
+        
+        data_len = len(data_array)
         byte_count = (data_len + 1) // 2
-        packed_data = bytearray(byte_count)
         
-        for i in range(0, data_len, 2):
-            low_nibble = tiled_image_data[i] & 0x0F
-            high_nibble = (tiled_image_data[i+1] & 0x0F) << 4 if i + 1 < data_len else 0
-            packed_data[i // 2] = high_nibble | low_nibble
+        # 向量化打包：低4位和高4位
+        low_nibbles = data_array[0::2] & 0x0F
+        high_nibbles = (data_array[1::2] & 0x0F) << 4 if data_len > 1 else np.array([], dtype=np.uint8)
         
-        f.write(packed_data)
+        # 合并：每个字节 = 高4位 | 低4位
+        packed_data = np.zeros(byte_count, dtype=np.uint8)
+        packed_data[:len(low_nibbles)] = low_nibbles
+        if len(high_nibbles) > 0:
+            # 高4位需要左移4位后与低4位合并
+            min_len = min(len(packed_data), len(high_nibbles))
+            packed_data[:min_len] |= high_nibbles[:min_len]
+        
+        f.write(packed_data.tobytes())
 
 class TileProcessor8800(TileProcessor):
     """处理器，用于 pp_format 0x8800 (32-bit RGBA)。"""
