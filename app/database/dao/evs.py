@@ -88,6 +88,7 @@ class EVSDao:
 
     def form_evs_wrapper(hgar_file_id: int) -> tools.EvsWrapper:
         with next(get_db()) as db:
+            # 获取所有EVS条目
             evs_entries = (
                 db.query(EVSEntry)
                 .filter(EVSEntry.hgar_file_id == hgar_file_id)
@@ -95,24 +96,40 @@ class EVSDao:
                 .all()
             )
             logger.debug("Loaded %d EVS entries for hgar_file_id=%s", len(evs_entries), hgar_file_id)
+            
+            # 提取所有非null的sentence_key
+            sentence_keys = {entry.sentence_key for entry in evs_entries if entry.sentence_key is not None}
+            
+            # 一次性批量加载所有Translation
+            translations_map = {}
+            if sentence_keys:
+                translations = (
+                    db.query(Translation)
+                    .filter(Translation.key.in_(sentence_keys))
+                    .all()
+                )
+                translations_map = {t.key: t.content for t in translations}
+            
+            # 一次性批量加载所有Sentence
+            sentences_map = {}
+            if sentence_keys:
+                sentences = (
+                    db.query(Sentence)
+                    .filter(Sentence.key.in_(sentence_keys))
+                    .all()
+                )
+                sentences_map = {s.key: s.content for s in sentences}
+            
             evs = tools.EvsWrapper()
             for entry in tqdm(evs_entries, desc="Forming EVS wrapper", unit="entry"):
                 if entry.sentence_key is None:
                     evs.add_entry(entry.type, entry.param, b"")
                     continue
-                translation = (
-                    db.query(Translation)
-                    .filter(Translation.key == entry.sentence_key)
-                    .first()
-                )
-                original = (
-                    db.query(Sentence)
-                    .filter(Sentence.key == entry.sentence_key)
-                    .first()
-                )
-                content = original.content
-                if translation:
-                    content = translation.content
+                
+                # 从缓存中获取内容（O(1) 字典查询）
+                content = sentences_map.get(entry.sentence_key, b"")
+                if entry.sentence_key in translations_map:
+                    content = translations_map[entry.sentence_key]
                 logger.debug("EVS content: %s", content)
                 evs.add_entry(entry.type, entry.param, content)
             return evs

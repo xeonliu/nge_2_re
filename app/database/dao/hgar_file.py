@@ -159,6 +159,21 @@ class HGARFileDao:
                 .order_by(HgarFile.id.asc())
                 .all()
             )
+            
+            # 预加载所有 Raw 数据（避免循环内多次查询）
+            hgar_file_ids = [hf.id for hf in hgar_files]
+            raw_map = {}
+            if hgar_file_ids:
+                raw_records = db.query(Raw).filter(Raw.hgar_file_id.in_(hgar_file_ids)).all()
+                raw_map = {raw.hgar_file_id: raw.content for raw in raw_records}
+            
+            # 预加载所有 HGPT 数据
+            hgpt_keys = {hf.hgpt_key for hf in hgar_files if hf.hgpt_key}
+            hgpt_map = {}
+            if hgpt_keys:
+                hgpt_records = db.query(Hgpt).filter(Hgpt.key.in_(hgpt_keys)).all()
+                hgpt_map = {h.key: h for h in hgpt_records}
+            
             hg_archive_files = []
             for hgar_file in tqdm(hgar_files, desc="Rebuilding HGAR files", unit="file"):
                 logger.debug("  Rebuilding: %s", hgar_file.short_name)
@@ -173,24 +188,28 @@ class HGARFileDao:
                     
                 elif hgar_file.short_name.endswith(".zpt") or hgar_file.short_name.endswith(".hpt"):
                     # 重建 HGPT 文件
-                    if hgar_file.hgpt_key:
-                        content = HgptDao.get_hgpt_data(hgar_file.hgpt_key)
+                    if hgar_file.hgpt_key and hgar_file.hgpt_key in hgpt_map:
+                        hgpt = hgpt_map[hgar_file.hgpt_key]
+                        # 使用翻译后的 PNG，未翻译直接使用原数据
+                        if hgpt.png_translated:
+                            content = HgptDao._rebuild_from_png(hgpt)
+                        else:
+                            content = hgpt.content
                     else:
                         # 如果没有关联 HGPT，从 Raw 读取
-                        raw = db.query(Raw).filter(Raw.hgar_file_id == hgar_file.id).first()
-                        if raw:
-                            content = raw.content
+                        if hgar_file.id in raw_map:
+                            content = raw_map[hgar_file.id]
                         else:
                             logger.warning("    WARNING: No HGPT or Raw data for %s", hgar_file.short_name)
                             continue
                             
                 else:
                     # 其他文件类型，从 Raw 表读取
-                    raw = db.query(Raw).filter(Raw.hgar_file_id == hgar_file.id).first()
-                    if not raw:
+                    if hgar_file.id in raw_map:
+                        content = raw_map[hgar_file.id]
+                    else:
                         logger.warning("    WARNING: No Raw data for %s", hgar_file.short_name)
                         continue
-                    content = raw.content
                 
                 # 检查是否需要重新压缩（根据 encoded_identifier）
                 is_compressed = ((hgar_file.encoded_identifier >> 31) == 1) if hgar_file.encoded_identifier else False
