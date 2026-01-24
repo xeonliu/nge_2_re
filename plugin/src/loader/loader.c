@@ -11,7 +11,10 @@
 #include <pspgu.h>
 #include <pspdisplay.h>
 
+#include <pspctrl.h>
+
 #include "patcher.h"
+#include "unifont.h"
 
 PSP_MODULE_INFO("EBOOT_LOADER", PSP_MODULE_USER, 1, 1);
 PSP_NO_CREATE_MAIN_THREAD();
@@ -81,21 +84,65 @@ void drawRect(float x, float y, float w, float h) {
     vertices[1].x = x + w;
     vertices[1].y = y + h;
 
+    sceGuDisable(GU_TEXTURE_2D); // 确保纹理被禁用
     sceGuColor(0xFF0000FF); // Red, colors are ABGR
     sceGuDrawArray(GU_SPRITES, GU_TEXTURE_16BIT | GU_VERTEX_16BIT | GU_TRANSFORM_2D, 2, 0, vertices);
+	sceGuEnable(GU_TEXTURE_2D); // 重新启用纹理
 }
 
 
 #define PathOldBoot "disc0:/PSP_GAME/SYSDIR/BOOT.BIN"
 
+int selected_index = 0;
+int last_pad_buttons = 0;
+SceCtrlData pad;
+
+void handleInput() {
+    sceCtrlPeekBufferPositive(&pad, 1);
+    
+    // 只在按键刚刚按下时触发（从 0 变为 1）
+    int pressed_buttons = pad.Buttons & ~last_pad_buttons;
+    last_pad_buttons = pad.Buttons;
+
+    if (pressed_buttons & PSP_CTRL_UP) {
+        selected_index--;
+        if (selected_index < 0) selected_index = 1;
+    }
+    if (pressed_buttons & PSP_CTRL_DOWN) {
+        selected_index++;
+        if (selected_index > 1) selected_index = 0;
+    }
+    
+    // // 切换功能开关
+    // if (pressed_buttons & PSP_CTRL_CROSS) {
+    //     if (selected_index == 0) enable_cheat = !enable_cheat;
+    //     if (selected_index == 1) skip_intro = !skip_intro;
+    // }
+}
+
 static int main_thread(SceSize args, void *argp)
 {
 
 	initGu();
-	startFrame();
-	drawRect(100.0f, 100.0f, 280.0f, 72.0f);
-	endFrame();
-	sceKernelDelayThread(2000000); // 2 seconds
+	while(1) {	
+		startFrame();
+
+		// TODO: Draw Logo
+		// drawRect(100.0f, 100.0f, 280.0f, 72.0f);
+
+		// Render Menu
+		uint32_t color = (selected_index == 0) ? 0xFF00FFFF : 0xFFFFFFFF;
+        unifont_print(110, 110, "开启内存补丁", color);
+        
+        unifont_print(110, 135, "显示系统信息", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
+        
+        unifont_print(150, 200, "按 START 键启动游戏", 0xFF00AAFF);
+
+        handleInput(); // 处理按键逻辑
+        if (pad.Buttons & PSP_CTRL_START) break;
+
+		endFrame();
+	}
 	endGu();
 
 	SceUID eboot_mid = sceKernelLoadModule(PathOldBoot, 0, NULL);
