@@ -244,7 +244,7 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4c4c), "未完成的白日梦");
     strcpy((char *)NEW_ADDR(0x089b4c64), "女人如火");
     strcpy((char *)NEW_ADDR(0x089b4c70), "花样年华");
-    strcpy((char *)NEW_ADDR(0x089b4c80), "模糊的天空");
+    strcpy((char *)NEW_ADDR(0x089b4c80), "暧昧的天空");
     strcpy((char *)NEW_ADDR(0x089b4c90), "Cobalt Sky");
     strcpy((char *)NEW_ADDR(0x089b4ca8), "VS．SEELE");
     strcpy((char *)NEW_ADDR(0x089b4cbc), "心中的一切");
