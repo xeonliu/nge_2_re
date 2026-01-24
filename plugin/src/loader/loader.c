@@ -15,6 +15,7 @@
 
 #include "patcher.h"
 #include "unifont.h"
+#include "ui_atlas.h"
 
 PSP_MODULE_INFO("EBOOT_LOADER", PSP_MODULE_USER, 1, 1);
 PSP_NO_CREATE_MAIN_THREAD();
@@ -58,7 +59,7 @@ void endGu(){
 
 void startFrame(){
     sceGuStart(GU_DIRECT, list);
-    sceGuClearColor(0xFFFFFFFF); // White background
+    sceGuClearColor(0xFF000000); // White background
     sceGuClear(GU_COLOR_BUFFER_BIT);
 }
 
@@ -124,6 +125,10 @@ static int main_thread(SceSize args, void *argp)
 {
 
 	initGu();
+	
+	// 初始化 UI Atlas 系统（动态分配显存）
+	uiInit();
+	
 	while(1) {	
 		startFrame();
 
@@ -132,11 +137,11 @@ static int main_thread(SceSize args, void *argp)
 
 		// Render Menu
 		uint32_t color = (selected_index == 0) ? 0xFF00FFFF : 0xFFFFFFFF;
-        unifont_print(110, 110, "开启内存补丁", color);
+        uiPrint(110, 110, "开启内存补丁", color);
         
-        unifont_print(110, 135, "显示系统信息", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
+        uiPrint(110, 135, "显示系统信息", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
         
-        unifont_print(150, 200, "按 START 键启动游戏", 0xFF00AAFF);
+        uiPrint(150, 200, "按 START 键启动游戏", 0xFF00AAFF);
 
         handleInput(); // 处理按键逻辑
         if (pad.Buttons & PSP_CTRL_START) break;

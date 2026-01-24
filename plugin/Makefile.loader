@@ -1,13 +1,15 @@
 TARGET = EBOOT
 ATTR = BIN
 
-OBJS = src/loader/loader.o\
+OBJS = src/loader/loader.o src/loader/ui_draw.o\
  src/patcher.o src/transform.o\
- src/bin/gb2312.o src/bin/sjis.o src/bin/utf16.o src/utils/log.o
+ src/bin/gb2312.o src/bin/sjis.o src/bin/utf16.o src/utils/log.o src/bin/atlas.o
 
 CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
+
+LIBS = -lpspgu
 
 INCDIR = include
 
