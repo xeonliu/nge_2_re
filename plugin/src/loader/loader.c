@@ -177,14 +177,23 @@ static int main_thread(SceSize args, void *argp)
 
 	patch(base_addr);
 
-	// TODO: 驻留内存，提供外挂功能
+    if (enable_pulse_autowin) {
+        patchPulseAutowin();
+    }
+
+    if (enable_battle_debug) {
+        patchBattleDebugMenu();
+    }
+
+    if (enable_daily_debug) {
+        patchDailyDebugMenu();
+    }
 
 	return sceKernelExitDeleteThread(0);
 }
 
 int module_start(SceSize args, void *argp)
 {
-	// TODO: Add Welcome Page
 	int th = sceKernelCreateThread("loader", main_thread, 0x1F, 0x1000, 0, 0);
 	if (th >= 0)
 	{
