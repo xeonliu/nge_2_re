@@ -1,7 +1,7 @@
 #ifndef __ATLAS_DATA_H__
 #define __ATLAS_DATA_H__
 
-#define ATLAS_CHAR_COUNT 92
+#define ATLAS_CHAR_COUNT 118
 
 typedef struct { unsigned short code; unsigned char width; } CharIndex;
 
@@ -45,6 +45,9 @@ static const CharIndex atlas_index[] = {
     { 0x0058, 9 },
     { 0x0059, 9 },
     { 0x005A, 9 },
+    { 0x005B, 5 },
+    { 0x005D, 5 },
+    { 0x005F, 9 },
     { 0x0061, 8 },
     { 0x0062, 9 },
     { 0x0063, 8 },
@@ -73,31 +76,54 @@ static const CharIndex atlas_index[] = {
     { 0x007A, 8 },
     { 0x4E01, 14 },
     { 0x4E2D, 14 },
+    { 0x4EF6, 14 },
+    { 0x4F5C, 14 },
     { 0x4FE1, 14 },
     { 0x5185, 14 },
+    { 0x51B2, 14 },
+    { 0x5212, 14 },
+    { 0x5236, 14 },
     { 0x52A0, 14 },
     { 0x52A8, 14 },
+    { 0x5316, 14 },
+    { 0x5355, 14 },
     { 0x542F, 14 },
     { 0x5B58, 14 },
     { 0x5B8C, 14 },
+    { 0x5E38, 14 },
     { 0x5F00, 14 },
     { 0x606F, 14 },
     { 0x620F, 14 },
     { 0x6210, 14 },
+    { 0x6218, 14 },
     { 0x6309, 14 },
+    { 0x63D2, 14 },
+    { 0x6597, 14 },
+    { 0x65E5, 14 },
     { 0x663E, 14 },
     { 0x672C, 14 },
+    { 0x6C49, 14 },
     { 0x6E38, 14 },
     { 0x7248, 14 },
+    { 0x7528, 14 },
     { 0x793A, 14 },
     { 0x7CFB, 14 },
     { 0x7EC6, 14 },
     { 0x7EDF, 14 },
+    { 0x8109, 14 },
+    { 0x81EA, 14 },
+    { 0x83DC, 14 },
     { 0x8865, 14 },
+    { 0x8BA1, 14 },
+    { 0x8BD5, 14 },
     { 0x8BE6, 14 },
     { 0x8BEF, 14 },
+    { 0x8C03, 14 },
+    { 0x8DF3, 14 },
     { 0x8F7D, 14 },
+    { 0x8FC7, 14 },
     { 0x9519, 14 },
+    { 0xFF1A, 14 },
 };
 
 #endif

@@ -7,7 +7,7 @@ FONT_SIZE = 14            # 字体大小
 ATLAS_SIZE = 256          # 贴图尺寸
 CELL_SIZE = 16            # 每个格子的尺寸 (16x16)
 # 你需要的所有字符
-TEXT_DATA = "开启内存补丁显示系统信息详细按START启动游戏加载中完成错误版本:. 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+TEXT_DATA = "开启内存补丁显示系统信息详细按START启动游戏加载中完成错误版本:. 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_自动跳过脉冲启用战斗调试菜单启用日常调试菜单[ON][OFF]EVA2 汉化计划 2026插件制作：main_void"
 # --------------
 
 def generate_atlas():

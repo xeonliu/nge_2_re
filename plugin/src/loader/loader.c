@@ -96,7 +96,12 @@ void drawRect(float x, float y, float w, float h) {
 
 int selected_index = 0;
 int last_pad_buttons = 0;
+
 SceCtrlData pad;
+
+static int enable_pulse_autowin = 0;
+static int enable_daily_debug = 0;
+static int enable_battle_debug = 0;
 
 void handleInput() {
     sceCtrlPeekBufferPositive(&pad, 1);
@@ -107,18 +112,19 @@ void handleInput() {
 
     if (pressed_buttons & PSP_CTRL_UP) {
         selected_index--;
-        if (selected_index < 0) selected_index = 1;
+        if (selected_index < 0) selected_index = 2;
     }
     if (pressed_buttons & PSP_CTRL_DOWN) {
         selected_index++;
-        if (selected_index > 1) selected_index = 0;
+        if (selected_index > 2) selected_index = 0;
     }
     
-    // // 切换功能开关
-    // if (pressed_buttons & PSP_CTRL_CROSS) {
-    //     if (selected_index == 0) enable_cheat = !enable_cheat;
-    //     if (selected_index == 1) skip_intro = !skip_intro;
-    // }
+    // 切换功能开关
+    if (pressed_buttons & PSP_CTRL_CIRCLE) {
+        if (selected_index == 0) enable_pulse_autowin = !enable_pulse_autowin;
+        if (selected_index == 1) enable_battle_debug = !enable_battle_debug;
+        if (selected_index == 2) enable_daily_debug = !enable_daily_debug;
+    }
 }
 
 static int main_thread(SceSize args, void *argp)
@@ -126,27 +132,33 @@ static int main_thread(SceSize args, void *argp)
 
 	initGu();
 	
-	// 初始化 UI Atlas 系统（动态分配显存）
-	uiInit();
-	
 	while(1) {	
-		startFrame();
-
-		// TODO: Draw Logo
-		// drawRect(100.0f, 100.0f, 280.0f, 72.0f);
-
-		// Render Menu
-		uint32_t color = (selected_index == 0) ? 0xFF00FFFF : 0xFFFFFFFF;
-        uiPrint(110, 110, "开启内存补丁", color);
-        
-        uiPrint(110, 135, "显示系统信息", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
-        
-        uiPrint(150, 200, "按 START 键启动游戏", 0xFF00AAFF);
-
         handleInput(); // 处理按键逻辑
-        if (pad.Buttons & PSP_CTRL_START) break;
+        
+		startFrame();
+		{
+            // TODO: Draw Logo
+            // drawRect(100.0f, 100.0f, 280.0f, 72.0f);
 
+            // Render Menu
+            uint32_t color = (selected_index == 0) ? 0xFF00FFFF : 0xFFFFFFFF;
+            uiPrint(110, 110, "自动跳过脉冲", color);
+            uiPrint(250, 110, enable_pulse_autowin ? "[ON]" : "[OFF]", color);
+            
+            uiPrint(110, 135, "启用战斗调试菜单", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
+            uiPrint(250, 135, enable_battle_debug ? "[ON]" : "[OFF]", (selected_index == 1) ? 0xFF00FFFF : 0xFFFFFFFF);
+
+            uiPrint(110, 160, "启用日常调试菜单", (selected_index == 2) ? 0xFF00FFFF : 0xFFFFFFFF);
+            uiPrint(250, 160, enable_daily_debug ? "[ON]" : "[OFF]", (selected_index == 2) ? 0xFF00FFFF : 0xFFFFFFFF);
+            
+            uiPrint(150, 200, "按 START 键启动游戏", 0xFF00AAFF);
+
+            uiPrint(150, 220, "EVA2 汉化计划 2026", 0xFF00AAFF);
+            uiPrint(150, 235, "插件制作：main_void", 0xFF00AAFF);
+        }
 		endFrame();
+
+        if (pad.Buttons & PSP_CTRL_START) break;
 	}
 	endGu();
 

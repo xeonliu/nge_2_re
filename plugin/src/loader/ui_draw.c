@@ -5,11 +5,6 @@
 extern unsigned char atlas_bin[];         // 256x256 索引数据 (64KB)
 extern unsigned char atlas_palette_bin[]; // 256色调色板 (1KB)
 
-// 初始化：设置纹理和调色板
-void uiInit(void) {
-    // 这里不需要做任何事，因为纹理和调色板在 uiPrint 中设置
-}
-
 static uint32_t next_utf8_char(const char** s) {
     const unsigned char* p = (const unsigned char*)*s;
     uint32_t res = 0;
