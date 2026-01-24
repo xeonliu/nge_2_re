@@ -2,11 +2,12 @@
 #include <stdint.h>
 #include "atlas_data.h"
 
-extern unsigned char atlas_bin[];
+extern unsigned char atlas_bin[];         // 256x256 索引数据 (64KB)
+extern unsigned char atlas_palette_bin[]; // 256色调色板 (1KB)
 
-// 初始化：直接使用 atlas_bin 作为纹理数据
+// 初始化：设置纹理和调色板
 void uiInit(void) {
-    _atlas_vram_ptr = atlas_bin;
+    // 这里不需要做任何事，因为纹理和调色板在 uiPrint 中设置
 }
 
 static uint32_t next_utf8_char(const char** s) {
@@ -36,10 +37,12 @@ static int get_char_info(uint32_t code, int* width) {
 
 void uiPrint(float x, float y, const char* str, uint32_t color) {
     sceGuEnable(GU_TEXTURE_2D);
-    sceGuTexMode(GU_PSM_8888, 0, 0, 0);
-    sceGuTexImage(0, 256, 256, 256, _atlas_vram_ptr);
-    sceGuTexFunc(GU_TFX_MODULATE, GU_TCC_RGBA); // 允许修改颜色
-    sceGuTexFilter(GU_LINEAR, GU_LINEAR);     // TTF 贴图开启线性过滤更平滑
+    sceGuTexMode(GU_PSM_T8, 0, 0, 0);  // 使用 8 位索引格式
+    sceGuTexImage(0, 256, 256, 256, atlas_bin); // 256x256 纹理
+    sceGuClutMode(GU_PSM_8888, 0, 0xFF, 0);  // 设置调色板格式
+    sceGuClutLoad(32, atlas_palette_bin);   // 加载 256 色调色板 (32*8=256)
+    sceGuTexFunc(GU_TFX_MODULATE, GU_TCC_RGBA);
+    sceGuTexFilter(GU_LINEAR, GU_LINEAR);
     
     // 启用 alpha 混合以支持透明背景
     sceGuEnable(GU_BLEND);

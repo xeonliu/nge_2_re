@@ -1,14 +1,9 @@
 #ifndef __ATLAS_DATA_H__
 #define __ATLAS_DATA_H__
 
-#include <stdint.h>
-
 #define ATLAS_CHAR_COUNT 92
 
 typedef struct { unsigned short code; unsigned char width; } CharIndex;
-
-// 全局变量：指向显存中的 atlas 数据
-static void* _atlas_vram_ptr = 0;
 
 static const CharIndex atlas_index[] = {
     { 0x0020, 4 },

@@ -41,9 +41,29 @@ def generate_atlas():
             'y': y
         })
 
-    # 1. 保存贴图为原始 RGBA 数据
+    # 1. 转换为 8 位索引格式 (T8)
+    # 使用灰度值作为索引，构建 256 色调色板（从透明到白色的渐变）
+    gray_img = atlas.convert('L')  # 转换为灰度
+    alpha_channel = atlas.split()[3]  # 提取 alpha 通道
+    
+    # 生成调色板：256级灰度，带alpha渐变
+    palette = []
+    for i in range(256):
+        # ABGR8888 格式：白色文字，alpha从0到255
+        a = i
+        b = 255
+        g = 255
+        r = 255
+        palette.extend([r, g, b, a])
+    
+    # 保存索引数据（使用alpha通道作为索引）
+    index_data = alpha_channel.tobytes()
+    
     with open("atlas.bin", "wb") as f:
-        f.write(atlas.tobytes())
+        f.write(index_data)  # 64KB (256*256)
+    
+    with open("atlas_palette.bin", "wb") as f:
+        f.write(bytes(palette))  # 1KB (256*4)
 
     # 2. 生成 C 头文件
     with open("atlas_data.h", "w", encoding="utf-8") as f:
@@ -57,7 +77,9 @@ def generate_atlas():
             f.write(f"    {{ 0x{info['code']:04X}, {info['width']} }},\n")
         f.write("};\n\n#endif\n")
         
-    print(f"成功生成！共 {len(char_info)} 个字符，贴图已保存为 atlas.bin")
+    print(f"成功生成！共 {len(char_info)} 个字符")
+    print(f"索引贴图: atlas.bin ({len(index_data)} bytes)")
+    print(f"调色板: atlas_palette.bin ({len(palette)} bytes)")
 
 if __name__ == "__main__":
     generate_atlas()
