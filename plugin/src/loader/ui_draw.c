@@ -5,6 +5,8 @@
 extern unsigned char atlas_bin[];         // 256x256 索引数据 (64KB)
 extern unsigned char atlas_palette_bin[]; // 256色调色板 (1KB)
 
+// Convert UTF-8 to Unicode code point (UTF-16)
+// and step the pointer forward
 static uint32_t next_utf8_char(const char** s) {
     const unsigned char* p = (const unsigned char*)*s;
     uint32_t res = 0;
