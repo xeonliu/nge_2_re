@@ -51,8 +51,23 @@ void pulse_autowin()
     pspSdkEnableInterrupts(state);
 }
 
-void debug_menu()
+void patch(u32 mod_base)
 {
+    offset_ = mod_base - 0x08804000;
+    patch_function();
+    patch_sentence();
+
+    // TODO: 找不到文件直接报错，不要让这些人运行！
+    // TODO: 无法加载libfont直接报错，不要让这些人用错误的字体！
+    patch_from_external_file("disc0:/PSP_GAME/USRDIR/EBTRANS.BIN");
+    // TODO: Patch Save Data Language to Simplified Chinese
+};
+
+void patchPulseAutowin() {
+    pulse_autowin();
+}
+
+void patchBattleDebugMenu() {
     u32 state = pspSdkDisableInterrupts();
     {
         // Daily Special Debug
@@ -67,19 +82,17 @@ void debug_menu()
     pspSdkEnableInterrupts(state);
 }
 
-void patch(u32 mod_base)
-{
-    offset_ = mod_base - 0x08804000;
-    patch_function();
-    patch_sentence();
-    // TODO: Use L/R Buttons to Trigger Debug Menu
-    pulse_autowin();
-    debug_menu();
-    // TODO: 找不到文件直接报错，不要让这些人运行！
-    // TODO: 无法加载libfont直接报错，不要让这些人用错误的字体！
-    patch_from_external_file("disc0:/PSP_GAME/USRDIR/EBTRANS.BIN");
-    // TODO: Patch Save Data Language to Simplified Chinese
-};
+void patchDailyDebugMenu() {
+    u32 state = pspSdkDisableInterrupts();
+    {
+        // Daily Special Debug
+        *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x088984C0);
+                
+        sceKernelDcacheWritebackAll();
+        sceKernelIcacheInvalidateAll();
+    }
+    pspSdkEnableInterrupts(state);
+}
 
 void patch_function()
 {
@@ -231,7 +244,7 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4c4c), "未完成的白日梦");
     strcpy((char *)NEW_ADDR(0x089b4c64), "女人如火");
     strcpy((char *)NEW_ADDR(0x089b4c70), "花样年华");
-    strcpy((char *)NEW_ADDR(0x089b4c80), "模糊的天空");
+    strcpy((char *)NEW_ADDR(0x089b4c80), "暧昧的天空");
     strcpy((char *)NEW_ADDR(0x089b4c90), "Cobalt Sky");
     strcpy((char *)NEW_ADDR(0x089b4ca8), "VS．SEELE");
     strcpy((char *)NEW_ADDR(0x089b4cbc), "心中的一切");

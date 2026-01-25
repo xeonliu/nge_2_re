@@ -83,6 +83,47 @@ class Patcher:
         # print("size:", size)
         return (elf_data, ram_data, size)
 
+    @staticmethod
+    def process_escape_sequences(text: str) -> bytes:
+        """处理包含 \\xHH 转义序列的文本，转换为字节"""
+        import re
+        result = bytearray()
+        i = 0
+        
+        while i < len(text):
+            # 查找 \xHH 模式
+            if i + 3 < len(text) and text[i:i+2] == '\\x':
+                try:
+                    # 尝试解析十六进制字节
+                    hex_str = text[i+2:i+4]
+                    byte_value = int(hex_str, 16)
+                    result.append(byte_value)
+                    i += 4
+                    continue
+                except (ValueError, IndexError):
+                    # 不是有效的十六进制，当作普通文本处理
+                    pass
+            
+            # 普通字符，累积直到遇到下一个转义序列
+            j = i
+            while j < len(text):
+                if j + 3 < len(text) and text[j:j+2] == '\\x':
+                    break
+                j += 1
+            
+            # 将这段普通文本转换为 EVA SJIS
+            if j > i:
+                segment = text[i:j]
+                segment_bytes = tools.to_eva_sjis(segment)
+                result.extend(segment_bytes)
+                i = j
+            else:
+                # 单个无法识别的字符
+                result.extend(tools.to_eva_sjis(text[i]))
+                i += 1
+        
+        return bytes(result)
+
     def patch_translation(self) -> list:
         entries = []
         
@@ -104,7 +145,13 @@ class Patcher:
             
             print(elem["translation"])
             original_bytes = tools.to_eva_sjis(elem["original"])
-            translation_bytes = tools.to_eva_sjis(elem["translation"])
+            
+            # 处理可能包含转义序列的翻译文本
+            translation_text = elem["translation"]
+            if '\\x' in translation_text:
+                translation_bytes = self.process_escape_sequences(translation_text)
+            else:
+                translation_bytes = tools.to_eva_sjis(translation_text)
             
             # 计算翻译文本需要的空间（包括结尾的 \0）
             required_space = len(translation_bytes) + 1
@@ -127,9 +174,11 @@ class Patcher:
             
             if len(translation_bytes) == len(original_bytes):
                 hex = translation_bytes.hex()
+                print(f"Equal length: {elem['translation']} ({len(translation_bytes)} bytes)")
             else:
                 hex = translation_bytes.hex() + b"\x00".hex()
-            
+                print(f"Adjusted length: {elem['translation']} ({len(translation_bytes)+1} bytes with null terminator), Original: {len(original_bytes)} bytes")
+                
             buffer = bytes.fromhex(hex)
             
             entry = TranslationEntry(

@@ -1401,7 +1401,8 @@ class Writer(object):
         if self.compression is not None:
             compressor = zlib.compressobj(self.compression)
         else:
-            compressor = zlib.compressobj()
+            # 优化：默认使用 Level 1 快速压缩
+            compressor = zlib.compressobj(1)
         for dat in idat:
             compressed = compressor.compress(dat)
             if len(compressed):
