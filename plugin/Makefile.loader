@@ -3,11 +3,15 @@ ATTR = BIN
 
 OBJS = src/loader/loader.o src/loader/ui_draw.o\
  src/patcher.o src/transform.o\
- src/bin/gb2312.o src/bin/sjis.o src/bin/utf16.o src/utils/log.o src/bin/atlas.o src/bin/atlas_palette.o
+ src/bin/gb2312.o src/bin/sjis.o src/bin/utf16.o src/utils/log.o src/bin/atlas.o src/bin/atlas_palette.o\
+ src/sceLibFont.o src/scefttt.o
 
 CFLAGS = -O2 -Wall
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
+
+# Define PSP import function flags
+ASFLAGS = -DF_sceLibFont_0000 -DF_sceLibFont_0014
 
 LIBS = -lpspgu
 

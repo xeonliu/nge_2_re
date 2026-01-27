@@ -5,6 +5,7 @@
 #include "transform.h"
 #include "log.h"
 #include "hook.h"
+#include "scefttt.h"
 
 /**
  * The full 32-bit jump address is formed by concatenating
@@ -39,7 +40,7 @@ void pulse_autowin()
 {
     const u32 ADDR_1 = 0x885b478;
     const u32 ADDR_2 = 0x885b5fc;
-    const u32 ADDR_3 = 0x885b5cc;
+    // const u32 ADDR_3 = 0x885b5cc;
     const u32 ADDR_4 = 0x885b5c4;
     u32 state = pspSdkDisableInterrupts();
     {
@@ -221,6 +222,18 @@ void patch_function()
             _sw(0x2403000b, NEW_ADDR(0x0880d024));
             // sw v1, 4(s1)
             _sw(0xae230004, NEW_ADDR(0x0880d02c));
+            sceKernelDcacheWritebackAll();
+            sceKernelIcacheInvalidateAll();
+        }
+        pspSdkEnableInterrupts(state);
+    }
+
+    /* Font Open */
+    {
+        u32 state = pspSdkDisableInterrupts();
+        {
+            // jal sceFtttOpen
+            _sw(JAL_TO(sceFtttOpen), NEW_ADDR(0x088692f8));
             sceKernelDcacheWritebackAll();
             sceKernelIcacheInvalidateAll();
         }
