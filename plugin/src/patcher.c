@@ -6,6 +6,7 @@
 #include "log.h"
 #include "hook.h"
 #include "scefttt.h"
+#include "psputil.h"
 
 /**
  * The full 32-bit jump address is formed by concatenating
@@ -208,6 +209,39 @@ void patch_function()
             _sw(0x2403000b, NEW_ADDR(0x0880b470));
             // sw v1, 4(sp)
             _sw(0xafa30004, NEW_ADDR(0x0880b474));
+            sceKernelDcacheWritebackAll();
+            sceKernelIcacheInvalidateAll();
+        }
+        pspSdkEnableInterrupts(state);
+    }
+
+    // TODO: Patch all the sceUtilitySavedataInitStart call
+    /**
+                             **************************************************************
+                             *                          FUNCTION                          *
+                             **************************************************************
+                             int __stdcall sceUtilitySavedataInitStart(SceUtilitySave
+             int               v0:4           <RETURN>
+             SceUtilitySave    a0:4           params
+                             sceUtilitySavedataInitStart                     XREF[6]:     FUN_0880b3a0:0880b4e4(c), 
+                                                                                          FUN_0880b5f4:0880b6f0(c), 
+                                                                                          FUN_0880b7d4:0880baf8(c), 
+                                                                                          FUN_0880bc84:0880bce0(c), 
+                                                                                          FUN_0880d6ac:0880d97c(c), 
+                                                                                          FUN_0880e058:0880e1d4(c)  
+        089b2c80 08 00 e0 03     jr         ra
+        089b2c84 00 00 00 00     _nop
+    */
+    {
+        u32 state = pspSdkDisableInterrupts();
+        {
+            // jal sceUtilitySavedataInitStartPatched
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880b4e4));
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880b6f0));
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880baf8));
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880bce0));
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880d97c));
+            _sw(JAL_TO(sceUtilitySavedataInitStartPatched), NEW_ADDR(0x0880e1d4));
             sceKernelDcacheWritebackAll();
             sceKernelIcacheInvalidateAll();
         }
