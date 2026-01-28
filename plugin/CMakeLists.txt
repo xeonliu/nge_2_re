@@ -37,12 +37,13 @@ set_source_files_properties(${SOURCES} PROPERTIES LANGUAGE C)
 # Set assembly flags for PSP import functions  
 set_property(SOURCE src/sceLibFont.S APPEND PROPERTY COMPILE_DEFINITIONS   
     F_sceLibFont_0000 # sceLibFont
+    F_sceLibFont_0003 # sceFontGetFontInfo
     F_sceLibFont_0014 # sceFontOpenUserFile
     F_sceLibFont_0017 # sceFontNewLib
-)  
+)
   
 # Link all required libraries  
-target_link_libraries(EBOOT PRIVATE   
+target_link_libraries(EBOOT PRIVATE
     pspgu   
     pspdisplay   
     pspctrl   
@@ -52,7 +53,7 @@ target_link_libraries(EBOOT PRIVATE
 # Include directories  
 target_include_directories(EBOOT PRIVATE include)
 
-add_custom_command(  
+add_custom_command(
     TARGET EBOOT  
     POST_BUILD  
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE_DIR:EBOOT>/EBOOT.prx $<TARGET_FILE_DIR:EBOOT>/EBOOT.BIN  

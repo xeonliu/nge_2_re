@@ -271,6 +271,8 @@ void patch_function()
             _sw(JAL_TO(sceFtttNewLib), NEW_ADDR(0x08869040));
             // jal sceFtttOpen
             _sw(JAL_TO(sceFtttOpen), NEW_ADDR(0x088692f8));
+            // jal sceFtttGetFontInfo
+            _sw(JAL_TO(sceFtttGetFontInfo), NEW_ADDR(0x08869310));
             sceKernelDcacheWritebackAll();
             sceKernelIcacheInvalidateAll();
         }

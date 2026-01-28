@@ -151,7 +151,7 @@ int sceFtttNewLib(int paramsPtr, int errorCodePtr){
 
     int ret;
 
-    while ((ret = sceFontNewLib((int)params, errorCodePtr) == SCE_ERROR_KERNEL_LIBRARY_IS_NOT_LINKED))
+    while ((ret = sceFontNewLib((int)params, errorCodePtr)) == SCE_ERROR_KERNEL_LIBRARY_IS_NOT_LINKED)
     {
         sceKernelDelayThread(200000);
     }
@@ -164,4 +164,20 @@ int sceFtttNewLib(int paramsPtr, int errorCodePtr){
 int sceFtttOpen(int fontLibHandle, int index, int mode, int errorCodePtr)
 {
     return sceFontOpenUserFile(fontLibHandle, (int)"disc0:/PSP_GAME/USRDIR/fonts.pgf", 0, errorCodePtr);
+}
+
+/* Patch Font Info in Memory */
+int sceFtttGetFontInfo(int fontHandle, int fontInfoPtr)
+{
+    PGFFontInfo *fontInfo = (PGFFontInfo *)fontInfoPtr;
+
+    int ret = sceFontGetFontInfo(fontHandle, fontInfoPtr);
+
+    /* Make sure it's the same with PSP's pre-installed jpn0.pgf, Otherwise the font will glitch in PPSSPP. */
+    // Change Max Width to 0x0013 pixels
+    fontInfo->maxGlyphWidth = 0x0013;
+    // Change Max Height to 0x0014 pixels
+    fontInfo->maxGlyphHeight = 0x0014;
+
+    return ret;
 }
