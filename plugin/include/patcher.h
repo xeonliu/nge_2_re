@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include <psptypes.h>
 
 void patch(u32 mod_base);
 void patch_function();

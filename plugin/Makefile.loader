@@ -11,7 +11,7 @@ CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 LDFLAGS = -nostartfiles
 
 # Define PSP import function flags
-ASFLAGS = -DF_sceLibFont_0000 -DF_sceLibFont_0014
+ASFLAGS = -DF_sceLibFont_0000 -DF_sceLibFont_0014 -DF_sceLibFont_0017
 
 LIBS = -lpspgu
 

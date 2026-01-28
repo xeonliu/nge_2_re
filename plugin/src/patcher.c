@@ -2,6 +2,7 @@
 #include <pspkernel.h>
 
 #include "patcher.h"
+#include "psptypes.h"
 #include "transform.h"
 #include "log.h"
 #include "hook.h"
@@ -262,10 +263,12 @@ void patch_function()
         pspSdkEnableInterrupts(state);
     }
 
-    /* Font Open */
+    /* sceFont Patch */
     {
         u32 state = pspSdkDisableInterrupts();
         {
+            // jal sceFtttNewLib
+            _sw(JAL_TO(sceFtttNewLib), NEW_ADDR(0x08869040));
             // jal sceFtttOpen
             _sw(JAL_TO(sceFtttOpen), NEW_ADDR(0x088692f8));
             sceKernelDcacheWritebackAll();
