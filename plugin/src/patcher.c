@@ -198,22 +198,7 @@ void patch_function()
         dbg_log("Patched Code: %x\n", *(uint32_t *)code_pos);
     }
 
-    /* Savedata Utility */
-    {
-        // Data Load
-        u32 state = pspSdkDisableInterrupts();
-        {
-            // li v1, 0x0b
-            _sw(0x2403000b, NEW_ADDR(0x0880b470));
-            // sw v1, 4(sp)
-            _sw(0xafa30004, NEW_ADDR(0x0880b474));
-            sceKernelDcacheWritebackAll();
-            sceKernelIcacheInvalidateAll();
-        }
-        pspSdkEnableInterrupts(state);
-    }
-
-    // TODO: Patch all the sceUtilitySavedataInitStart call
+    // Patch all the sceUtilitySavedataInitStart call
     /**
                              **************************************************************
                              *                          FUNCTION                          *
