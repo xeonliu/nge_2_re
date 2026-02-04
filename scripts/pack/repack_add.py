@@ -424,7 +424,21 @@ def repack_umd(
 
                 has_changes = False
 
-                # A. Update pointers for children that moved (either files or subdirs we just moved)
+                # Build map of replaced/moved files for quick lookup
+                replaced_file_map = {}
+                for replaced_file in files_to_replace:
+                    if (replaced_file.new_extent_lba != replaced_file.original_extent_lba):
+                        replaced_file_map[replaced_file.isopath] = (
+                            replaced_file.new_extent_lba,
+                            replaced_file.new_size
+                        )
+
+                # A. Process existing records and update pointers, maintaining original order
+                # B. Preserve order: iterate through original records, update them, and collect new records
+                updated_records = []
+                files_to_add_here = parent_updates.get(dpath, [])
+                new_files_added = set()
+
                 for off, rec in iter_directory_records(dir_data):
                     info = parse_dir_record(rec)
                     if not info:
@@ -441,46 +455,35 @@ def repack_umd(
                         updated_size = dir_status[child_path]["size"]
 
                     # Check if this child is a file we replaced and moved
-                    # (This is inefficient search, but safe for now)
-                    # For optimization, one could build a map of moved files beforehand
-                    else:
-                        for replaced_file in files_to_replace:
-                            if (
-                                replaced_file.isopath == child_path
-                                and replaced_file.new_extent_lba
-                                != replaced_file.original_extent_lba
-                            ):
-                                updated_lba = replaced_file.new_extent_lba
-                                updated_size = replaced_file.new_size
-                                break
+                    elif child_path in replaced_file_map:
+                        updated_lba, updated_size = replaced_file_map[child_path]
 
+                    # Update the record in-place or rebuild it
                     if updated_lba is not None:
-                        struct.pack_into("<I", dir_data, off + 2, updated_lba)
-                        struct.pack_into(">I", dir_data, off + 6, updated_lba)
-                        struct.pack_into("<I", dir_data, off + 10, updated_size)
-                        struct.pack_into(">I", dir_data, off + 14, updated_size)
+                        # Rebuild record with new LBA/size
+                        new_rec = build_directory_record(
+                            name, updated_lba, updated_size, (info["flags"] & 0x02) != 0
+                        )
+                        updated_records.append(new_rec)
                         has_changes = True
+                    else:
+                        # Keep original record unchanged
+                        updated_records.append(rec)
 
-                # B. Add new file records
-                files_to_add_here = parent_updates.get(dpath, [])
-
-                # Always rebuild sectors properly to avoid crossing boundaries
-                # Rebuild all records properly respecting sector boundaries
-                all_records = []
-                for _, r in iter_directory_records(dir_data):
-                    all_records.append(r)
+                # Append new file records at the end (preserving original file order)
                 for nf in files_to_add_here:
-                    all_records.append(
+                    updated_records.append(
                         build_directory_record(
                             nf.filename, nf.new_extent_lba, nf.new_size, False
                         )
                     )
 
+                # Rebuild sectors properly respecting sector boundaries
                 repacked_sectors = bytearray()
                 curr_sect = bytearray(SECTOR_SIZE)
                 ptr = 0
 
-                for rec in all_records:
+                for rec in updated_records:
                     # If record would cross sector boundary, pad current sector and start new
                     if ptr + len(rec) > SECTOR_SIZE:
                         repacked_sectors.extend(curr_sect)
@@ -500,6 +503,10 @@ def repack_umd(
                     fout.seek(old_lba * SECTOR_SIZE)
                     fout.write(repacked_sectors)
                     dir_status[dpath] = {"lba": old_lba, "size": new_total_size}
+                    if len(files_to_add_here) > 0 or has_changes:
+                        logger.info(
+                            f"Directory updated in-place: /{dpath} (LBA: {old_lba}, Size: {old_size}->{new_total_size}, New files: {len(files_to_add_here)})"
+                        )
                 else:
                     # Move Directory - append at end of ISO
                     fout.seek(0, 2)
@@ -513,7 +520,7 @@ def repack_umd(
 
                     dir_status[dpath] = {"lba": new_lba, "size": new_total_size}
                     logger.info(
-                        f"Directory moved: /{dpath} (LBA: {old_lba}->{new_lba}, Size: {old_size}->{new_total_size})"
+                        f"Directory moved: /{dpath} (LBA: {old_lba}->{new_lba}, Size: {old_size}->{new_total_size}, New files: {len(files_to_add_here)})"
                     )
 
             # --- PHASE 4: PVD Update ---

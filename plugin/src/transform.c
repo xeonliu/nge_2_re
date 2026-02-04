@@ -105,7 +105,7 @@ int binary_search(uint16_t target, int low, int high)
 {
 
     u16 *DAT_08a3325c = (u16 *)(SJIS_bin);
-    u16 *UTF16_TABLE = (u16 *)(UTF16_bin);
+    // u16 *UTF16_TABLE = (u16 *)(UTF16_bin);
     low = low & 0xFFFF;
     high = high & 0xFFFF;
 

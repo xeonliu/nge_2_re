@@ -1,6 +1,8 @@
 # ==========================================
 # Configuration & Path Definitions
 # ==========================================
+GAME_ID ?= 00064
+GAME_IDS := 00061 00064
 
 # Temporary and Build Directories
 TEMP_DIR        := temp
@@ -36,6 +38,7 @@ help:
 	@echo "  make import_trans        - Import downloaded translations to DB"
 	@echo "  make export_all          - Export all game files (text, hgar, eboot)"
 	@echo "  make patch_iso           - Create the patched ISO and xdelta"
+	@echo "  make patch_all_ids       - Generate patches for all GAME_IDS (00061 & 00064)"
 	@echo "  make full_build          - Run the complete pipeline"
 	@echo "  make clean               - Clean build artifacts"
 
@@ -157,17 +160,17 @@ decrypt_eboot: pspdecrypt
 
 # Timestamped output filenames to avoid overwriting previous builds
 TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
-PATCHED_ISO := $(BUILD_DIR)/ULJS00064_patched_$(TIMESTAMP).iso
-PATCH_XDELTA := $(BUILD_DIR)/ULJS00064_patch_$(TIMESTAMP).xdelta
+PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
+PATCH_XDELTA := $(BUILD_DIR)/ULJS$(GAME_ID)_patch_$(TIMESTAMP).xdelta
 
 repack_iso:
 	@echo "Repacking game files into ISO..."
 	@mkdir -p $(BUILD_DIR)
-	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS00064.iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
+	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
 
 gen_xdelta:
 	@echo "Generating xdelta patch..."
-	xdelta3 -e -9 -S djw -f -s '$(TEMP_DIR)/ULJS00064.iso' '$(PATCHED_ISO)' '$(PATCH_XDELTA)'
+	xdelta3 -e -9 -S djw -f -s '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(PATCH_XDELTA)'
 
 patch_iso: repack_iso gen_xdelta
 
@@ -186,7 +189,7 @@ full_build:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
-	$(MAKE) patch_iso
+	$(MAKE) patch_all_ids
 
 rebuild:
 	$(MAKE) download_trans
@@ -194,7 +197,14 @@ rebuild:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
-	$(MAKE) patch_iso
+	$(MAKE) patch_all_ids
+
+# Build patches for all GAME_IDS
+patch_all_ids: $(addprefix patch_id_,$(GAME_IDS))
+
+patch_id_%:
+	@echo "Generating patch for GAME_ID $*..."
+	$(MAKE) patch_iso GAME_ID=$*
 
 clean:
 	@echo "Cleaning build directory..."
@@ -209,4 +219,4 @@ clean:
         export_text export_bind export_hgar export_eboot_trans export_all \
         plugin pgftool pspdecrypt \
         extract_iso decrypt_eboot repack_iso gen_xdelta patch_iso \
-        full_build clean
+        full_build rebuild patch_all_ids patch_id_% clean
