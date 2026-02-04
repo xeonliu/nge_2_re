@@ -59,10 +59,7 @@ void patch(u32 mod_base)
     patch_function();
     patch_sentence();
 
-    // TODO: 找不到文件直接报错，不要让这些人运行！
-    // TODO: 无法加载libfont直接报错，不要让这些人用错误的字体！
     patch_from_external_file("disc0:/PSP_GAME/USRDIR/EBTRANS.BIN");
-    // TODO: Patch Save Data Language to Simplified Chinese
 };
 
 void patchPulseAutowin() {
@@ -282,7 +279,7 @@ void patch_sentence()
     strcpy((char *)NEW_ADDR(0x089b4cd8), "从梦中醒来");
     strcpy((char *)NEW_ADDR(0x089b4cf0), "看见春天的人");
     strcpy((char *)NEW_ADDR(0x089b4d04), "折断的翅膀");
-    strcpy((char *)NEW_ADDR(0x089b4d14), "人类之手尚未触及之处");
+    strcpy((char *)NEW_ADDR(0x089b4d14), "人手难及");
     strcpy((char *)NEW_ADDR(0x089b4d3c), "「芝村」平衡");
     strcpy((char *)NEW_ADDR(0x089b4da0), "日目");
     strcpy((char *)NEW_ADDR(0x089b4da8), "结束");
