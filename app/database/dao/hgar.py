@@ -49,12 +49,42 @@ class HGARDao:
 
     @staticmethod
     def get_hgar_by_name(name: str) -> tools.HGArchive:
+        """
+        Docstring for get_hgar_by_name
+        WARN: There are HGAR files with the same name!
+        TODO: Remove this function
+        
+        :param name: Description
+        :type name: str
+        :return: Description
+        :rtype: HGArchive
+        """
         with next(get_db()) as db:
+            # TODO: Add Safety check, if there are two or more files, throw error.
             hgar = db.query(Hgar).filter(Hgar.name == name).first()
             # Form a list of HGArchiveFile
             hgar_files = HGARFileDao.form(hgar.id)
             # Form HGArcive
             return tools.HGArchive(hgar.version, hgar_files)
+    
+    @staticmethod
+    def get_hgar_by_name_and_rel_path(name: str, rel_path: str):
+        with next(get_db()) as db:
+            # 使用 .filter() 传入多个条件
+            hgar = db.query(Hgar).filter(
+                Hgar.name == name, 
+                Hgar.relative_path == rel_path
+            ).first()
+            
+            # 安全检查：如果数据库里没找到对应的记录
+            if not hgar:
+                return None # 或者抛出一个自定义异常
+                
+            # 复用你之前的逻辑：根据 ID 获取文件列表并构建对象
+            hgar_files = HGARFileDao.form(hgar.id)
+            
+            return tools.HGArchive(hgar.version, hgar_files)
+        
 
     @staticmethod
     def get_hgar_by_prefix(prefix: str):

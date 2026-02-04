@@ -109,7 +109,7 @@ class App:
                     print(f"  [{idx}/{total}] Exporting {relative_path}/{name if relative_path else name}")
                     
                     # 逐个加载和保存
-                    hgar = HGARDao.get_hgar_by_name(name)
+                    hgar = HGARDao.get_hgar_by_name_and_rel_path(name, relative_path)
                     
                     # 创建子目录如果需要
                     if relative_path:
