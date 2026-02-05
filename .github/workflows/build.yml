@@ -49,6 +49,10 @@ jobs:
           --repo-type model \
           --token "$HF_TOKEN" \
           --local-dir temp
+        hf download "$HF_REPO_ID" ULJS00061.iso \
+          --repo-type model \
+          --token "$HF_TOKEN" \
+          --local-dir temp
 
     # 4. 构建 Docker 镜像
     - name: Build Docker Image
