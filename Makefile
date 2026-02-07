@@ -37,6 +37,7 @@ help:
 	@echo "  make download_trans      - Download translations from ParaTranz"
 	@echo "  make import_trans        - Import downloaded translations to DB"
 	@echo "  make export_all          - Export all game files (text, hgar, eboot)"
+	@echo "  make gen_metadata        - Generate patch metadata (JSON and image)"
 	@echo "  make patch_iso           - Create the patched ISO and xdelta"
 	@echo "  make patch_all_ids       - Generate patches for all GAME_IDS (00061 & 00064)"
 	@echo "  make full_build          - Run the complete pipeline"

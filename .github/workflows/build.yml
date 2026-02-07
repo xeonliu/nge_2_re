@@ -89,11 +89,13 @@ jobs:
             make full_build
           '
 
+    # 6. Display metadata generated during build
     - name: Display Metadata
       run: |
         echo "📊 Build Metadata:"
         cat build/metadata.json | python3 -m json.tool || echo "metadata.json not found"
 
+    # 7. Upload build artifacts including metadata
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
