@@ -144,20 +144,21 @@ def generate_metadata(
 
 
 def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
-    """Generate a 480x272 image displaying metadata."""
+    """Generate a 480x272 image displaying metadata with text in bottom-right corner with semi-transparent background."""
     try:
         from PIL import Image, ImageDraw, ImageFont
     except ImportError:
         print("Warning: Pillow not installed, skipping image generation")
         return
 
-    # Create image
+    # Create image with RGBA for transparency
     width, height = 480, 272
-    background_color = (30, 30, 40)
+    background_color = (30, 30, 40, 0)  # Transparent
     text_color = (255, 255, 255)
     accent_color = (100, 180, 255)
+    box_color = (30, 30, 40, 200)  # Semi-transparent background box
 
-    img = Image.new("RGB", (width, height), background_color)
+    img = Image.new("RGBA", (width, height), background_color)
     draw = ImageDraw.Draw(img)
 
     # Try to use a default font, fallback to default if not available
@@ -190,30 +191,23 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         font_medium = ImageFont.load_default()
         font_small = ImageFont.load_default()
 
-    y = 10
-
+    # First pass: collect all text lines to be drawn
+    lines = []
+    
     # Title
-    title = "NGE2 汉化补丁构建信息"
-    draw.text((10, y), title, fill=accent_color, font=font_large)
-    y += 30
+    lines.append(("NGE2 汉化补丁构建信息", font_large, accent_color))
 
     # Commit info
     main_commit = metadata["git"]["main_commit"][:8]
-    draw.text((10, y), f"主仓库: {main_commit}", fill=text_color, font=font_medium)
-    y += 20
+    lines.append((f"主仓库: {main_commit}", font_medium, text_color))
 
     # Submodules
     for path, commit in metadata["git"]["submodules"].items():
-        draw.text(
-            (10, y), f"  {path}: {commit[:8]}", fill=text_color, font=font_small
-        )
-        y += 18
+        lines.append((f"  {path}: {commit[:8]}", font_small, text_color))
 
     # Translation stats
     if metadata.get("translation"):
-        y += 5
-        draw.text((10, y), "翻译统计", fill=accent_color, font=font_medium)
-        y += 20
+        lines.append(("翻译统计", font_medium, accent_color))
 
         trans = metadata["translation"]
         total = trans.get("total", 0)
@@ -222,74 +216,31 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         reviewed = trans.get("reviewed", 0)
 
         if total > 0:
-            # Display word count with increment
-            draw.text(
-                (10, y),
-                f"词条总数\t{total}",
-                fill=text_color,
-                font=font_small,
-            )
-            y += 18
-            
-            # Display translated count with percentage
+            lines.append((f"词条总数 {total}", font_small, text_color))
             translated_percent = (translated / total) * 100
-            draw.text(
-                (10, y),
-                f"已翻译条数\t{translated} / {translated_percent:.2f}%",
-                fill=text_color,
-                font=font_small,
-            )
-            y += 18
+            lines.append((f"已翻译条数 {translated} / {translated_percent:.2f}%", font_small, text_color))
+            lines.append((f"有疑问条数 {disputed}", font_small, text_color))
             
-            # Display disputed count
-            draw.text(
-                (10, y), 
-                f"有疑问条数\t{disputed}", 
-                fill=text_color, 
-                font=font_small
-            )
-            y += 18
-            
-            # Display reviewed count with percentage
             if reviewed > 0:
                 review_percent = (reviewed / total) * 100
-                draw.text(
-                    (10, y),
-                    f"已审核条数\t{reviewed} / {review_percent:.2f}%",
-                    fill=text_color,
-                    font=font_small,
-                )
-                y += 18
+                lines.append((f"已审核条数 {reviewed} / {review_percent:.2f}%", font_small, text_color))
             else:
-                draw.text(
-                    (10, y),
-                    f"已审核条数\t0 / 0.00%",
-                    fill=text_color,
-                    font=font_small,
-                )
-                y += 18
+                lines.append((f"已审核条数 0 / 0.00%", font_small, text_color))
 
         # Build time if available
         if "createdAt" in trans:
             created_at = trans["createdAt"]
-            # Parse ISO format
             try:
                 dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
                 time_str = dt.strftime("%Y-%m-%d %H:%M")
-                draw.text(
-                    (10, y), f"生成时间: {time_str}", fill=text_color, font=font_small
-                )
-                y += 18
+                lines.append((f"生成时间: {time_str}", font_small, text_color))
             except (ValueError, AttributeError):
                 pass
 
         # File size if available
         if "size" in trans and trans["size"] > 0:
             size_mb = trans["size"] / (1024 * 1024)
-            draw.text(
-                (10, y), f"文件大小: {size_mb:.2f} MB", fill=text_color, font=font_small
-            )
-            y += 18
+            lines.append((f"文件大小: {size_mb:.2f} MB", font_small, text_color))
 
     # Generation timestamp
     gen_time = metadata["generated_at"]
@@ -298,11 +249,42 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         time_str = dt.strftime("%Y-%m-%d %H:%M:%S")
     except (ValueError, AttributeError):
         time_str = gen_time
+    lines.append((f"生成于: {time_str}", font_small, (150, 150, 150)))
 
-    # Bottom info
-    draw.text(
-        (10, height - 20), f"生成于: {time_str}", fill=(150, 150, 150), font=font_small
-    )
+    # Calculate dimensions based on actual text bounds
+    line_heights = []
+    max_width = 0
+    
+    for text, font, _ in lines:
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        line_heights.append(text_height)
+        max_width = max(max_width, text_width)
+
+    # Calculate total height with spacing between lines
+    line_spacing = 4  # Extra spacing between lines
+    total_text_height = sum(line_heights) + len(lines) * line_spacing - line_spacing
+
+    # Add padding
+    padding = 10
+    box_width = max_width + padding * 2
+    box_height = total_text_height + padding * 2
+
+    # Position in bottom-right corner
+    box_right = width - 5
+    box_bottom = height - 5
+    box_left = box_right - box_width
+    box_top = box_bottom - box_height
+
+    # Draw semi-transparent background box
+    draw.rectangle([box_left, box_top, box_right, box_bottom], fill=box_color)
+
+    # Draw text lines
+    y = box_top + padding
+    for (text, font, color), line_height in zip(lines, line_heights):
+        draw.text((box_left + padding, y), text, fill=color, font=font)
+        y += line_height + line_spacing
 
     # Save image
     img.save(output_path)
