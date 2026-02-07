@@ -63,14 +63,16 @@ def get_7byte_datetime():
 
 
 def build_directory_record(
-    name: str, lba: int, size: int, is_dir: bool = False
+    name: str,
+    lba: int,
+    size: int,
+    is_dir: bool = False,
+    sys_use: bytes = b"",
 ) -> bytes:
     name_bytes = name.encode("utf-8", "ignore")
     length_name = len(name_bytes)
-    record_length = 33 + length_name
-    if record_length % 2 != 0:
-        record_length += 1
-        pad_byte = b"\x00"
+    name_pad = 0 if (length_name % 2 == 1) else 1
+    record_length = 33 + length_name + name_pad + len(sys_use)
     flags = 0x02 if is_dir else 0x00
     date_bytes = get_7byte_datetime()
     rec = bytearray(record_length)
@@ -88,6 +90,9 @@ def build_directory_record(
     struct.pack_into(">H", rec, 30, 1)
     rec[32] = length_name
     rec[33 : 33 + length_name] = name_bytes
+    sys_use_start = 33 + length_name + name_pad
+    if sys_use:
+        rec[sys_use_start : sys_use_start + len(sys_use)] = sys_use
     return bytes(rec)
 
 
@@ -115,17 +120,20 @@ def iter_directory_records(data: bytes):
         i += length
 
 
-def parse_dir_record(record: bytes) -> dict:
+def parse_dir_record_full(record: bytes) -> dict:
     length = record[0]
     if length == 0:
         return {}
+    rec_end = min(len(record), length)
     extent_lba = struct.unpack_from("<I", record, 2)[0]
     data_length = struct.unpack_from("<I", record, 10)[0]
     flags = record[25]
     file_id_len = record[32]
     fid = record[33 : 33 + file_id_len]
+    name_pad = 0 if (file_id_len % 2 == 1) else 1
+    sys_use_start = 33 + file_id_len + name_pad
+    sys_use = record[sys_use_start:rec_end] if sys_use_start < rec_end else b""
 
-    # --- FIX: Handle ISO9660 Special Directories Correctly ---
     if fid == b"\x00":
         name = "."
     elif fid == b"\x01":
@@ -133,7 +141,7 @@ def parse_dir_record(record: bytes) -> dict:
     else:
         try:
             name = fid.decode("utf-8", errors="ignore").split(";")[0]
-        except:
+        except Exception:
             name = fid.decode("latin1", errors="ignore").split(";")[0]
 
     return {
@@ -142,7 +150,57 @@ def parse_dir_record(record: bytes) -> dict:
         "data_length": data_length,
         "flags": flags,
         "name": name.strip("\x00"),
+        "name_bytes": fid,
+        "sys_use": sys_use,
     }
+
+
+def parse_dir_record(record: bytes) -> dict:
+    info = parse_dir_record_full(record)
+    if not info:
+        return {}
+    return {
+        "length": info["length"],
+        "extent_lba": info["extent_lba"],
+        "data_length": info["data_length"],
+        "flags": info["flags"],
+        "name": info["name"],
+    }
+
+
+def find_sys_use_template(dir_data: bytes) -> bytes:
+    for _, rec in iter_directory_records(dir_data):
+        info = parse_dir_record_full(rec)
+        if not info:
+            continue
+        if info["name"] in (".", ".."):
+            continue
+        if info["sys_use"]:
+            return info["sys_use"]
+    return b""
+
+
+def patch_dot_records(
+    dir_buf: bytearray,
+    self_lba: int,
+    self_size: int,
+    parent_lba: int,
+    parent_size: int,
+) -> None:
+    for off, rec in iter_directory_records(dir_buf):
+        info = parse_dir_record_full(rec)
+        if not info:
+            continue
+        if info["name_bytes"] == b"\x00":
+            struct.pack_into("<I", dir_buf, off + 2, self_lba)
+            struct.pack_into(">I", dir_buf, off + 6, self_lba)
+            struct.pack_into("<I", dir_buf, off + 10, self_size)
+            struct.pack_into(">I", dir_buf, off + 14, self_size)
+        elif info["name_bytes"] == b"\x01":
+            struct.pack_into("<I", dir_buf, off + 2, parent_lba)
+            struct.pack_into(">I", dir_buf, off + 6, parent_lba)
+            struct.pack_into("<I", dir_buf, off + 10, parent_size)
+            struct.pack_into(">I", dir_buf, off + 14, parent_size)
 
 
 def normalize_path(path: str) -> str:
@@ -421,6 +479,7 @@ def repack_umd(
 
                 fout.seek(old_lba * SECTOR_SIZE)
                 dir_data = bytearray(fout.read(old_size))
+                sys_use_template = find_sys_use_template(dir_data)
 
                 has_changes = False
 
@@ -440,11 +499,15 @@ def repack_umd(
                 new_files_added = set()
 
                 for off, rec in iter_directory_records(dir_data):
-                    info = parse_dir_record(rec)
+                    info = parse_dir_record_full(rec)
                     if not info:
                         continue
                     name = info["name"]
                     child_path = (dpath + "/" + name).strip("/")
+
+                    if name in (".", ".."):
+                        updated_records.append(rec)
+                        continue
 
                     updated_lba = None
                     updated_size = None
@@ -462,7 +525,11 @@ def repack_umd(
                     if updated_lba is not None:
                         # Rebuild record with new LBA/size
                         new_rec = build_directory_record(
-                            name, updated_lba, updated_size, (info["flags"] & 0x02) != 0
+                            name,
+                            updated_lba,
+                            updated_size,
+                            (info["flags"] & 0x02) != 0,
+                            info["sys_use"],
                         )
                         updated_records.append(new_rec)
                         has_changes = True
@@ -474,7 +541,11 @@ def repack_umd(
                 for nf in files_to_add_here:
                     updated_records.append(
                         build_directory_record(
-                            nf.filename, nf.new_extent_lba, nf.new_size, False
+                            nf.filename,
+                            nf.new_extent_lba,
+                            nf.new_size,
+                            False,
+                            sys_use_template,
                         )
                     )
 
@@ -523,6 +594,28 @@ def repack_umd(
                         f"Directory moved: /{dpath} (LBA: {old_lba}->{new_lba}, Size: {old_size}->{new_total_size}, New files: {len(files_to_add_here)})"
                     )
 
+            # --- PHASE 3.5: Patch dot entries with final parent info ---
+            for dpath, info in dir_status.items():
+                self_lba = info["lba"]
+                self_size = info["size"]
+                if dpath == "":
+                    parent_lba = self_lba
+                    parent_size = self_size
+                else:
+                    parent_path = "/".join(dpath.split("/")[:-1])
+                    if parent_path in dir_status:
+                        parent_lba = dir_status[parent_path]["lba"]
+                        parent_size = dir_status[parent_path]["size"]
+                    else:
+                        parent_lba = dir_map[parent_path]["lba"]
+                        parent_size = dir_map[parent_path]["size"]
+
+                fout.seek(self_lba * SECTOR_SIZE)
+                buf = bytearray(fout.read(self_size))
+                patch_dot_records(buf, self_lba, self_size, parent_lba, parent_size)
+                fout.seek(self_lba * SECTOR_SIZE)
+                fout.write(buf)
+
             # --- PHASE 4: PVD Update ---
             if "" in dir_status:
                 root_info = dir_status[""]
@@ -536,6 +629,9 @@ def repack_umd(
 
             # Update Volume Size (Size in blocks)
             fout.seek(0, 2)
+            pad = (SECTOR_SIZE - (fout.tell() % SECTOR_SIZE)) % SECTOR_SIZE
+            if pad:
+                fout.write(b"\x00" * pad)
             final_sectors = (fout.tell() + SECTOR_SIZE - 1) // SECTOR_SIZE
             write_uint32_le_at(fout, 0x8050, final_sectors)
             write_uint32_be_at(fout, 0x8054, final_sectors)
