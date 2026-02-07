@@ -80,10 +80,18 @@ def get_paratranz_stats(
         artifacts_response.raise_for_status()
         artifacts_data = artifacts_response.json()
 
-        # Combine data
+        # Combine data - artifacts API returns a single object or a list
         stats = {}
-        if artifacts_data and len(artifacts_data) > 0:
+        latest_artifact = None
+        
+        if isinstance(artifacts_data, dict):
+            # If it's a dict, use it directly
+            latest_artifact = artifacts_data
+        elif isinstance(artifacts_data, list) and len(artifacts_data) > 0:
+            # If it's a list, get the first item
             latest_artifact = artifacts_data[0]
+        
+        if latest_artifact:
             stats = {
                 "id": latest_artifact.get("id"),
                 "createdAt": latest_artifact.get("createdAt"),
@@ -154,11 +162,12 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
 
     # Try to use a default font, fallback to default if not available
     try:
-        # Try common font paths across different systems
+        # Try common font paths across different systems with CJK support
         font_paths = [
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",  # Linux
+            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",  # Noto Sans CJK
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",  # Fallback
             "/System/Library/Fonts/Helvetica.ttc",  # macOS
-            "C:\\Windows\\Fonts\\arial.ttf",  # Windows
+            "C:\\Windows\\Fonts\\SimSun.ttc",  # Windows
         ]
         font_large = None
         for font_path in font_paths:
@@ -213,30 +222,48 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         reviewed = trans.get("reviewed", 0)
 
         if total > 0:
-            percent = (translated / total) * 100
+            # Display word count with increment
             draw.text(
                 (10, y),
-                f"词条总数: {total}",
+                f"词条总数\t{total}",
                 fill=text_color,
                 font=font_small,
             )
             y += 18
+            
+            # Display translated count with percentage
+            translated_percent = (translated / total) * 100
             draw.text(
                 (10, y),
-                f"已翻译: {translated} / {percent:.2f}%",
+                f"已翻译条数\t{translated} / {translated_percent:.2f}%",
                 fill=text_color,
                 font=font_small,
             )
             y += 18
+            
+            # Display disputed count
             draw.text(
-                (10, y), f"有疑问: {disputed}", fill=text_color, font=font_small
+                (10, y), 
+                f"有疑问条数\t{disputed}", 
+                fill=text_color, 
+                font=font_small
             )
             y += 18
+            
+            # Display reviewed count with percentage
             if reviewed > 0:
                 review_percent = (reviewed / total) * 100
                 draw.text(
                     (10, y),
-                    f"已审核: {reviewed} / {review_percent:.2f}%",
+                    f"已审核条数\t{reviewed} / {review_percent:.2f}%",
+                    fill=text_color,
+                    font=font_small,
+                )
+                y += 18
+            else:
+                draw.text(
+                    (10, y),
+                    f"已审核条数\t0 / 0.00%",
                     fill=text_color,
                     font=font_small,
                 )
