@@ -163,6 +163,10 @@ TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
 PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
 PATCH_XDELTA := $(BUILD_DIR)/ULJS$(GAME_ID)_patch_$(TIMESTAMP).xdelta
 
+gen_metadata:
+	@echo "Generating patch metadata..."
+	$(UV_RUN) -m scripts.gen_metadata --output $(BUILD_DIR)/metadata.json --image $(BUILD_DIR)/metadata.png
+
 repack_iso:
 	@echo "Repacking game files into ISO..."
 	@mkdir -p $(BUILD_DIR)
@@ -172,7 +176,7 @@ gen_xdelta:
 	@echo "Generating xdelta patch..."
 	xdelta3 -e -9 -S djw -f -s '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(PATCH_XDELTA)'
 
-patch_iso: repack_iso gen_xdelta
+patch_iso: repack_iso gen_xdelta gen_metadata
 
 # ==========================================
 # Meta Targets
@@ -219,5 +223,5 @@ clean:
         download_trans check_trans import_trans \
         export_text export_bind export_hgar export_eboot_trans export_all \
         plugin pgftool pspdecrypt \
-        extract_iso decrypt_eboot repack_iso gen_xdelta patch_iso \
+        extract_iso decrypt_eboot repack_iso gen_xdelta gen_metadata patch_iso \
         full_build rebuild patch_all_ids patch_id_% clean
