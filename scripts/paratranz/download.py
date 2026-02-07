@@ -13,9 +13,77 @@ import os
 import argparse
 import json
 import hashlib
+import time
 from .preprocess import normalize_data, hash_keys_in_data
 
 project_id = 10882  # 替换为你的项目ID
+
+
+def get_default_headers(auth_key: str | None = None) -> dict:
+    """Get default headers for Paratranz API requests"""
+    headers = {}
+    if auth_key:
+        headers["Authorization"] = auth_key
+    return headers
+
+
+def trigger_rebuild(auth_key: str) -> bool:
+    """Trigger artifact rebuild on Paratranz API"""
+    url = f"https://paratranz.cn/api/projects/{project_id}/artifacts"
+    headers = get_default_headers(auth_key)
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+    
+    try:
+        response = requests.post(url, headers=headers)
+        if response.status_code == 200:
+            print("Artifact rebuild triggered successfully.")
+            return True
+        else:
+            print(f"Failed to trigger rebuild. Status code: {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"Error triggering rebuild: {e}")
+        return False
+
+
+def wait_for_rebuild(auth_key: str, max_wait_time: int = 600) -> bool:
+    """
+    Poll the build job status until rebuild is complete.
+    Returns True when the job list is empty (rebuild complete).
+    max_wait_time: Maximum time to wait in seconds (default 10 minutes)
+    """
+    url = f"https://paratranz.cn/api/projects/{project_id}/jobs?type=buildProject"
+    headers = get_default_headers(auth_key)
+    
+    start_time = time.time()
+    poll_interval = 2  # Check every 2 seconds
+    
+    print("Waiting for artifact rebuild to complete...")
+    
+    while time.time() - start_time < max_wait_time:
+        try:
+            response = requests.get(url, headers=headers)
+            if response.status_code == 200:
+                jobs = response.json()
+                
+                if isinstance(jobs, list) and len(jobs) == 0:
+                    print("Artifact rebuild completed successfully.")
+                    return True
+                
+                if isinstance(jobs, list) and len(jobs) > 0:
+                    job = jobs[0]
+                    status = job.get("status", -1)
+                    finished_at = job.get("finishedAt")
+                    print(f"  Build in progress... (status: {status}, finishedAt: {finished_at})")
+            else:
+                print(f"Warning: Failed to check rebuild status. Status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error checking rebuild status: {e}")
+        
+        time.sleep(poll_interval)
+    
+    print(f"Warning: Rebuild did not complete within {max_wait_time} seconds.")
+    return False
 
 
 def download_function(
@@ -29,6 +97,15 @@ def download_function(
 
     if not auth_key:
         raise ValueError("AUTH_KEY 不能为空")
+
+    # Trigger rebuild before downloading
+    print("Triggering artifact rebuild...")
+    if not trigger_rebuild(auth_key):
+        print("Warning: Failed to trigger rebuild, continuing with download anyway...")
+    
+    # Wait for rebuild to complete
+    if not wait_for_rebuild(auth_key):
+        print("Warning: Rebuild did not complete, continuing with download anyway...")
 
     url = f"https://paratranz.cn/api/projects/{project_id}/artifacts/download"
 
@@ -153,7 +230,7 @@ def download_file(url, dest_folder, auth: str):
     if not os.path.exists(dest_folder):
         os.makedirs(dest_folder)
 
-    headers = {"Authorization": auth}
+    headers = get_default_headers(auth)
     response = requests.get(url, headers=headers, stream=True)
     if response.status_code == 302:
         download_url = response.headers["Location"]
