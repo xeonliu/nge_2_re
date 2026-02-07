@@ -194,6 +194,7 @@ full_build:
 rebuild:
 	$(MAKE) download_trans
 	$(MAKE) import_trans
+	$(MAKE) import_images
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot

@@ -25,6 +25,7 @@
 
 ### 📰 最新进展
 
+- [2026/01] 支持 CMake 构建，移除 PRX 依赖，修改界面语言，添加开始菜单
 - [2025/12] 实现HGPT、TEXT、BIND文件的处理，生成 GUI 程序
 - [2025/10] 引入 GPT 翻译与文本格式自动检测模块
 - [2025/09] 建立完整数据库与导入导出工具链
@@ -35,6 +36,16 @@
 
 <details>
 <summary>查看完整历史</summary>
+
+#### 2026 年
+
+- **[01/31]** 添加 ULJS00061 补丁生成
+- **[01/24]** 添加开始菜单
+- **[01/22]** 进行性能优化，将导入/导出时间压缩到30秒左右。
+- **[01/28]** 支持 CMake 构建，移除 Font_Hack 依赖。修改 `sceFontFindOptimumFont` 函数调用
+- **[01/26]** 劫持存档函数，将语言参数修改为简体中文。
+- **[01/22]** 使用 Qwen3-VL 进行文字识别
+- **[01/16]** Frykte 加入项目
 
 #### 2025 年
 
@@ -75,6 +86,7 @@
 ```
 app/
 ├─ cli/      # 主程序
+├─ gui/      # 图形化程序
 ├─ database/      # SQL数据库定义
 ├─ elf_patch/      # 生成 SJIS 文本翻译文件 EBTRANS.BIN
 ├─ parser/tools/   # 资源解析脚本（修改自原仓库）
@@ -104,12 +116,15 @@ scripts/
 - [x] 翻译问题自动报告与统计  
 - [x] 扩展字库与动态修改支持  
 - [x] 构建 Docker 镜像  
-- [ ] 自动生成 Patch（XDelta）  
-- [ ] 搭建汉化项目网站  
+- [x] 自动生成 Patch（XDelta）  
+- [x] 搭建汉化项目网站  
 - [x] 自动导入导出 HGAR
 - [x] 自动导入导出 TEXT 资源
 - [x] 自动导入导出 BIND 资源
 - [x] GUI 汉化工具
+- [x] 使用视觉大模型进行图片文字识别
+- [ ] 修改游戏贴图
+- [ ] 自动导出贡献图表
 
 ---
 
@@ -147,16 +162,11 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 
 ### PPSSPP 模拟器
 
-* 将`EBTRANS.BIN`翻译文件放置于`PPSSPP/memstick/PSP/`下
-* PPSSPP 1.19.0+ 可通过 `开发者工具 → Disable HLE → sceFont_Library` 启用修改字体
 * iOS 设备推荐将 CPU 核心模式改为 “解释器” 以减少 JIT 带来的性能损失
-
-> 对于 Mac 设备，位于 `/Users/<your-user-name>/.config/ppsspp/PSP`
 
 ### PSP 实机
 
 * 需要已破解设备（推荐 **ARK-4**），可直接运行补丁版镜像。
-* 将`EBTRANS.BIN`翻译文件放置于`ms0:/PSP/`下
 
 ---
 
