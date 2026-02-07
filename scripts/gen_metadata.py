@@ -154,11 +154,28 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
 
     # Try to use a default font, fallback to default if not available
     try:
-        # Try to load a font with decent size
-        font_large = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 20)
-        font_medium = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
-        font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12)
-    except:
+        # Try common font paths across different systems
+        font_paths = [
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",  # Linux
+            "/System/Library/Fonts/Helvetica.ttc",  # macOS
+            "C:\\Windows\\Fonts\\arial.ttf",  # Windows
+        ]
+        font_large = None
+        for font_path in font_paths:
+            try:
+                font_large = ImageFont.truetype(font_path, 20)
+                break
+            except (OSError, IOError):
+                continue
+        
+        if font_large is None:
+            # If no font found, use default
+            raise OSError("No truetype fonts found")
+            
+        # Load other font sizes from the same font
+        font_medium = ImageFont.truetype(font_large.path, 14)
+        font_small = ImageFont.truetype(font_large.path, 12)
+    except (OSError, IOError):
         # Fallback to default font
         font_large = ImageFont.load_default()
         font_medium = ImageFont.load_default()
@@ -236,7 +253,7 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
                     (10, y), f"生成时间: {time_str}", fill=text_color, font=font_small
                 )
                 y += 18
-            except:
+            except (ValueError, AttributeError):
                 pass
 
         # File size if available
@@ -252,7 +269,7 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     try:
         dt = datetime.fromisoformat(gen_time)
         time_str = dt.strftime("%Y-%m-%d %H:%M:%S")
-    except:
+    except (ValueError, AttributeError):
         time_str = gen_time
 
     # Bottom info
