@@ -231,7 +231,7 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         if "createdAt" in trans:
             created_at = trans["createdAt"]
             try:
-                dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+                dt = datetime.fromisoformat(created_at.replace("Z", "+08:00"))
                 time_str = dt.strftime("%Y-%m-%d %H:%M")
                 lines.append((f"生成时间: {time_str}", font_small, text_color))
             except (ValueError, AttributeError):
@@ -291,6 +291,134 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     print(f"Metadata image saved to: {output_path}")
 
 
+def generate_metadata_pic0(metadata: Dict[str, Any], output_path: str):
+    """Generate a 310x180 small image displaying metadata with text in bottom-right corner."""
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:
+        print("Warning: Pillow not installed, skipping PIC0 generation")
+        return
+
+    # Create image with RGBA for transparency
+    width, height = 310, 180
+    background_color = (30, 30, 40, 0)  # Transparent
+    text_color = (255, 255, 255)
+    accent_color = (100, 180, 255)
+    box_color = (30, 30, 40, 200)  # Semi-transparent background box
+
+    img = Image.new("RGBA", (width, height), background_color)
+    draw = ImageDraw.Draw(img)
+
+    # Try to use a default font, fallback to default if not available
+    try:
+        # Try common font paths across different systems with CJK support
+        font_paths = [
+            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",  # Noto Sans CJK
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",  # Fallback
+            "/System/Library/Fonts/Helvetica.ttc",  # macOS
+            "C:\\Windows\\Fonts\\SimSun.ttc",  # Windows
+        ]
+        font_large = None
+        for font_path in font_paths:
+            try:
+                font_large = ImageFont.truetype(font_path, 14)
+                break
+            except (OSError, IOError):
+                continue
+        
+        if font_large is None:
+            raise OSError("No truetype fonts found")
+            
+        font_medium = ImageFont.truetype(font_large.path, 11)
+        font_small = ImageFont.truetype(font_large.path, 10)
+    except (OSError, IOError):
+        font_large = ImageFont.load_default()
+        font_medium = ImageFont.load_default()
+        font_small = ImageFont.load_default()
+
+    # First pass: collect all text lines
+    lines = []
+    
+    # Title
+    lines.append(("补丁信息 EVA2 汉化计划", font_large, accent_color))
+
+    # Commit info
+    main_commit = metadata["git"]["main_commit"][:8]
+    lines.append((f"主仓库: {main_commit}", font_small, text_color))
+    
+    # Submodules
+    for path, commit in metadata["git"]["submodules"].items():
+        lines.append((f"  {path}: {commit[:8]}", font_small, text_color))
+
+    # Translation stats summary
+    if metadata.get("translation"):
+        trans = metadata["translation"]
+        total = trans.get("total", 0)
+        translated = trans.get("translated", 0)
+        reviewed = trans.get("reviewed", 0)
+
+        if total > 0:
+            translated_percent = (translated / total) * 100
+            lines.append((f"翻译: {translated}/{total}", font_small, text_color))
+            lines.append((f"进度 {translated_percent:.1f}%", font_small, accent_color))
+            
+            if reviewed > 0:
+                review_percent = (reviewed / total) * 100
+                lines.append((f"审核: {review_percent:.1f}%", font_small, text_color))
+
+    # Generation timestamp
+    gen_time = metadata["generated_at"]
+    try:
+        dt = datetime.fromisoformat(gen_time)
+        time_str = dt.strftime("%m-%d %H:%M")
+    except (ValueError, AttributeError):
+        time_str = "unknown"
+    lines.append((f"生成: {time_str}", font_small, (150, 150, 150)))
+
+    # Calculate dimensions
+    line_heights = []
+    max_width = 0
+    
+    for text, font, _ in lines:
+        bbox = draw.textbbox((0, 0), text, font=font)
+        text_width = bbox[2] - bbox[0]
+        text_height = bbox[3] - bbox[1]
+        line_heights.append(text_height)
+        max_width = max(max_width, text_width)
+
+    # Calculate total height with spacing
+    line_spacing = 3
+    total_text_height = sum(line_heights) + len(lines) * line_spacing - line_spacing
+
+    # Add padding
+    padding = 10
+    box_width = width - padding * 2  # Use full width
+    box_height = total_text_height + padding * 2
+
+    # Position at top-left to fill the image
+    box_left = padding
+    box_top = padding
+    box_right = width - padding
+    box_bottom = box_top + box_height
+
+    # Ensure box doesn't exceed image bounds
+    if box_bottom > height:
+        box_bottom = height - padding
+
+    # Draw semi-transparent background box
+    draw.rectangle([box_left, box_top, box_right, box_bottom], fill=box_color)
+
+    # Draw text lines
+    y = box_top + padding
+    for (text, font, color), line_height in zip(lines, line_heights):
+        draw.text((box_left + padding, y), text, fill=color, font=font)
+        y += line_height + line_spacing
+
+    # Save image
+    img.save(output_path)
+    print(f"PIC0 image saved to: {output_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate patch metadata")
     parser.add_argument(
@@ -302,6 +430,11 @@ def main():
         "--image",
         default="build/metadata.png",
         help="Output image file path",
+    )
+    parser.add_argument(
+        "--pic0",
+        default="build/PIC0.png",
+        help="Output PIC0 image file path (310x180)",
     )
     parser.add_argument(
         "--auth-key",
@@ -316,12 +449,14 @@ def main():
     # Ensure output directory exists
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     Path(args.image).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.pic0).parent.mkdir(parents=True, exist_ok=True)
 
     # Generate metadata
     metadata = generate_metadata(args.output, auth_key=auth_key)
 
-    # Generate image
+    # Generate images
     generate_metadata_image(metadata, args.image)
+    generate_metadata_pic0(metadata, args.pic0)
 
     print("\nMetadata generation complete!")
     return 0
