@@ -181,7 +181,7 @@ gen_xdelta:
 	@echo "Generating xdelta patch..."
 	xdelta3 -e -9 -S djw -f -s '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(PATCH_XDELTA)'
 
-patch_iso: repack_iso gen_xdelta gen_metadata
+patch_iso: repack_iso gen_xdelta
 
 # ==========================================
 # Meta Targets
@@ -198,6 +198,7 @@ full_build:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
+	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
 rebuild:
@@ -207,6 +208,7 @@ rebuild:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
+	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
 # Build patches for all GAME_IDS
