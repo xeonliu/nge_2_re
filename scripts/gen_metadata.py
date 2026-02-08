@@ -302,6 +302,8 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     gen_time = metadata["generated_at"]
     try:
         dt = datetime.fromisoformat(gen_time)
+        # UTF+8 timezone conversion
+        dt = dt + timedelta(hours=8)
         time_str = dt.strftime("%m-%d %H:%M")
     except (ValueError, AttributeError):
         time_str = gen_time
