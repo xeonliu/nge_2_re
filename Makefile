@@ -132,6 +132,7 @@ plugin:
 	@echo "Building plugin..."
 	$(MAKE) -C plugin
 	@mkdir -p $(EXPORT_SYSDIR)
+	@echo "Copying EBOOT.BIN to SYSDIR..."
 	@cp -r plugin/EBOOT.BIN $(EXPORT_SYSDIR)/EBOOT.BIN
 
 pgftool:
@@ -166,7 +167,10 @@ PATCH_XDELTA := $(BUILD_DIR)/ULJS$(GAME_ID)_patch_$(TIMESTAMP).xdelta
 
 gen_metadata:
 	@echo "Generating patch metadata..."
-	$(UV_RUN) -m scripts.gen_metadata --output $(BUILD_DIR)/metadata.json --image $(BUILD_DIR)/metadata.png
+	$(UV_RUN) -m scripts.gen_metadata --output $(BUILD_DIR)/metadata.json --image $(BUILD_DIR)/metadata.png --pic0 $(EXPORT_GAME_DIR)/PIC0.PNG
+	@echo "Copying metadata.raw to game directory..."
+	@mkdir -p $(EXPORT_GAME_DIR)
+	@cp $(BUILD_DIR)/metadata.raw $(EXPORT_BIN_DIR)/metadata.raw
 
 repack_iso:
 	@echo "Repacking game files into ISO..."

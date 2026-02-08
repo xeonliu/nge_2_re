@@ -32,6 +32,8 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libssl-dev \
     libfreetype6-dev \
+    fonts-noto-cjk \
+    fonts-noto-cjk-extra \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -m -s /bin/bash pspdev \
