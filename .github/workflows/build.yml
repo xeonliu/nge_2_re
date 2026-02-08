@@ -101,8 +101,6 @@ jobs:
       with:
         name: PSP-Translation-Build
         path: |
-          build/ULJS*.iso
-          build/ULJS*.xdelta
           build/metadata.json
           build/metadata.png
           build/evs_report.json
