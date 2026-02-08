@@ -15,9 +15,12 @@ import sys
 import argparse
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, TYPE_CHECKING
 
 import requests
+
+if TYPE_CHECKING:
+    from PIL import Image as PILImage
 
 
 def get_git_commit(repo_path: str = ".") -> str:
@@ -170,151 +173,160 @@ def generate_metadata(
     return metadata
 
 
+def download_avatar(avatar_url: str, size: int = 32) -> Any:
+    """Download and resize avatar image."""
+    try:
+        from PIL import Image
+        from io import BytesIO
+        
+        # Handle relative URLs from ParaTranz
+        if avatar_url.startswith("/"):
+            avatar_url = f"https://paratranz.cn{avatar_url}"
+        
+        response = requests.get(avatar_url, timeout=5)
+        response.raise_for_status()
+        avatar = Image.open(BytesIO(response.content))
+        avatar = avatar.convert("RGBA")
+        avatar = avatar.resize((size, size), Image.Resampling.LANCZOS)
+        return avatar
+    except Exception as e:
+        print(f"Warning: Failed to download avatar {avatar_url}: {e}")
+        return None
+
+
 def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
-    """Generate a 480x272 image displaying metadata including leaderboard."""
+    """Generate a 480x272 fullscreen image displaying all contributors with avatars."""
     try:
         from PIL import Image, ImageDraw, ImageFont
     except ImportError:
         print("Warning: Pillow not installed, skipping image generation")
         return
 
-    # Create image with RGBA for transparency
+    # Create fullscreen image
     width, height = 480, 272
-    background_color = (30, 30, 40, 0)  # Transparent
+    background_color = (30, 30, 40, 255)  # Solid dark background
     text_color = (255, 255, 255)
     accent_color = (100, 180, 255)
-    box_color = (30, 30, 40, 200)  # Semi-transparent background box
+    header_bg = (20, 20, 30, 255)
 
     img = Image.new("RGBA", (width, height), background_color)
     draw = ImageDraw.Draw(img)
 
-    # Try to use a default font, fallback to default if not available
+    # Load fonts
     try:
-        # Try common font paths across different systems with CJK support
         font_paths = [
-            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",  # Noto Sans CJK
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",  # Fallback
-            "/System/Library/Fonts/Helvetica.ttc",  # macOS
-            "C:\\Windows\\Fonts\\SimSun.ttc",  # Windows
+            "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/System/Library/Fonts/Helvetica.ttc",
+            "C:\\Windows\\Fonts\\SimSun.ttc",
         ]
-        font_large = None
+        font_title = None
         for font_path in font_paths:
             try:
-                font_large = ImageFont.truetype(font_path, 14)
+                font_title = ImageFont.truetype(font_path, 16)
                 break
             except (OSError, IOError):
                 continue
         
-        if font_large is None:
-            # If no font found, use default
+        if font_title is None:
             raise OSError("No truetype fonts found")
             
-        # Load other font sizes from the same font
-        font_medium = ImageFont.truetype(font_large.path, 12)
-        font_small = ImageFont.truetype(font_large.path, 10)
+        font_medium = ImageFont.truetype(font_title.path, 11)
+        font_small = ImageFont.truetype(font_title.path, 9)
     except (OSError, IOError):
-        # Fallback to default font
-        font_large = ImageFont.load_default()
+        font_title = ImageFont.load_default()
         font_medium = ImageFont.load_default()
         font_small = ImageFont.load_default()
 
-    # First pass: collect all text lines to be drawn
-    lines = []
+    # Draw header section
+    header_height = 55
+    draw.rectangle([0, 0, width, header_height], fill=header_bg)
     
     # Title
-    lines.append(("NGE2 汉化补丁信息 & 贡献者排行榜", font_large, accent_color))
-
-    # Commit info
+    title = "NGE2 汉化补丁 - 贡献者排行榜"
+    draw.text((10, 5), title, fill=accent_color, font=font_title)
+    
+    # Stats line
+    stats_y = 28
     main_commit = metadata["git"]["main_commit"][:8]
-    lines.append((f"主仓库: {main_commit}", font_small, text_color))
-
-    # Translation stats
+    draw.text((10, stats_y), f"版本: {main_commit}", fill=text_color, font=font_small)
+    
     if metadata.get("translation"):
         trans = metadata["translation"]
         total = trans.get("total", 0)
         translated = trans.get("translated", 0)
-        reviewed = trans.get("reviewed", 0)
-
         if total > 0:
             translated_percent = (translated / total) * 100
-            lines.append((f"翻译: {translated}/{total} ({translated_percent:.1f}%)", font_small, text_color))
-            
-            if reviewed > 0:
-                review_percent = (reviewed / total) * 100
-                lines.append((f"审核: {review_percent:.1f}%", font_small, text_color))
-
-    # Leaderboard
-    if metadata.get("leaderboard") and len(metadata["leaderboard"]) > 0:
-        lines.append(("贡献者排行榜（前5名）:", font_medium, accent_color))
-        
-        # Show top 5 contributors
-        for idx, user in enumerate(metadata["leaderboard"][:5], 1):
-            nickname = user.get("nickname") or user.get("username", "Unknown")
-            translated = user.get("translated", 0)
-            edited = user.get("edited", 0)
-            reviewed = user.get("reviewed", 0)
-            points = user.get("points", 0)
-            created_at = user.get("createdAt", "")
-            
-            # Parse and format join date
-            join_date = ""
-            try:
-                dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-                dt = dt + timedelta(hours=8)  # Convert to China timezone
-                join_date = dt.strftime("%Y/%m/%d")
-            except (ValueError, AttributeError):
-                pass
-            
-            # Format contribution info
-            contrib_info = f"{idx}. {nickname}: 翻 {translated} 编 {edited} 审 {reviewed} ({points:.0f}pt)"
-            if join_date:
-                contrib_info += f" [{join_date}]"
-            
-            lines.append((contrib_info, font_small, text_color))
-
-    # Generation timestamp
+            draw.text((120, stats_y), f"翻译: {translated}/{total} ({translated_percent:.1f}%)", 
+                     fill=text_color, font=font_small)
+    
+    # Generation time
     gen_time = metadata["generated_at"]
     try:
         dt = datetime.fromisoformat(gen_time)
         time_str = dt.strftime("%m-%d %H:%M")
     except (ValueError, AttributeError):
         time_str = gen_time
-    lines.append((f"生成于: {time_str}", font_small, (150, 150, 150)))
+    draw.text((10, stats_y + 12), f"生成: {time_str}", fill=(180, 180, 180), font=font_small)
 
-    # Calculate dimensions based on actual text bounds
-    line_heights = []
-    max_width = 0
-    
-    for text, font, _ in lines:
-        bbox = draw.textbbox((0, 0), text, font=font)
-        text_width = bbox[2] - bbox[0]
-        text_height = bbox[3] - bbox[1]
-        line_heights.append(text_height)
-        max_width = max(max_width, text_width)
-
-    # Calculate total height with spacing between lines
-    line_spacing = 4  # Extra spacing between lines
-    total_text_height = sum(line_heights) + len(lines) * line_spacing - line_spacing
-
-    # Add padding
-    padding = 10
-    box_width = max_width + padding * 2
-    box_height = total_text_height + padding * 2
-
-    # Position in bottom-right corner
-    box_right = width - 5
-    box_bottom = height - 5
-    box_left = box_right - box_width
-    box_top = box_bottom - box_height
-
-    # Draw semi-transparent background box
-    draw.rectangle([box_left, box_top, box_right, box_bottom], fill=box_color)
-
-    # Draw text lines
-    y = box_top + padding
-    for (text, font, color), line_height in zip(lines, line_heights):
-        draw.text((box_left + padding, y), text, fill=color, font=font)
-        y += line_height + line_spacing
+    # Draw contributors section
+    if metadata.get("leaderboard") and len(metadata["leaderboard"]) > 0:
+        contributors = metadata["leaderboard"]
+        
+        # Layout settings
+        avatar_size = 24
+        row_height = 28
+        start_y = header_height + 8
+        start_x = 5
+        column_width = 238  # Two columns
+        
+        for idx, user in enumerate(contributors):
+            # Calculate position (2 columns)
+            col = idx % 2
+            row = idx // 2
+            
+            x = start_x + col * column_width
+            y = start_y + row * row_height
+            
+            # Stop if we run out of vertical space
+            if y + row_height > height - 5:
+                break
+            
+            # Download and draw avatar
+            avatar_url = user.get("avatar", "")
+            avatar = None
+            if avatar_url:
+                avatar = download_avatar(avatar_url, avatar_size)
+            
+            avatar_x = x + 2
+            avatar_y = y + 2
+            
+            if avatar:
+                img.paste(avatar, (avatar_x, avatar_y), avatar)
+            else:
+                # Draw placeholder circle
+                draw.ellipse([avatar_x, avatar_y, avatar_x + avatar_size, avatar_y + avatar_size],
+                           fill=(60, 60, 70))
+            
+            # Text position (next to avatar)
+            text_x = avatar_x + avatar_size + 5
+            
+            # Nickname
+            nickname = user.get("nickname") or user.get("username", "Unknown")
+            if len(nickname) > 10:
+                nickname = nickname[:9] + "…"
+            
+            rank_color = accent_color if idx < 3 else text_color
+            draw.text((text_x, y + 2), f"{idx + 1}. {nickname}", fill=rank_color, font=font_medium)
+            
+            # Contribution stats
+            translated = user.get("translated", 0)
+            edited = user.get("edited", 0)
+            reviewed = user.get("reviewed", 0)
+            points = user.get("points", 0)
+            
+            stats_text = f"翻{translated} 编{edited} 审{reviewed} ({points:.0f}pt)"
+            draw.text((text_x, y + 14), stats_text, fill=(200, 200, 200), font=font_small)
 
     # Save image
     img.save(output_path)
