@@ -16,6 +16,7 @@
 #include "patcher.h"
 #include "unifont.h"
 #include "ui_atlas.h"
+#include "image_display.h"
 
 PSP_MODULE_INFO("EBOOT_LOADER", PSP_MODULE_USER, 1, 1);
 PSP_NO_CREATE_MAIN_THREAD();
@@ -160,6 +161,11 @@ static int main_thread(SceSize args, void *argp)
 
         if (pad.Buttons & PSP_CTRL_START) break;
 	}
+	
+	// Display contributors image for 3 seconds
+	displayImageFromFile("disc0:/PSP_GAME/USRDIR/metadata.raw", 480, 272, 5000);
+	
+	// Clean up GU after displaying image
 	endGu();
 
 	SceUID eboot_mid = sceKernelLoadModule(PathOldBoot, 0, NULL);
