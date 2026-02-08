@@ -12,6 +12,7 @@ endif()
 set(SOURCES
     src/loader/loader.c
     src/loader/ui_draw.c
+    src/loader/image_display.c
     src/patcher.c
     src/transform.c
     src/bin/gb2312.c
