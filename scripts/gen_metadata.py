@@ -300,8 +300,8 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             x = start_x + col * column_width
             y = start_y + row * row_height
             
-            # Stop if we run out of vertical space
-            if y + row_height > height - 5:
+            # Stop if we run out of vertical space (leave room for footer)
+            if y + row_height > height - 35:
                 break
             
             # Download and draw avatar
@@ -325,8 +325,8 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             
             # Nickname
             nickname = user.get("nickname") or user.get("username", "Unknown")
-            if len(nickname) > 10:
-                nickname = nickname[:9] + "…"
+            # if len(nickname) > 10:
+            #     nickname = nickname[:9] + "…"
             
             rank_color = text_color
             draw.text((text_x, y + 2), f"{nickname}", fill=rank_color, font=font_medium)
@@ -339,6 +339,12 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             
             stats_text = f"翻{translated} 编{edited} 审{reviewed} ({points:.0f}pt)"
             draw.text((text_x, y + 14), stats_text, fill=(200, 200, 200), font=font_small)
+
+    # Draw footer watermark
+    footer_y = height - 35
+    draw.text((10, footer_y), "EVA2 汉化计划", fill=accent_color, font=font_medium)
+    draw.text((10, footer_y + 14), "数据来自 ParaTranz | 感谢 ParaTranz 平台支持", 
+             fill=(150, 150, 150), font=font_small)
 
     # Save image
     img.save(output_path)
