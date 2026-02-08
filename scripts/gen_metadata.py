@@ -243,13 +243,19 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     draw.rectangle([0, 0, width, header_height], fill=header_bg)
     
     # Title
-    title = "NGE2 汉化补丁 - 贡献者排行榜"
+    title = "新世纪福音战士 2 被创造的世界 汉化补丁 - 贡献者名单"
     draw.text((10, 5), title, fill=accent_color, font=font_title)
     
     # Stats line
     stats_y = 28
     main_commit = metadata["git"]["main_commit"][:8]
-    draw.text((10, stats_y), f"版本: {main_commit}", fill=text_color, font=font_small)
+    draw.text((10, stats_y), f"主仓库版本: {main_commit}", fill=text_color, font=font_small)
+    
+    # Submodule versions: only resources/trans_pic
+    submodules = metadata["git"]["submodules"]
+    if "resources/trans_pic" in submodules:
+        trans_pic_commit = submodules["resources/trans_pic"][:8]
+        draw.text((120, stats_y), f"图片仓库版本: {trans_pic_commit}", fill=text_color, font=font_small)
     
     if metadata.get("translation"):
         trans = metadata["translation"]
@@ -257,7 +263,13 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         translated = trans.get("translated", 0)
         if total > 0:
             translated_percent = (translated / total) * 100
-            draw.text((120, stats_y), f"翻译: {translated}/{total} ({translated_percent:.1f}%)", 
+            draw.text((240, stats_y), f"翻译: {translated}/{total} ({translated_percent:.1f}%)", 
+                     fill=text_color, font=font_small)
+        # Review stats
+        reviewed = trans.get("reviewed", 0)
+        if total > 0 and reviewed > 0:
+            review_percent = (reviewed / total) * 100
+            draw.text((360, stats_y), f"审核: {reviewed}/{total} ({review_percent:.1f}%)", 
                      fill=text_color, font=font_small)
     
     # Generation time
@@ -316,8 +328,8 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             if len(nickname) > 10:
                 nickname = nickname[:9] + "…"
             
-            rank_color = accent_color if idx < 3 else text_color
-            draw.text((text_x, y + 2), f"{idx + 1}. {nickname}", fill=rank_color, font=font_medium)
+            rank_color = text_color
+            draw.text((text_x, y + 2), f"{nickname}", fill=rank_color, font=font_medium)
             
             # Contribution stats
             translated = user.get("translated", 0)
