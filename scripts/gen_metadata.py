@@ -58,6 +58,32 @@ def get_submodule_commits() -> Dict[str, str]:
     return submodules
 
 
+def get_paratranz_leaderboard(
+    project_id: int = 10882, auth_key: Optional[str] = None
+) -> Optional[list]:
+    """Get leaderboard data from ParaTranz API, filtering users with 0 contribution points."""
+    if not auth_key:
+        return None
+
+    try:
+        url = f"https://paratranz.cn/api/projects/{project_id}/leaderboard"
+        headers = {"Authorization": auth_key}
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
+        leaderboard_data = response.json()
+        
+        # Filter out users with 0 contribution points
+        filtered_data = [
+            user for user in leaderboard_data
+            if user.get("points", 0) > 0
+        ]
+        
+        return filtered_data
+    except Exception as e:
+        print(f"Warning: Failed to get ParaTranz leaderboard: {e}")
+        return None
+
+
 def get_paratranz_stats(
     project_id: int = 10882, auth_key: Optional[str] = None
 ) -> Optional[Dict[str, Any]]:
@@ -133,6 +159,7 @@ def generate_metadata(
             "submodules": get_submodule_commits(),
         },
         "translation": get_paratranz_stats(auth_key=auth_key),
+        "leaderboard": get_paratranz_leaderboard(auth_key=auth_key),
     }
 
     # Save to JSON
@@ -144,7 +171,7 @@ def generate_metadata(
 
 
 def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
-    """Generate a 480x272 image displaying metadata with text in bottom-right corner with semi-transparent background."""
+    """Generate a 480x272 image displaying metadata including leaderboard."""
     try:
         from PIL import Image, ImageDraw, ImageFont
     except ImportError:
@@ -173,7 +200,7 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         font_large = None
         for font_path in font_paths:
             try:
-                font_large = ImageFont.truetype(font_path, 20)
+                font_large = ImageFont.truetype(font_path, 14)
                 break
             except (OSError, IOError):
                 continue
@@ -183,8 +210,8 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             raise OSError("No truetype fonts found")
             
         # Load other font sizes from the same font
-        font_medium = ImageFont.truetype(font_large.path, 14)
-        font_small = ImageFont.truetype(font_large.path, 12)
+        font_medium = ImageFont.truetype(font_large.path, 12)
+        font_small = ImageFont.truetype(font_large.path, 10)
     except (OSError, IOError):
         # Fallback to default font
         font_large = ImageFont.load_default()
@@ -195,60 +222,61 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     lines = []
     
     # Title
-    lines.append(("NGE2 汉化补丁构建信息", font_large, accent_color))
+    lines.append(("NGE2 汉化补丁信息 & 贡献者排行榜", font_large, accent_color))
 
     # Commit info
     main_commit = metadata["git"]["main_commit"][:8]
-    lines.append((f"主仓库: {main_commit}", font_medium, text_color))
-
-    # Submodules
-    for path, commit in metadata["git"]["submodules"].items():
-        lines.append((f"  {path}: {commit[:8]}", font_small, text_color))
+    lines.append((f"主仓库: {main_commit}", font_small, text_color))
 
     # Translation stats
     if metadata.get("translation"):
-        lines.append(("翻译统计", font_medium, accent_color))
-
         trans = metadata["translation"]
         total = trans.get("total", 0)
         translated = trans.get("translated", 0)
-        disputed = trans.get("disputed", 0)
         reviewed = trans.get("reviewed", 0)
 
         if total > 0:
-            lines.append((f"词条总数 {total}", font_small, text_color))
             translated_percent = (translated / total) * 100
-            lines.append((f"已翻译条数 {translated} / {translated_percent:.2f}%", font_small, text_color))
-            lines.append((f"有疑问条数 {disputed}", font_small, text_color))
+            lines.append((f"翻译: {translated}/{total} ({translated_percent:.1f}%)", font_small, text_color))
             
             if reviewed > 0:
                 review_percent = (reviewed / total) * 100
-                lines.append((f"已审核条数 {reviewed} / {review_percent:.2f}%", font_small, text_color))
-            else:
-                lines.append((f"已审核条数 0 / 0.00%", font_small, text_color))
+                lines.append((f"审核: {review_percent:.1f}%", font_small, text_color))
 
-        # Build time if available (convert from UTC to China timezone UTC+8)
-        if "createdAt" in trans:
-            created_at = trans["createdAt"]
+    # Leaderboard
+    if metadata.get("leaderboard") and len(metadata["leaderboard"]) > 0:
+        lines.append(("贡献者排行榜（前5名）:", font_medium, accent_color))
+        
+        # Show top 5 contributors
+        for idx, user in enumerate(metadata["leaderboard"][:5], 1):
+            nickname = user.get("nickname") or user.get("username", "Unknown")
+            translated = user.get("translated", 0)
+            edited = user.get("edited", 0)
+            reviewed = user.get("reviewed", 0)
+            points = user.get("points", 0)
+            created_at = user.get("createdAt", "")
+            
+            # Parse and format join date
+            join_date = ""
             try:
                 dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-                # Convert to China timezone (UTC+8)
-                dt = dt + timedelta(hours=8)
-                time_str = dt.strftime("%Y-%m-%d %H:%M")
-                lines.append((f"生成时间: {time_str}", font_small, text_color))
+                dt = dt + timedelta(hours=8)  # Convert to China timezone
+                join_date = dt.strftime("%Y/%m/%d")
             except (ValueError, AttributeError):
                 pass
-
-        # File size if available
-        if "size" in trans and trans["size"] > 0:
-            size_mb = trans["size"] / (1024 * 1024)
-            lines.append((f"文件大小: {size_mb:.2f} MB", font_small, text_color))
+            
+            # Format contribution info
+            contrib_info = f"{idx}. {nickname}: 翻 {translated} 编 {edited} 审 {reviewed} ({points:.0f}pt)"
+            if join_date:
+                contrib_info += f" [{join_date}]"
+            
+            lines.append((contrib_info, font_small, text_color))
 
     # Generation timestamp
     gen_time = metadata["generated_at"]
     try:
         dt = datetime.fromisoformat(gen_time)
-        time_str = dt.strftime("%Y-%m-%d %H:%M:%S")
+        time_str = dt.strftime("%m-%d %H:%M")
     except (ValueError, AttributeError):
         time_str = gen_time
     lines.append((f"生成于: {time_str}", font_small, (150, 150, 150)))
