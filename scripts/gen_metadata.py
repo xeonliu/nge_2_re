@@ -13,7 +13,7 @@ import os
 import subprocess
 import sys
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Dict, Any, Optional
 
@@ -227,11 +227,13 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
             else:
                 lines.append((f"已审核条数 0 / 0.00%", font_small, text_color))
 
-        # Build time if available
+        # Build time if available (convert from UTC to China timezone UTC+8)
         if "createdAt" in trans:
             created_at = trans["createdAt"]
             try:
-                dt = datetime.fromisoformat(created_at.replace("Z", "+08:00"))
+                dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+                # Convert to China timezone (UTC+8)
+                dt = dt + timedelta(hours=8)
                 time_str = dt.strftime("%Y-%m-%d %H:%M")
                 lines.append((f"生成时间: {time_str}", font_small, text_color))
             except (ValueError, AttributeError):
@@ -366,14 +368,17 @@ def generate_metadata_pic0(metadata: Dict[str, Any], output_path: str):
                 review_percent = (reviewed / total) * 100
                 lines.append((f"审核: {review_percent:.1f}%", font_small, text_color))
 
-    # Generation timestamp
-    gen_time = metadata["generated_at"]
-    try:
-        dt = datetime.fromisoformat(gen_time)
-        time_str = dt.strftime("%m-%d %H:%M")
-    except (ValueError, AttributeError):
-        time_str = "unknown"
-    lines.append((f"生成: {time_str}", font_small, (150, 150, 150)))
+    # Translation data creation time (convert from UTC to China timezone UTC+8)
+    time_str = "unknown"
+    if metadata.get("translation") and "createdAt" in metadata["translation"]:
+        try:
+            dt = datetime.fromisoformat(metadata["translation"]["createdAt"].replace("Z", "+00:00"))
+            # Convert to China timezone (UTC+8)
+            dt = dt + timedelta(hours=8)
+            time_str = dt.strftime("%m-%d %H:%M")
+        except (ValueError, AttributeError):
+            time_str = "unknown"
+    lines.append((f"数据: {time_str}", font_small, (150, 150, 150)))
 
     # Calculate dimensions
     line_heights = []
