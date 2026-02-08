@@ -89,12 +89,20 @@ jobs:
             make full_build
           '
 
+    # 6. Display metadata generated during build
+    - name: Display Metadata
+      run: |
+        echo "📊 Build Metadata:"
+        cat build/metadata.json | python3 -m json.tool || echo "metadata.json not found"
+
+    # 7. Upload build artifacts including metadata
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: PSP-Translation-Build
         path: |
-          build/ULJS00064/PSP_GAME/USRDIR/EBTRANS.BIN
+          build/metadata.json
+          build/metadata.png
           build/evs_report.json
           build/eboot_report.json
         if-no-files-found: error
