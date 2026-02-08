@@ -194,6 +194,32 @@ def download_avatar(avatar_url: str, size: int = 32) -> Any:
         return None
 
 
+def save_raw_rgba8888(img: Any, output_path: str):
+    """Save image as raw RGBA8888 binary data for PSP."""
+    try:
+        import struct
+        
+        # Ensure image is in RGBA mode
+        if img.mode != 'RGBA':
+            img = img.convert('RGBA')
+        
+        # Get pixel data
+        pixels = img.load()
+        width, height = img.size
+        
+        # Write raw RGBA8888 data
+        with open(output_path, 'wb') as f:
+            for y in range(height):
+                for x in range(width):
+                    r, g, b, a = pixels[x, y]
+                    # PSP uses ABGR8888 format in memory
+                    # Pack as 32-bit unsigned integer: AABBGGRR
+                    pixel = struct.pack('<I', (a << 24) | (b << 16) | (g << 8) | r)
+                    f.write(pixel)
+    except Exception as e:
+        print(f"Warning: Failed to save raw RGBA8888: {e}")
+
+
 def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     """Generate a 480x272 fullscreen image displaying all contributors with avatars."""
     try:
@@ -349,6 +375,11 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     # Save image
     img.save(output_path)
     print(f"Metadata image saved to: {output_path}")
+    
+    # Save raw RGBA8888 binary for PSP plugin
+    raw_output_path = output_path.replace('.png', '.raw')
+    save_raw_rgba8888(img, raw_output_path)
+    print(f"Raw RGBA8888 image saved to: {raw_output_path}")
 
 
 def generate_metadata_pic0(metadata: Dict[str, Any], output_path: str):
