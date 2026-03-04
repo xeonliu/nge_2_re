@@ -69,6 +69,7 @@ char *init_file_handle_with_lbn_path(char *path, struct EngineFileHandle *handle
   // sprintf(buffer, "disc0:/sce_lbn0x%x_size0x%x", handle->lbn, handle->size);
   my_sprintf(new_path_buffer, EVA2_PATH_FMT, path);
   strcpyn(handle->filepath, new_path_buffer, sizeof(handle->filepath));
+  handle->filepath[sizeof(handle->filepath) - 1] = '\0';
   
   return handle->filepath;
 }
