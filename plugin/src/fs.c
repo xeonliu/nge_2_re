@@ -3,6 +3,8 @@ Patch File Look-up functions. Redirect them to ms0:/PSP/GAME/EVA2/USRDIR.
 The original program uses LBA syntax in sceIoOpen; this patch instead allows the use of
 file path syntax.
 */
+#include "fs.h"
+
 #include <pspkernel.h>
 #include <pspiofilemgr.h>
 
@@ -10,17 +12,7 @@ file path syntax.
 #include "sprintf.h"
 #include "strcpy.h"
 
-
 #define EVA2_PATH_FMT "ms0:/PSP/GAME/EVA2/USRDIR/%s"
-
-typedef struct EngineFileHandle // sizeof=0x110
-{
-  int os_fd;
-  int is_opened;
-  unsigned int lbn;
-  unsigned int size;
-  char filepath[256];
-} EngineFileHandle;
 
 SceOff get_file_size(const char *path)
 {
