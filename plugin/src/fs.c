@@ -1,6 +1,6 @@
 /**
 Patch File Look-up functions. Redirect them to ms0:/PSP/GAME/EVA2/USRDIR.
-The original program uses LBA Syntax in sceIoOpen, the patch will all the use of
+The original program uses LBA syntax in sceIoOpen; this patch instead allows the use of
 file path syntax.
 */
 #include <pspkernel.h>
