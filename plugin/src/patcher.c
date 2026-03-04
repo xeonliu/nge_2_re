@@ -412,6 +412,7 @@ int patch_from_external_file(const char* filename) {
 
         dbg_log("Offset: %x, Buffer: %x, Size: %d\n", entry.offset, entry.buffer, entry.size);
         // Patch the BIN.
+        // TODO: Use memcpy instead of strcpy to avoid the Null Terminator Problem.
         strcpyn((char *)NEW_ADDR(entry.offset), entry.buffer, entry.size);
     }
 
