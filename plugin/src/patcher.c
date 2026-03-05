@@ -83,7 +83,7 @@ void patchBattleDebugMenu() {
         // *(u32 *)NEW_ADDR(0x89C97CC) = NEW_ADDR(0x088984C0);
         
         // Battle Debug
-        *(u32 *)NEW_ADDR(0x08b57e04) = NEW_ADDR(0x01);
+        *(u32 *)NEW_ADDR(0x08b57e04) = 0x01;
         
         sceKernelDcacheWritebackAll();
         sceKernelIcacheInvalidateAll();
