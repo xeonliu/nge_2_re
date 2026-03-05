@@ -25,8 +25,7 @@ set(SOURCES
     src/scefttt.c
     src/psputil.c
     src/fs.c
-    src/utils/sprintf.c
-    src/utils/strcpy.c
+    src/utils/utils.c
 )
 
 # Create PRX module with exports  

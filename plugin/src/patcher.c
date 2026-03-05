@@ -1,14 +1,20 @@
 #include <pspsdk.h>
 #include <pspkernel.h>
+#include <psptypes.h>
 
 #include "patcher.h"
-#include "psptypes.h"
-#include "transform.h"
+
+// Utils
+#include "utils.h"
 #include "log.h"
+
+// PSP SDK Patch
 #include "scefttt.h"
 #include "psputil.h"
+
+// Custom Patch
 #include "fs.h"
-#include "strcpy.h"
+#include "transform.h"
 
 /**
  * The full 32-bit jump address is formed by concatenating

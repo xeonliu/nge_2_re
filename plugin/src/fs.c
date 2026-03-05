@@ -9,8 +9,7 @@ file path syntax.
 #include <pspiofilemgr.h>
 
 #include "log.h"
-#include "sprintf.h"
-#include "strcpy.h"
+#include "utils.h"
 
 #define EVA2_PATH_FMT "ms0:/PSP/GAME/EVA2/USRDIR/%s"
 
