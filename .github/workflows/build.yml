@@ -67,20 +67,45 @@ jobs:
           --token "$HF_TOKEN" \
           --local-dir temp
 
-    # 5. 构建 Docker 镜像（使用 GHCR 缓存）
-    - name: Build Docker Image
+    # 5. 根据 Dockerfile 哈希复用镜像；仅在未命中时构建
+    - name: Resolve Docker Image Tag
+      id: docker-tag
       run: |
-        IMAGE=ghcr.io/${{ github.repository_owner }}/psp-builder:latest
-        # 尝试拉取已有镜像作为缓存层（失败不中断）
-        docker pull "$IMAGE" || true
-        # 构建时利用缓存，并同时打两个 tag
-        docker build \
-          --cache-from "$IMAGE" \
-          -t psp-builder \
-          -t "$IMAGE" \
-          .
-        # 推送到 GHCR 供下次缓存使用
-        docker push "$IMAGE"
+        DOCKERFILE_HASH=$(sha256sum Dockerfile | cut -c1-16)
+        echo "dockerfile_hash=$DOCKERFILE_HASH" >> "$GITHUB_OUTPUT"
+
+    - name: Restore or Build Docker Image
+      run: |
+        set -euo pipefail
+
+        IMAGE_BASE=ghcr.io/${{ github.repository_owner }}/psp-builder
+        HASH_TAG=${{ steps.docker-tag.outputs.dockerfile_hash }}
+        HASH_IMAGE="$IMAGE_BASE:$HASH_TAG"
+        LATEST_IMAGE="$IMAGE_BASE:latest"
+
+        echo "🧩 Trying cached image: $HASH_IMAGE"
+        if docker pull "$HASH_IMAGE"; then
+          echo "✅ Cache hit. Reusing prebuilt image for this Dockerfile."
+          docker tag "$HASH_IMAGE" psp-builder
+        else
+          echo "⚙️ Cache miss. Building new image..."
+
+          # 尝试拉取 latest 作为额外缓存来源（失败不中断）
+          docker pull "$LATEST_IMAGE" || true
+
+          DOCKER_BUILDKIT=1 docker build \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from "$LATEST_IMAGE" \
+            --cache-from "$HASH_IMAGE" \
+            -t psp-builder \
+            -t "$HASH_IMAGE" \
+            -t "$LATEST_IMAGE" \
+            .
+
+          echo "📤 Pushing cache images..."
+          docker push "$HASH_IMAGE"
+          docker push "$LATEST_IMAGE"
+        fi
 
     # 6. 在容器内运行构建
     - name: Run Build inside Container
