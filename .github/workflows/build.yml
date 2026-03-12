@@ -46,8 +46,18 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    # 4. 安装 HF CLI 并下载 ISO
+    # 4a. 恢复 ISO 缓存
+    - name: Restore ISO Cache
+      uses: actions/cache@v4
+      id: cache-iso
+      with:
+        path: temp/*.iso
+        key: iso-${{ secrets.HF_REPO_ID }}
+        restore-keys: iso-
+
+    # 4b. 安装 HF CLI 并下载 ISO（缓存未命中时）
     - name: Download ISO from Hugging Face
+      if: steps.cache-iso.outputs.cache-hit != 'true'
       env:
         HF_TOKEN: ${{ secrets.HF_TOKEN }}
         HF_REPO_ID: ${{ secrets.HF_REPO_ID }}
