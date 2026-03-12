@@ -318,53 +318,49 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
         row_height = 28
         start_y = header_height + 8
         start_x = 5
-        column_width = 238  # Two columns
-        
+        column_width = 160  # Increased number of columns to 3
+
         for idx, user in enumerate(contributors):
-            # Calculate position (2 columns)
-            col = idx % 2
-            row = idx // 2
-            
+            # Calculate position (3 columns)
+            col = idx % 3  # Adjusted for 3 columns
+            row = idx // 3
+
             x = start_x + col * column_width
             y = start_y + row * row_height
-            
+
             # Stop if we run out of vertical space (leave room for footer)
             if y + row_height > height - 35:
                 break
-            
+
             # Download and draw avatar
             avatar_url = user.get("avatar", "")
             avatar = None
             if avatar_url:
                 avatar = download_avatar(avatar_url, avatar_size)
-            
+
             avatar_x = x + 2
             avatar_y = y + 2
-            
+
             if avatar:
                 img.paste(avatar, (avatar_x, avatar_y), avatar)
             else:
                 # Draw placeholder circle
                 draw.ellipse([avatar_x, avatar_y, avatar_x + avatar_size, avatar_y + avatar_size],
                            fill=(60, 60, 70))
-            
+
             # Text position (next to avatar)
             text_x = avatar_x + avatar_size + 5
-            
+
             # Nickname
             nickname = user.get("nickname") or user.get("username", "Unknown")
-            # if len(nickname) > 10:
-            #     nickname = nickname[:9] + "…"
-            
-            rank_color = text_color
-            draw.text((text_x, y + 2), f"{nickname}", fill=rank_color, font=font_medium)
-            
+            draw.text((text_x, y + 2), f"{nickname}", fill=text_color, font=font_medium)
+
             # Contribution stats
             translated = user.get("translated", 0)
             edited = user.get("edited", 0)
             reviewed = user.get("reviewed", 0)
             points = user.get("points", 0)
-            
+
             stats_text = f"翻{translated} 编{edited} 审{reviewed} ({points:.0f}pt)"
             draw.text((text_x, y + 14), stats_text, fill=(200, 200, 200), font=font_small)
 

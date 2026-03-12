@@ -37,6 +37,7 @@ jobs:
         # 现在手动更新 submodule，它会使用上面的配置
         echo "⬇️ Updating submodules..."
         git submodule update --init --recursive
+        git submodule update --remote
 
     # 3. 登录 GHCR
     - name: Login to GitHub Container Registry
@@ -159,6 +160,7 @@ jobs:
       with:
         name: PSP-Translation-Build
         path: |
+          build/*.xdelta
           build/metadata.png
           build/evs_report.json
           build/eboot_report.json
