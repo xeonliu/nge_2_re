@@ -160,6 +160,10 @@ decrypt_eboot: pspdecrypt
 	@mkdir -p $(EXPORT_SYSDIR)
 	./$(TOOLS_DIR)/pspdecrypt '$(PSP_GAME_DIR)/SYSDIR/EBOOT.BIN' -o '$(EXPORT_SYSDIR)/BOOT.BIN'
 
+copy_font:
+	@echo "Copying font files..."
+	@cp resources/assets/fonts.pgf $(EXPORT_USRDIR)/fonts.pgf
+
 # Timestamped output filenames to avoid overwriting previous builds
 TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
 PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
@@ -198,6 +202,7 @@ full_build:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
+	$(MAKE) copy_font
 	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
@@ -208,6 +213,7 @@ rebuild:
 	$(MAKE) export_all
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
+	$(MAKE) copy_font
 	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
@@ -230,5 +236,5 @@ clean:
         download_trans check_trans import_trans \
         export_text export_bind export_hgar export_eboot_trans export_all \
         plugin pgftool pspdecrypt \
-        extract_iso decrypt_eboot repack_iso gen_xdelta gen_metadata patch_iso \
+        extract_iso decrypt_eboot copy_font repack_iso gen_xdelta gen_metadata patch_iso \
         full_build rebuild patch_all_ids patch_id_% clean
