@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MemTalk 句式渲染器</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; margin: 16px; line-height: 1.35; }
+      h1 { font-size: 18px; margin: 0 0 10px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .card { border: 1px solid color-mix(in oklab, CanvasText 20%, transparent); border-radius: 10px; padding: 12px; }
+      .card h2 { font-size: 14px; margin: 0 0 10px; }
+      label { display: block; font-size: 12px; opacity: 0.9; margin: 8px 0 4px; }
+      input[type="text"], input[type="number"], select, textarea { width: 100%; box-sizing: border-box; padding: 8px; border-radius: 8px; border: 1px solid color-mix(in oklab, CanvasText 20%, transparent); background: Canvas; color: CanvasText; }
+      textarea { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; min-height: 90px; }
+      .inline { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .inline > * { flex: 1 1 auto; }
+      .small { font-size: 12px; opacity: 0.85; }
+      .mask-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+      .mask-item { display: flex; gap: 6px; align-items: center; border: 1px solid color-mix(in oklab, CanvasText 18%, transparent); padding: 6px 8px; border-radius: 8px; }
+      button { padding: 8px 10px; border-radius: 8px; border: 1px solid color-mix(in oklab, CanvasText 20%, transparent); background: color-mix(in oklab, Canvas 85%, CanvasText 6%); color: CanvasText; cursor: pointer; }
+      button:active { transform: translateY(1px); }
+      .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+      .btn-row button { flex: 0 0 auto; }
+      .status { padding: 8px 10px; border-radius: 8px; background: color-mix(in oklab, Canvas 85%, CanvasText 5%); border: 1px solid color-mix(in oklab, CanvasText 18%, transparent); }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+      @media (max-width: 960px) { .row { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <h1>MemTalk 句式渲染器（简单句 / 详细句 / 尾句）</h1>
+    <div class="status" id="status">
+      <div class="small">数据：未加载</div>
+      <div class="small">提示：同目录放置 memtalk_data.json 后直接打开本页面；或用“选择数据文件”手动加载。</div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h2>数据加载</h2>
+      <div class="inline">
+        <div>
+          <label>选择数据文件（memtalk_data.json）</label>
+          <input id="dataFile" type="file" accept="application/json" />
+        </div>
+        <div style="flex: 0 0 auto;">
+          <label>&nbsp;</label>
+          <button id="tryFetch">尝试从同目录加载</button>
+        </div>
+      </div>
+      <div class="small" id="dataMeta" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="row" style="margin-top:12px;">
+      <div class="card">
+        <h2>输入（上下文 + 记忆记录）</h2>
+
+        <div class="inline">
+          <div>
+            <label>说话者（styleBit / $a）</label>
+            <select id="speakerBit"></select>
+          </div>
+          <div>
+            <label>目标（targetBit / $b）</label>
+            <select id="targetBit"></select>
+          </div>
+          <div>
+            <label>第三人称（$c，可选）</label>
+            <select id="thirdBit"></select>
+          </div>
+        </div>
+
+        <label>templateId（off_8A4B45C）</label>
+        <select id="templateId"></select>
+        <div class="small" id="templatePreview" style="margin-top:6px;"></div>
+
+        <label>maskA（模板层 $a）</label>
+        <div class="btn-row">
+          <button id="maskAClear">清空 maskA</button>
+          <button id="maskASetSpeaker">maskA=说话者</button>
+          <button id="maskASetTarget">maskA=目标</button>
+        </div>
+        <div class="mask-grid" id="maskAList"></div>
+
+        <label>maskB（模板层 $b）</label>
+        <div class="btn-row">
+          <button id="maskBClear">清空 maskB</button>
+          <button id="maskBSetSpeaker">maskB=说话者</button>
+          <button id="maskBSetTarget">maskB=目标</button>
+        </div>
+        <div class="mask-grid" id="maskBList"></div>
+
+        <label>动词（verbSjis）</label>
+        <div class="inline">
+          <select id="verbSelect"></select>
+          <input id="verbCustom" type="text" placeholder="自定义动词（覆盖下拉）" />
+        </div>
+
+        <label>句式模式</label>
+        <div class="inline">
+          <select id="sentenceMode">
+            <option value="auto">按游戏规则（mask 交集/rec 为空 => 简单句）</option>
+            <option value="simple">强制简单句</option>
+            <option value="detail">强制详细句</option>
+          </select>
+          <label class="inline" style="margin:0; gap:8px;">
+            <input id="appendTail" type="checkbox" />
+            <span class="small">附加尾句（speakerBit==16 且 targetBit!=0 时生效）</span>
+          </label>
+        </div>
+
+        <label>尾句类型（speakerBit==16 的分支）</label>
+        <select id="tailKind">
+          <option value="0">しかし%sは よく理解できなかった</option>
+          <option value="1">しかし%sは うまく聞き取れなかった</option>
+          <option value="2">しかし%sは よくわからなかった</option>
+        </select>
+      </div>
+
+      <div class="card">
+        <h2>时间 / 地点（可手选或按规则计算）</h2>
+
+        <label>时间短语</label>
+        <div class="inline">
+          <select id="timeMode">
+            <option value="manual">手动选择 timePhrase</option>
+            <option value="auto">按规则计算 timePhrase</option>
+          </select>
+          <select id="timeManual"></select>
+        </div>
+        <div id="timeAutoBox" style="display:none; margin-top:8px;">
+          <div class="inline">
+            <label class="inline" style="margin:0; gap:8px; flex: 0 0 auto;">
+              <input id="timeSameDay" type="checkbox" checked />
+              <span class="small">同一天</span>
+            </label>
+            <div>
+              <label>delta（now - rec，分钟）</label>
+              <input id="timeDelta" type="number" min="0" step="1" value="180" />
+            </div>
+            <div>
+              <label>recMinuteOfDay（rec->unk0 % 1440）</label>
+              <input id="timeRecMinuteOfDay" type="number" min="0" max="1439" step="1" value="480" />
+            </div>
+          </div>
+          <div class="small">同一天时使用 TimeOfDayRule：delta 在区间且 recMinuteOfDay &lt; threshold；跨天时使用 TimeAgoRule：找到第一个 delta &lt; threshold。</div>
+        </div>
+
+        <label style="margin-top:14px;">地点短语</label>
+        <div class="inline">
+          <select id="locMode">
+            <option value="manual">手动选择 placePhrase</option>
+            <option value="auto">按规则计算 placePhrase</option>
+          </select>
+          <select id="locManual"></select>
+        </div>
+        <div id="locAutoBox" style="display:none; margin-top:8px;">
+          <div class="inline">
+            <div>
+              <label>locationId（rec->locationId）</label>
+              <input id="locId" type="number" min="0" max="80" step="1" value="11" />
+            </div>
+            <div>
+              <label>currentLocationId（当前场景）</label>
+              <input id="locCurrentId" type="number" min="0" max="80" step="1" value="11" />
+            </div>
+          </div>
+          <div class="small">locationId==currentLocationId 时输出“ここで”，否则输出地点表项或空字符串。</div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <h2>中间产物</h2>
+          <div class="small mono" id="debugLine"></div>
+          <label>expanded（模板展开结果）</label>
+          <textarea id="expandedOut" readonly></textarea>
+          <label>maskAText / maskBText（模板层参与者短语）</label>
+          <textarea id="maskOut" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:12px;">
+      <div class="card">
+        <h2>输出（含 token）</h2>
+        <label>buffer（sprintf 拼接结果，仍含 $a/$b/$n 等 token）</label>
+        <textarea id="rawOut" readonly></textarea>
+        <div class="btn-row">
+          <button id="copyRaw">复制</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>输出（替换后）</h2>
+        <label>rendered（模拟 sub_882EED4：替换 $a/$b/$c，处理 $n/$m）</label>
+        <textarea id="finalOut" readonly></textarea>
+        <div class="btn-row">
+          <button id="copyFinal">复制</button>
+        </div>
+        <label style="margin-top:12px;">尾句（若启用且条件满足）</label>
+        <textarea id="tailOut" readonly></textarea>
+      </div>
+    </div>
+
+    <script>
+      const el = (id) => document.getElementById(id);
+
+      let DATA = null;
+
+      function getPath(obj, keys, fallback) {
+        let cur = obj;
+        for (let i = 0; i < keys.length; i += 1) {
+          const k = keys[i];
+          if (!cur || typeof cur !== "object" || !(k in cur)) return fallback;
+          cur = cur[k];
+        }
+        return cur === undefined || cur === null ? fallback : cur;
+      }
+
+      function escapeOneLine(s, maxLen = 80) {
+        const t = (s || "").replace(/\n/g, "⏎");
+        return t.length > maxLen ? t.slice(0, maxLen - 1) + "…" : t;
+      }
+
+      function nameByBit(bit) {
+        if (!DATA) return "";
+        const names = DATA.character_name_by_bit || [];
+        if (0 <= bit && bit < names.length && names[bit]) return names[bit];
+        return bit === 0 ? "" : `人物${bit}`;
+      }
+
+      function maskToText(mask, styleBit) {
+        const jibun = getPath(DATA, ["strings", "jibun"], "自分");
+        const tachi = getPath(DATA, ["strings", "tachi"], "たち");
+        if (((mask >>> 0) & 0xFFFFFFFE) === 0) return "";
+
+        let chosenBit = -1;
+        let base = "";
+        if (0 <= styleBit && styleBit < 32 && ((mask >>> 0) & (1 << styleBit)) !== 0) {
+          chosenBit = styleBit;
+          base = jibun;
+        } else {
+          chosenBit = 1;
+          while (chosenBit < 17 && (((mask >>> 0) & (1 << chosenBit)) === 0)) chosenBit += 1;
+          if (chosenBit >= 17) return "";
+          base = nameByBit(chosenBit);
+        }
+
+        if ((((mask >>> 0) & ~(1 << chosenBit)) >>> 0) !== 0) base += tachi;
+        return base;
+      }
+
+      function renderTemplate(tmpl, maskA, maskB, styleBit) {
+        if (!tmpl) return "";
+        let out = "";
+        for (let i = 0; i < tmpl.length; i += 1) {
+          const ch = tmpl[i];
+          if (ch === "$" && i + 1 < tmpl.length) {
+            const ph = tmpl[i + 1];
+            if (ph === "a") out += maskToText(maskA, styleBit);
+            else if (ph === "b") out += maskToText(maskB, styleBit);
+            i += 1;
+            continue;
+          }
+          out += ch;
+        }
+        return out;
+      }
+
+      function renderPair(templateId, delimiter, maskA, maskB, styleBit) {
+        const t = DATA.templates[templateId];
+        const pfx = (t && t.prefix) || "";
+        const sfx = (t && t.suffix) || "";
+        let out = renderTemplate(pfx, maskA, maskB, styleBit);
+        if (sfx) out += delimiter + renderTemplate(sfx, maskA, maskB, styleBit);
+        return out;
+      }
+
+      function formatWithList(fmt, args) {
+        let out = "";
+        let ai = 0;
+        for (let i = 0; i < fmt.length; i += 1) {
+          if (fmt[i] === "%" && i + 1 < fmt.length && fmt[i + 1] === "s") {
+            out += String(args[ai] !== undefined && args[ai] !== null ? args[ai] : "");
+            ai += 1;
+            i += 1;
+            continue;
+          }
+          out += fmt[i];
+        }
+        return out;
+      }
+
+      function engineReplace(text, speakerBit, targetBit, thirdBit) {
+        const speakerName = nameByBit(speakerBit);
+        const targetName = nameByBit(targetBit);
+        const thirdName = nameByBit(thirdBit);
+        let out = "";
+        for (let i = 0; i < text.length; i += 1) {
+          const ch = text[i];
+          if (ch !== "$" || i + 1 >= text.length) {
+            out += ch;
+            continue;
+          }
+          const ph = text[i + 1];
+          if (ph === "a") {
+            out += speakerName;
+            i += 1;
+            continue;
+          }
+          if (ph === "b") {
+            out += targetName;
+            i += 1;
+            continue;
+          }
+          if (ph === "c") {
+            out += thirdName;
+            i += 1;
+            continue;
+          }
+          if (ph === "n" || ph === "m") {
+            out += "\n";
+            i += 1;
+            if (i + 1 < text.length && text[i + 1] === "\n") i += 1;
+            continue;
+          }
+          out += ch;
+        }
+        return out;
+      }
+
+      function computeTimePhraseSameDay(delta, recMinuteOfDay) {
+        for (const r of DATA.time_of_day_rules || []) {
+          if (delta >= r.min_delta && delta < r.max_delta && recMinuteOfDay < r.threshold_minute_of_day) return r.phrase;
+        }
+        return getPath(DATA, ["time_default", "phrase"], "以前");
+      }
+
+      function computeTimePhraseCrossDay(delta) {
+        for (const r of DATA.time_ago_rules || []) {
+          if (delta < r.delta_threshold) return r.phrase;
+        }
+        return getPath(DATA, ["time_default", "phrase"], "以前");
+      }
+
+      function computeTimePhrase() {
+        const mode = el("timeMode").value;
+        if (mode === "manual") return el("timeManual").value || "";
+        const sameDay = el("timeSameDay").checked;
+        const delta = Number(el("timeDelta").value || 0);
+        const recMinuteOfDay = Number(el("timeRecMinuteOfDay").value || 0);
+        return sameDay ? computeTimePhraseSameDay(delta, recMinuteOfDay) : computeTimePhraseCrossDay(delta);
+      }
+
+      function computeLocationPhrase() {
+        const mode = el("locMode").value;
+        if (mode === "manual") return el("locManual").value || "";
+        const locationId = Number(el("locId").value || 0);
+        const currentId = Number(el("locCurrentId").value || 0);
+        if (locationId === currentId) return getPath(DATA, ["strings", "koko_de"], "ここで");
+        const p = (DATA.location_phrases || []).find((x) => x.id === locationId);
+        return p && p.phrase ? p.phrase : "";
+      }
+
+      function getVerb() {
+        const c = (el("verbCustom").value || "").trim();
+        if (c) return c;
+        return el("verbSelect").value || "";
+      }
+
+      function getMaskFromList(containerId) {
+        const box = el(containerId);
+        let mask = 0;
+        const inputs = box.querySelectorAll("input[type='checkbox']");
+        for (const inp of inputs) {
+          if (!inp.checked) continue;
+          const bit = Number(inp.dataset.bit);
+          if (0 <= bit && bit < 32) mask |= 1 << bit;
+        }
+        return mask >>> 0;
+      }
+
+      function setMaskToSingle(containerId, bit) {
+        const box = el(containerId);
+        const inputs = box.querySelectorAll("input[type='checkbox']");
+        for (const inp of inputs) inp.checked = false;
+        if (!(0 <= bit && bit < 32)) return;
+        const target = box.querySelector(`input[data-bit='${bit}']`);
+        if (target) target.checked = true;
+      }
+
+      function clearMask(containerId) {
+        const box = el(containerId);
+        const inputs = box.querySelectorAll("input[type='checkbox']");
+        for (const inp of inputs) inp.checked = false;
+      }
+
+      function low24Overlap(maskA, maskB) {
+        return (((maskA & maskB) >>> 0) & 0xFFFFFF) !== 0;
+      }
+
+      function buildSimple(verb, speakerBit, targetBit, thirdBit) {
+        const fmt = getPath(DATA, ["strings", "simple_skeleton"], "$aは、昔の出来事を%s。");
+        const raw = formatWithList(fmt, [verb]);
+        return { raw, final: engineReplace(raw, speakerBit, targetBit, thirdBit) };
+      }
+
+      function buildDetail(params) {
+        const { templateId, delimiter, maskA, maskB, styleBit, speakerBit, targetBit, thirdBit, verb, timePhrase, placePhrase } = params;
+        const expanded = renderPair(templateId, delimiter, maskA, maskB, styleBit);
+        const maskAText = maskToText(maskA, styleBit);
+        const maskBText = maskToText(maskB, styleBit);
+        const needA = (((maskA >>> 0) & (1 << styleBit)) === 0);
+        const aOpt = needA ? maskAText : "";
+        const gaOpt = needA && aOpt ? getPath(DATA, ["strings", "ga_particle"], "が") : "";
+        const targetPrefix = targetBit !== 0 ? getPath(DATA, ["strings", "bni_token"], "$bに") : "";
+
+        const fmt = getPath(DATA, ["strings", "detail_skeleton"], "$aは%s、\n%sの出来事を%s。$n%s%s%s\n%s%sを。");
+        const raw = formatWithList(fmt, [targetPrefix, timePhrase, verb, placePhrase, aOpt, gaOpt, maskBText, expanded]);
+        const final = engineReplace(raw, speakerBit, targetBit, thirdBit);
+        return { raw, final, expanded, maskAText, maskBText, needA, aOpt, gaOpt, targetPrefix };
+      }
+
+      function buildTail(targetBit, kind) {
+        const name = nameByBit(targetBit);
+        const key = kind === 1 ? "tail_1" : kind === 2 ? "tail_2" : "tail_0";
+        const fmt = (DATA && DATA.strings && DATA.strings[key]) ? DATA.strings[key] : "";
+        return formatWithList(fmt, [name]);
+      }
+
+      function updateUI() {
+        if (!DATA) return;
+        const speakerBit = Number(el("speakerBit").value || 1);
+        const targetBit = Number(el("targetBit").value || 0);
+        const thirdBit = Number(el("thirdBit").value || 0);
+        const styleBit = speakerBit;
+        const templateId = Number(el("templateId").value || 0);
+        const verb = getVerb();
+
+        const maskA = getMaskFromList("maskAList");
+        const maskB = getMaskFromList("maskBList");
+        const overlap = low24Overlap(maskA, maskB);
+
+        const timePhrase = computeTimePhrase();
+        const placePhrase = computeLocationPhrase();
+
+        const mode = el("sentenceMode").value;
+        const shouldSimple = mode === "simple" || (mode === "auto" && overlap);
+        const shouldDetail = mode === "detail" || (mode === "auto" && !overlap);
+
+        const detail = buildDetail({
+          templateId,
+          delimiter: "\n",
+          maskA,
+          maskB,
+          styleBit,
+          speakerBit,
+          targetBit,
+          thirdBit,
+          verb,
+          timePhrase,
+          placePhrase,
+        });
+
+        const simple = buildSimple(verb, speakerBit, targetBit, thirdBit);
+
+        const raw = shouldSimple ? simple.raw : detail.raw;
+        const final = shouldSimple ? simple.final : detail.final;
+
+        el("rawOut").value = raw;
+        el("finalOut").value = final;
+
+        el("expandedOut").value = detail.expanded;
+        el("maskOut").value = `maskAText: ${detail.maskAText}\nmaskBText: ${detail.maskBText}\nmaskA need prefix: ${detail.needA}\nplacePhrase: ${placePhrase}\ntimePhrase: ${timePhrase}`;
+
+        el("debugLine").textContent = `maskA=0x${maskA.toString(16)} maskB=0x${maskB.toString(16)} low24Overlap=${overlap} targetPrefix=${escapeOneLine(detail.targetPrefix, 20)}`;
+
+        const t = DATA.templates[templateId];
+        el("templatePreview").textContent = `prefix: ${escapeOneLine((t && t.prefix) || "", 120)}   |   suffix: ${escapeOneLine((t && t.suffix) || "", 120)}`;
+
+        const appendTail = el("appendTail").checked;
+        const tailKind = Number(el("tailKind").value || 0);
+        const tailEnabled = appendTail && speakerBit === 16 && targetBit !== 0;
+        el("tailOut").value = tailEnabled ? buildTail(targetBit, tailKind) : "";
+      }
+
+      function populateMasks(containerId) {
+        const box = el(containerId);
+        box.innerHTML = "";
+        for (let bit = 1; bit <= 16; bit += 1) {
+          const wrap = document.createElement("label");
+          wrap.className = "mask-item";
+          const inp = document.createElement("input");
+          inp.type = "checkbox";
+          inp.dataset.bit = String(bit);
+          inp.addEventListener("change", updateUI);
+          const sp = document.createElement("span");
+          sp.textContent = `${bit}: ${nameByBit(bit)}`;
+          wrap.appendChild(inp);
+          wrap.appendChild(sp);
+          box.appendChild(wrap);
+        }
+      }
+
+      function populateSelectWithBits(selectId, includeZero) {
+        const s = el(selectId);
+        s.innerHTML = "";
+        const start = includeZero ? 0 : 1;
+        const end = 16;
+        for (let bit = start; bit <= end; bit += 1) {
+          const opt = document.createElement("option");
+          opt.value = String(bit);
+          opt.textContent = bit === 0 ? "0: （无）" : `${bit}: ${nameByBit(bit)}`;
+          s.appendChild(opt);
+        }
+      }
+
+      function populateTemplates() {
+        const s = el("templateId");
+        s.innerHTML = "";
+        const list = DATA.templates || [];
+        for (const t of list) {
+          const label = `[${t.id}] ${escapeOneLine(t.prefix || "", 50)}${t.suffix ? " / " + escapeOneLine(t.suffix, 40) : ""}`;
+          const opt = document.createElement("option");
+          opt.value = String(t.id);
+          opt.textContent = label;
+          if (!t.valid) opt.disabled = true;
+          s.appendChild(opt);
+        }
+        const firstValid = list.find((x) => x.valid);
+        if (firstValid) s.value = String(firstValid.id);
+      }
+
+      function populateTimeManual() {
+        const s = el("timeManual");
+        s.innerHTML = "";
+        const set = new Set();
+        for (const r of DATA.time_of_day_rules || []) set.add(r.phrase);
+        for (const r of DATA.time_ago_rules || []) set.add(r.phrase);
+        if (DATA.time_default && DATA.time_default.phrase) set.add(DATA.time_default.phrase);
+        const list = Array.from(set).filter(Boolean);
+        list.sort((a, b) => a.localeCompare(b, "ja"));
+        for (const p of list) {
+          const opt = document.createElement("option");
+          opt.value = p;
+          opt.textContent = p;
+          s.appendChild(opt);
+        }
+        if (s.options.length) s.value = (DATA.time_default && DATA.time_default.phrase) ? DATA.time_default.phrase : s.options[0].value;
+      }
+
+      function populateLocManual() {
+        const s = el("locManual");
+        s.innerHTML = "";
+        const optEmpty = document.createElement("option");
+        optEmpty.value = "";
+        optEmpty.textContent = "（空）";
+        s.appendChild(optEmpty);
+        const optKoko = document.createElement("option");
+        optKoko.value = DATA.strings.koko_de || "ここで";
+        optKoko.textContent = DATA.strings.koko_de || "ここで";
+        s.appendChild(optKoko);
+        for (const it of DATA.location_phrases || []) {
+          const opt = document.createElement("option");
+          opt.value = it.phrase || "";
+          opt.textContent = `${it.id}: ${it.phrase || ""}`;
+          s.appendChild(opt);
+        }
+        s.value = DATA.strings.koko_de || "ここで";
+      }
+
+      function populateVerbs() {
+        const s = el("verbSelect");
+        s.innerHTML = "";
+        for (const it of DATA.menu_verbs || []) {
+          const opt = document.createElement("option");
+          opt.value = it.phrase || "";
+          opt.textContent = it.phrase ? `${it.idx}: ${it.phrase}` : `${it.idx}: （空）`;
+          s.appendChild(opt);
+        }
+        const first = (DATA.menu_verbs || []).find((x) => x.phrase);
+        if (first) s.value = first.phrase;
+      }
+
+      function setData(data) {
+        DATA = data;
+        const exportedAt = getPath(DATA, ["meta", "exported_at_unix"], "?");
+        const templates = getPath(DATA, ["meta", "template_count"], "?");
+        const locations = getPath(DATA, ["meta", "location_count"], "?");
+        const source = getPath(DATA, ["meta", "source"], "");
+        el("dataMeta").textContent = `exported_at_unix=${exportedAt} templates=${templates} locations=${locations}`;
+        el("status").innerHTML = `<div class="small">数据：已加载</div><div class="small">${source}</div>`;
+        populateSelectWithBits("speakerBit", false);
+        populateSelectWithBits("targetBit", true);
+        populateSelectWithBits("thirdBit", true);
+        el("speakerBit").value = "1";
+        el("targetBit").value = "0";
+        el("thirdBit").value = "0";
+        populateMasks("maskAList");
+        populateMasks("maskBList");
+        populateTemplates();
+        populateTimeManual();
+        populateLocManual();
+        populateVerbs();
+        updateUI();
+      }
+
+      async function tryFetchSameDir() {
+        const resp = await fetch("memtalk_data.json", { cache: "no-store" });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        setData(data);
+      }
+
+      function bindEvents() {
+        for (const id of ["speakerBit", "targetBit", "thirdBit", "templateId", "verbSelect", "verbCustom", "sentenceMode", "appendTail", "tailKind"]) {
+          el(id).addEventListener("change", updateUI);
+          el(id).addEventListener("input", updateUI);
+        }
+
+        el("timeMode").addEventListener("change", () => {
+          el("timeAutoBox").style.display = el("timeMode").value === "auto" ? "block" : "none";
+          updateUI();
+        });
+        for (const id of ["timeManual", "timeSameDay", "timeDelta", "timeRecMinuteOfDay"]) {
+          el(id).addEventListener("change", updateUI);
+          el(id).addEventListener("input", updateUI);
+        }
+
+        el("locMode").addEventListener("change", () => {
+          el("locAutoBox").style.display = el("locMode").value === "auto" ? "block" : "none";
+          updateUI();
+        });
+        for (const id of ["locManual", "locId", "locCurrentId"]) {
+          el(id).addEventListener("change", updateUI);
+          el(id).addEventListener("input", updateUI);
+        }
+
+        el("maskAClear").addEventListener("click", () => { clearMask("maskAList"); updateUI(); });
+        el("maskBClear").addEventListener("click", () => { clearMask("maskBList"); updateUI(); });
+        el("maskASetSpeaker").addEventListener("click", () => { setMaskToSingle("maskAList", Number(el("speakerBit").value || 1)); updateUI(); });
+        el("maskBSetSpeaker").addEventListener("click", () => { setMaskToSingle("maskBList", Number(el("speakerBit").value || 1)); updateUI(); });
+        el("maskASetTarget").addEventListener("click", () => { setMaskToSingle("maskAList", Number(el("targetBit").value || 0)); updateUI(); });
+        el("maskBSetTarget").addEventListener("click", () => { setMaskToSingle("maskBList", Number(el("targetBit").value || 0)); updateUI(); });
+
+        el("copyRaw").addEventListener("click", async () => { await navigator.clipboard.writeText(el("rawOut").value || ""); });
+        el("copyFinal").addEventListener("click", async () => { await navigator.clipboard.writeText(el("finalOut").value || ""); });
+
+        el("dataFile").addEventListener("change", async (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const text = await file.text();
+          setData(JSON.parse(text));
+        });
+
+        el("tryFetch").addEventListener("click", async () => {
+          try {
+            await tryFetchSameDir();
+          } catch (err) {
+            el("status").innerHTML = `<div class="small">数据：同目录加载失败</div><div class="small mono">${String(err)}</div>`;
+          }
+        });
+      }
+
+      bindEvents();
+      tryFetchSameDir().catch(() => {});
+    </script>
+  </body>
+</html>
