@@ -517,3 +517,55 @@ token 处理的关键语义（根据 `sub_882EED4` 反编译）：
 
 - `off_8A4B45C` 指向的字符串并不一定被 IDA 自动识别为 string item（很多字符串紧密排列在同一池里）。
 - 例如 `0x089D0128` 的前 4 字节是 `00 00 00 00`，因此它可作为“空字符串”地址；`prefix[0]` 的判定会把这种条目视作不可用。
+
+## ActionRecord：maskA/maskB 的写入点与约束
+
+这里整理“maskA/maskB 是在哪里被写入 ActionRecord 的”（记录生成/入内存）以及由此带来的组合约束。
+
+### 1) 真正的写入点：`ActionRecordContext_InsertRecord` (0x881F3E8)
+
+该函数负责在 `ActionRecordContext` 内选择一个 20 字节槽位并落盘字段（入内存）：
+
+- 选择槽位：`ActionRecordContext_SelectInsertSlot` (0x881F678)
+- 逐字段写入（按 `ActionRecord` 偏移）：
+  - `+0x00 u32 timestamp`：传入的时间戳（上层可传 `-1` 表示“当前时间”，由封装处理）
+  - `+0x04 u32 maskA`
+  - `+0x08 u32 maskB`
+  - `+0x0C u8 valid`：写入 `1`
+  - `+0x0D u8 locationId`
+  - `+0x0E u16 templateId`
+  - `+0x10 u8 type`：来自封装参数（同一字段在不同系统含义可能不同）
+  - `+0x12 u16 sortKey`：由权重/参数计算后写入，用于后续选择/排序
+
+上层“mask 组合是否可能出现”，首先取决于谁调用了这个写入点、以及传入的 mask 是如何构造出来的。
+
+### 2) 两个主入口：mask 直传 vs actorId 转 mask
+
+**A. `ActionRecord_InsertRecord_WithMasks` (0x88243A4)**
+
+- 行为：补默认值后直接把 `maskA/maskB` 原样传给 `ActionRecordContext_InsertRecord`。
+- 结论：如果你在内存里看到 `maskA/maskB` 出现“低位多 bit 同时置位”的组合，通常只可能来自这类“直传 mask”的路径（或存档读入等效路径）。
+
+**B. `ActionRecord_InsertRecord_WithActorIds` (0x88244A0)**
+
+- 行为：把 `actorId/targetId` 转成 mask 后再写入。
+- 转换规则（对 `actorId` 与 `targetId` 分别应用）：
+  - `id == 0`：mask = 0
+  - `1 <= id <= 16`：mask = `1 << id`
+  - `id >= 17`：mask = `(id - 16) << 24`
+- 直接推论：走这条路径时，`maskA/maskB` 的低 24 位不可能出现“多 bit 组合”（要么 0，要么单一 bit）。
+
+`ActionRecord_InsertRecord_WithActorIdsEx` (0x88245F8) 是带额外参数的变体，mask 构造逻辑与上面一致。
+
+### 3) pid=3 的“暂存/恢复”链路（全局缓冲区）
+
+这条链路和你观察到的“不可能组合”经常相关，因为它会把整块 context 从全局缓冲区覆盖回 pid=3 的 context，并且做一次记录过滤。
+
+- 暂存：`ActionRecord_StagePid3ContextToGlobal` (0x8825B94)
+  - 从 `ActionRecord_GetContextForPid(3)` 取出 `ActionRecordContext*`
+  - 把整块 `0x1A50` 字节复制到 `g_ActionRecordPid3StageCtx`（全局）
+- 恢复并过滤：`ActionRecord_RestorePid3ContextFromStage_KeepType3` (0x8825BF8)
+  - 用 `g_ActionRecordPid3StageCtx` 覆盖回 pid=3 的 `ActionRecordContext`（并保留 context 尾部少量 dword 字段）
+  - 遍历 `ctx->records`，把 `valid != 3` 的记录全部置无效（`valid=0`），只保留 `valid==3` 的记录
+
+因此：即便某些组合“曾经被写入”，也可能在这条恢复/过滤路径上被直接清掉，最终你在候选列表/渲染侧就再也看不到它。  
