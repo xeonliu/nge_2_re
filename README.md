@@ -124,7 +124,7 @@ scripts/
 - [x] GUI 汉化工具
 - [x] 使用视觉大模型进行图片文字识别
 - [ ] 修改游戏贴图
-- [ ] 自动导出贡献图表
+- [x] 自动导出贡献图表
 
 ---
 
@@ -159,6 +159,15 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 
 ## 🎮 使用指南
 
+目前，补丁以 [xdelta3](https://github.com/jmacd/xdelta) 格式发布。
+
+桌面端可以使用 [DeltaPatcher](https://github.com/marco-calautti/DeltaPatcher)，网页端可以使用 [xdelta-wasm](https://kotcrab.github.io/xdelta-wasm/) 打补丁，使用步骤如下：
+
+1. 获取适用的镜像（使用正版 UMD 光盘和已破解的 PSP 提取 ISO 镜像，参考 [miscdumpingguides](https://miscdumpingguides.miraheze.org/wiki/PlayStation_Portable_Physical_Software_Dumping_Guide)）
+2. 从 GitHub Release 下载对应版本的补丁
+3. 打开 DeltaPatcher 或 xdelta-wasm
+4. 依次打开适用的镜像和对应的补丁文件，点击`Apply Patch`或对应按键
+5. 程序会自动生成新的 ISO 镜像文件，该镜像文件可以在 PPSSPP 模拟器或 PSP 实机上加载
 
 ### PPSSPP 模拟器
 
