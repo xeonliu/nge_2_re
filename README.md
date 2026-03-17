@@ -22,6 +22,17 @@
 >  
 > 我们专注于**文本结构解析、翻译管理、自动补丁构建**，以重现这款复杂游戏的内部机制与叙事魅力。
 
+### 屏幕截图
+
+<p float="left">
+  <img src="resources/assets/pic_0194.png" width="45%" />
+  <img src="resources/assets/pic_0223.png" width="45%" />
+</p>
+
+<p float="left">
+  <img src="resources/assets/pic_0229.png" width="45%" />
+  <img src="resources/assets/pic_0234.png" width="45%" />
+</p>
 
 ### 📰 最新进展
 
