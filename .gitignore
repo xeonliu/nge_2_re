@@ -33,3 +33,11 @@ pz_downloads
 temp
 build
 dist
+# C++ build artifacts
+build_cpp/
+build_*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+_CPack_Packages/
