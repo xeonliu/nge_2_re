@@ -2,6 +2,7 @@
 title: "2009年百度贴吧讨论（OriginalX）"
 description: "EVA2游戏剧情触发条件与隐藏要素的讨论"
 layout: ../../layouts/MarkdownPostLayout.astro
+pubDate: "2009-11-28"
 ---
 
 ### 帖子基本信息
