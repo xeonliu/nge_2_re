@@ -164,6 +164,10 @@ copy_font:
 	@echo "Copying font files..."
 	@cp resources/assets/fonts.pgf $(EXPORT_USRDIR)/fonts.pgf
 
+edit_sfo:
+	@echo "Editing PARAM.SFO..."
+	$(UV_RUN) -m scripts.sfo --output '$(EXPORT_GAME_DIR)/PARAM.SFO' '$(PSP_GAME_DIR)/PARAM.SFO'
+
 # Timestamped output filenames to avoid overwriting previous builds
 TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
 PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
@@ -200,6 +204,7 @@ full_build:
 	$(MAKE) import_images
 	$(MAKE) import_trans
 	$(MAKE) export_all
+	$(MAKE) edit_sfo
 	$(MAKE) plugin
 	$(MAKE) decrypt_eboot
 	$(MAKE) copy_font
