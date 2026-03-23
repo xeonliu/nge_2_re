@@ -196,13 +196,17 @@ docker run -it --rm -v $(pwd):/app -w /app pspdev-dev
 翻译指南与任务分配将于平台内公布。
 图片资源正在整理中。
 
+对于代码的贡献，请提交 Pull Request 至本仓库。
+
 ---
 
 ## ⚖️ 版权与协议
 
-* 源代码使用 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) 开源
-* 中文翻译文本使用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 协议
+* **源代码**使用 [GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) 开源
+* **中文翻译文本**使用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 协议开源
 * 原日文文本与英文翻译版权归原作者所有
+* 游戏资源（如图片、音频）版权归原开发商所有
+* **补丁文件**仅供免费学习交流使用，禁止用于商业用途
 
 ---
 
