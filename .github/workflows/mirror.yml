@@ -1,0 +1,19 @@
+name: Mirror to Codeberg
+
+on:
+  push:
+    branches: [ "*" ]
+    tags: [ "*" ]
+
+jobs:
+  codeberg_mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 必须获取所有历史记录才能正确推送
+      - name: Mirror to Codeberg
+        uses: pixta-dev/repository-mirroring-action@v1.1.1
+        with:
+          target_repo_url: git@codeberg.org/EVA-zh-Hans/nge_2_re.git
+          ssh_private_key: ${{ secrets.CODEBERG_SSH_KEY }}
