@@ -1,11 +1,9 @@
-GB2312_CUSTOM.BIN: 
-	uv run gentable.py
+PLUGIN_DIR := ..
 
-gb2312.c: GB2312_CUSTOM.BIN
-	xxd -i GB2312_CUSTOM.BIN > gb2312.c
+generate-assets:
+	$(MAKE) -C $(PLUGIN_DIR) generate-assets
 
-atlas.c: atlas.bin
-	xxd -i atlas.bin > atlas.c
+check-generated:
+	$(MAKE) -C $(PLUGIN_DIR) check-generated
 
-atlas_palette.c: atlas_palette.bin
-	xxd -i atlas_palette.bin > atlas_palette.c
+.PHONY: generate-assets check-generated

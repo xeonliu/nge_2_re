@@ -4,6 +4,8 @@
 """
 
 from dataclasses import dataclass, asdict
+from pathlib import Path
+import argparse
 import json
 
 
@@ -74,9 +76,9 @@ def gb2312_to_custom(f):
     return utf16s
 
 
-def write_to_utf16_binary(utf16s: list[bytes]):
+def write_to_utf16_binary(utf16s: list[bytes], output_path: Path):
     # 打开文件以写入二进制映射表
-    with open("GB2312_CUSTOM.BIN", "wb") as f:
+    with output_path.open("wb") as f:
         # 遍历所有可能的第一个字节
         for utf16_bytes in utf16s:
             # 写入 UTF-16 编码到文件
@@ -84,12 +86,32 @@ def write_to_utf16_binary(utf16s: list[bytes]):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate the GB2312 custom-code UTF-16 table."
+    )
+    parser.add_argument(
+        "--out-bin",
+        type=Path,
+        default=Path("GB2312_CUSTOM.BIN"),
+        help="Output binary table path.",
+    )
+    parser.add_argument(
+        "--out-map",
+        type=Path,
+        default=Path("GB2312_Custom_Map.json"),
+        help="Output mapping JSON path.",
+    )
+    args = parser.parse_args()
+
+    args.out_bin.parent.mkdir(parents=True, exist_ok=True)
+    args.out_map.parent.mkdir(parents=True, exist_ok=True)
+
     # 打开文件以写入映射表
-    with open("GB2312_Custom_Map.json", "w", encoding="utf-8") as f:
+    with args.out_map.open("w", encoding="utf-8") as f:
         # 调用函数生成映射表
         map_bytes = gb2312_to_custom(f)
 
     print(f"{len(map_bytes)} characters generated.")
 
     # 调用函数生成二进制映射表
-    write_to_utf16_binary(map_bytes)
+    write_to_utf16_binary(map_bytes, args.out_bin)
