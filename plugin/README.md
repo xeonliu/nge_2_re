@@ -29,13 +29,41 @@ make debug
 
 > Debug Version will log under the `ms0:/PSP` directory, may not work on real mahine.
 
+## Generated Assets
+
+The plugin keeps generated C arrays in `src/bin/` so the PSP build does not
+depend on re-running every asset conversion by hand. Regenerate them with:
+
+```sh
+make generate-assets
+```
+
+Generated from scripts:
+
++ `src/bin/gb2312.c` is generated from `scripts/gentable.py`.
++ `src/bin/atlas.c`, `src/bin/atlas_palette.c`, and `include/atlas_data.h` are
+  generated from `scripts/gen_ttf_atlas.py`, `assets/fonts/ChillRoundFBold.ttf`,
+  and `assets/ui_atlas_chars.txt`.
+
+Stable extracted tables:
+
++ `src/bin/sjis.c` and `src/bin/utf16.c` are extracted from the original game
+  and are treated as stable source assets unless the source game table changes.
+
+To verify that checked-in generated files match the generators, run:
+
+```sh
+make check-generated
+```
+
 # Contributing
 
 ```
 ├── include
-├── scripts # Contains scripts to Generate Coding Table & SJIS/UTF16 Table Binaries extracted from the Game
+├── assets  # Font and text inputs for generated plugin assets
+├── scripts # Generators for coding tables and UI atlas binaries
 └── src
-    ├── bin # Binarires in `scripts` converted to C array
+    ├── bin # Binaries converted to C arrays
     ├── loader # EBOOT Loader
     └── utils # Log Util
 ```

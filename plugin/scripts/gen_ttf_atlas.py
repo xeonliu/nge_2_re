@@ -1,32 +1,39 @@
-import sys
+from pathlib import Path
+import argparse
 from PIL import Image, ImageFont, ImageDraw
 
 # --- 配置区 ---
-FONT_PATH = "ChillRoundFBold.ttf"  # 替换为你电脑上的字体路径
 FONT_SIZE = 14            # 字体大小
 ATLAS_SIZE = 256          # 贴图尺寸
 CELL_SIZE = 16            # 每个格子的尺寸 (16x16)
-# 你需要的所有字符
-TEXT_DATA = "开启内存补丁显示系统信息详细按START启动游戏加载中完成错误版本:. 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_自动跳过脉冲启用战斗调试菜单启用日常调试菜单[ON][OFF]EVA2 汉化计划 2026插件制作：main_void"
 # --------------
 
-def generate_atlas():
-    chars = sorted(list(set(TEXT_DATA)))
-    font = ImageFont.truetype(FONT_PATH, FONT_SIZE)
-    atlas = Image.new('RGBA', (ATLAS_SIZE, ATLAS_SIZE), (0, 0, 0, 0))
+def generate_atlas(
+    font_path,
+    chars_path,
+    out_dir,
+    header_path,
+    font_size,
+    atlas_size,
+    cell_size,
+):
+    text_data = chars_path.read_text(encoding="utf-8").strip()
+    chars = sorted(list(set(text_data)))
+    font = ImageFont.truetype(str(font_path), font_size)
+    atlas = Image.new('RGBA', (atlas_size, atlas_size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(atlas)
     
     char_info = []
 
     for i, char in enumerate(chars):
-        if i >= (ATLAS_SIZE // CELL_SIZE) ** 2:
+        if i >= (atlas_size // cell_size) ** 2:
             print("警告：贴图空间不足，部分字符被忽略")
             break
             
-        row = i // (ATLAS_SIZE // CELL_SIZE)
-        col = i % (ATLAS_SIZE // CELL_SIZE)
-        x = col * CELL_SIZE
-        y = row * CELL_SIZE
+        row = i // (atlas_size // cell_size)
+        col = i % (atlas_size // cell_size)
+        x = col * cell_size
+        y = row * cell_size
         
         # 渲染字符 (支持抗锯齿)
         draw.text((x, y), char, font=font, fill=(255, 255, 255, 255))
@@ -43,7 +50,6 @@ def generate_atlas():
 
     # 1. 转换为 8 位索引格式 (T8)
     # 使用灰度值作为索引，构建 256 色调色板（从透明到白色的渐变）
-    gray_img = atlas.convert('L')  # 转换为灰度
     alpha_channel = atlas.split()[3]  # 提取 alpha 通道
     
     # 生成调色板：256级灰度，带alpha渐变
@@ -59,14 +65,20 @@ def generate_atlas():
     # 保存索引数据（使用alpha通道作为索引）
     index_data = alpha_channel.tobytes()
     
-    with open("atlas.bin", "wb") as f:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    header_path.parent.mkdir(parents=True, exist_ok=True)
+
+    atlas_bin_path = out_dir / "atlas.bin"
+    atlas_palette_path = out_dir / "atlas_palette.bin"
+
+    with atlas_bin_path.open("wb") as f:
         f.write(index_data)  # 64KB (256*256)
     
-    with open("atlas_palette.bin", "wb") as f:
+    with atlas_palette_path.open("wb") as f:
         f.write(bytes(palette))  # 1KB (256*4)
 
     # 2. 生成 C 头文件
-    with open("atlas_data.h", "w", encoding="utf-8") as f:
+    with header_path.open("w", encoding="utf-8") as f:
         f.write("#ifndef __ATLAS_DATA_H__\n#define __ATLAS_DATA_H__\n\n")
         f.write(f"#define ATLAS_CHAR_COUNT {len(char_info)}\n\n")
         
@@ -78,8 +90,41 @@ def generate_atlas():
         f.write("};\n\n#endif\n")
         
     print(f"成功生成！共 {len(char_info)} 个字符")
-    print(f"索引贴图: atlas.bin ({len(index_data)} bytes)")
-    print(f"调色板: atlas_palette.bin ({len(palette)} bytes)")
+    print(f"索引贴图: {atlas_bin_path} ({len(index_data)} bytes)")
+    print(f"调色板: {atlas_palette_path} ({len(palette)} bytes)")
 
 if __name__ == "__main__":
-    generate_atlas()
+    parser = argparse.ArgumentParser(description="Generate the loader UI font atlas.")
+    parser.add_argument("--font", type=Path, required=True, help="TTF font path.")
+    parser.add_argument(
+        "--chars",
+        type=Path,
+        required=True,
+        help="UTF-8 text file containing every character required by the UI.",
+    )
+    parser.add_argument(
+        "--out-dir",
+        type=Path,
+        default=Path("."),
+        help="Directory for atlas.bin and atlas_palette.bin.",
+    )
+    parser.add_argument(
+        "--header",
+        type=Path,
+        default=Path("atlas_data.h"),
+        help="Output atlas_data.h path.",
+    )
+    parser.add_argument("--font-size", type=int, default=FONT_SIZE)
+    parser.add_argument("--atlas-size", type=int, default=ATLAS_SIZE)
+    parser.add_argument("--cell-size", type=int, default=CELL_SIZE)
+    args = parser.parse_args()
+
+    generate_atlas(
+        args.font,
+        args.chars,
+        args.out_dir,
+        args.header,
+        args.font_size,
+        args.atlas_size,
+        args.cell_size,
+    )
