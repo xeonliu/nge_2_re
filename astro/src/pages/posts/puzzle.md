@@ -1,6 +1,7 @@
 ---
 title: "《新世纪福音战士2》历史介绍文案"
 layout: ../../layouts/MarkdownPostLayout.astro
+pubDate: "2026-04-19"
 ---
 
 > 本文是Bilibili视频文案
