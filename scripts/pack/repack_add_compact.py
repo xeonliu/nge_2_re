@@ -9,6 +9,10 @@ import argparse
 
 SECTOR_SIZE = 0x800  # 2048 bytes
 
+# https://problemkaputt.de/psx-spx.htm#CDROMISOFileandDirectoryDescriptors
+CD_XA_ATTR_FILE = 0x0D55
+CD_XA_ATTR_DIR = 0x8D55
+
 logger = logging.getLogger("repackUMDCompact")
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler()
@@ -168,6 +172,22 @@ def build_directory_record_from_id(
     return bytes(rec)
 
 
+def build_cd_xa_system_use(is_dir: bool, file_number: int = 0) -> bytes:
+    """Build the 14-byte CD-XA System Use area used by PSP UMD ISO records."""
+    if not 0 <= file_number <= 0xFF:
+        raise ValueError(f"file_number must fit in one byte: {file_number}")
+
+    attr = CD_XA_ATTR_DIR if is_dir else CD_XA_ATTR_FILE
+    return (
+        struct.pack(">H", 0)  # Owner ID Group
+        + struct.pack(">H", 0)  # Owner ID User
+        + struct.pack(">H", attr)
+        + b"XA"
+        + bytes([file_number])
+        + b"\x00" * 5
+    )
+
+
 def patch_directory_record(record: bytes, lba: int, size: int) -> bytes:
     """Return a copy of an existing directory record with only extent/size changed."""
     rec = bytearray(record)
@@ -188,18 +208,6 @@ def collect_work_files(workfolder: Path) -> List[Path]:
         if p.is_file() and not p.name.startswith("."):
             files.append(p)
     return files
-
-
-def find_sys_use_template(dir_data: bytes) -> bytes:
-    for _, rec in iter_directory_records(dir_data):
-        info = parse_dir_record_full(rec)
-        if not info:
-            continue
-        if info["name"] in (".", ".."):
-            continue
-        if info["sys_use"]:
-            return info["sys_use"]
-    return b""
 
 
 def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode], Dict[str, FileNode], int]:
@@ -434,18 +442,13 @@ def repack_umd_compact(
                 )
                 continue
 
-            # Borrow sys_use style from first existing non-dot record in that directory.
             pd = dirs[parent_path]
-            fin.seek(pd.original_lba * SECTOR_SIZE)
-            ddata = fin.read(pd.original_size)
-            sys_use_template = find_sys_use_template(ddata)
-
             nfile = FileNode(
                 path=rel,
                 parent_path=parent_path,
                 name=name,
                 name_bytes=name.encode("utf-8", errors="ignore"),
-                sys_use=sys_use_template,
+                sys_use=build_cd_xa_system_use(is_dir=False),
                 original_lba=0,
                 original_size=0,
                 replacement_path=real,
