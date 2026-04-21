@@ -36,6 +36,7 @@ class DirEntry:
     name_bytes: bytes
     is_dir: bool
     sys_use: bytes
+    original_record: bytes
 
 
 @dataclass
@@ -44,6 +45,8 @@ class DirNode:
     parent_path: str
     original_lba: int
     original_size: int
+    self_record: Optional[bytes] = None
+    parent_record: Optional[bytes] = None
     entries: List[DirEntry] = field(default_factory=list)
     new_files: List[FileNode] = field(default_factory=list)
     new_lba: Optional[int] = None
@@ -165,6 +168,16 @@ def build_directory_record_from_id(
     return bytes(rec)
 
 
+def patch_directory_record(record: bytes, lba: int, size: int) -> bytes:
+    """Return a copy of an existing directory record with only extent/size changed."""
+    rec = bytearray(record)
+    struct.pack_into("<I", rec, 2, lba)
+    struct.pack_into(">I", rec, 6, lba)
+    struct.pack_into("<I", rec, 10, size)
+    struct.pack_into(">I", rec, 14, size)
+    return bytes(rec)
+
+
 def normalize_path(path: str) -> str:
     return path.replace("\\", "/").strip("/")
 
@@ -220,7 +233,11 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
             name_bytes = info["name_bytes"]
             flags = info["flags"]
 
-            if name in (".", ".."):
+            if name == ".":
+                dnode.self_record = bytes(rec)
+                continue
+            if name == "..":
+                dnode.parent_record = bytes(rec)
                 continue
 
             child_path = (path + "/" + name).strip("/")
@@ -231,6 +248,7 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
                     name_bytes=name_bytes,
                     is_dir=is_dir,
                     sys_use=info["sys_use"],
+                    original_record=bytes(rec),
                 )
             )
 
@@ -267,22 +285,22 @@ def build_dir_blob(dnode: DirNode, dirs: Dict[str, DirNode], files: Dict[str, Fi
         parent_size = must_int(parent_node.new_size, f"parent size for {dnode.path}")
 
     records.append(
-        build_directory_record_from_id(
-            b"\x00",
+        patch_directory_record(
+            dnode.self_record,
             self_lba,
             self_size,
-            True,
-            b"",
         )
+        if dnode.self_record
+        else build_directory_record_from_id(b"\x00", self_lba, self_size, True, b"")
     )
     records.append(
-        build_directory_record_from_id(
-            b"\x01",
+        patch_directory_record(
+            dnode.parent_record,
             parent_lba,
             parent_size,
-            True,
-            b"",
         )
+        if dnode.parent_record
+        else build_directory_record_from_id(b"\x01", parent_lba, parent_size, True, b"")
     )
 
     for ent in dnode.entries:
@@ -290,23 +308,19 @@ def build_dir_blob(dnode: DirNode, dirs: Dict[str, DirNode], files: Dict[str, Fi
         if ent.is_dir:
             child_dir = dirs[child_path]
             records.append(
-                build_directory_record_from_id(
-                    ent.name_bytes,
+                patch_directory_record(
+                    ent.original_record,
                     must_int(child_dir.new_lba, f"child dir lba for {child_path}"),
                     must_int(child_dir.new_size, f"child dir size for {child_path}"),
-                    True,
-                    ent.sys_use,
                 )
             )
         else:
             child_file = files[child_path]
             records.append(
-                build_directory_record_from_id(
-                    ent.name_bytes,
+                patch_directory_record(
+                    ent.original_record,
                     must_int(child_file.new_lba, f"file lba for {child_path}"),
                     must_int(child_file.new_size, f"file size for {child_path}"),
-                    False,
-                    ent.sys_use,
                 )
             )
 
@@ -345,13 +359,15 @@ def calc_dir_size_for_tree(
         return cache[path]
 
     dnode = dirs[path]
-    # Start with dot and dotdot entries.
-    rec_lengths = [34, 34]
+    # Start with dot and dotdot entries. Preserve original record lengths because
+    # PSP/UMD images commonly carry XA data in the System Use area.
+    rec_lengths = [
+        len(dnode.self_record) if dnode.self_record else 34,
+        len(dnode.parent_record) if dnode.parent_record else 34,
+    ]
 
     for ent in dnode.entries:
-        name_len = len(ent.name_bytes)
-        name_pad = 0 if (name_len % 2 == 1) else 1
-        rec_lengths.append(33 + name_len + name_pad + len(ent.sys_use))
+        rec_lengths.append(len(ent.original_record))
 
     for nf in dnode.new_files:
         name_len = len(nf.name_bytes)
