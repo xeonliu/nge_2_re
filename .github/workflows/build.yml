@@ -3,6 +3,7 @@ name: Build PSP Translation with Custom Docker
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v*" ]
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
@@ -155,7 +156,35 @@ jobs:
         echo "📊 Build Metadata:"
         cat build/metadata.json | python3 -m json.tool || echo "metadata.json not found"
 
-    # 8. Upload build artifacts including metadata
+    # 8. Prepare release notes for tagged builds
+    - name: Prepare Release Notes
+      run: |
+        python3 - <<'PY'
+        from pathlib import Path
+        import glob
+        import os
+        import zlib
+
+        iso_paths = sorted(glob.glob("build/ULJS*_patched_*.iso"))
+        if len(iso_paths) != 2:
+            raise SystemExit(f"Expected 2 patched ISOs, found {len(iso_paths)}: {iso_paths}")
+
+        ref_name = os.environ.get("GITHUB_REF_NAME", "unknown")
+        lines = [
+            f"# NGE2 Translation Release {ref_name}",
+            "",
+            "CRC32:",
+        ]
+
+        for iso_path in iso_paths:
+            crc32 = zlib.crc32(Path(iso_path).read_bytes()) & 0xFFFFFFFF
+            lines.append(f"- {Path(iso_path).name}: {crc32:08X}")
+
+        Path("build/release_notes.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+        print("Wrote build/release_notes.md")
+        PY
+
+    # 9. Upload build artifacts including metadata
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -166,4 +195,41 @@ jobs:
           build/metadata.png
           build/evs_report.json
           build/eboot_report.json
+          build/release_notes.md
         if-no-files-found: error
+
+  release:
+    name: Publish Release
+    needs: build-in-docker
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: PSP-Translation-Build
+          path: artifacts
+
+      - name: Prepare release assets
+        run: |
+          set -euo pipefail
+
+          mkdir -p release_assets
+
+          find artifacts -name "*.xdelta" -type f -exec cp {} release_assets/ \;
+          find artifacts -path "*/temp/downloads/downloaded.zip" -type f -exec cp {} release_assets/downloaded.zip \;
+          find artifacts -name "release_notes.md" -type f -exec cp {} release_assets/release_notes.md \;
+
+          ls -la release_assets/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: release_assets/release_notes.md
+          files: |
+            release_assets/*.xdelta
+            release_assets/downloaded.zip
