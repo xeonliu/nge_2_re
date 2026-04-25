@@ -179,7 +179,7 @@ gen_metadata:
 repack_iso:
 	@echo "Repacking game files into ISO..."
 	@mkdir -p $(BUILD_DIR)
-	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
+	$(UV_RUN) scripts/pack/repack_add_compact.py '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
 
 gen_xdelta:
 	@echo "Generating xdelta patch..."
