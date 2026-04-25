@@ -38,6 +38,21 @@ def get_git_commit(repo_path: str = ".") -> str:
         return "unknown"
 
 
+def get_git_tags(repo_path: str = ".") -> list[str]:
+    """Get all git tags that point at the current commit."""
+    try:
+        result = subprocess.run(
+            ["git", "tag", "--points-at", "HEAD"],
+            cwd=repo_path,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return [tag for tag in result.stdout.splitlines() if tag.strip()]
+    except subprocess.CalledProcessError:
+        return []
+
+
 def get_submodule_commits() -> Dict[str, str]:
     """Get commit hashes for all submodules."""
     submodules = {}
@@ -159,6 +174,7 @@ def generate_metadata(
         "generated_at": datetime.now().isoformat(),
         "git": {
             "main_commit": get_git_commit(),
+            "tags": get_git_tags(),
             "submodules": get_submodule_commits(),
         },
         "translation": get_paratranz_stats(auth_key=auth_key),
@@ -171,6 +187,13 @@ def generate_metadata(
 
     print(f"Metadata saved to: {output_path}")
     return metadata
+
+
+def format_git_version(main_commit: str, tags: list[str]) -> str:
+    """Format the repo version for display."""
+    if tags:
+        return ", ".join(tags)
+    return main_commit[:8]
 
 
 def download_avatar(avatar_url: str, size: int = 32) -> Any:
@@ -274,8 +297,9 @@ def generate_metadata_image(metadata: Dict[str, Any], output_path: str):
     
     # Stats line
     stats_y = 28
-    main_commit = metadata["git"]["main_commit"][:8]
-    draw.text((10, stats_y), f"主仓库版本: {main_commit}", fill=text_color, font=font_small)
+    tags = metadata["git"].get("tags", [])
+    repo_version = format_git_version(metadata["git"]["main_commit"], tags)
+    draw.text((10, stats_y), f"主仓库版本: {repo_version}", fill=text_color, font=font_small)
     
     # Submodule versions: only resources/trans_pic
     submodules = metadata["git"]["submodules"]
@@ -432,8 +456,9 @@ def generate_metadata_pic0(metadata: Dict[str, Any], output_path: str):
     lines.append(("补丁信息 EVA2 汉化计划", font_large, accent_color))
 
     # Commit info
-    main_commit = metadata["git"]["main_commit"][:8]
-    lines.append((f"主仓库: {main_commit}", font_small, text_color))
+    tags = metadata["git"].get("tags", [])
+    repo_version = format_git_version(metadata["git"]["main_commit"], tags)
+    lines.append((f"主仓库: {repo_version}", font_small, text_color))
     
     # Submodules
     for path, commit in metadata["git"]["submodules"].items():
