@@ -89,7 +89,8 @@ jobs:
       run: |
         set -euo pipefail
 
-        IMAGE_BASE=ghcr.io/${{ github.repository_owner }}/psp-builder
+        IMAGE_BASE="ghcr.io/${{ github.repository_owner }}/psp-builder"
+        IMAGE_BASE="${IMAGE_BASE,,}"
         HASH_TAG=${{ steps.docker-tag.outputs.dockerfile_hash }}
         HASH_IMAGE="$IMAGE_BASE:$HASH_TAG"
         LATEST_IMAGE="$IMAGE_BASE:latest"
