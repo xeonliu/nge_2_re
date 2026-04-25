@@ -477,7 +477,14 @@ def repack_umd_compact(
         with umdpatch.open("wb+") as fout:
             header_bytes = layout_start_lba * SECTOR_SIZE
             fin.seek(0)
-            shutil.copyfileobj(fin, fout, length=header_bytes)
+            remaining = header_bytes
+            while remaining > 0:
+                chunk = fin.read(min(1024 * 1024, remaining))
+                if not chunk:
+                    raise RuntimeError("Unexpected EOF while copying ISO header")
+                fout.write(chunk)
+                remaining -= len(chunk)
+            fout.truncate(header_bytes)
             fout.seek(header_bytes)
 
             # Write all file payloads contiguously.
