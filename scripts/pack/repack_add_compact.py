@@ -47,6 +47,7 @@ class DirEntry:
 class DirNode:
     path: str
     parent_path: str
+    name_bytes: bytes
     original_lba: int
     original_size: int
     self_record: Optional[bytes] = None
@@ -60,6 +61,11 @@ class DirNode:
 def read_uint32_le_at(f, pos: int) -> int:
     f.seek(pos)
     return struct.unpack("<I", f.read(4))[0]
+
+
+def read_uint32_be_at(f, pos: int) -> int:
+    f.seek(pos)
+    return struct.unpack(">I", f.read(4))[0]
 
 
 def write_uint32_le_at(f, pos: int, value: int) -> None:
@@ -216,7 +222,7 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
     visited: set[int] = set()
     min_data_lba = root_lba
 
-    def scan_dir(path: str, lba: int, size: int, parent_path: str):
+    def scan_dir(path: str, lba: int, size: int, parent_path: str, name_bytes: bytes):
         nonlocal min_data_lba
         if lba in visited:
             return
@@ -228,6 +234,7 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
         dnode = DirNode(
             path=path,
             parent_path=parent_path,
+            name_bytes=name_bytes,
             original_lba=lba,
             original_size=size,
         )
@@ -261,7 +268,13 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
             )
 
             if is_dir:
-                scan_dir(child_path, info["extent_lba"], info["data_length"], path)
+                scan_dir(
+                    child_path,
+                    info["extent_lba"],
+                    info["data_length"],
+                    path,
+                    name_bytes,
+                )
             else:
                 min_data_lba = min(min_data_lba, info["extent_lba"])
                 files[child_path] = FileNode(
@@ -274,7 +287,7 @@ def scan_iso_tree(fin, root_lba: int, root_size: int) -> Tuple[Dict[str, DirNode
                     original_size=info["data_length"],
                 )
 
-    scan_dir("", root_lba, root_size, "")
+    scan_dir("", root_lba, root_size, "", b"\x00")
     return dirs, files, min_data_lba
 
 
@@ -401,6 +414,77 @@ def collect_dirs_by_depth(dirs: Dict[str, DirNode], reverse: bool) -> List[str]:
         key=lambda p: len([x for x in p.split("/") if x]),
         reverse=reverse,
     )
+
+
+def build_path_table_bytes(dirs: Dict[str, DirNode], big_endian: bool) -> bytes:
+    """Build ISO9660 path table bytes from current directory LBAs."""
+    dir_order = list(dirs.keys())
+    dir_index: Dict[str, int] = {path: idx for idx, path in enumerate(dir_order, start=1)}
+
+    out = bytearray()
+    for path in dir_order:
+        dnode = dirs[path]
+        name_bytes = b"\x00" if path == "" else dnode.name_bytes
+        name_len = len(name_bytes)
+        if name_len > 0xFF:
+            raise RuntimeError(f"Directory identifier too long for path table: {path}")
+
+        parent_index = 1 if path == "" else dir_index[dnode.parent_path]
+        extent_lba = must_int(dnode.new_lba, f"dir lba for {path}")
+
+        out.append(name_len)
+        out.append(0)
+        if big_endian:
+            out.extend(struct.pack(">I", extent_lba))
+            out.extend(struct.pack(">H", parent_index))
+        else:
+            out.extend(struct.pack("<I", extent_lba))
+            out.extend(struct.pack("<H", parent_index))
+        out.extend(name_bytes)
+        if name_len % 2 == 1:
+            out.append(0)
+
+    return bytes(out)
+
+
+def write_path_tables(fout, dirs: Dict[str, DirNode]) -> None:
+    """Rebuild and write ISO9660 path tables in PVD reserved areas."""
+    pvd_off = 16 * SECTOR_SIZE
+
+    path_table_size_old = read_uint32_le_at(fout, pvd_off + 132)
+    l_path_lba = read_uint32_le_at(fout, pvd_off + 140)
+    l_opt_path_lba = read_uint32_le_at(fout, pvd_off + 144)
+    m_path_lba = read_uint32_be_at(fout, pvd_off + 148)
+    m_opt_path_lba = read_uint32_be_at(fout, pvd_off + 152)
+
+    l_table = build_path_table_bytes(dirs, big_endian=False)
+    m_table = build_path_table_bytes(dirs, big_endian=True)
+    if len(l_table) != len(m_table):
+        raise RuntimeError("Internal error: LE/BE path table sizes differ")
+
+    path_table_size_new = len(l_table)
+    if path_table_size_new > path_table_size_old:
+        raise RuntimeError(
+            "Rebuilt path table does not fit in original reserved area: "
+            f"new={path_table_size_new}, old={path_table_size_old}"
+        )
+
+    def write_table_at_lba(lba: int, data: bytes) -> None:
+        if lba == 0:
+            return
+        fout.seek(lba * SECTOR_SIZE)
+        fout.write(data)
+        remaining = path_table_size_old - len(data)
+        if remaining > 0:
+            fout.write(b"\x00" * remaining)
+
+    write_table_at_lba(l_path_lba, l_table)
+    write_table_at_lba(l_opt_path_lba, l_table)
+    write_table_at_lba(m_path_lba, m_table)
+    write_table_at_lba(m_opt_path_lba, m_table)
+
+    write_uint32_le_at(fout, pvd_off + 132, path_table_size_new)
+    write_uint32_be_at(fout, pvd_off + 136, path_table_size_new)
 
 
 def repack_umd_compact(
@@ -539,6 +623,9 @@ def repack_umd_compact(
                 blob = build_dir_blob(dnode, dirs, files)
                 dnode.new_size = len(blob)
                 fout.write(blob)
+
+            # Keep path tables consistent after relocating directories.
+            write_path_tables(fout, dirs)
 
             # Root directory record in PVD.
             root_node = dirs[""]
