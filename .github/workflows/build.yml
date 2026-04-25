@@ -219,7 +219,7 @@ jobs:
           mkdir -p release_assets
 
           find artifacts -name "*.xdelta" -type f -exec cp {} release_assets/ \;
-          find artifacts -path "*/temp/downloads/downloaded.zip" -type f -exec cp {} release_assets/downloaded.zip \;
+          find artifacts -path "*/temp/downloads/downloaded.zip" -type f -exec cp {} release_assets/translation.zip \;
           find artifacts -name "release_notes.md" -type f -exec cp {} release_assets/release_notes.md \;
 
           ls -la release_assets/
@@ -232,4 +232,4 @@ jobs:
           body_path: release_assets/release_notes.md
           files: |
             release_assets/*.xdelta
-            release_assets/downloaded.zip
+            release_assets/translation.zip
