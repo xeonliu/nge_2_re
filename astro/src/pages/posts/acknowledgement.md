@@ -2,6 +2,7 @@
 title: 《新世纪福音战士2：被创造的世界 ～Another Cases～》中文汉化补丁测试版发布
 description: "汉化测试版发布文稿"
 pubDate: "2026-04-27"
+layout: ../../layouts/MarkdownPostLayout.astro
 ---
 
 经过“EVA2汉化计划”团队历时2年的汉化与测试，《新世纪福音战士2：被创造的世界 ～Another Cases～》的中文测试补丁终于和大家见面！
