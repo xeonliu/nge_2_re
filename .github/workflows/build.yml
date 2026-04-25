@@ -160,6 +160,7 @@ jobs:
       with:
         name: PSP-Translation-Build
         path: |
+          temp/downloads/downloaded.zip
           build/*.xdelta
           build/metadata.png
           build/evs_report.json
