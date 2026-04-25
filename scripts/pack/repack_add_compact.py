@@ -443,12 +443,27 @@ def repack_umd_compact(
                 continue
 
             pd = dirs[parent_path]
+
+            # Reuse CD-XA System Use bytes from the existing ISO when possible,
+            # so new records follow the same metadata/layout conventions as
+            # their parent directory or sibling entries.
+            new_file_sys_use = next(
+                (
+                    existing.sys_use
+                    for existing in files.values()
+                    if existing.parent_path == parent_path and existing.sys_use
+                ),
+                getattr(pd, "sys_use", None),
+            )
+            if not new_file_sys_use:
+                new_file_sys_use = build_cd_xa_system_use(is_dir=False)
+
             nfile = FileNode(
                 path=rel,
                 parent_path=parent_path,
                 name=name,
                 name_bytes=name.encode("utf-8", errors="ignore"),
-                sys_use=build_cd_xa_system_use(is_dir=False),
+                sys_use=new_file_sys_use,
                 original_lba=0,
                 original_size=0,
                 replacement_path=real,
