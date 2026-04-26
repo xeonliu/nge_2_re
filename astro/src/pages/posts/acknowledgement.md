@@ -126,10 +126,10 @@ layout: ../../layouts/MarkdownPostLayout.astro
 
 敬请关注Bilibili发布信息。
 
-可以在 GitHub Release 或 Codeberg Release 获取最新补丁。
+可以在 GitHub Release 获取最新补丁。
  
 * GitHub Release： https://github.com/EVA-zh-Hans/nge_2_re/releases
-* Codeberg Release： https://codeberg.org/EVA-zh-Hans/nge_2_re/releases
+<!-- * Codeberg Release： https://codeberg.org/EVA-zh-Hans/nge_2_re/releases -->
  
 
 ## 使用方法
@@ -139,8 +139,8 @@ layout: ../../layouts/MarkdownPostLayout.astro
 
 | 版本号    | 原始镜像CRC32 | 补丁后镜像CRC32 |
 | --------- | ------------- | --------------- |
-| ULJS00064 | 1C8AF7DD      | 等发布后填写    |
-| ULJS00061 | CD46A4EC      | 等发布后填写    |
+| ULJS00064 | 1C8AF7DD      | F948F654    |
+| ULJS00061 | CD46A4EC      | F7AB08B5        |
  
 可以在网页端使用 https://kotcrab.github.io/xdelta-wasm/ 在线应用补丁（不消耗流量），在Source file处选择原始镜像文件，Patch file处选择对应版本的补丁文件。
  

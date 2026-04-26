@@ -2,6 +2,11 @@
 title: '贡献指南'
 layout: ../layouts/MarkdownPostLayout.astro
 ---
+
+> 请直接访问[Paratranz](https://paratranz.cn/projects/10882)平台申请加入。
+>
+> 加入前描述自己想参与的工作并简要介绍个人能力，会有简单的面试环节。
+
 # EVA 翻译贡献指南（V1.0）
 
 - [EVA 翻译贡献指南（V1.0）](#eva-翻译贡献指南v10)
