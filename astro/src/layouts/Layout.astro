@@ -8,6 +8,9 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const startYear = 2024;
+const currentYear = new Date().getFullYear();
+const yearText = currentYear > startYear ? `${startYear}-${currentYear}` : `${startYear}`;
 ---
 
 <!doctype html>
@@ -29,7 +32,7 @@ const { title } = Astro.props;
 			<footer class="l-footer--sticky p-strip--highlighted">
 			  <nav class="row" aria-label="Footer">
 				<div class="has-cookie">
-				  <p>© 2024 EVA 汉化计划 <a href="#">Ubuntu</a> and <a href="#">Canonical</a> are registered trademarks of Canonical Ltd. 本站总访客数 <span id="busuanzi_site_uv">加载中...</span> 人</p>
+				  <p>© {yearText} EVA 汉化计划 本站总访客数 <span id="busuanzi_site_uv">加载中...</span> 人</p>
 				  <ul class="p-inline-list--middot">
 					<li class="p-inline-list__item">
 					  <a href="#"><small>Legal information</small></a>
