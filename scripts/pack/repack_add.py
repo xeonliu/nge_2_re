@@ -11,6 +11,8 @@ import math
 import sys
 
 SECTOR_SIZE = 0x800  # 2048 bytes
+PSP_FILE_SYS_USE = bytes.fromhex("000000000d555841000000000000")
+PSP_DIR_SYS_USE = bytes.fromhex("000000008d555841000000000000")
 
 logger = logging.getLogger("repackUMD")
 logger.setLevel(logging.INFO)
@@ -36,6 +38,11 @@ class ISOFileEntry:
 def read_uint32_le_at(f, pos: int) -> int:
     f.seek(pos)
     return struct.unpack("<I", f.read(4))[0]
+
+
+def read_uint32_be_at(f, pos: int) -> int:
+    f.seek(pos)
+    return struct.unpack(">I", f.read(4))[0]
 
 
 def write_uint32_le_at(f, pos: int, value: int) -> None:
@@ -69,6 +76,8 @@ def build_directory_record(
     is_dir: bool = False,
     sys_use: bytes = b"",
 ) -> bytes:
+    if not sys_use:
+        sys_use = default_sys_use_for_record(is_dir)
     name_bytes = name.encode("utf-8", "ignore")
     length_name = len(name_bytes)
     name_pad = 0 if (length_name % 2 == 1) else 1
@@ -94,6 +103,38 @@ def build_directory_record(
     if sys_use:
         rec[sys_use_start : sys_use_start + len(sys_use)] = sys_use
     return bytes(rec)
+
+
+def default_sys_use_for_record(is_dir: bool) -> bytes:
+    return PSP_DIR_SYS_USE if is_dir else PSP_FILE_SYS_USE
+
+
+def patch_directory_record_extent_and_size(record: bytes, lba: int, size: int) -> bytes:
+    patched = bytearray(record)
+    struct.pack_into("<I", patched, 2, lba)
+    struct.pack_into(">I", patched, 6, lba)
+    struct.pack_into("<I", patched, 10, size)
+    struct.pack_into(">I", patched, 14, size)
+    return bytes(patched)
+
+
+def patch_directory_record_date(record: bytes, date_bytes: bytes) -> bytes:
+    patched = bytearray(record)
+    patched[18:25] = date_bytes
+    return bytes(patched)
+
+
+def patch_directory_record_sys_use(record: bytes, sys_use: bytes) -> bytes:
+    file_id_len = record[32]
+    name_pad = 0 if (file_id_len % 2 == 1) else 1
+    sys_use_start = 33 + file_id_len + name_pad
+    sys_use_end = record[0]
+    old_len = sys_use_end - sys_use_start
+    if old_len != len(sys_use):
+        return record
+    patched = bytearray(record)
+    patched[sys_use_start:sys_use_end] = sys_use
+    return bytes(patched)
 
 
 def iter_directory_records(data: bytes):
@@ -151,6 +192,7 @@ def parse_dir_record_full(record: bytes) -> dict:
         "flags": flags,
         "name": name.strip("\x00"),
         "name_bytes": fid,
+        "date_bytes": bytes(record[18:25]),
         "sys_use": sys_use,
     }
 
@@ -168,16 +210,138 @@ def parse_dir_record(record: bytes) -> dict:
     }
 
 
-def find_sys_use_template(dir_data: bytes) -> bytes:
-    for _, rec in iter_directory_records(dir_data):
+def split_file_identifier(fid: bytes) -> tuple[bytes, bytes, int]:
+    base = fid
+    version = 0
+
+    if b";" in fid:
+        candidate_base, candidate_version = fid.rsplit(b";", 1)
+        if candidate_version.isdigit():
+            base = candidate_base
+            version = int(candidate_version)
+
+    if b"." in base:
+        file_name, file_ext = base.rsplit(b".", 1)
+    else:
+        file_name, file_ext = base, b""
+
+    return file_name, file_ext, version
+
+
+def directory_record_sort_key(record: bytes):
+    info = parse_dir_record_full(record)
+    file_name, file_ext, version = split_file_identifier(info["name_bytes"])
+    return file_name, file_ext, -version, info["name_bytes"]
+
+
+def sort_directory_records(records: List[bytes]) -> List[bytes]:
+    dot_record = None
+    dotdot_record = None
+    others = []
+
+    for rec in records:
         info = parse_dir_record_full(rec)
         if not info:
             continue
-        if info["name"] in (".", ".."):
+        if info["name_bytes"] == b"\x00":
+            dot_record = rec
+        elif info["name_bytes"] == b"\x01":
+            dotdot_record = rec
+        else:
+            others.append(rec)
+
+    others.sort(key=directory_record_sort_key)
+
+    ordered = []
+    if dot_record is not None:
+        ordered.append(dot_record)
+    if dotdot_record is not None:
+        ordered.append(dotdot_record)
+    ordered.extend(others)
+    return ordered
+
+
+def pack_directory_records(records: List[bytes], total_size: int) -> bytes:
+    repacked = bytearray()
+    curr_sect = bytearray(SECTOR_SIZE)
+    ptr = 0
+
+    for rec in records:
+        if ptr + len(rec) > SECTOR_SIZE:
+            repacked.extend(curr_sect)
+            curr_sect = bytearray(SECTOR_SIZE)
+            ptr = 0
+        curr_sect[ptr : ptr + len(rec)] = rec
+        ptr += len(rec)
+
+    repacked.extend(curr_sect)
+
+    if len(repacked) > total_size:
+        raise ValueError(
+            f"Directory repack overflow: need {len(repacked)} bytes, only {total_size} available"
+        )
+
+    if len(repacked) < total_size:
+        repacked.extend(b"\x00" * (total_size - len(repacked)))
+
+    return bytes(repacked)
+
+
+def zero_unused_sectors(finout, root_lba: int, root_length: int) -> int:
+    final_sectors = read_uint32_le_at(finout, 0x8050)
+    used = bytearray(final_sectors)
+
+    def mark_range(lba: int, size: int) -> None:
+        count = (size + SECTOR_SIZE - 1) // SECTOR_SIZE
+        for idx in range(lba, min(lba + count, final_sectors)):
+            used[idx] = 1
+
+    for lba in range(min(22, final_sectors)):
+        used[lba] = 1
+
+    visited_lbas: Set[int] = set()
+
+    def scan_dir(lba: int, size: int) -> None:
+        if lba in visited_lbas:
+            return
+        visited_lbas.add(lba)
+        mark_range(lba, size)
+
+        finout.seek(lba * SECTOR_SIZE)
+        data = finout.read(size)
+        for _, rec in iter_directory_records(data):
+            info = parse_dir_record_full(rec)
+            if not info:
+                continue
+            if info["name"] in (".", ".."):
+                continue
+            mark_range(info["extent_lba"], info["data_length"])
+            if info["flags"] & 0x02:
+                scan_dir(info["extent_lba"], info["data_length"])
+
+    scan_dir(root_lba, root_length)
+
+    zeroed = 0
+    gap_start = None
+    for lba in range(final_sectors):
+        if used[lba]:
+            if gap_start is not None:
+                gap_len = lba - gap_start
+                finout.seek(gap_start * SECTOR_SIZE)
+                finout.write(b"\x00" * (gap_len * SECTOR_SIZE))
+                zeroed += gap_len
+                gap_start = None
             continue
-        if info["sys_use"]:
-            return info["sys_use"]
-    return b""
+        if gap_start is None:
+            gap_start = lba
+
+    if gap_start is not None:
+        gap_len = final_sectors - gap_start
+        finout.seek(gap_start * SECTOR_SIZE)
+        finout.write(b"\x00" * (gap_len * SECTOR_SIZE))
+        zeroed += gap_len
+
+    return zeroed
 
 
 def patch_dot_records(
@@ -201,6 +365,84 @@ def patch_dot_records(
             struct.pack_into(">I", dir_buf, off + 6, parent_lba)
             struct.pack_into("<I", dir_buf, off + 10, parent_size)
             struct.pack_into(">I", dir_buf, off + 14, parent_size)
+
+
+def get_path_table_info(fin) -> dict:
+    return {
+        "size": read_uint32_le_at(fin, 0x8084),
+        "little": [
+            read_uint32_le_at(fin, 0x808C),
+            read_uint32_le_at(fin, 0x8090),
+        ],
+        "big": [
+            read_uint32_be_at(fin, 0x8094),
+            read_uint32_be_at(fin, 0x8098),
+        ],
+    }
+
+
+def iter_path_table_records(data: bytes, byteorder: str):
+    offset = 0
+    entries = []
+    unpack_u16 = "<H" if byteorder == "little" else ">H"
+    unpack_u32 = "<I" if byteorder == "little" else ">I"
+
+    while offset + 8 <= len(data):
+        name_len = data[offset]
+        if name_len == 0:
+            break
+
+        extent_lba = struct.unpack_from(unpack_u32, data, offset + 2)[0]
+        parent_dir_num = struct.unpack_from(unpack_u16, data, offset + 6)[0]
+        name_bytes = data[offset + 8 : offset + 8 + name_len]
+        record_len = 8 + name_len + (name_len % 2)
+
+        if name_bytes == b"\x00":
+            path = ""
+        else:
+            name = name_bytes.decode("latin1", errors="ignore")
+            parent_path = ""
+            if parent_dir_num > 0:
+                parent_path = entries[parent_dir_num - 1]["path"]
+            path = f"{parent_path}/{name}".strip("/")
+
+        entry = {
+            "offset": offset,
+            "extent_lba": extent_lba,
+            "parent_dir_num": parent_dir_num,
+            "name_bytes": name_bytes,
+            "path": path,
+        }
+        entries.append(entry)
+        yield entry
+        offset += record_len
+
+
+def patch_path_tables(fout, path_table_info: dict, dir_status: Dict[str, Dict]) -> None:
+    for byteorder, lbas in (
+        ("little", path_table_info["little"]),
+        ("big", path_table_info["big"]),
+    ):
+        pack_u32 = "<I" if byteorder == "little" else ">I"
+        for lba in lbas:
+            if lba == 0:
+                continue
+
+            fout.seek(lba * SECTOR_SIZE)
+            table_data = bytearray(fout.read(path_table_info["size"]))
+
+            for entry in iter_path_table_records(table_data, byteorder):
+                if entry["path"] not in dir_status:
+                    continue
+                struct.pack_into(
+                    pack_u32,
+                    table_data,
+                    entry["offset"] + 2,
+                    dir_status[entry["path"]]["lba"],
+                )
+
+            fout.seek(lba * SECTOR_SIZE)
+            fout.write(table_data)
 
 
 def normalize_path(path: str) -> str:
@@ -337,6 +579,81 @@ def dump_iso_structure(iso_path: Path):
             traceback.print_exc()
 
 
+def repair_existing_iso(input_iso: Path, output_iso: Path) -> None:
+    logger.info("Repairing ISO: %s -> %s", input_iso, output_iso)
+
+    with input_iso.open("rb") as fin, output_iso.open("wb+") as fout:
+        fin.seek(0)
+        shutil.copyfileobj(fin, fout)
+
+        root_lba = read_uint32_le_at(fout, 0x809E)
+        root_length = read_uint32_le_at(fout, 0x80A6)
+        dir_map = scan_iso_structure(fout, root_lba, root_length)
+
+        dot_dates: Dict[str, bytes] = {}
+        for dpath, info in dir_map.items():
+            fout.seek(info["lba"] * SECTOR_SIZE)
+            dir_data = fout.read(info["size"])
+            for _, rec in iter_directory_records(dir_data):
+                rec_info = parse_dir_record_full(rec)
+                if rec_info and rec_info["name"] == ".":
+                    dot_dates[dpath] = rec_info["date_bytes"]
+                    break
+
+        repaired_dirs = 0
+        for dpath, info in dir_map.items():
+            fout.seek(info["lba"] * SECTOR_SIZE)
+            dir_data = fout.read(info["size"])
+            original_records = [rec for _, rec in iter_directory_records(dir_data)]
+            updated_records = []
+            record_changed = False
+
+            for rec in original_records:
+                rec_info = parse_dir_record_full(rec)
+                if not rec_info or rec_info["name"] in (".", ".."):
+                    updated_records.append(rec)
+                    continue
+
+                is_dir = (rec_info["flags"] & 0x02) != 0
+                child_path = (dpath + "/" + rec_info["name"]).strip("/")
+                new_rec = rec
+
+                if is_dir and child_path in dot_dates:
+                    child_dot_date = dot_dates[child_path]
+                    if rec_info["date_bytes"] != child_dot_date:
+                        new_rec = patch_directory_record_date(new_rec, child_dot_date)
+
+                if (
+                    not is_dir
+                    and rec_info["sys_use"] == PSP_DIR_SYS_USE
+                ):
+                    patched = patch_directory_record_sys_use(
+                        new_rec, PSP_FILE_SYS_USE
+                    )
+                    if patched != new_rec:
+                        new_rec = patched
+
+                if new_rec != rec:
+                    record_changed = True
+                updated_records.append(new_rec)
+
+            sorted_records = sort_directory_records(updated_records)
+            order_changed = sorted_records != original_records
+
+            if not record_changed and not order_changed:
+                continue
+
+            new_dir_data = pack_directory_records(sorted_records, info["size"])
+            fout.seek(info["lba"] * SECTOR_SIZE)
+            fout.write(new_dir_data)
+            repaired_dirs += 1
+            logger.info("Repaired directory: /%s", dpath)
+
+        zeroed = zero_unused_sectors(fout, root_lba, root_length)
+        logger.info("Zeroed unused sectors: %d", zeroed)
+        logger.info("Repair complete. Directories changed: %d", repaired_dirs)
+
+
 def repack_umd(
     umdfile: Path,
     umdpatch: Path,
@@ -353,6 +670,7 @@ def repack_umd(
         # LBA is at 0x809C + 2 = 0x809E
         root_lba = read_uint32_le_at(fin, 0x809E)
         root_length = read_uint32_le_at(fin, 0x80A6)
+        path_table_info = get_path_table_info(fin)
 
         logger.info("Scanning ISO structure...")
         dir_map = scan_iso_structure(fin, root_lba, root_length)
@@ -394,6 +712,13 @@ def repack_umd(
                 files_to_add.append(entry)
 
         files_to_replace.sort(key=lambda e: e.original_extent_lba)
+        replaced_file_map = {
+            replaced_file.isopath: (
+                replaced_file.new_extent_lba,
+                replaced_file.new_size,
+            )
+            for replaced_file in files_to_replace
+        }
 
         with umdpatch.open("wb+") as fout:
             logger.info("Cloning ISO...")
@@ -403,17 +728,11 @@ def repack_umd(
             # --- PHASE 1: Replace Existing Files ---
             logger.info(f"Overwriting {len(files_to_replace)} existing files...")
             for entry in files_to_replace:
-                # Seek to original LBA
-                fout.seek(entry.original_extent_lba * SECTOR_SIZE)
-                start_ofs = fout.tell()
-                with entry.realpath.open("rb") as fsrc:
-                    shutil.copyfileobj(fsrc, fout)
-                end_ofs = fout.tell()
-                entry.new_size = end_ofs - start_ofs
-
                 allocated_size = (
                     math.ceil(entry.original_size / SECTOR_SIZE) * SECTOR_SIZE
                 )
+                entry.new_size = entry.realpath.stat().st_size
+
                 if entry.new_size > allocated_size:
                     fout.seek(0, 2)
                     curr = fout.tell()
@@ -423,8 +742,16 @@ def repack_umd(
                     entry.new_extent_lba = fout.tell() // SECTOR_SIZE
                     with entry.realpath.open("rb") as fsrc:
                         shutil.copyfileobj(fsrc, fout)
+                    fout.seek(entry.original_extent_lba * SECTOR_SIZE)
+                    fout.write(b"\x00" * allocated_size)
                     logger.info(f"File grew (moved): {entry.isopath}")
                 else:
+                    fout.seek(entry.original_extent_lba * SECTOR_SIZE)
+                    start_ofs = fout.tell()
+                    with entry.realpath.open("rb") as fsrc:
+                        shutil.copyfileobj(fsrc, fout)
+                    end_ofs = fout.tell()
+                    entry.new_size = end_ofs - start_ofs
                     entry.new_extent_lba = entry.original_extent_lba
                     pad_len = allocated_size - entry.new_size
                     if pad_len > 0:
@@ -436,6 +763,16 @@ def repack_umd(
                 )  # Fixed: write BE LBA too
                 write_uint32_le_at(fout, entry.dir_record_pos + 10, entry.new_size)
                 write_uint32_be_at(fout, entry.dir_record_pos + 14, entry.new_size)
+
+            replaced_file_map = {
+                replaced_file.isopath: (
+                    replaced_file.new_extent_lba,
+                    replaced_file.new_size,
+                )
+                for replaced_file in files_to_replace
+                if replaced_file.new_extent_lba is not None
+                and replaced_file.new_size is not None
+            }
 
             # --- PHASE 2: Append New Files ---
             logger.info(f"Appending {len(files_to_add)} new files...")
@@ -479,18 +816,8 @@ def repack_umd(
 
                 fout.seek(old_lba * SECTOR_SIZE)
                 dir_data = bytearray(fout.read(old_size))
-                sys_use_template = find_sys_use_template(dir_data)
 
                 has_changes = False
-
-                # Build map of replaced/moved files for quick lookup
-                replaced_file_map = {}
-                for replaced_file in files_to_replace:
-                    if (replaced_file.new_extent_lba != replaced_file.original_extent_lba):
-                        replaced_file_map[replaced_file.isopath] = (
-                            replaced_file.new_extent_lba,
-                            replaced_file.new_size
-                        )
 
                 # A. Process existing records and update pointers, maintaining original order
                 # B. Preserve order: iterate through original records, update them, and collect new records
@@ -523,13 +850,9 @@ def repack_umd(
 
                     # Update the record in-place or rebuild it
                     if updated_lba is not None:
-                        # Rebuild record with new LBA/size
-                        new_rec = build_directory_record(
-                            name,
-                            updated_lba,
-                            updated_size,
-                            (info["flags"] & 0x02) != 0,
-                            info["sys_use"],
+                        # Preserve timestamp, flags, XA data and only patch extent/size.
+                        new_rec = patch_directory_record_extent_and_size(
+                            rec, updated_lba, updated_size
                         )
                         updated_records.append(new_rec)
                         has_changes = True
@@ -545,9 +868,11 @@ def repack_umd(
                             nf.new_extent_lba,
                             nf.new_size,
                             False,
-                            sys_use_template,
+                            PSP_FILE_SYS_USE,
                         )
                     )
+
+                updated_records = sort_directory_records(updated_records)
 
                 # Rebuild sectors properly respecting sector boundaries
                 repacked_sectors = bytearray()
@@ -616,6 +941,10 @@ def repack_umd(
                 fout.seek(self_lba * SECTOR_SIZE)
                 fout.write(buf)
 
+            if dir_status:
+                patch_path_tables(fout, path_table_info, dir_status)
+                logger.info("Updated path tables.")
+
             # --- PHASE 4: PVD Update ---
             if "" in dir_status:
                 root_info = dir_status[""]
@@ -635,6 +964,13 @@ def repack_umd(
             final_sectors = (fout.tell() + SECTOR_SIZE - 1) // SECTOR_SIZE
             write_uint32_le_at(fout, 0x8050, final_sectors)
             write_uint32_be_at(fout, 0x8054, final_sectors)
+            final_root_lba = root_lba
+            final_root_length = root_length
+            if "" in dir_status:
+                final_root_lba = dir_status[""]["lba"]
+                final_root_length = dir_status[""]["size"]
+            zeroed = zero_unused_sectors(fout, final_root_lba, final_root_length)
+            logger.info("Zeroed unused sectors: %d", zeroed)
             logger.info("Done.")
 
     if patchfile:
@@ -663,6 +999,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Dump ISO structure (LBA, Entry Offset) for debugging",
     )
+    parser.add_argument(
+        "--repair-existing",
+        action="store_true",
+        help="Rewrite existing ISO directory records to fix old generator output",
+    )
     parser.add_argument("--xdelta", default="", help="Optional xdelta patch output")
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser
@@ -677,6 +1018,12 @@ def main():
 
     if args.dump:
         dump_iso_structure(args.input_iso)
+        return
+
+    if args.repair_existing:
+        if not args.output_iso:
+            parser.error("output_iso is required with --repair-existing")
+        repair_existing_iso(args.input_iso, args.output_iso)
         return
 
     if not args.output_iso or not args.workfolder:
