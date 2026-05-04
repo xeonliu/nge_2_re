@@ -1,22 +1,29 @@
 # ==========================================
 # Configuration & Path Definitions
 # ==========================================
-GAME_ID ?= 00064
+BASE_ID := 00064
+GAME_ID ?= $(BASE_ID)
 GAME_IDS := 00061 00064
 
 # Temporary and Build Directories
 TEMP_DIR        := temp
 DOWNLOAD_DIR    := $(TEMP_DIR)/downloads
 BUILD_DIR       := build
-EXPORT_GAME_DIR := $(BUILD_DIR)/ULJS00064/PSP_GAME
-EXPORT_BIN_DIR  := $(EXPORT_GAME_DIR)/USRDIR
-EXPORT_SYSDIR   := $(EXPORT_GAME_DIR)/SYSDIR
-EXPORT_USRDIR   := $(EXPORT_GAME_DIR)/USRDIR
-TOOLS_DIR       := $(BUILD_DIR)/tools
 
-# Source Directories
-PSP_GAME_DIR    := $(TEMP_DIR)/ULJS00064/PSP_GAME
+# Per-GAME_ID export directories (avoid sharing between different game IDs)
+EXPORT_DIR          := $(BUILD_DIR)/ULJS$(GAME_ID)
+EXPORT_GAME_DIR     := $(EXPORT_DIR)/PSP_GAME
+EXPORT_BIN_DIR      := $(EXPORT_GAME_DIR)/USRDIR
+EXPORT_SYSDIR       := $(EXPORT_GAME_DIR)/SYSDIR
+EXPORT_USRDIR       := $(EXPORT_GAME_DIR)/USRDIR
+TOOLS_DIR           := $(BUILD_DIR)/tools
+
+# Source directories (per GAME_ID - each ISO has its own extraction)
+PSP_GAME_DIR    := $(TEMP_DIR)/ULJS$(GAME_ID)/PSP_GAME
 USRDIR          := $(PSP_GAME_DIR)/USRDIR
+
+# Base export directory for copying (used when building derived IDs from base)
+BASE_EXPORT_DIR := $(BUILD_DIR)/ULJS$(BASE_ID)
 
 # HGAR Directories List (Used for loop)
 HGAR_DIRS       := btdemo btface btl chara event face free game im map
@@ -24,6 +31,11 @@ HGAR_DIRS       := btdemo btface btl chara event face free game im map
 # Tool Commands
 UV_RUN          := uv run
 PYTHON_MAIN     := $(UV_RUN) -m app.cli.main
+
+# Timestamped output filenames to avoid overwriting previous builds (Evaluated once)
+TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
+PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
+PATCH_XDELTA := $(BUILD_DIR)/ULJS$(GAME_ID)_patch_$(TIMESTAMP).xdelta
 
 # ==========================================
 # Default Target: Help
@@ -41,6 +53,7 @@ help:
 	@echo "  make patch_iso           - Create the patched ISO and xdelta"
 	@echo "  make patch_all_ids       - Generate patches for all GAME_IDS (00061 & 00064)"
 	@echo "  make full_build          - Run the complete pipeline"
+	@echo "  make rebuild             - Rebuild from downloaded translations"
 	@echo "  make clean               - Clean build artifacts"
 
 # ==========================================
@@ -51,7 +64,6 @@ init_db:
 	@echo "Initializing database..."
 	$(PYTHON_MAIN) --init_db
 
-# Combined Import HGAR Target using Loop
 import_hgar:
 	@echo "Importing HGAR archives..."
 	@for dir in $(HGAR_DIRS); do \
@@ -81,11 +93,9 @@ download_trans:
 	$(UV_RUN) -m scripts.paratranz.download --action download --dest_folder $(DOWNLOAD_DIR)
 	$(UV_RUN) -m scripts.paratranz.download --action merge --dest_folder $(DOWNLOAD_DIR)
 
-# TODO: Add specific check targets if needed, or group them here
 check_trans:
 	@echo "Checking translations..."
 	$(UV_RUN) -m scripts.check '$(DOWNLOAD_DIR)/evs_trans.json' $(BUILD_DIR)/evs_report.json evs
-	# ... (Add other checks here if needed)
 
 import_trans:
 	@echo "Importing translations..."
@@ -152,8 +162,12 @@ pspdecrypt:
 # ==========================================
 
 extract_iso:
-	@echo "Extracting game files..."
-	$(UV_RUN) scripts/pack/unpack.py -o '$(TEMP_DIR)/ULJS00064' '$(TEMP_DIR)/ULJS00064.iso'
+	@if [ -d '$(PSP_GAME_DIR)' ]; then \
+		echo "ISO already extracted for GAME_ID=$(GAME_ID)."; \
+	else \
+		echo "Extracting game files (GAME_ID=$(GAME_ID))..."; \
+		$(UV_RUN) scripts/pack/unpack.py -o '$(TEMP_DIR)/ULJS$(GAME_ID)' '$(TEMP_DIR)/ULJS$(GAME_ID).iso'; \
+	fi
 
 decrypt_eboot: pspdecrypt
 	@echo "Decrypting EBOOT..."
@@ -162,24 +176,25 @@ decrypt_eboot: pspdecrypt
 
 copy_font:
 	@echo "Copying font files..."
+	@mkdir -p $(EXPORT_USRDIR)
 	@cp resources/assets/fonts.pgf $(EXPORT_USRDIR)/fonts.pgf
 
-# Timestamped output filenames to avoid overwriting previous builds
-TIMESTAMP := $(shell TZ=Asia/Shanghai date +%Y%m%d-%H%M%S)
-PATCHED_ISO := $(BUILD_DIR)/ULJS$(GAME_ID)_patched_$(TIMESTAMP).iso
-PATCH_XDELTA := $(BUILD_DIR)/ULJS$(GAME_ID)_patch_$(TIMESTAMP).xdelta
+edit_sfo:
+	@echo "Editing PARAM.SFO..."
+	@mkdir -p $(EXPORT_GAME_DIR)
+	$(UV_RUN) -m scripts.sfo --output '$(EXPORT_GAME_DIR)/PARAM.SFO' '$(PSP_GAME_DIR)/PARAM.SFO'
 
 gen_metadata:
 	@echo "Generating patch metadata..."
-	$(UV_RUN) -m scripts.gen_metadata --output $(BUILD_DIR)/metadata.json --image $(BUILD_DIR)/metadata.png --pic0 $(EXPORT_GAME_DIR)/PIC0.PNG
+	$(UV_RUN) -m scripts.gen_metadata --output $(BUILD_DIR)/metadata.json --image $(BUILD_DIR)/metadata.png --pic0 '$(PSP_GAME_DIR)/PIC0.PNG'
 	@echo "Copying metadata.raw to game directory..."
-	@mkdir -p $(EXPORT_GAME_DIR)
-	@cp $(BUILD_DIR)/metadata.raw $(EXPORT_BIN_DIR)/metadata.raw
+	@mkdir -p $(EXPORT_BIN_DIR)
+	@cp $(BUILD_DIR)/metadata.raw '$(EXPORT_BIN_DIR)/metadata.raw'
 
 repack_iso:
-	@echo "Repacking game files into ISO..."
+	@echo "Repacking game files into ISO (GAME_ID=$(GAME_ID))..."
 	@mkdir -p $(BUILD_DIR)
-	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(BUILD_DIR)/ULJS00064'
+	$(UV_RUN) scripts/pack/repack_add.py '$(TEMP_DIR)/ULJS$(GAME_ID).iso' '$(PATCHED_ISO)' '$(EXPORT_DIR)'
 
 gen_xdelta:
 	@echo "Generating xdelta patch..."
@@ -191,47 +206,59 @@ patch_iso: repack_iso gen_xdelta
 # Meta Targets
 # ==========================================
 
-# Full Build Pipeline
-# Note: We keep strictly ordered steps here to avoid DB locking issues
 full_build:
-	$(MAKE) extract_iso
+	@echo "Starting full build pipeline..."
 	$(MAKE) init_db
-	$(MAKE) import_all
+	$(MAKE) extract_iso GAME_ID=$(BASE_ID)
+	$(MAKE) import_all GAME_ID=$(BASE_ID)
 	$(MAKE) import_images
 	$(MAKE) import_trans
-	$(MAKE) export_all
-	$(MAKE) plugin
-	$(MAKE) decrypt_eboot
-	$(MAKE) copy_font
-	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
 rebuild:
+	@echo "Starting rebuild pipeline..."
 	$(MAKE) download_trans
 	$(MAKE) import_trans
 	$(MAKE) import_images
-	$(MAKE) export_all
-	$(MAKE) plugin
-	$(MAKE) decrypt_eboot
-	$(MAKE) copy_font
-	$(MAKE) gen_metadata
 	$(MAKE) patch_all_ids
 
-# Build patches for all GAME_IDS
-patch_all_ids: $(addprefix patch_id_,$(GAME_IDS))
+# 严格保证基准 ID (00064) 最先构建，其余 ID 基于基准目录拷贝
+patch_all_ids:
+	@echo "=========================================="
+	@echo "Starting patch generation for all GAME_IDs"
+	@echo "=========================================="
+	@$(MAKE) patch_id_$(BASE_ID)
+	@for id in $(filter-out $(BASE_ID),$(GAME_IDS)); do \
+		$(MAKE) patch_id_$$id; \
+	done
 
 patch_id_%:
+	@echo "=========================================="
 	@echo "Generating patch for GAME_ID $*..."
-	$(MAKE) patch_iso GAME_ID=$*
+	@echo "=========================================="
+	@if [ "$*" = "$(BASE_ID)" ]; then \
+		echo "-> Building base export for $(BASE_ID)..."; \
+		$(MAKE) extract_iso GAME_ID=$*; \
+		$(MAKE) export_all GAME_ID=$*; \
+		$(MAKE) plugin GAME_ID=$*; \
+		$(MAKE) copy_font GAME_ID=$*; \
+	else \
+		echo "-> Copying base export ($(BASE_ID)) for $*..."; \
+		mkdir -p $(BUILD_DIR)/ULJS$*; \
+		cp -r $(BASE_EXPORT_DIR)/* $(BUILD_DIR)/ULJS$*/; \
+		$(MAKE) extract_iso GAME_ID=$*; \
+	fi
+	@echo "-> Generating game-specific files for $*..."
+	$(MAKE) decrypt_eboot GAME_ID=$*
+	$(MAKE) edit_sfo GAME_ID=$*
+	$(MAKE) gen_metadata GAME_ID=$*
+	$(MAKE) repack_iso GAME_ID=$* TIMESTAMP=$(TIMESTAMP)
+	$(MAKE) gen_xdelta GAME_ID=$* TIMESTAMP=$(TIMESTAMP)
 
 clean:
 	@echo "Cleaning build directory..."
 	rm -rf $(BUILD_DIR)
-	# Optional: Clean plugin and tools
-	# $(MAKE) -C plugin clean
-	# $(MAKE) -C third_party/pspdecrypt clean
 
-# Mark targets as PHONY (not real files)
 .PHONY: help init_db import_hgar import_text import_bind import_images import_all \
         download_trans check_trans import_trans \
         export_text export_bind export_hgar export_eboot_trans export_all \
